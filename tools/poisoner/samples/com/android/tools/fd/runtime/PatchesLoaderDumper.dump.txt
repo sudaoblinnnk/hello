@@ -1,0 +1,59 @@
+//class:0017  access:0x0001
+public class com.android.tools.fd.runtime.PatchesLoaderDumper
+
+//method:0000  access:0x10001
+//Lcom/android/tools/fd/runtime/PatchesLoaderDumper;.<init>()V
+public V <init>()
+                this:v0   //com.android.tools.fd.runtime.PatchesLoaderDumper
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lcom/android/tools/fd/runtime/PatchesLoaderDumper; 
+LABEL               |  LL0: line 19
+INVOKE_DIRECT       |     |v0.<init>()  //Ljava/lang/Object;.<init>()V
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0001  access:0x0009
+//Lcom/android/tools/fd/runtime/PatchesLoaderDumper;.main([Ljava/lang/String;)V
+public static V main(java.lang.String[])
+                    :v4   //java.lang.String[]
+TR_0 LL0 ~ LL1 > LL2 Ljava/lang/ClassNotFoundException;
+TR_1 LL0 ~ LL1 > LL3 Ljava/lang/InstantiationException;
+TR_2 LL0 ~ LL1 > LL4 Ljava/lang/IllegalAccessException;
+LOCAL_VARIABLE LL5 ~ LL1 v0 -> aClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL6 ~ LL1 v2 -> patchesLoader // Lcom/android/tools/fd/runtime/PatchesLoader; 
+LOCAL_VARIABLE LL7 ~ LL3 v1 -> e // Ljava/lang/ClassNotFoundException; 
+LOCAL_VARIABLE LL8 ~ LL4 v1 -> e // Ljava/lang/InstantiationException; 
+LOCAL_VARIABLE LL9 ~ LL10 v1 -> e // Ljava/lang/IllegalAccessException; 
+LOCAL_VARIABLE LL0 ~ LL10 v4 -> args // [Ljava/lang/String; 
+LABEL               |  LL0: line 23
+                    |     |try { // TC_0 
+CONST_STRING        |     |v3="com.android.tools.fd.runtime.AppPatchesLoaderImpl"
+INVOKE_STATIC       |     |TEMP=java.lang.Class.forName(v3)  //Ljava/lang/Class;.forName(Ljava/lang/String;)Ljava/lang/Class;
+MOVE_RESULT         |     |v0=TEMP
+LABEL               |  LL5: line 24
+INVOKE_VIRTUAL      |     |TEMP=v0.newInstance()  //Ljava/lang/Class;.newInstance()Ljava/lang/Object;
+MOVE_RESULT         |     |v2=TEMP
+CHECK_CAST          |     |v2=(com.android.tools.fd.runtime.PatchesLoader) v2
+LABEL               |  LL6: line 25
+INVOKE_INTERFACE    |     |TEMP=v2.load()  //Lcom/android/tools/fd/runtime/PatchesLoader;.load()Z
+                    |     | } // TC_0
+LABEL               |  LL1: line 33
+RETURN_VOID         |     |return
+LABEL               |  LL2: line 154
+                    |     |catch(Ljava/lang/ClassNotFoundException;) // TC_0
+MOVE_EXCEPTION      |     |v1=@Exception
+LABEL               |  LL7: line 155
+INVOKE_VIRTUAL      |     |v1.printStackTrace()  //Ljava/lang/ClassNotFoundException;.printStackTrace()V
+GOTO                |     |goto L1
+LABEL               |  LL3: line 156
+                    |     |catch(Ljava/lang/InstantiationException;) // TC_1
+MOVE_EXCEPTION      |     |v1=@Exception
+LABEL               |  LL8: line 157
+INVOKE_VIRTUAL      |     |v1.printStackTrace()  //Ljava/lang/InstantiationException;.printStackTrace()V
+GOTO                |     |goto L1
+LABEL               |  LL4: line 158
+                    |     |catch(Ljava/lang/IllegalAccessException;) // TC_2
+MOVE_EXCEPTION      |     |v1=@Exception
+LABEL               |  LL9: line 159
+INVOKE_VIRTUAL      |     |v1.printStackTrace()  //Ljava/lang/IllegalAccessException;.printStackTrace()V
+GOTO                |     |goto L1
+LABEL               | LL10:

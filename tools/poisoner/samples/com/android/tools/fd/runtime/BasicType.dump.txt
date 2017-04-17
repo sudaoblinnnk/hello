@@ -1,0 +1,187 @@
+//class:0009  access:0x4011
+public enum final class com.android.tools.fd.runtime.BasicType extends java.lang.Enum
+//field:0000  access:0x101a
+//Lcom/android/tools/fd/runtime/BasicType;.$VALUES [Lcom/android/tools/fd/runtime/BasicType;
+private static final  com.android.tools.fd.runtime.BasicType[] $VALUES;
+//field:0001  access:0x4019
+//Lcom/android/tools/fd/runtime/BasicType;.C Lcom/android/tools/fd/runtime/BasicType;
+public static enum final  com.android.tools.fd.runtime.BasicType C;
+//field:0002  access:0x4019
+//Lcom/android/tools/fd/runtime/BasicType;.D Lcom/android/tools/fd/runtime/BasicType;
+public static enum final  com.android.tools.fd.runtime.BasicType D;
+//field:0003  access:0x4019
+//Lcom/android/tools/fd/runtime/BasicType;.F Lcom/android/tools/fd/runtime/BasicType;
+public static enum final  com.android.tools.fd.runtime.BasicType F;
+//field:0004  access:0x4019
+//Lcom/android/tools/fd/runtime/BasicType;.I Lcom/android/tools/fd/runtime/BasicType;
+public static enum final  com.android.tools.fd.runtime.BasicType I;
+//field:0005  access:0x4019
+//Lcom/android/tools/fd/runtime/BasicType;.J Lcom/android/tools/fd/runtime/BasicType;
+public static enum final  com.android.tools.fd.runtime.BasicType J;
+//field:0006  access:0x4019
+//Lcom/android/tools/fd/runtime/BasicType;.V Lcom/android/tools/fd/runtime/BasicType;
+public static enum final  com.android.tools.fd.runtime.BasicType V;
+//field:0007  access:0x4019
+//Lcom/android/tools/fd/runtime/BasicType;.Z Lcom/android/tools/fd/runtime/BasicType;
+public static enum final  com.android.tools.fd.runtime.BasicType Z;
+//field:0008  access:0x0012
+//Lcom/android/tools/fd/runtime/BasicType;.primitiveJavaType Ljava/lang/Class;
+private final  java.lang.Class primitiveJavaType;
+
+//method:0000  access:0x10008
+//Lcom/android/tools/fd/runtime/BasicType;.<clinit>()V
+static V <clinit>()
+LABEL               |  LL0: line 27
+CONST               |     |v8=0x00000004  // int:4   float:0.000000
+CONST               |     |v7=0x00000003  // int:3   float:0.000000
+CONST               |     |v6=0x00000002  // int:2   float:0.000000
+CONST               |     |v5=0x00000001  // int:1   float:0.000000
+CONST               |     |v4=0x00000000  // int:0   float:0.000000
+LABEL               |  LL1: line 27
+NEW_INSTANCE        |     |v0=NEW Lcom/android/tools/fd/runtime/BasicType;
+CONST_STRING        |     |v1="I"
+SGET                |     |v2=java.lang.Integer.TYPE  //Ljava/lang/Integer;.TYPE Ljava/lang/Class;
+INVOKE_DIRECT       |     |v0.<init>(v1,v4,v2)  //Lcom/android/tools/fd/runtime/BasicType;.<init>(Ljava/lang/String;ILjava/lang/Class;)V
+SPUT                |     |com.android.tools.fd.runtime.BasicType.I=v0  //Lcom/android/tools/fd/runtime/BasicType;.I Lcom/android/tools/fd/runtime/BasicType;
+LABEL               |  LL2: line 28
+NEW_INSTANCE        |     |v0=NEW Lcom/android/tools/fd/runtime/BasicType;
+CONST_STRING        |     |v1="J"
+SGET                |     |v2=java.lang.Long.TYPE  //Ljava/lang/Long;.TYPE Ljava/lang/Class;
+INVOKE_DIRECT       |     |v0.<init>(v1,v5,v2)  //Lcom/android/tools/fd/runtime/BasicType;.<init>(Ljava/lang/String;ILjava/lang/Class;)V
+SPUT                |     |com.android.tools.fd.runtime.BasicType.J=v0  //Lcom/android/tools/fd/runtime/BasicType;.J Lcom/android/tools/fd/runtime/BasicType;
+LABEL               |  LL3: line 29
+NEW_INSTANCE        |     |v0=NEW Lcom/android/tools/fd/runtime/BasicType;
+CONST_STRING        |     |v1="C"
+SGET                |     |v2=java.lang.Character.TYPE  //Ljava/lang/Character;.TYPE Ljava/lang/Class;
+INVOKE_DIRECT       |     |v0.<init>(v1,v6,v2)  //Lcom/android/tools/fd/runtime/BasicType;.<init>(Ljava/lang/String;ILjava/lang/Class;)V
+SPUT                |     |com.android.tools.fd.runtime.BasicType.C=v0  //Lcom/android/tools/fd/runtime/BasicType;.C Lcom/android/tools/fd/runtime/BasicType;
+LABEL               |  LL4: line 30
+NEW_INSTANCE        |     |v0=NEW Lcom/android/tools/fd/runtime/BasicType;
+CONST_STRING        |     |v1="Z"
+SGET                |     |v2=java.lang.Boolean.TYPE  //Ljava/lang/Boolean;.TYPE Ljava/lang/Class;
+INVOKE_DIRECT       |     |v0.<init>(v1,v7,v2)  //Lcom/android/tools/fd/runtime/BasicType;.<init>(Ljava/lang/String;ILjava/lang/Class;)V
+SPUT                |     |com.android.tools.fd.runtime.BasicType.Z=v0  //Lcom/android/tools/fd/runtime/BasicType;.Z Lcom/android/tools/fd/runtime/BasicType;
+LABEL               |  LL5: line 31
+NEW_INSTANCE        |     |v0=NEW Lcom/android/tools/fd/runtime/BasicType;
+CONST_STRING        |     |v1="F"
+SGET                |     |v2=java.lang.Float.TYPE  //Ljava/lang/Float;.TYPE Ljava/lang/Class;
+INVOKE_DIRECT       |     |v0.<init>(v1,v8,v2)  //Lcom/android/tools/fd/runtime/BasicType;.<init>(Ljava/lang/String;ILjava/lang/Class;)V
+SPUT                |     |com.android.tools.fd.runtime.BasicType.F=v0  //Lcom/android/tools/fd/runtime/BasicType;.F Lcom/android/tools/fd/runtime/BasicType;
+LABEL               |  LL6: line 32
+NEW_INSTANCE        |     |v0=NEW Lcom/android/tools/fd/runtime/BasicType;
+CONST_STRING        |     |v1="D"
+CONST               |     |v2=0x00000005  // int:5   float:0.000000
+SGET                |     |v3=java.lang.Double.TYPE  //Ljava/lang/Double;.TYPE Ljava/lang/Class;
+INVOKE_DIRECT       |     |v0.<init>(v1,v2,v3)  //Lcom/android/tools/fd/runtime/BasicType;.<init>(Ljava/lang/String;ILjava/lang/Class;)V
+SPUT                |     |com.android.tools.fd.runtime.BasicType.D=v0  //Lcom/android/tools/fd/runtime/BasicType;.D Lcom/android/tools/fd/runtime/BasicType;
+LABEL               |  LL7: line 33
+NEW_INSTANCE        |     |v0=NEW Lcom/android/tools/fd/runtime/BasicType;
+CONST_STRING        |     |v1="V"
+CONST               |     |v2=0x00000006  // int:6   float:0.000000
+SGET                |     |v3=java.lang.Void.TYPE  //Ljava/lang/Void;.TYPE Ljava/lang/Class;
+INVOKE_DIRECT       |     |v0.<init>(v1,v2,v3)  //Lcom/android/tools/fd/runtime/BasicType;.<init>(Ljava/lang/String;ILjava/lang/Class;)V
+SPUT                |     |com.android.tools.fd.runtime.BasicType.V=v0  //Lcom/android/tools/fd/runtime/BasicType;.V Lcom/android/tools/fd/runtime/BasicType;
+LABEL               |  LL8: line 153
+CONST               |     |v0=0x00000007  // int:7   float:0.000000
+NEW_ARRAY           |     |v0=new com.android.tools.fd.runtime.BasicType[][v0]
+SGET                |     |v1=com.android.tools.fd.runtime.BasicType.I  //Lcom/android/tools/fd/runtime/BasicType;.I Lcom/android/tools/fd/runtime/BasicType;
+APUT                |     |v0[v4]=v1
+SGET                |     |v1=com.android.tools.fd.runtime.BasicType.J  //Lcom/android/tools/fd/runtime/BasicType;.J Lcom/android/tools/fd/runtime/BasicType;
+APUT                |     |v0[v5]=v1
+SGET                |     |v1=com.android.tools.fd.runtime.BasicType.C  //Lcom/android/tools/fd/runtime/BasicType;.C Lcom/android/tools/fd/runtime/BasicType;
+APUT                |     |v0[v6]=v1
+SGET                |     |v1=com.android.tools.fd.runtime.BasicType.Z  //Lcom/android/tools/fd/runtime/BasicType;.Z Lcom/android/tools/fd/runtime/BasicType;
+APUT                |     |v0[v7]=v1
+SGET                |     |v1=com.android.tools.fd.runtime.BasicType.F  //Lcom/android/tools/fd/runtime/BasicType;.F Lcom/android/tools/fd/runtime/BasicType;
+APUT                |     |v0[v8]=v1
+CONST               |     |v1=0x00000005  // int:5   float:0.000000
+SGET                |     |v2=com.android.tools.fd.runtime.BasicType.D  //Lcom/android/tools/fd/runtime/BasicType;.D Lcom/android/tools/fd/runtime/BasicType;
+APUT                |     |v0[v1]=v2
+CONST               |     |v1=0x00000006  // int:6   float:0.000000
+SGET                |     |v2=com.android.tools.fd.runtime.BasicType.V  //Lcom/android/tools/fd/runtime/BasicType;.V Lcom/android/tools/fd/runtime/BasicType;
+APUT                |     |v0[v1]=v2
+SPUT                |     |com.android.tools.fd.runtime.BasicType.$VALUES=v0  //Lcom/android/tools/fd/runtime/BasicType;.$VALUES [Lcom/android/tools/fd/runtime/BasicType;
+RETURN_VOID         |     |return
+
+//method:0001  access:0x10002
+//Lcom/android/tools/fd/runtime/BasicType;.<init>(Ljava/lang/String;ILjava/lang/Class;)V
+private V <init>(java.lang.String,int,java.lang.Class)
+                this:v0   //com.android.tools.fd.runtime.BasicType
+                    :v1   //java.lang.String
+                    :v2   //int
+                    :v3   //java.lang.Class
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lcom/android/tools/fd/runtime/BasicType; 
+LOCAL_VARIABLE LL0 ~ LL1 v3 -> primitiveType // Ljava/lang/Class; 
+LABEL               |  LL0: line 38
+INVOKE_DIRECT       |     |v0.<init>(v1,v2)  //Ljava/lang/Enum;.<init>(Ljava/lang/String;I)V
+LABEL               |  LL2: line 39
+IPUT                |     |v0.primitiveJavaType=v3  //Lcom/android/tools/fd/runtime/BasicType;.primitiveJavaType Ljava/lang/Class;
+LABEL               |  LL3: line 40
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0002  access:0x0009
+//Lcom/android/tools/fd/runtime/BasicType;.parse(Ljava/lang/String;)Lcom/android/tools/fd/runtime/BasicType;
+public static com.android.tools.fd.runtime.BasicType parse(java.lang.String)
+                    :v5   //java.lang.String
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> basicType // Lcom/android/tools/fd/runtime/BasicType; 
+LOCAL_VARIABLE LL2 ~ LL3 v0 -> basicType // Lcom/android/tools/fd/runtime/BasicType; 
+LOCAL_VARIABLE LL4 ~ LL5 v5 -> name // Ljava/lang/String; 
+LABEL               |  LL4: line 49
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.BasicType.values()  //Lcom/android/tools/fd/runtime/BasicType;.values()[Lcom/android/tools/fd/runtime/BasicType;
+MOVE_RESULT         |     |v2=TEMP
+ARRAY_LENGTH        |     |v3 = v2.length
+CONST               |     |v1=0x00000000  // int:0   float:0.000000
+LABEL               |  LL6:
+IF_GE               |     |if v1 >= v3 goto L3
+AGET                |     |v0=v2[v1]
+LABEL               |  LL0: line 50
+INVOKE_VIRTUAL      |     |TEMP=v0.getJavaType()  //Lcom/android/tools/fd/runtime/BasicType;.getJavaType()Ljava/lang/Class;
+MOVE_RESULT         |     |v4=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v4.getName()  //Ljava/lang/Class;.getName()Ljava/lang/String;
+MOVE_RESULT         |     |v4=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v4.equals(v5)  //Ljava/lang/String;.equals(Ljava/lang/Object;)Z
+MOVE_RESULT         |     |v4=TEMP
+IF_EQZ              |     |if v4 == 0 goto L2
+LABEL               |  LL1: line 54
+RETURN              |     |return v0
+LABEL               |  LL2: line 177
+ADD_INT_LIT_X       |     |v1 = v1 + 1
+GOTO                |     |goto L6
+LABEL               |  LL3: line 182
+CONST               |     |v0=0x00000000  // int:0   float:0.000000
+GOTO                |     |goto L1
+LABEL               |  LL5:
+
+//method:0003  access:0x0009
+//Lcom/android/tools/fd/runtime/BasicType;.valueOf(Ljava/lang/String;)Lcom/android/tools/fd/runtime/BasicType;
+public static com.android.tools.fd.runtime.BasicType valueOf(java.lang.String)
+                    :v1   //java.lang.String
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> name // Ljava/lang/String; 
+LABEL               |  LL0: line 25
+CONST_CLASS         |     |v0=Lcom/android/tools/fd/runtime/BasicType;.class
+INVOKE_STATIC       |     |TEMP=java.lang.Enum.valueOf(v0,v1)  //Ljava/lang/Enum;.valueOf(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Enum;
+MOVE_RESULT         |     |v0=TEMP
+CHECK_CAST          |     |v0=(com.android.tools.fd.runtime.BasicType) v0
+RETURN              |     |return v0
+LABEL               |  LL1:
+
+//method:0004  access:0x0009
+//Lcom/android/tools/fd/runtime/BasicType;.values()[Lcom/android/tools/fd/runtime/BasicType;
+public static com.android.tools.fd.runtime.BasicType[] values()
+LABEL               |  LL0: line 25
+SGET                |     |v0=com.android.tools.fd.runtime.BasicType.$VALUES  //Lcom/android/tools/fd/runtime/BasicType;.$VALUES [Lcom/android/tools/fd/runtime/BasicType;
+INVOKE_VIRTUAL      |     |TEMP=v0.clone()  //[Lcom/android/tools/fd/runtime/BasicType;.clone()Ljava/lang/Object;
+MOVE_RESULT         |     |v0=TEMP
+CHECK_CAST          |     |v0=(com.android.tools.fd.runtime.BasicType[]) v0
+RETURN              |     |return v0
+
+//method:0005  access:0x0001
+//Lcom/android/tools/fd/runtime/BasicType;.getJavaType()Ljava/lang/Class;
+public java.lang.Class getJavaType()
+                this:v1   //com.android.tools.fd.runtime.BasicType
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> this // Lcom/android/tools/fd/runtime/BasicType; 
+LABEL               |  LL0: line 44
+IGET                |     |v0=v1.primitiveJavaType  //Lcom/android/tools/fd/runtime/BasicType;.primitiveJavaType Ljava/lang/Class;
+RETURN              |     |return v0
+LABEL               |  LL1:

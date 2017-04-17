@@ -1,0 +1,695 @@
+//class:0007  access:0x0001
+public class com.android.tools.fd.runtime.AndroidInstantRuntime
+
+//method:0000  access:0x10001
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.<init>()V
+public V <init>()
+                this:v0   //com.android.tools.fd.runtime.AndroidInstantRuntime
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lcom/android/tools/fd/runtime/AndroidInstantRuntime; 
+LABEL               |  LL0: line 39
+INVOKE_DIRECT       |     |v0.<init>()  //Ljava/lang/Object;.<init>()V
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0001  access:0x000a
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.getField(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/reflect/Field;
+private static java.lang.reflect.Field getField(java.lang.Class,java.lang.String)
+                    :v3   //java.lang.Class
+                    :v4   //java.lang.String
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> declareField // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL2 ~ LL1 v3 -> target // Ljava/lang/Class; 
+LOCAL_VARIABLE LL2 ~ LL1 v4 -> name // Ljava/lang/String; 
+LABEL               |  LL2: line 121
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.AndroidInstantRuntime.getFieldByName(v3,v4)  //Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.getFieldByName(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v0=TEMP
+LABEL               |  LL0: line 122
+IF_NEZ              |     |if v0 != 0 goto L3
+LABEL               |  LL4: line 123
+NEW_INSTANCE        |     |v1=NEW Ljava/lang/RuntimeException;
+NEW_INSTANCE        |     |v2=NEW Ljava/util/NoSuchElementException;
+INVOKE_DIRECT       |     |v2.<init>(v4)  //Ljava/util/NoSuchElementException;.<init>(Ljava/lang/String;)V
+INVOKE_DIRECT       |     |v1.<init>(v2)  //Ljava/lang/RuntimeException;.<init>(Ljava/lang/Throwable;)V
+THROW               |     |throw v1
+LABEL               |  LL3: line 125
+CONST               |     |v1=0x00000001  // int:1   float:0.000000
+INVOKE_VIRTUAL      |     |v0.setAccessible(v1)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               |  LL5: line 126
+RETURN              |     |return v0
+LABEL               |  LL1:
+
+//method:0002  access:0x000a
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.getFieldByName(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/reflect/Field;
+private static java.lang.reflect.Field getFieldByName(java.lang.Class,java.lang.String)
+                    :v7   //java.lang.Class
+                    :v8   //java.lang.String
+TR_0 LL0 ~ LL1 > LL2 Ljava/lang/NoSuchFieldException;
+LOCAL_VARIABLE LL3 ~ LL4 v0 -> currentClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL5 ~ LL4 v7 -> aClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL5 ~ LL4 v8 -> name // Ljava/lang/String; 
+LABEL               |  LL5: line 206
+SGET                |     |v1=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+IF_EQZ              |     |if v1 == 0 goto L6
+SGET                |     |v1=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v2=java.util.logging.Level.FINE  //Ljava/util/logging/Level;.FINE Ljava/util/logging/Level;
+INVOKE_INTERFACE    |     |TEMP=v1.isLoggable(v2)  //Lcom/android/tools/fd/common/Log$Logging;.isLoggable(Ljava/util/logging/Level;)Z
+MOVE_RESULT         |     |v1=TEMP
+IF_EQZ              |     |if v1 == 0 goto L6
+LABEL               |  LL7: line 207
+SGET                |     |v1=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v2=java.util.logging.Level.FINE  //Ljava/util/logging/Level;.FINE Ljava/util/logging/Level;
+CONST_STRING        |     |v3="getFieldByName:%s in %s"
+CONST               |     |v4=0x00000002  // int:2   float:0.000000
+NEW_ARRAY           |     |v4=new java.lang.Object[][v4]
+CONST               |     |v5=0x00000000  // int:0   float:0.000000
+APUT                |     |v4[v5]=v8
+CONST               |     |v5=0x00000001  // int:1   float:0.000000
+INVOKE_VIRTUAL      |     |TEMP=v7.getName()  //Ljava/lang/Class;.getName()Ljava/lang/String;
+MOVE_RESULT         |     |v6=TEMP
+APUT                |     |v4[v5]=v6
+INVOKE_STATIC       |     |TEMP=java.lang.String.format(v3,v4)  //Ljava/lang/String;.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+MOVE_RESULT         |     |v3=TEMP
+INVOKE_INTERFACE    |     |v1.log(v2,v3)  //Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;)V
+LABEL               |  LL6:
+MOVE                |     |v0 = v7
+LABEL               |  LL3: line 211
+IF_EQZ              |     |if v0 == 0 goto L8
+LABEL               |  LL0: line 213
+                    |     |try { // TC_0 
+INVOKE_VIRTUAL      |     |TEMP=v0.getDeclaredField(v8)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+                    |     | } // TC_0
+LABEL               |  LL1:
+MOVE_RESULT         |     |v1=TEMP
+LABEL               |  LL9: line 219
+RETURN              |     |return v1
+LABEL               |  LL2: line 342
+                    |     |catch(Ljava/lang/NoSuchFieldException;) // TC_0
+MOVE_EXCEPTION      |     |v1=@Exception
+LABEL               | LL10: line 345
+INVOKE_VIRTUAL      |     |TEMP=v0.getSuperclass()  //Ljava/lang/Class;.getSuperclass()Ljava/lang/Class;
+MOVE_RESULT         |     |v0=TEMP
+GOTO                |     |goto L3
+LABEL               |  LL8: line 347
+CONST               |     |v1=0x00000000  // int:0   float:0.000000
+GOTO                |     |goto L9
+LABEL               |  LL4:
+
+//method:0003  access:0x000a
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.getMethodByName(Ljava/lang/Class;Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+private static java.lang.reflect.Method getMethodByName(java.lang.Class,java.lang.String,java.lang.Class[])
+                    :v8   //java.lang.Class
+                    :v9   //java.lang.String
+                    :v10   //java.lang.Class[]
+TR_0 LL0 ~ LL1 > LL2 Ljava/lang/NoSuchMethodException;
+LOCAL_VARIABLE LL3 ~ LL4 v0 -> currentClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL5 ~ LL4 v8 -> aClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL5 ~ LL4 v9 -> name // Ljava/lang/String; 
+LOCAL_VARIABLE LL5 ~ LL4 v10 -> paramTypes // [Ljava/lang/Class; 
+LABEL               |  LL5: line 224
+CONST               |     |v1=0x00000000  // int:0   float:0.000000
+LABEL               |  LL6: line 224
+IF_NEZ              |     |if v8 != 0 goto L7
+LABEL               |  LL8: line 242
+RETURN              |     |return v1
+LABEL               |  LL7: line 356
+MOVE                |     |v0 = v8
+LABEL               |  LL3: line 357
+IF_EQZ              |     |if v0 == 0 goto L8
+LABEL               |  LL0: line 359
+                    |     |try { // TC_0 
+INVOKE_VIRTUAL      |     |TEMP=v0.getDeclaredMethod(v9,v10)  //Ljava/lang/Class;.getDeclaredMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+                    |     | } // TC_0
+LABEL               |  LL1:
+MOVE_RESULT         |     |v1=TEMP
+GOTO                |     |goto L8
+LABEL               |  LL2: line 360
+                    |     |catch(Ljava/lang/NoSuchMethodException;) // TC_0
+MOVE_EXCEPTION      |     |v2=@Exception
+LABEL               |  LL9: line 363
+INVOKE_VIRTUAL      |     |TEMP=v0.getSuperclass()  //Ljava/lang/Class;.getSuperclass()Ljava/lang/Class;
+MOVE_RESULT         |     |v0=TEMP
+LABEL               | LL10: line 364
+IF_EQZ              |     |if v0 == 0 goto L3
+SGET                |     |v2=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+IF_EQZ              |     |if v2 == 0 goto L3
+SGET                |     |v2=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v3=java.util.logging.Level.FINE  //Ljava/util/logging/Level;.FINE Ljava/util/logging/Level;
+INVOKE_INTERFACE    |     |TEMP=v2.isLoggable(v3)  //Lcom/android/tools/fd/common/Log$Logging;.isLoggable(Ljava/util/logging/Level;)Z
+MOVE_RESULT         |     |v2=TEMP
+IF_EQZ              |     |if v2 == 0 goto L3
+LABEL               | LL11: line 365
+SGET                |     |v2=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v3=java.util.logging.Level.FINE  //Ljava/util/logging/Level;.FINE Ljava/util/logging/Level;
+CONST_STRING        |     |v4="getMethodByName:Looking in %s now"
+CONST               |     |v5=0x00000001  // int:1   float:0.000000
+NEW_ARRAY           |     |v5=new java.lang.Object[][v5]
+CONST               |     |v6=0x00000000  // int:0   float:0.000000
+LABEL               | LL12: line 366
+INVOKE_VIRTUAL      |     |TEMP=v0.getName()  //Ljava/lang/Class;.getName()Ljava/lang/String;
+MOVE_RESULT         |     |v7=TEMP
+APUT                |     |v5[v6]=v7
+LABEL               | LL13: line 365
+INVOKE_STATIC       |     |TEMP=java.lang.String.format(v4,v5)  //Ljava/lang/String;.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+MOVE_RESULT         |     |v4=TEMP
+INVOKE_INTERFACE    |     |v2.log(v3,v4)  //Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;)V
+GOTO                |     |goto L3
+LABEL               |  LL4:
+
+//method:0004  access:0x0009
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.getPrivateField(Ljava/lang/Object;Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Object;
+public static java.lang.Object getPrivateField(java.lang.Object,java.lang.Class,java.lang.String)
+                    :v8   //java.lang.Object
+                    :v9   //java.lang.Class
+                    :v10   //java.lang.String
+TR_0 LL0 ~ LL1 > LL2 Ljava/lang/IllegalAccessException;
+LOCAL_VARIABLE LL3 ~ LL2 v0 -> declaredField // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL4 ~ LL5 v1 -> e // Ljava/lang/IllegalAccessException; 
+LOCAL_VARIABLE LL0 ~ LL5 v8 -> targetObject // Ljava/lang/Object; 
+LOCAL_VARIABLE LL0 ~ LL5 v9 -> targetClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL0 ~ LL5 v10 -> fieldName // Ljava/lang/String; 
+LABEL               |  LL0: line 105
+                    |     |try { // TC_0 
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.AndroidInstantRuntime.getField(v9,v10)  //Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.getField(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v0=TEMP
+LABEL               |  LL3: line 106
+INVOKE_VIRTUAL      |     |TEMP=v0.get(v8)  //Ljava/lang/reflect/Field;.get(Ljava/lang/Object;)Ljava/lang/Object;
+                    |     | } // TC_0
+LABEL               |  LL1:
+MOVE_RESULT         |     |v2=TEMP
+RETURN              |     |return v2
+LABEL               |  LL2: line 107
+                    |     |catch(Ljava/lang/IllegalAccessException;) // TC_0
+MOVE_EXCEPTION      |     |v1=@Exception
+LABEL               |  LL4: line 108
+SGET                |     |v2=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+IF_EQZ              |     |if v2 == 0 goto L6
+LABEL               |  LL7: line 109
+SGET                |     |v3=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v4=java.util.logging.Level.SEVERE  //Ljava/util/logging/Level;.SEVERE Ljava/util/logging/Level;
+CONST_STRING        |     |v5="Exception during%1$s getField %2$s"
+CONST               |     |v2=0x00000002  // int:2   float:0.000000
+NEW_ARRAY           |     |v6=new java.lang.Object[][v2]
+CONST               |     |v7=0x00000000  // int:0   float:0.000000
+IF_NEZ              |     |if v8 != 0 goto L8
+CONST_STRING        |     |v2=" static"
+LABEL               |  LL9:
+APUT                |     |v6[v7]=v2
+CONST               |     |v2=0x00000001  // int:1   float:0.000000
+APUT                |     |v6[v2]=v10
+INVOKE_STATIC       |     |TEMP=java.lang.String.format(v5,v6)  //Ljava/lang/String;.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+MOVE_RESULT         |     |v2=TEMP
+LABEL               | LL10: line 109
+INVOKE_INTERFACE    |     |v3.log(v4,v2,v1)  //Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+LABEL               |  LL6: line 114
+NEW_INSTANCE        |     |v2=NEW Ljava/lang/RuntimeException;
+INVOKE_DIRECT       |     |v2.<init>(v1)  //Ljava/lang/RuntimeException;.<init>(Ljava/lang/Throwable;)V
+THROW               |     |throw v2
+LABEL               |  LL8: line 237
+CONST_STRING        |     |v2=""
+GOTO                |     |goto L9
+LABEL               |  LL5:
+
+//method:0005  access:0x0009
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.getStaticPrivateField(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Object;
+public static java.lang.Object getStaticPrivateField(java.lang.Class,java.lang.String)
+                    :v1   //java.lang.Class
+                    :v2   //java.lang.String
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> targetClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL0 ~ LL1 v2 -> fieldName // Ljava/lang/String; 
+LABEL               |  LL0: line 72
+CONST               |     |v0=0x00000000  // int:0   float:0.000000
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.AndroidInstantRuntime.getPrivateField(v0,v1,v2)  //Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.getPrivateField(Ljava/lang/Object;Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Object;
+MOVE_RESULT         |     |v0=TEMP
+RETURN              |     |return v0
+LABEL               |  LL1:
+
+//method:0006  access:0x0009
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.invokeProtectedMethod(Ljava/lang/Object;[Ljava/lang/Object;[Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Object;
+public static java.lang.Object invokeProtectedMethod(java.lang.Object,java.lang.Object[],java.lang.Class[],java.lang.String)
+                    :v8   //java.lang.Object
+                    :v9   //java.lang.Object[]
+                    :v10   //java.lang.Class[]
+                    :v11   //java.lang.String
+TR_0 LL0 ~ LL1 > LL1 Ljava/lang/reflect/InvocationTargetException;
+TR_1 LL0 ~ LL1 > LL2 Ljava/lang/IllegalAccessException;
+TR_2 LL3 ~ LL4 > LL1 Ljava/lang/reflect/InvocationTargetException;
+TR_3 LL3 ~ LL4 > LL2 Ljava/lang/IllegalAccessException;
+LOCAL_VARIABLE LL5 ~ LL1 v1 -> toDispatchTo // Ljava/lang/reflect/Method; 
+LOCAL_VARIABLE LL6 ~ LL7 v0 -> e // Ljava/lang/reflect/InvocationTargetException; 
+LOCAL_VARIABLE LL7 ~ LL2 v1 -> toDispatchTo // Ljava/lang/reflect/Method; 
+LOCAL_VARIABLE LL8 ~ LL9 v0 -> e // Ljava/lang/IllegalAccessException; 
+LOCAL_VARIABLE LL10 ~ LL9 v8 -> receiver // Ljava/lang/Object; 
+LOCAL_VARIABLE LL10 ~ LL9 v9 -> params // [Ljava/lang/Object; 
+LOCAL_VARIABLE LL10 ~ LL9 v10 -> parameterTypes // [Ljava/lang/Class; 
+LOCAL_VARIABLE LL10 ~ LL9 v11 -> methodName // Ljava/lang/String; 
+LABEL               | LL10: line 134
+CONST               |     |v7=0x00000000  // int:0   float:0.000000
+CONST               |     |v6=0x00000001  // int:1   float:0.000000
+LABEL               | LL11: line 134
+SGET                |     |v2=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+IF_EQZ              |     |if v2 == 0 goto L0
+SGET                |     |v2=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v3=java.util.logging.Level.FINE  //Ljava/util/logging/Level;.FINE Ljava/util/logging/Level;
+INVOKE_INTERFACE    |     |TEMP=v2.isLoggable(v3)  //Lcom/android/tools/fd/common/Log$Logging;.isLoggable(Ljava/util/logging/Level;)Z
+MOVE_RESULT         |     |v2=TEMP
+IF_EQZ              |     |if v2 == 0 goto L0
+LABEL               | LL12: line 135
+SGET                |     |v2=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v3=java.util.logging.Level.FINE  //Ljava/util/logging/Level;.FINE Ljava/util/logging/Level;
+CONST_STRING        |     |v4="protectedMethod:%s on %s"
+CONST               |     |v5=0x00000002  // int:2   float:0.000000
+NEW_ARRAY           |     |v5=new java.lang.Object[][v5]
+APUT                |     |v5[v7]=v11
+APUT                |     |v5[v6]=v8
+INVOKE_STATIC       |     |TEMP=java.lang.String.format(v4,v5)  //Ljava/lang/String;.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+MOVE_RESULT         |     |v4=TEMP
+INVOKE_INTERFACE    |     |v2.log(v3,v4)  //Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;)V
+LABEL               |  LL0:
+                    |     |try { // TC_0 
+INVOKE_VIRTUAL      |     |TEMP=v8.getClass()  //Ljava/lang/Object;.getClass()Ljava/lang/Class;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.AndroidInstantRuntime.getMethodByName(v2,v11,v10)  //Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.getMethodByName(Ljava/lang/Class;Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+MOVE_RESULT         |     |v1=TEMP
+LABEL               |  LL5: line 139
+IF_NEZ              |     |if v1 != 0 goto L7
+LABEL               | LL13: line 140
+NEW_INSTANCE        |     |v2=NEW Ljava/lang/RuntimeException;
+NEW_INSTANCE        |     |v3=NEW Ljava/lang/NoSuchMethodException;
+INVOKE_DIRECT       |     |v3.<init>(v11)  //Ljava/lang/NoSuchMethodException;.<init>(Ljava/lang/String;)V
+INVOKE_DIRECT       |     |v2.<init>(v3)  //Ljava/lang/RuntimeException;.<init>(Ljava/lang/Throwable;)V
+THROW               |     |throw v2
+                    |     | } // TC_0
+LABEL               |  LL1: line 144
+MOVE_EXCEPTION      |     |v0=@Exception
+LABEL               |  LL6: line 146
+INVOKE_VIRTUAL      |     |TEMP=v0.getCause()  //Ljava/lang/reflect/InvocationTargetException;.getCause()Ljava/lang/Throwable;
+MOVE_RESULT         |     |v2=TEMP
+THROW               |     |throw v2
+LABEL               |  LL7: line 142
+CONST               |     |v2=0x00000001  // int:1   float:0.000000
+LABEL               |  LL3:
+                    |     |try { // TC_2 
+INVOKE_VIRTUAL      |     |v1.setAccessible(v2)  //Ljava/lang/reflect/Method;.setAccessible(Z)V
+LABEL               | LL14: line 143
+INVOKE_VIRTUAL      |     |TEMP=v1.invoke(v8,v9)  //Ljava/lang/reflect/Method;.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+                    |     | } // TC_2
+LABEL               |  LL4:
+MOVE_RESULT         |     |v2=TEMP
+RETURN              |     |return v2
+LABEL               |  LL2: line 147
+                    |     |catch(Ljava/lang/IllegalAccessException;) // TC_1
+MOVE_EXCEPTION      |     |v0=@Exception
+LABEL               |  LL8: line 148
+SGET                |     |v2=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v3=java.util.logging.Level.SEVERE  //Ljava/util/logging/Level;.SEVERE Ljava/util/logging/Level;
+CONST_STRING        |     |v4="Exception while invoking %s"
+NEW_ARRAY           |     |v5=new java.lang.Object[][v6]
+APUT                |     |v5[v7]=v11
+INVOKE_STATIC       |     |TEMP=java.lang.String.format(v4,v5)  //Ljava/lang/String;.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+MOVE_RESULT         |     |v4=TEMP
+INVOKE_INTERFACE    |     |v2.log(v3,v4,v0)  //Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+NEW_INSTANCE        |     |v2=NEW Ljava/lang/RuntimeException;
+INVOKE_DIRECT       |     |v2.<init>(v0)  //Ljava/lang/RuntimeException;.<init>(Ljava/lang/Throwable;)V
+THROW               |     |throw v2
+LABEL               |  LL9:
+
+//method:0007  access:0x0009
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.invokeProtectedStaticMethod([Ljava/lang/Object;[Ljava/lang/Class;Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
+public static java.lang.Object invokeProtectedStaticMethod(java.lang.Object[],java.lang.Class[],java.lang.String,java.lang.Class)
+                    :v9   //java.lang.Object[]
+                    :v10   //java.lang.Class[]
+                    :v11   //java.lang.String
+                    :v12   //java.lang.Class
+TR_0 LL0 ~ LL1 > LL1 Ljava/lang/reflect/InvocationTargetException;
+TR_1 LL0 ~ LL1 > LL2 Ljava/lang/IllegalAccessException;
+TR_2 LL3 ~ LL4 > LL1 Ljava/lang/reflect/InvocationTargetException;
+TR_3 LL3 ~ LL4 > LL2 Ljava/lang/IllegalAccessException;
+LOCAL_VARIABLE LL5 ~ LL1 v1 -> toDispatchTo // Ljava/lang/reflect/Method; 
+LOCAL_VARIABLE LL6 ~ LL7 v0 -> e // Ljava/lang/reflect/InvocationTargetException; 
+LOCAL_VARIABLE LL7 ~ LL2 v1 -> toDispatchTo // Ljava/lang/reflect/Method; 
+LOCAL_VARIABLE LL8 ~ LL9 v0 -> e // Ljava/lang/IllegalAccessException; 
+LOCAL_VARIABLE LL10 ~ LL9 v9 -> params // [Ljava/lang/Object; 
+LOCAL_VARIABLE LL10 ~ LL9 v10 -> parameterTypes // [Ljava/lang/Class; 
+LOCAL_VARIABLE LL10 ~ LL9 v11 -> methodName // Ljava/lang/String; 
+LOCAL_VARIABLE LL10 ~ LL9 v12 -> receiverClass // Ljava/lang/Class; 
+LABEL               | LL10: line 159
+CONST               |     |v8=0x00000000  // int:0   float:0.000000
+CONST               |     |v7=0x00000001  // int:1   float:0.000000
+LABEL               | LL11: line 159
+SGET                |     |v2=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+IF_EQZ              |     |if v2 == 0 goto L0
+SGET                |     |v2=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v3=java.util.logging.Level.FINE  //Ljava/util/logging/Level;.FINE Ljava/util/logging/Level;
+INVOKE_INTERFACE    |     |TEMP=v2.isLoggable(v3)  //Lcom/android/tools/fd/common/Log$Logging;.isLoggable(Ljava/util/logging/Level;)Z
+MOVE_RESULT         |     |v2=TEMP
+IF_EQZ              |     |if v2 == 0 goto L0
+LABEL               | LL12: line 160
+SGET                |     |v2=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v3=java.util.logging.Level.FINE  //Ljava/util/logging/Level;.FINE Ljava/util/logging/Level;
+CONST_STRING        |     |v4="protectedStaticMethod:%s on %s"
+CONST               |     |v5=0x00000002  // int:2   float:0.000000
+NEW_ARRAY           |     |v5=new java.lang.Object[][v5]
+APUT                |     |v5[v8]=v11
+LABEL               | LL13: line 161
+INVOKE_VIRTUAL      |     |TEMP=v12.getName()  //Ljava/lang/Class;.getName()Ljava/lang/String;
+MOVE_RESULT         |     |v6=TEMP
+APUT                |     |v5[v7]=v6
+INVOKE_STATIC       |     |TEMP=java.lang.String.format(v4,v5)  //Ljava/lang/String;.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+MOVE_RESULT         |     |v4=TEMP
+LABEL               | LL14: line 160
+INVOKE_INTERFACE    |     |v2.log(v3,v4)  //Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;)V
+LABEL               |  LL0: line 164
+                    |     |try { // TC_0 
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.AndroidInstantRuntime.getMethodByName(v12,v11,v10)  //Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.getMethodByName(Ljava/lang/Class;Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+MOVE_RESULT         |     |v1=TEMP
+LABEL               |  LL5: line 165
+IF_NEZ              |     |if v1 != 0 goto L7
+LABEL               | LL15: line 166
+NEW_INSTANCE        |     |v2=NEW Ljava/lang/RuntimeException;
+NEW_INSTANCE        |     |v3=NEW Ljava/lang/NoSuchMethodException;
+NEW_INSTANCE        |     |v4=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v4.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+INVOKE_VIRTUAL      |     |TEMP=v4.append(v11)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v4=TEMP
+CONST_STRING        |     |v5=" in class "
+INVOKE_VIRTUAL      |     |TEMP=v4.append(v5)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v4=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v12.getName()  //Ljava/lang/Class;.getName()Ljava/lang/String;
+MOVE_RESULT         |     |v5=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v4.append(v5)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v4=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v4.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v4=TEMP
+INVOKE_DIRECT       |     |v3.<init>(v4)  //Ljava/lang/NoSuchMethodException;.<init>(Ljava/lang/String;)V
+INVOKE_DIRECT       |     |v2.<init>(v3)  //Ljava/lang/RuntimeException;.<init>(Ljava/lang/Throwable;)V
+THROW               |     |throw v2
+                    |     | } // TC_0
+LABEL               |  LL1:
+MOVE_EXCEPTION      |     |v0=@Exception
+LABEL               |  LL6: line 173
+INVOKE_VIRTUAL      |     |TEMP=v0.getCause()  //Ljava/lang/reflect/InvocationTargetException;.getCause()Ljava/lang/Throwable;
+MOVE_RESULT         |     |v2=TEMP
+THROW               |     |throw v2
+LABEL               |  LL7: line 169
+CONST               |     |v2=0x00000001  // int:1   float:0.000000
+LABEL               |  LL3:
+                    |     |try { // TC_2 
+INVOKE_VIRTUAL      |     |v1.setAccessible(v2)  //Ljava/lang/reflect/Method;.setAccessible(Z)V
+LABEL               | LL16: line 170
+CONST               |     |v2=0x00000000  // int:0   float:0.000000
+INVOKE_VIRTUAL      |     |TEMP=v1.invoke(v2,v9)  //Ljava/lang/reflect/Method;.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+                    |     | } // TC_2
+LABEL               |  LL4:
+MOVE_RESULT         |     |v2=TEMP
+RETURN              |     |return v2
+LABEL               |  LL2: line 174
+                    |     |catch(Ljava/lang/IllegalAccessException;) // TC_1
+MOVE_EXCEPTION      |     |v0=@Exception
+LABEL               |  LL8: line 175
+SGET                |     |v2=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v3=java.util.logging.Level.SEVERE  //Ljava/util/logging/Level;.SEVERE Ljava/util/logging/Level;
+CONST_STRING        |     |v4="Exception while invoking %s"
+NEW_ARRAY           |     |v5=new java.lang.Object[][v7]
+APUT                |     |v5[v8]=v11
+INVOKE_STATIC       |     |TEMP=java.lang.String.format(v4,v5)  //Ljava/lang/String;.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+MOVE_RESULT         |     |v4=TEMP
+INVOKE_INTERFACE    |     |v2.log(v3,v4,v0)  //Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+NEW_INSTANCE        |     |v2=NEW Ljava/lang/RuntimeException;
+INVOKE_DIRECT       |     |v2.<init>(v0)  //Ljava/lang/RuntimeException;.<init>(Ljava/lang/Throwable;)V
+THROW               |     |throw v2
+LABEL               |  LL9:
+
+//method:0008  access:0x0009
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.newForClass([Ljava/lang/Object;[Ljava/lang/Class;Ljava/lang/Class;)Ljava/lang/Object;
+public static java.lang.Object newForClass(java.lang.Object[],java.lang.Class[],java.lang.Class)
+                    :v7   //java.lang.Object[]
+                    :v8   //java.lang.Class[]
+                    :v9   //java.lang.Class
+TR_0 LL0 ~ LL1 > LL2 Ljava/lang/NoSuchMethodException;
+TR_1 LL3 ~ LL4 > LL5 Ljava/lang/reflect/InvocationTargetException;
+TR_2 LL3 ~ LL4 > LL6 Ljava/lang/InstantiationException;
+TR_3 LL3 ~ LL4 > LL7 Ljava/lang/IllegalAccessException;
+LOCAL_VARIABLE LL8 ~ LL2 v0 -> declaredConstructor // Ljava/lang/reflect/Constructor; 
+LOCAL_VARIABLE LL9 ~ LL5 v1 -> e // Ljava/lang/NoSuchMethodException; 
+LOCAL_VARIABLE LL10 ~ LL6 v1 -> e // Ljava/lang/reflect/InvocationTargetException; 
+LOCAL_VARIABLE LL11 ~ LL7 v1 -> e // Ljava/lang/InstantiationException; 
+LOCAL_VARIABLE LL5 ~ LL12 v0 -> declaredConstructor // Ljava/lang/reflect/Constructor; 
+LOCAL_VARIABLE LL13 ~ LL12 v1 -> e // Ljava/lang/IllegalAccessException; 
+LOCAL_VARIABLE LL14 ~ LL12 v7 -> params // [Ljava/lang/Object; 
+LOCAL_VARIABLE LL14 ~ LL12 v8 -> paramTypes // [Ljava/lang/Class; 
+LOCAL_VARIABLE LL14 ~ LL12 v9 -> targetClass // Ljava/lang/Class; 
+LABEL               | LL14: line 184
+CONST               |     |v6=0x00000000  // int:0   float:0.000000
+CONST               |     |v5=0x00000001  // int:1   float:0.000000
+LABEL               |  LL0: line 184
+                    |     |try { // TC_0 
+INVOKE_VIRTUAL      |     |TEMP=v9.getDeclaredConstructor(v8)  //Ljava/lang/Class;.getDeclaredConstructor([Ljava/lang/Class;)Ljava/lang/reflect/Constructor;
+                    |     | } // TC_0
+LABEL               |  LL1:
+MOVE_RESULT         |     |v0=TEMP
+LABEL               |  LL8: line 189
+INVOKE_VIRTUAL      |     |v0.setAccessible(v5)  //Ljava/lang/reflect/Constructor;.setAccessible(Z)V
+LABEL               |  LL3: line 191
+                    |     |try { // TC_1 
+INVOKE_VIRTUAL      |     |TEMP=v0.newInstance(v7)  //Ljava/lang/reflect/Constructor;.newInstance([Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v9.cast(v2)  //Ljava/lang/Class;.cast(Ljava/lang/Object;)Ljava/lang/Object;
+                    |     | } // TC_1
+LABEL               |  LL4:
+MOVE_RESULT         |     |v2=TEMP
+RETURN              |     |return v2
+LABEL               |  LL2: line 313
+                    |     |catch(Ljava/lang/NoSuchMethodException;) // TC_0
+MOVE_EXCEPTION      |     |v1=@Exception
+LABEL               |  LL9: line 314
+SGET                |     |v2=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v3=java.util.logging.Level.SEVERE  //Ljava/util/logging/Level;.SEVERE Ljava/util/logging/Level;
+CONST_STRING        |     |v4="Exception while resolving constructor"
+INVOKE_INTERFACE    |     |v2.log(v3,v4,v1)  //Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+LABEL               | LL15: line 315
+NEW_INSTANCE        |     |v2=NEW Ljava/lang/RuntimeException;
+INVOKE_DIRECT       |     |v2.<init>(v1)  //Ljava/lang/RuntimeException;.<init>(Ljava/lang/Throwable;)V
+THROW               |     |throw v2
+LABEL               |  LL5: line 320
+                    |     |catch(Ljava/lang/reflect/InvocationTargetException;) // TC_1
+MOVE_EXCEPTION      |     |v1=@Exception
+LABEL               | LL10: line 322
+INVOKE_VIRTUAL      |     |TEMP=v1.getCause()  //Ljava/lang/reflect/InvocationTargetException;.getCause()Ljava/lang/Throwable;
+MOVE_RESULT         |     |v2=TEMP
+THROW               |     |throw v2
+LABEL               |  LL6: line 323
+                    |     |catch(Ljava/lang/InstantiationException;) // TC_2
+MOVE_EXCEPTION      |     |v1=@Exception
+LABEL               | LL11: line 324
+SGET                |     |v2=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v3=java.util.logging.Level.SEVERE  //Ljava/util/logging/Level;.SEVERE Ljava/util/logging/Level;
+CONST_STRING        |     |v4="Exception while instantiating %s"
+NEW_ARRAY           |     |v5=new java.lang.Object[][v5]
+APUT                |     |v5[v6]=v9
+INVOKE_STATIC       |     |TEMP=java.lang.String.format(v4,v5)  //Ljava/lang/String;.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+MOVE_RESULT         |     |v4=TEMP
+INVOKE_INTERFACE    |     |v2.log(v3,v4,v1)  //Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+NEW_INSTANCE        |     |v2=NEW Ljava/lang/RuntimeException;
+INVOKE_DIRECT       |     |v2.<init>(v1)  //Ljava/lang/RuntimeException;.<init>(Ljava/lang/Throwable;)V
+THROW               |     |throw v2
+LABEL               |  LL7: line 326
+                    |     |catch(Ljava/lang/IllegalAccessException;) // TC_3
+MOVE_EXCEPTION      |     |v1=@Exception
+LABEL               | LL13: line 327
+SGET                |     |v2=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v3=java.util.logging.Level.SEVERE  //Ljava/util/logging/Level;.SEVERE Ljava/util/logging/Level;
+CONST_STRING        |     |v4="Exception while instantiating %s"
+NEW_ARRAY           |     |v5=new java.lang.Object[][v5]
+APUT                |     |v5[v6]=v9
+INVOKE_STATIC       |     |TEMP=java.lang.String.format(v4,v5)  //Ljava/lang/String;.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+MOVE_RESULT         |     |v4=TEMP
+INVOKE_INTERFACE    |     |v2.log(v3,v4,v1)  //Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+NEW_INSTANCE        |     |v2=NEW Ljava/lang/RuntimeException;
+INVOKE_DIRECT       |     |v2.<init>(v1)  //Ljava/lang/RuntimeException;.<init>(Ljava/lang/Throwable;)V
+THROW               |     |throw v2
+LABEL               | LL12:
+
+//method:0009  access:0x0009
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.setLogger(Ljava/util/logging/Logger;)V
+public static V setLogger(java.util.logging.Logger)
+                    :v1   //java.util.logging.Logger
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> logger // Ljava/util/logging/Logger; 
+LABEL               |  LL0: line 51
+NEW_INSTANCE        |     |v0=NEW Lcom/android/tools/fd/runtime/AndroidInstantRuntime$1;
+INVOKE_DIRECT       |     |v0.<init>(v1)  //Lcom/android/tools/fd/runtime/AndroidInstantRuntime$1;.<init>(Ljava/util/logging/Logger;)V
+SPUT                |     |com.android.tools.fd.common.Log.logging=v0  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+LABEL               |  LL2: line 68
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0010  access:0x0009
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.setPrivateField(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Class;Ljava/lang/String;)V
+public static V setPrivateField(java.lang.Object,java.lang.Object,java.lang.Class,java.lang.String)
+                    :v7   //java.lang.Object
+                    :v8   //java.lang.Object
+                    :v9   //java.lang.Class
+                    :v10   //java.lang.String
+TR_0 LL0 ~ LL1 > LL2 Ljava/lang/IllegalAccessException;
+LOCAL_VARIABLE LL3 ~ LL2 v0 -> declaredField // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL4 ~ LL5 v1 -> e // Ljava/lang/IllegalAccessException; 
+LOCAL_VARIABLE LL0 ~ LL5 v7 -> targetObject // Ljava/lang/Object; 
+LOCAL_VARIABLE LL0 ~ LL5 v8 -> value // Ljava/lang/Object; 
+LOCAL_VARIABLE LL0 ~ LL5 v9 -> targetClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL0 ~ LL5 v10 -> fieldName // Ljava/lang/String; 
+LABEL               |  LL0: line 87
+                    |     |try { // TC_0 
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.AndroidInstantRuntime.getField(v9,v10)  //Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.getField(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v0=TEMP
+LABEL               |  LL3: line 88
+INVOKE_VIRTUAL      |     |v0.set(v7,v8)  //Ljava/lang/reflect/Field;.set(Ljava/lang/Object;Ljava/lang/Object;)V
+                    |     | } // TC_0
+LABEL               |  LL1: line 96
+RETURN_VOID         |     |return
+LABEL               |  LL2: line 217
+                    |     |catch(Ljava/lang/IllegalAccessException;) // TC_0
+MOVE_EXCEPTION      |     |v1=@Exception
+LABEL               |  LL4: line 218
+SGET                |     |v2=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+IF_EQZ              |     |if v2 == 0 goto L6
+LABEL               |  LL7: line 219
+SGET                |     |v2=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v3=java.util.logging.Level.SEVERE  //Ljava/util/logging/Level;.SEVERE Ljava/util/logging/Level;
+CONST_STRING        |     |v4="Exception during setPrivateField %s"
+CONST               |     |v5=0x00000001  // int:1   float:0.000000
+NEW_ARRAY           |     |v5=new java.lang.Object[][v5]
+CONST               |     |v6=0x00000000  // int:0   float:0.000000
+APUT                |     |v5[v6]=v10
+LABEL               |  LL8: line 220
+INVOKE_STATIC       |     |TEMP=java.lang.String.format(v4,v5)  //Ljava/lang/String;.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+MOVE_RESULT         |     |v4=TEMP
+LABEL               |  LL9: line 219
+INVOKE_INTERFACE    |     |v2.log(v3,v4,v1)  //Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+LABEL               |  LL6: line 222
+NEW_INSTANCE        |     |v2=NEW Ljava/lang/RuntimeException;
+INVOKE_DIRECT       |     |v2.<init>(v1)  //Ljava/lang/RuntimeException;.<init>(Ljava/lang/Throwable;)V
+THROW               |     |throw v2
+LABEL               |  LL5:
+
+//method:0011  access:0x0009
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.setStaticPrivateField(Ljava/lang/Object;Ljava/lang/Class;Ljava/lang/String;)V
+public static V setStaticPrivateField(java.lang.Object,java.lang.Class,java.lang.String)
+                    :v1   //java.lang.Object
+                    :v2   //java.lang.Class
+                    :v3   //java.lang.String
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> value // Ljava/lang/Object; 
+LOCAL_VARIABLE LL0 ~ LL1 v2 -> targetClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL0 ~ LL1 v3 -> fieldName // Ljava/lang/String; 
+LABEL               |  LL0: line 77
+CONST               |     |v0=0x00000000  // int:0   float:0.000000
+INVOKE_STATIC       |     |com.android.tools.fd.runtime.AndroidInstantRuntime.setPrivateField(v0,v1,v2,v3)  //Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.setPrivateField(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Class;Ljava/lang/String;)V
+LABEL               |  LL2: line 78
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0012  access:0x0009
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.trace(Ljava/lang/String;)V
+public static V trace(java.lang.String)
+                    :v2   //java.lang.String
+LOCAL_VARIABLE LL0 ~ LL1 v2 -> s // Ljava/lang/String; 
+LABEL               |  LL0: line 246
+SGET                |     |v0=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+IF_EQZ              |     |if v0 == 0 goto L2
+LABEL               |  LL3: line 247
+SGET                |     |v0=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v1=java.util.logging.Level.FINE  //Ljava/util/logging/Level;.FINE Ljava/util/logging/Level;
+INVOKE_INTERFACE    |     |v0.log(v1,v2)  //Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;)V
+LABEL               |  LL2: line 249
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0013  access:0x0009
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.trace(Ljava/lang/String;Ljava/lang/String;)V
+public static V trace(java.lang.String,java.lang.String)
+                    :v5   //java.lang.String
+                    :v6   //java.lang.String
+LOCAL_VARIABLE LL0 ~ LL1 v5 -> s1 // Ljava/lang/String; 
+LOCAL_VARIABLE LL0 ~ LL1 v6 -> s2 // Ljava/lang/String; 
+LABEL               |  LL0: line 252
+SGET                |     |v0=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+IF_EQZ              |     |if v0 == 0 goto L2
+LABEL               |  LL3: line 253
+SGET                |     |v0=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v1=java.util.logging.Level.FINE  //Ljava/util/logging/Level;.FINE Ljava/util/logging/Level;
+CONST_STRING        |     |v2="%s %s"
+CONST               |     |v3=0x00000002  // int:2   float:0.000000
+NEW_ARRAY           |     |v3=new java.lang.Object[][v3]
+CONST               |     |v4=0x00000000  // int:0   float:0.000000
+APUT                |     |v3[v4]=v5
+CONST               |     |v4=0x00000001  // int:1   float:0.000000
+APUT                |     |v3[v4]=v6
+INVOKE_STATIC       |     |TEMP=java.lang.String.format(v2,v3)  //Ljava/lang/String;.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_INTERFACE    |     |v0.log(v1,v2)  //Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;)V
+LABEL               |  LL2:
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0014  access:0x0009
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.trace(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+public static V trace(java.lang.String,java.lang.String,java.lang.String)
+                    :v5   //java.lang.String
+                    :v6   //java.lang.String
+                    :v7   //java.lang.String
+LOCAL_VARIABLE LL0 ~ LL1 v5 -> s1 // Ljava/lang/String; 
+LOCAL_VARIABLE LL0 ~ LL1 v6 -> s2 // Ljava/lang/String; 
+LOCAL_VARIABLE LL0 ~ LL1 v7 -> s3 // Ljava/lang/String; 
+LABEL               |  LL0: line 258
+SGET                |     |v0=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+IF_EQZ              |     |if v0 == 0 goto L2
+LABEL               |  LL3: line 259
+SGET                |     |v0=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v1=java.util.logging.Level.FINE  //Ljava/util/logging/Level;.FINE Ljava/util/logging/Level;
+CONST_STRING        |     |v2="%s %s %s"
+CONST               |     |v3=0x00000003  // int:3   float:0.000000
+NEW_ARRAY           |     |v3=new java.lang.Object[][v3]
+CONST               |     |v4=0x00000000  // int:0   float:0.000000
+APUT                |     |v3[v4]=v5
+CONST               |     |v4=0x00000001  // int:1   float:0.000000
+APUT                |     |v3[v4]=v6
+CONST               |     |v4=0x00000002  // int:2   float:0.000000
+APUT                |     |v3[v4]=v7
+INVOKE_STATIC       |     |TEMP=java.lang.String.format(v2,v3)  //Ljava/lang/String;.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_INTERFACE    |     |v0.log(v1,v2)  //Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;)V
+LABEL               |  LL2:
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0015  access:0x0009
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime;.trace(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+public static V trace(java.lang.String,java.lang.String,java.lang.String,java.lang.String)
+                    :v5   //java.lang.String
+                    :v6   //java.lang.String
+                    :v7   //java.lang.String
+                    :v8   //java.lang.String
+LOCAL_VARIABLE LL0 ~ LL1 v5 -> s1 // Ljava/lang/String; 
+LOCAL_VARIABLE LL0 ~ LL1 v6 -> s2 // Ljava/lang/String; 
+LOCAL_VARIABLE LL0 ~ LL1 v7 -> s3 // Ljava/lang/String; 
+LOCAL_VARIABLE LL0 ~ LL1 v8 -> s4 // Ljava/lang/String; 
+LABEL               |  LL0: line 264
+SGET                |     |v0=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+IF_EQZ              |     |if v0 == 0 goto L2
+LABEL               |  LL3: line 265
+SGET                |     |v0=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v1=java.util.logging.Level.FINE  //Ljava/util/logging/Level;.FINE Ljava/util/logging/Level;
+CONST_STRING        |     |v2="%s %s %s %s"
+CONST               |     |v3=0x00000004  // int:4   float:0.000000
+NEW_ARRAY           |     |v3=new java.lang.Object[][v3]
+CONST               |     |v4=0x00000000  // int:0   float:0.000000
+APUT                |     |v3[v4]=v5
+CONST               |     |v4=0x00000001  // int:1   float:0.000000
+APUT                |     |v3[v4]=v6
+CONST               |     |v4=0x00000002  // int:2   float:0.000000
+APUT                |     |v3[v4]=v7
+CONST               |     |v4=0x00000003  // int:3   float:0.000000
+APUT                |     |v3[v4]=v8
+INVOKE_STATIC       |     |TEMP=java.lang.String.format(v2,v3)  //Ljava/lang/String;.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_INTERFACE    |     |v0.log(v1,v2)  //Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;)V
+LABEL               |  LL2:
+RETURN_VOID         |     |return
+LABEL               |  LL1:

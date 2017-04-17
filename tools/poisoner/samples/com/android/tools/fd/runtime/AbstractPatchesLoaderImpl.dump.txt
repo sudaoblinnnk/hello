@@ -1,0 +1,143 @@
+//class:0004  access:0x0401
+public abstract class com.android.tools.fd.runtime.AbstractPatchesLoaderImpl implements com.android.tools.fd.runtime.PatchesLoader
+
+//method:0000  access:0x10001
+//Lcom/android/tools/fd/runtime/AbstractPatchesLoaderImpl;.<init>()V
+public V <init>()
+                this:v0   //com.android.tools.fd.runtime.AbstractPatchesLoaderImpl
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lcom/android/tools/fd/runtime/AbstractPatchesLoaderImpl; 
+LABEL               |  LL0: line 25
+INVOKE_DIRECT       |     |v0.<init>()  //Ljava/lang/Object;.<init>()V
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0001  access:0x0401
+//Lcom/android/tools/fd/runtime/AbstractPatchesLoaderImpl;.getPatchedClasses()[Ljava/lang/String;
+public abstract java.lang.String[] getPatchedClasses()
+
+//method:0002  access:0x0001
+//Lcom/android/tools/fd/runtime/AbstractPatchesLoaderImpl;.load()Z
+public Z load()
+                this:v17   //com.android.tools.fd.runtime.AbstractPatchesLoaderImpl
+TR_0 LL0 ~ LL1 > LL2 Ljava/lang/Exception;
+LOCAL_VARIABLE LL3 ~ LL4 v5 -> isObsolete // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL5 ~ LL2 v0 -> aClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL6 ~ LL2 v1 -> changeField // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL7 ~ LL2 v2 -> cl // Ljava/lang/ClassLoader; 
+LOCAL_VARIABLE LL8 ~ LL2 v3 -> className // Ljava/lang/String; 
+LOCAL_VARIABLE LL9 ~ LL2 v6 -> o // Ljava/lang/Object; 
+LOCAL_VARIABLE LL10 ~ LL2 v7 -> originalClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL11 ~ LL2 v8 -> previous // Ljava/lang/Object; 
+LOCAL_VARIABLE LL12 ~ LL13 v4 -> e // Ljava/lang/Exception; 
+LOCAL_VARIABLE LL0 ~ LL14 v17 -> this // Lcom/android/tools/fd/runtime/AbstractPatchesLoaderImpl; 
+LABEL               |  LL0: line 32
+                    |     |try { // TC_0 
+INVOKE_VIRTUAL      |     |TEMP=v17.getPatchedClasses()  //Lcom/android/tools/fd/runtime/AbstractPatchesLoaderImpl;.getPatchedClasses()[Ljava/lang/String;
+MOVE_RESULT         |     |v10=TEMP
+ARRAY_LENGTH        |     |v11 = v10.length
+CONST               |     |v9=0x00000000  // int:0   float:0.000000
+LABEL               | LL15:
+IF_GE               |     |if v9 >= v11 goto L16
+AGET                |     |v3=v10[v9]
+LABEL               |  LL8: line 33
+INVOKE_VIRTUAL      |     |TEMP=v17.getClass()  //Ljava/lang/Object;.getClass()Ljava/lang/Class;
+MOVE_RESULT         |     |v12=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v12.getClassLoader()  //Ljava/lang/Class;.getClassLoader()Ljava/lang/ClassLoader;
+MOVE_RESULT         |     |v2=TEMP
+LABEL               |  LL7: line 34
+NEW_INSTANCE        |     |v12=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v12.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+INVOKE_VIRTUAL      |     |TEMP=v12.append(v3)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v12=TEMP
+CONST_STRING        |     |v13="$override"
+INVOKE_VIRTUAL      |     |TEMP=v12.append(v13)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v12=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v12.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v12=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v2.loadClass(v12)  //Ljava/lang/ClassLoader;.loadClass(Ljava/lang/String;)Ljava/lang/Class;
+MOVE_RESULT         |     |v0=TEMP
+LABEL               |  LL5:
+INVOKE_VIRTUAL      |     |TEMP=v0.newInstance()  //Ljava/lang/Class;.newInstance()Ljava/lang/Object;
+MOVE_RESULT         |     |v6=TEMP
+LABEL               |  LL9: line 36
+INVOKE_VIRTUAL      |     |TEMP=v2.loadClass(v3)  //Ljava/lang/ClassLoader;.loadClass(Ljava/lang/String;)Ljava/lang/Class;
+MOVE_RESULT         |     |v7=TEMP
+LABEL               | LL10: line 37
+CONST_STRING        |     |v12="$change"
+INVOKE_VIRTUAL      |     |TEMP=v7.getDeclaredField(v12)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v1=TEMP
+LABEL               |  LL6: line 40
+CONST               |     |v12=0x00000001  // int:1   float:0.000000
+INVOKE_VIRTUAL      |     |v1.setAccessible(v12)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL17: line 43
+CONST               |     |v12=0x00000000  // int:0   float:0.000000
+INVOKE_VIRTUAL      |     |TEMP=v1.get(v12)  //Ljava/lang/reflect/Field;.get(Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v8=TEMP
+LABEL               | LL11: line 44
+IF_EQZ              |     |if v8 == 0 goto L4
+LABEL               | LL18: line 45
+INVOKE_VIRTUAL      |     |TEMP=v8.getClass()  //Ljava/lang/Object;.getClass()Ljava/lang/Class;
+MOVE_RESULT         |     |v12=TEMP
+CONST_STRING        |     |v13="$obsolete"
+INVOKE_VIRTUAL      |     |TEMP=v12.getDeclaredField(v13)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v5=TEMP
+LABEL               |  LL3: line 46
+IF_EQZ              |     |if v5 == 0 goto L4
+LABEL               | LL19: line 47
+CONST               |     |v12=0x00000000  // int:0   float:0.000000
+CONST               |     |v13=0x00000001  // int:1   float:0.000000
+INVOKE_STATIC       |     |TEMP=java.lang.Boolean.valueOf(v13)  //Ljava/lang/Boolean;.valueOf(Z)Ljava/lang/Boolean;
+MOVE_RESULT         |     |v13=TEMP
+INVOKE_VIRTUAL      |     |v5.set(v12,v13)  //Ljava/lang/reflect/Field;.set(Ljava/lang/Object;Ljava/lang/Object;)V
+LABEL               |  LL4: line 50
+CONST               |     |v12=0x00000000  // int:0   float:0.000000
+INVOKE_VIRTUAL      |     |v1.set(v12,v6)  //Ljava/lang/reflect/Field;.set(Ljava/lang/Object;Ljava/lang/Object;)V
+LABEL               | LL20: line 52
+SGET                |     |v12=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+IF_EQZ              |     |if v12 == 0 goto L1
+SGET                |     |v12=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v13=java.util.logging.Level.FINE  //Ljava/util/logging/Level;.FINE Ljava/util/logging/Level;
+INVOKE_INTERFACE    |     |TEMP=v12.isLoggable(v13)  //Lcom/android/tools/fd/common/Log$Logging;.isLoggable(Ljava/util/logging/Level;)Z
+MOVE_RESULT         |     |v12=TEMP
+IF_EQZ              |     |if v12 == 0 goto L1
+LABEL               | LL21: line 53
+SGET                |     |v12=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v13=java.util.logging.Level.FINE  //Ljava/util/logging/Level;.FINE Ljava/util/logging/Level;
+CONST_STRING        |     |v14="patched %s"
+CONST               |     |v15=0x00000001  // int:1   float:0.000000
+NEW_ARRAY           |     |v15=new java.lang.Object[][v15]
+CONST               |     |v16=0x00000000  // int:0   float:0.000000
+APUT                |     |v15[v16]=v3
+INVOKE_STATIC       |     |TEMP=java.lang.String.format(v14,v15)  //Ljava/lang/String;.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+MOVE_RESULT         |     |v14=TEMP
+INVOKE_INTERFACE    |     |v12.log(v13,v14)  //Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;)V
+                    |     | } // TC_0
+LABEL               |  LL1:
+ADD_INT_LIT_X       |     |v9 = v9 + 1
+GOTO                |     |goto L15
+LABEL               |  LL2: line 184
+                    |     |catch(Ljava/lang/Exception;) // TC_0
+MOVE_EXCEPTION      |     |v4=@Exception
+LABEL               | LL12: line 185
+SGET                |     |v9=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+IF_EQZ              |     |if v9 == 0 goto L22
+LABEL               | LL23: line 186
+SGET                |     |v9=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v10=java.util.logging.Level.SEVERE  //Ljava/util/logging/Level;.SEVERE Ljava/util/logging/Level;
+CONST_STRING        |     |v11="Exception while patching %s"
+CONST               |     |v12=0x00000001  // int:1   float:0.000000
+NEW_ARRAY           |     |v12=new java.lang.Object[][v12]
+CONST               |     |v13=0x00000000  // int:0   float:0.000000
+CONST_STRING        |     |v14="foo.bar"
+APUT                |     |v12[v13]=v14
+INVOKE_STATIC       |     |TEMP=java.lang.String.format(v11,v12)  //Ljava/lang/String;.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+MOVE_RESULT         |     |v11=TEMP
+INVOKE_INTERFACE    |     |v9.log(v10,v11,v4)  //Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+LABEL               | LL22:
+CONST               |     |v9=0x00000000  // int:0   float:0.000000
+LABEL               | LL13: line 190
+RETURN              |     |return v9
+LABEL               | LL16:
+CONST               |     |v9=0x00000001  // int:1   float:0.000000
+GOTO                |     |goto L13
+LABEL               | LL14:

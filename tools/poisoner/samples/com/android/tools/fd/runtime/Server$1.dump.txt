@@ -1,0 +1,2 @@
+//class:0022  access:0x1000
+class com.android.tools.fd.runtime.Server$1

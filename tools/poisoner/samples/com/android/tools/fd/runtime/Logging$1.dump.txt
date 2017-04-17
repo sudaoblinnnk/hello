@@ -1,0 +1,124 @@
+//class:0014  access:0x0010
+final class com.android.tools.fd.runtime.Logging$1 implements com.android.tools.fd.common.Log$Logging
+
+//method:0000  access:0x10000
+//Lcom/android/tools/fd/runtime/Logging$1;.<init>()V
+V <init>()
+                this:v0   //com.android.tools.fd.runtime.Logging$1
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lcom/android/tools/fd/runtime/Logging$1; 
+LABEL               |  LL0: line 34
+INVOKE_DIRECT       |     |v0.<init>()  //Ljava/lang/Object;.<init>()V
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0001  access:0x0001
+//Lcom/android/tools/fd/runtime/Logging$1;.isLoggable(Ljava/util/logging/Level;)Z
+public Z isLoggable(java.util.logging.Level)
+                this:v2   //com.android.tools.fd.runtime.Logging$1
+                    :v3   //java.util.logging.Level
+LOCAL_VARIABLE LL0 ~ LL1 v2 -> this // Lcom/android/tools/fd/runtime/Logging$1; 
+LOCAL_VARIABLE LL0 ~ LL1 v3 -> level // Ljava/util/logging/Level; 
+LABEL               |  LL0: line 42
+SGET                |     |v0=java.util.logging.Level.SEVERE  //Ljava/util/logging/Level;.SEVERE Ljava/util/logging/Level;
+IF_NE               |     |if v3 != v0 goto L2
+LABEL               |  LL3: line 43
+CONST_STRING        |     |v0="InstantRun"
+CONST               |     |v1=0x00000006  // int:6   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v0,v1)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v0=TEMP
+LABEL               |  LL4: line 46
+RETURN              |     |return v0
+LABEL               |  LL2: line 44
+SGET                |     |v0=java.util.logging.Level.FINE  //Ljava/util/logging/Level;.FINE Ljava/util/logging/Level;
+IF_NE               |     |if v3 != v0 goto L5
+LABEL               |  LL6: line 45
+CONST_STRING        |     |v0="InstantRun"
+CONST               |     |v1=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v0,v1)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v0=TEMP
+GOTO                |     |goto L4
+LABEL               |  LL5: line 46
+CONST_STRING        |     |v0="InstantRun"
+CONST               |     |v1=0x00000004  // int:4   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v0,v1)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v0=TEMP
+GOTO                |     |goto L4
+LABEL               |  LL1:
+
+//method:0002  access:0x0001
+//Lcom/android/tools/fd/runtime/Logging$1;.log(Ljava/util/logging/Level;Ljava/lang/String;)V
+public V log(java.util.logging.Level,java.lang.String)
+                this:v1   //com.android.tools.fd.runtime.Logging$1
+                    :v2   //java.util.logging.Level
+                    :v3   //java.lang.String
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> this // Lcom/android/tools/fd/runtime/Logging$1; 
+LOCAL_VARIABLE LL0 ~ LL1 v2 -> level // Ljava/util/logging/Level; 
+LOCAL_VARIABLE LL0 ~ LL1 v3 -> string // Ljava/lang/String; 
+LABEL               |  LL0: line 37
+CONST               |     |v0=0x00000000  // int:0   float:0.000000
+INVOKE_VIRTUAL      |     |v1.log(v2,v3,v0)  //Lcom/android/tools/fd/runtime/Logging$1;.log(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+LABEL               |  LL2: line 38
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0003  access:0x0001
+//Lcom/android/tools/fd/runtime/Logging$1;.log(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+public V log(java.util.logging.Level,java.lang.String,java.lang.Throwable)
+                this:v2   //com.android.tools.fd.runtime.Logging$1
+                    :v3   //java.util.logging.Level
+                    :v4   //java.lang.String
+                    :v5   //java.lang.Throwable
+LOCAL_VARIABLE LL0 ~ LL1 v2 -> this // Lcom/android/tools/fd/runtime/Logging$1; 
+LOCAL_VARIABLE LL0 ~ LL1 v3 -> level // Ljava/util/logging/Level; 
+LOCAL_VARIABLE LL0 ~ LL1 v4 -> string // Ljava/lang/String; 
+LOCAL_VARIABLE LL0 ~ LL1 v5 -> throwable // Ljava/lang/Throwable; 
+LABEL               |  LL0: line 52
+SGET                |     |v0=java.util.logging.Level.SEVERE  //Ljava/util/logging/Level;.SEVERE Ljava/util/logging/Level;
+IF_NE               |     |if v3 != v0 goto L2
+LABEL               |  LL3: line 53
+IF_NEZ              |     |if v5 != 0 goto L4
+LABEL               |  LL5: line 54
+CONST_STRING        |     |v0="InstantRun"
+INVOKE_STATIC       |     |TEMP=android.util.Log.e(v0,v4)  //Landroid/util/Log;.e(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               |  LL6: line 73
+RETURN_VOID         |     |return
+LABEL               |  LL4: line 184
+CONST_STRING        |     |v0="InstantRun"
+INVOKE_STATIC       |     |TEMP=android.util.Log.e(v0,v4,v5)  //Landroid/util/Log;.e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+GOTO                |     |goto L6
+LABEL               |  LL2: line 186
+SGET                |     |v0=java.util.logging.Level.FINE  //Ljava/util/logging/Level;.FINE Ljava/util/logging/Level;
+IF_NE               |     |if v3 != v0 goto L7
+LABEL               |  LL8: line 187
+CONST_STRING        |     |v0="InstantRun"
+CONST               |     |v1=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v0,v1)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v0=TEMP
+IF_EQZ              |     |if v0 == 0 goto L6
+LABEL               |  LL9: line 188
+IF_NEZ              |     |if v5 != 0 goto L10
+LABEL               | LL11: line 189
+CONST_STRING        |     |v0="InstantRun"
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v0,v4)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+GOTO                |     |goto L6
+LABEL               | LL10: line 191
+CONST_STRING        |     |v0="InstantRun"
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v0,v4,v5)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+GOTO                |     |goto L6
+LABEL               |  LL7: line 194
+CONST_STRING        |     |v0="InstantRun"
+CONST               |     |v1=0x00000004  // int:4   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v0,v1)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v0=TEMP
+IF_EQZ              |     |if v0 == 0 goto L6
+LABEL               | LL12: line 195
+IF_NEZ              |     |if v5 != 0 goto L13
+LABEL               | LL14: line 196
+CONST_STRING        |     |v0="InstantRun"
+INVOKE_STATIC       |     |TEMP=android.util.Log.i(v0,v4)  //Landroid/util/Log;.i(Ljava/lang/String;Ljava/lang/String;)I
+GOTO                |     |goto L6
+LABEL               | LL13: line 198
+CONST_STRING        |     |v0="InstantRun"
+INVOKE_STATIC       |     |TEMP=android.util.Log.i(v0,v4,v5)  //Landroid/util/Log;.i(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+GOTO                |     |goto L6
+LABEL               |  LL1:

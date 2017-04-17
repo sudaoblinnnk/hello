@@ -1,0 +1,101 @@
+//class:0020  access:0x0010
+final class com.android.tools.fd.runtime.Restarter$2 implements java.lang.Runnable
+//field:0000  access:0x1010
+//Lcom/android/tools/fd/runtime/Restarter$2;.val$activity Landroid/app/Activity;
+final  android.app.Activity val$activity;
+//field:0001  access:0x1010
+//Lcom/android/tools/fd/runtime/Restarter$2;.val$text Ljava/lang/String;
+final  java.lang.String val$text;
+
+//method:0000  access:0x10000
+//Lcom/android/tools/fd/runtime/Restarter$2;.<init>(Landroid/app/Activity;Ljava/lang/String;)V
+V <init>(android.app.Activity,java.lang.String)
+                this:v0   //com.android.tools.fd.runtime.Restarter$2
+                    :v1   //android.app.Activity
+                    :v2   //java.lang.String
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lcom/android/tools/fd/runtime/Restarter$2; 
+LABEL               |  LL0: line 143
+IPUT                |     |v0.val$activity=v1  //Lcom/android/tools/fd/runtime/Restarter$2;.val$activity Landroid/app/Activity;
+IPUT                |     |v0.val$text=v2  //Lcom/android/tools/fd/runtime/Restarter$2;.val$text Ljava/lang/String;
+INVOKE_DIRECT       |     |v0.<init>()  //Ljava/lang/Object;.<init>()V
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0001  access:0x0001
+//Lcom/android/tools/fd/runtime/Restarter$2;.run()V
+public V run()
+                this:v7   //com.android.tools.fd.runtime.Restarter$2
+TR_0 LL0 ~ LL1 > LL2 Ljava/lang/Throwable;
+LOCAL_VARIABLE LL3 ~ LL4 v1 -> context // Landroid/content/Context; 
+LOCAL_VARIABLE LL5 ~ LL6 v0 -> base // Landroid/content/Context; 
+LOCAL_VARIABLE LL7 ~ LL2 v2 -> duration // I 
+LOCAL_VARIABLE LL8 ~ LL9 v3 -> e // Ljava/lang/Throwable; 
+LOCAL_VARIABLE LL10 ~ LL9 v7 -> this // Lcom/android/tools/fd/runtime/Restarter$2; 
+LABEL               | LL10: line 147
+CONST               |     |v6=0x00000005  // int:5   float:0.000000
+LABEL               |  LL0: line 147
+                    |     |try { // TC_0 
+IGET                |     |v4=v7.val$activity  //Lcom/android/tools/fd/runtime/Restarter$2;.val$activity Landroid/app/Activity;
+INVOKE_VIRTUAL      |     |TEMP=v4.getApplicationContext()  //Landroid/app/Activity;.getApplicationContext()Landroid/content/Context;
+MOVE_RESULT         |     |v1=TEMP
+LABEL               |  LL3: line 148
+INSTANCE_OF         |     |v4=v1 instanceof android.content.ContextWrapper
+IF_EQZ              |     |if v4 == 0 goto L11
+LABEL               | LL12: line 149
+CHECK_CAST          |     |v1=(android.content.ContextWrapper) v1
+LABEL               |  LL4:
+INVOKE_VIRTUAL      |     |TEMP=v1.getBaseContext()  //Landroid/content/ContextWrapper;.getBaseContext()Landroid/content/Context;
+MOVE_RESULT         |     |v0=TEMP
+LABEL               |  LL5: line 150
+IF_NEZ              |     |if v0 != 0 goto L11
+LABEL               | LL13: line 151
+CONST_STRING        |     |v4="InstantRun"
+CONST               |     |v5=0x00000005  // int:5   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v4,v5)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v4=TEMP
+IF_EQZ              |     |if v4 == 0 goto L6
+LABEL               | LL14: line 152
+CONST_STRING        |     |v4="InstantRun"
+CONST_STRING        |     |v5="Couldn't show toast: no base context"
+INVOKE_STATIC       |     |TEMP=android.util.Log.w(v4,v5)  //Landroid/util/Log;.w(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               |  LL6: line 173
+RETURN_VOID         |     |return
+LABEL               | LL11: line 287
+CONST               |     |v2=0x00000000  // int:0   float:0.000000
+LABEL               |  LL7: line 288
+IGET                |     |v4=v7.val$text  //Lcom/android/tools/fd/runtime/Restarter$2;.val$text Ljava/lang/String;
+INVOKE_VIRTUAL      |     |TEMP=v4.length()  //Ljava/lang/String;.length()I
+MOVE_RESULT         |     |v4=TEMP
+CONST               |     |v5=0x0000003c  // int:60   float:0.000000
+IF_GE               |     |if v4 >= v5 goto L15
+IGET                |     |v4=v7.val$text  //Lcom/android/tools/fd/runtime/Restarter$2;.val$text Ljava/lang/String;
+CONST               |     |v5=0x0000000a  // int:10   float:0.000000
+INVOKE_VIRTUAL      |     |TEMP=v4.indexOf(v5)  //Ljava/lang/String;.indexOf(I)I
+MOVE_RESULT         |     |v4=TEMP
+CONST               |     |v5=0xffffffff  // int:-1   float:NaN
+IF_EQ               |     |if v4 == v5 goto L16
+LABEL               | LL15:
+CONST               |     |v2=0x00000001  // int:1   float:0.000000
+LABEL               | LL16: line 295
+IGET                |     |v4=v7.val$activity  //Lcom/android/tools/fd/runtime/Restarter$2;.val$activity Landroid/app/Activity;
+IGET                |     |v5=v7.val$text  //Lcom/android/tools/fd/runtime/Restarter$2;.val$text Ljava/lang/String;
+INVOKE_STATIC       |     |TEMP=android.widget.Toast.makeText(v4,v5,v2)  //Landroid/widget/Toast;.makeText(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;
+MOVE_RESULT         |     |v4=TEMP
+INVOKE_VIRTUAL      |     |v4.show()  //Landroid/widget/Toast;.show()V
+                    |     | } // TC_0
+LABEL               |  LL1:
+GOTO                |     |goto L6
+LABEL               |  LL2: line 296
+                    |     |catch(Ljava/lang/Throwable;) // TC_0
+MOVE_EXCEPTION      |     |v3=@Exception
+LABEL               |  LL8: line 297
+CONST_STRING        |     |v4="InstantRun"
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v4,v6)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v4=TEMP
+IF_EQZ              |     |if v4 == 0 goto L6
+LABEL               | LL17: line 298
+CONST_STRING        |     |v4="InstantRun"
+CONST_STRING        |     |v5="Couldn't show toast"
+INVOKE_STATIC       |     |TEMP=android.util.Log.w(v4,v5,v3)  //Landroid/util/Log;.w(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+GOTO                |     |goto L6
+LABEL               |  LL9:

@@ -1,0 +1,11 @@
+<xml>
+<scope>all</scope>
+<verbose>false</verbose>
+<replaceWholeMethodOpcode>true</replaceWholeMethodOpcode>
+<includeClass>
+    <class>
+    	<name>j2n.irdeto.com.demo.MainActivity</name>
+    	<method>onCreate</method>
+    </class>
+</includeClass>
+</xml>

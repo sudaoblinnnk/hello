@@ -1,0 +1,416 @@
+//class:0021  access:0x0001
+public class com.android.tools.fd.runtime.Restarter
+
+//method:0000  access:0x10001
+//Lcom/android/tools/fd/runtime/Restarter;.<init>()V
+public V <init>()
+                this:v0   //com.android.tools.fd.runtime.Restarter
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lcom/android/tools/fd/runtime/Restarter; 
+LABEL               |  LL0: line 54
+INVOKE_DIRECT       |     |v0.<init>()  //Ljava/lang/Object;.<init>()V
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0001  access:0x1008
+//Lcom/android/tools/fd/runtime/Restarter;.access$000(Landroid/app/Activity;)V
+static V access$000(android.app.Activity)
+                    :v0   //android.app.Activity
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> x0 // Landroid/app/Activity; 
+LABEL               |  LL0: line 54
+INVOKE_STATIC       |     |com.android.tools.fd.runtime.Restarter.updateActivity(v0)  //Lcom/android/tools/fd/runtime/Restarter;.updateActivity(Landroid/app/Activity;)V
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0002  access:0x0009
+//Lcom/android/tools/fd/runtime/Restarter;.getActivities(Landroid/content/Context;Z)Ljava/util/List;
+public static java.util.List getActivities(android.content.Context,Z)
+                    :v15   //android.content.Context
+                    :v16   //Z
+TR_0 LL0 ~ LL1 > LL2 Ljava/lang/Throwable;
+LOCAL_VARIABLE LL3 ~ LL4 v1 -> activities // Ljava/util/Map; 
+LOCAL_VARIABLE LL5 ~ LL6 v12 -> pausedField // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL7 ~ LL2 v2 -> activitiesField // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL8 ~ LL2 v3 -> activity // Landroid/app/Activity; 
+LOCAL_VARIABLE LL9 ~ LL2 v4 -> activityField // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL10 ~ LL2 v5 -> activityRecord // Ljava/lang/Object; 
+LOCAL_VARIABLE LL11 ~ LL2 v6 -> activityRecordClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL12 ~ LL2 v7 -> activityThread // Ljava/lang/Object; 
+LOCAL_VARIABLE LL13 ~ LL2 v8 -> activityThreadClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL4 ~ LL2 v9 -> c // Ljava/util/Collection; 
+LOCAL_VARIABLE LL14 ~ LL2 v10 -> collection // Ljava/lang/Object; 
+LOCAL_VARIABLE LL15 ~ LL16 v1 -> activities // Landroid/util/ArrayMap; 
+LOCAL_VARIABLE LL17 ~ LL16 v2 -> activitiesField // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL17 ~ LL16 v7 -> activityThread // Ljava/lang/Object; 
+LOCAL_VARIABLE LL17 ~ LL16 v8 -> activityThreadClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL18 ~ LL16 v9 -> c // Ljava/util/Collection; 
+LOCAL_VARIABLE LL17 ~ LL16 v10 -> collection // Ljava/lang/Object; 
+LOCAL_VARIABLE LL0 ~ LL16 v11 -> list // Ljava/util/List; 
+LOCAL_VARIABLE LL19 ~ LL16 v15 -> context // Landroid/content/Context; 
+LOCAL_VARIABLE LL19 ~ LL16 v16 -> foregroundOnly // Z 
+LABEL               | LL19: line 186
+NEW_INSTANCE        |     |v11=NEW Ljava/util/ArrayList;
+INVOKE_DIRECT       |     |v11.<init>()  //Ljava/util/ArrayList;.<init>()V
+LABEL               |  LL0: line 188
+                    |     |try { // TC_0 
+CONST_STRING        |     |v13="android.app.ActivityThread"
+INVOKE_STATIC       |     |TEMP=java.lang.Class.forName(v13)  //Ljava/lang/Class;.forName(Ljava/lang/String;)Ljava/lang/Class;
+MOVE_RESULT         |     |v8=TEMP
+LABEL               | LL13: line 189
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.MonkeyPatcher.getActivityThread(v15,v8)  //Lcom/android/tools/fd/runtime/MonkeyPatcher;.getActivityThread(Landroid/content/Context;Ljava/lang/Class;)Ljava/lang/Object;
+MOVE_RESULT         |     |v7=TEMP
+LABEL               | LL12: line 190
+CONST_STRING        |     |v13="mActivities"
+INVOKE_VIRTUAL      |     |TEMP=v8.getDeclaredField(v13)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v2=TEMP
+LABEL               |  LL7: line 191
+CONST               |     |v13=0x00000001  // int:1   float:0.000000
+INVOKE_VIRTUAL      |     |v2.setAccessible(v13)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL20: line 194
+INVOKE_VIRTUAL      |     |TEMP=v2.get(v7)  //Ljava/lang/reflect/Field;.get(Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v10=TEMP
+LABEL               | LL14: line 196
+INSTANCE_OF         |     |v13=v10 instanceof java.util.HashMap
+IF_EQZ              |     |if v13 == 0 goto L17
+LABEL               | LL21: line 198
+MOVE                |     |v0 = v10
+CHECK_CAST          |     |v0=(java.util.HashMap) v0
+MOVE                |     |v1 = v0
+LABEL               |  LL3: line 199
+INVOKE_INTERFACE    |     |TEMP=v1.values()  //Ljava/util/Map;.values()Ljava/util/Collection;
+MOVE_RESULT         |     |v9=TEMP
+LABEL               |  LL4: line 207
+INVOKE_INTERFACE    |     |TEMP=v9.iterator()  //Ljava/util/Collection;.iterator()Ljava/util/Iterator;
+MOVE_RESULT         |     |v13=TEMP
+LABEL               | LL22:
+INVOKE_INTERFACE    |     |TEMP=v13.hasNext()  //Ljava/util/Iterator;.hasNext()Z
+MOVE_RESULT         |     |v14=TEMP
+IF_EQZ              |     |if v14 == 0 goto L23
+INVOKE_INTERFACE    |     |TEMP=v13.next()  //Ljava/util/Iterator;.next()Ljava/lang/Object;
+MOVE_RESULT         |     |v5=TEMP
+LABEL               | LL10: line 208
+INVOKE_VIRTUAL      |     |TEMP=v5.getClass()  //Ljava/lang/Object;.getClass()Ljava/lang/Class;
+MOVE_RESULT         |     |v6=TEMP
+LABEL               | LL11: line 209
+IF_EQZ              |     |if v16 == 0 goto L6
+LABEL               | LL24: line 210
+CONST_STRING        |     |v14="paused"
+INVOKE_VIRTUAL      |     |TEMP=v6.getDeclaredField(v14)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v12=TEMP
+LABEL               |  LL5: line 211
+CONST               |     |v14=0x00000001  // int:1   float:0.000000
+INVOKE_VIRTUAL      |     |v12.setAccessible(v14)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL25: line 212
+INVOKE_VIRTUAL      |     |TEMP=v12.getBoolean(v5)  //Ljava/lang/reflect/Field;.getBoolean(Ljava/lang/Object;)Z
+MOVE_RESULT         |     |v14=TEMP
+IF_NEZ              |     |if v14 != 0 goto L22
+LABEL               |  LL6: line 216
+CONST_STRING        |     |v14="activity"
+INVOKE_VIRTUAL      |     |TEMP=v6.getDeclaredField(v14)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v4=TEMP
+LABEL               |  LL9: line 217
+CONST               |     |v14=0x00000001  // int:1   float:0.000000
+INVOKE_VIRTUAL      |     |v4.setAccessible(v14)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL26: line 218
+INVOKE_VIRTUAL      |     |TEMP=v4.get(v5)  //Ljava/lang/reflect/Field;.get(Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v3=TEMP
+CHECK_CAST          |     |v3=(android.app.Activity) v3
+LABEL               |  LL8: line 219
+IF_EQZ              |     |if v3 == 0 goto L22
+LABEL               | LL27: line 220
+INVOKE_INTERFACE    |     |TEMP=v11.add(v3)  //Ljava/util/List;.add(Ljava/lang/Object;)Z
+GOTO                |     |goto L22
+LABEL               |  LL2: line 223
+                    |     |catch(Ljava/lang/Throwable;) // TC_0
+MOVE_EXCEPTION      |     |v13=@Exception
+LABEL               | LL23: line 225
+RETURN              |     |return v11
+LABEL               | LL17: line 328
+SGET                |     |v13=android.os.Build$VERSION.SDK_INT  //Landroid/os/Build$VERSION;.SDK_INT I
+CONST               |     |v14=0x00000013  // int:19   float:0.000000
+IF_LT               |     |if v13 <  v14 goto L23
+INSTANCE_OF         |     |v13=v10 instanceof android.util.ArrayMap
+IF_EQZ              |     |if v13 == 0 goto L23
+LABEL               | LL28: line 330
+MOVE                |     |v0 = v10
+CHECK_CAST          |     |v0=(android.util.ArrayMap) v0
+MOVE                |     |v1 = v0
+LABEL               | LL15: line 331
+INVOKE_VIRTUAL      |     |TEMP=v1.values()  //Landroid/util/ArrayMap;.values()Ljava/util/Collection;
+                    |     | } // TC_0
+LABEL               |  LL1:
+MOVE_RESULT         |     |v9=TEMP
+LABEL               | LL18: line 332
+GOTO                |     |goto L4
+LABEL               | LL16:
+
+//method:0003  access:0x0009
+//Lcom/android/tools/fd/runtime/Restarter;.getForegroundActivity(Landroid/content/Context;)Landroid/app/Activity;
+public static android.app.Activity getForegroundActivity(android.content.Context)
+                    :v2   //android.content.Context
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> list // Ljava/util/List; 
+LOCAL_VARIABLE LL2 ~ LL1 v2 -> context // Landroid/content/Context; 
+LABEL               |  LL2: line 179
+CONST               |     |v1=0x00000001  // int:1   float:0.000000
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.Restarter.getActivities(v2,v1)  //Lcom/android/tools/fd/runtime/Restarter;.getActivities(Landroid/content/Context;Z)Ljava/util/List;
+MOVE_RESULT         |     |v0=TEMP
+LABEL               |  LL0: line 180
+INVOKE_INTERFACE    |     |TEMP=v0.isEmpty()  //Ljava/util/List;.isEmpty()Z
+MOVE_RESULT         |     |v1=TEMP
+IF_EQZ              |     |if v1 == 0 goto L3
+CONST               |     |v1=0x00000000  // int:0   float:0.000000
+LABEL               |  LL4:
+RETURN              |     |return v1
+LABEL               |  LL3:
+CONST               |     |v1=0x00000000  // int:0   float:0.000000
+INVOKE_INTERFACE    |     |TEMP=v0.get(v1)  //Ljava/util/List;.get(I)Ljava/lang/Object;
+MOVE_RESULT         |     |v1=TEMP
+CHECK_CAST          |     |v1=(android.app.Activity) v1
+GOTO                |     |goto L4
+LABEL               |  LL1:
+
+//method:0004  access:0x000a
+//Lcom/android/tools/fd/runtime/Restarter;.restartActivity(Landroid/app/Activity;)V
+private static V restartActivity(android.app.Activity)
+                    :v4   //android.app.Activity
+LOCAL_VARIABLE LL0 ~ LL1 v4 -> activity // Landroid/app/Activity; 
+LABEL               |  LL0: line 69
+CONST               |     |v3=0x00000002  // int:2   float:0.000000
+LABEL               |  LL2: line 69
+CONST_STRING        |     |v0="InstantRun"
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v0,v3)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v0=TEMP
+IF_EQZ              |     |if v0 == 0 goto L3
+LABEL               |  LL4: line 70
+CONST_STRING        |     |v0="InstantRun"
+NEW_INSTANCE        |     |v1=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v1.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v2="About to restart "
+INVOKE_VIRTUAL      |     |TEMP=v1.append(v2)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v1=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v4.getClass()  //Ljava/lang/Object;.getClass()Ljava/lang/Class;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v2.getSimpleName()  //Ljava/lang/Class;.getSimpleName()Ljava/lang/String;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v1.append(v2)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v1=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v1.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v1=TEMP
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v0,v1)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               |  LL3:
+INVOKE_VIRTUAL      |     |TEMP=v4.getParent()  //Landroid/app/Activity;.getParent()Landroid/app/Activity;
+MOVE_RESULT         |     |v0=TEMP
+IF_EQZ              |     |if v0 == 0 goto L5
+LABEL               |  LL6: line 75
+CONST_STRING        |     |v0="InstantRun"
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v0,v3)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v0=TEMP
+IF_EQZ              |     |if v0 == 0 goto L7
+LABEL               |  LL8: line 76
+CONST_STRING        |     |v0="InstantRun"
+NEW_INSTANCE        |     |v1=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v1.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+INVOKE_VIRTUAL      |     |TEMP=v4.getClass()  //Ljava/lang/Object;.getClass()Ljava/lang/Class;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v2.getSimpleName()  //Ljava/lang/Class;.getSimpleName()Ljava/lang/String;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v1.append(v2)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v1=TEMP
+CONST_STRING        |     |v2=" is not a top level activity; restarting "
+INVOKE_VIRTUAL      |     |TEMP=v1.append(v2)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v1=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v4.getParent()  //Landroid/app/Activity;.getParent()Landroid/app/Activity;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v2.getClass()  //Ljava/lang/Object;.getClass()Ljava/lang/Class;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v2.getSimpleName()  //Ljava/lang/Class;.getSimpleName()Ljava/lang/String;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v1.append(v2)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v1=TEMP
+CONST_STRING        |     |v2=" instead"
+INVOKE_VIRTUAL      |     |TEMP=v1.append(v2)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v1=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v1.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v1=TEMP
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v0,v1)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               |  LL7: line 80
+INVOKE_VIRTUAL      |     |TEMP=v4.getParent()  //Landroid/app/Activity;.getParent()Landroid/app/Activity;
+MOVE_RESULT         |     |v4=TEMP
+GOTO                |     |goto L3
+LABEL               |  LL5: line 84
+INVOKE_VIRTUAL      |     |v4.recreate()  //Landroid/app/Activity;.recreate()V
+LABEL               |  LL9: line 85
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0005  access:0x0009
+//Lcom/android/tools/fd/runtime/Restarter;.restartActivityOnUiThread(Landroid/app/Activity;)V
+public static V restartActivityOnUiThread(android.app.Activity)
+                    :v1   //android.app.Activity
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> activity // Landroid/app/Activity; 
+LABEL               |  LL0: line 57
+NEW_INSTANCE        |     |v0=NEW Lcom/android/tools/fd/runtime/Restarter$1;
+INVOKE_DIRECT       |     |v0.<init>(v1)  //Lcom/android/tools/fd/runtime/Restarter$1;.<init>(Landroid/app/Activity;)V
+INVOKE_VIRTUAL      |     |v1.runOnUiThread(v0)  //Landroid/app/Activity;.runOnUiThread(Ljava/lang/Runnable;)V
+LABEL               |  LL2: line 66
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0006  access:0x0009
+//Lcom/android/tools/fd/runtime/Restarter;.restartApp(Landroid/content/Context;Ljava/util/Collection;Z)V
+public static V restartApp(android.content.Context,java.util.Collection,Z)
+                    :v13   //android.content.Context
+                    :v14   //java.util.Collection
+                    :v15   //Z
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> context // Landroid/content/Context; 
+LOCAL_VARIABLE LL2 ~ LL1 v2 -> intent // Landroid/content/Intent; 
+LOCAL_VARIABLE LL3 ~ LL1 v3 -> intentId // I 
+LOCAL_VARIABLE LL4 ~ LL1 v4 -> mgr // Landroid/app/AlarmManager; 
+LOCAL_VARIABLE LL5 ~ LL1 v5 -> pendingIntent // Landroid/app/PendingIntent; 
+LOCAL_VARIABLE LL6 ~ LL7 v1 -> foreground // Landroid/app/Activity; 
+LOCAL_VARIABLE LL8 ~ LL9 v1 -> foreground // Landroid/app/Activity; 
+LOCAL_VARIABLE LL10 ~ LL9 v13 -> appContext // Landroid/content/Context; 
+LOCAL_VARIABLE LL10 ~ LL9 v14 -> knownActivities // Ljava/util/Collection; 
+LOCAL_VARIABLE LL10 ~ LL9 v15 -> toast // Z 
+LABEL               | LL10: line 103
+CONST               |     |v12=0x00000002  // int:2   float:0.000000
+LABEL               | LL11: line 103
+INVOKE_INTERFACE    |     |TEMP=v14.isEmpty()  //Ljava/util/Collection;.isEmpty()Z
+MOVE_RESULT         |     |v6=TEMP
+IF_NEZ              |     |if v6 != 0 goto L7
+LABEL               | LL12: line 105
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.Restarter.getForegroundActivity(v13)  //Lcom/android/tools/fd/runtime/Restarter;.getForegroundActivity(Landroid/content/Context;)Landroid/app/Activity;
+MOVE_RESULT         |     |v1=TEMP
+LABEL               |  LL6: line 107
+IF_EQZ              |     |if v1 == 0 goto L8
+LABEL               | LL13: line 110
+IF_EQZ              |     |if v15 == 0 goto L14
+LABEL               | LL15: line 111
+CONST_STRING        |     |v6="Restarting app to apply incompatible changes"
+INVOKE_STATIC       |     |com.android.tools.fd.runtime.Restarter.showToast(v1,v6)  //Lcom/android/tools/fd/runtime/Restarter;.showToast(Landroid/app/Activity;Ljava/lang/String;)V
+LABEL               | LL14: line 113
+CONST_STRING        |     |v6="InstantRun"
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v6,v12)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v6=TEMP
+IF_EQZ              |     |if v6 == 0 goto L16
+LABEL               | LL17: line 114
+CONST_STRING        |     |v6="InstantRun"
+CONST_STRING        |     |v7="RESTARTING APP"
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v6,v7)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               | LL16: line 117
+MOVE                |     |v0 = v1
+LABEL               |  LL0: line 118
+NEW_INSTANCE        |     |v2=NEW Landroid/content/Intent;
+INVOKE_VIRTUAL      |     |TEMP=v1.getClass()  //Ljava/lang/Object;.getClass()Ljava/lang/Class;
+MOVE_RESULT         |     |v6=TEMP
+INVOKE_DIRECT       |     |v2.<init>(v0,v6)  //Landroid/content/Intent;.<init>(Landroid/content/Context;Ljava/lang/Class;)V
+LABEL               |  LL2: line 119
+CONST               |     |v3=0x00000000  // int:0   float:0.000000
+LABEL               |  LL3: line 120
+CONST               |     |v6=0x10000000  // int:268435456   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.app.PendingIntent.getActivity(v0,v3,v2,v6)  //Landroid/app/PendingIntent;.getActivity(Landroid/content/Context;ILandroid/content/Intent;I)Landroid/app/PendingIntent;
+MOVE_RESULT         |     |v5=TEMP
+LABEL               |  LL5: line 122
+CONST_STRING        |     |v6="alarm"
+INVOKE_VIRTUAL      |     |TEMP=v0.getSystemService(v6)  //Landroid/content/Context;.getSystemService(Ljava/lang/String;)Ljava/lang/Object;
+MOVE_RESULT         |     |v4=TEMP
+CHECK_CAST          |     |v4=(android.app.AlarmManager) v4
+LABEL               |  LL4: line 123
+CONST               |     |v6=0x00000001  // int:1   float:0.000000
+INVOKE_STATIC       |     |TEMP=java.lang.System.currentTimeMillis()  //Ljava/lang/System;.currentTimeMillis()J
+MOVE_RESULT         |     |v8=TEMP
+CONST               |     |v10=0x0000000000000064  // long:100   double:0.000000
+ADD                 |     |v8 = v8 + v10
+INVOKE_VIRTUAL      |     |v4.set(v6,v8,v5)  //Landroid/app/AlarmManager;.set(IJLandroid/app/PendingIntent;)V
+LABEL               | LL18: line 124
+CONST_STRING        |     |v6="InstantRun"
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v6,v12)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v6=TEMP
+IF_EQZ              |     |if v6 == 0 goto L1
+LABEL               | LL19: line 125
+CONST_STRING        |     |v6="InstantRun"
+NEW_INSTANCE        |     |v7=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v7.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v8="Scheduling activity "
+INVOKE_VIRTUAL      |     |TEMP=v7.append(v8)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v7=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v7.append(v1)  //Ljava/lang/StringBuilder;.append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v7=TEMP
+CONST_STRING        |     |v8=" to start after exiting process"
+INVOKE_VIRTUAL      |     |TEMP=v7.append(v8)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v7=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v7.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v7=TEMP
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v6,v7)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               |  LL1:
+CONST               |     |v6=0x00000000  // int:0   float:0.000000
+INVOKE_STATIC       |     |java.lang.System.exit(v6)  //Ljava/lang/System;.exit(I)V
+LABEL               |  LL7: line 137
+RETURN_VOID         |     |return
+LABEL               |  LL8: line 257
+INVOKE_INTERFACE    |     |TEMP=v14.iterator()  //Ljava/util/Collection;.iterator()Ljava/util/Iterator;
+MOVE_RESULT         |     |v6=TEMP
+INVOKE_INTERFACE    |     |TEMP=v6.next()  //Ljava/util/Iterator;.next()Ljava/lang/Object;
+MOVE_RESULT         |     |v6=TEMP
+CHECK_CAST          |     |v6=(android.app.Activity) v6
+CONST_STRING        |     |v7="Unable to restart app"
+INVOKE_STATIC       |     |com.android.tools.fd.runtime.Restarter.showToast(v6,v7)  //Lcom/android/tools/fd/runtime/Restarter;.showToast(Landroid/app/Activity;Ljava/lang/String;)V
+LABEL               | LL20: line 258
+CONST_STRING        |     |v6="InstantRun"
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v6,v12)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v6=TEMP
+IF_EQZ              |     |if v6 == 0 goto L1
+LABEL               | LL21: line 259
+CONST_STRING        |     |v6="InstantRun"
+CONST_STRING        |     |v7="Couldn't find any foreground activities to restart for resource refresh"
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v6,v7)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+GOTO                |     |goto L1
+LABEL               |  LL9:
+
+//method:0007  access:0x0008
+//Lcom/android/tools/fd/runtime/Restarter;.showToast(Landroid/app/Activity;Ljava/lang/String;)V
+static V showToast(android.app.Activity,java.lang.String)
+                    :v3   //android.app.Activity
+                    :v4   //java.lang.String
+LOCAL_VARIABLE LL0 ~ LL1 v3 -> activity // Landroid/app/Activity; 
+LOCAL_VARIABLE LL0 ~ LL1 v4 -> text // Ljava/lang/String; 
+LABEL               |  LL0: line 140
+CONST_STRING        |     |v0="InstantRun"
+CONST               |     |v1=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v0,v1)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v0=TEMP
+IF_EQZ              |     |if v0 == 0 goto L2
+LABEL               |  LL3: line 141
+CONST_STRING        |     |v0="InstantRun"
+NEW_INSTANCE        |     |v1=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v1.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v2="About to show toast for activity "
+INVOKE_VIRTUAL      |     |TEMP=v1.append(v2)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v1=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v1.append(v3)  //Ljava/lang/StringBuilder;.append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v1=TEMP
+CONST_STRING        |     |v2=": "
+INVOKE_VIRTUAL      |     |TEMP=v1.append(v2)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v1=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v1.append(v4)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v1=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v1.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v1=TEMP
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v0,v1)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               |  LL2:
+NEW_INSTANCE        |     |v0=NEW Lcom/android/tools/fd/runtime/Restarter$2;
+INVOKE_DIRECT       |     |v0.<init>(v3,v4)  //Lcom/android/tools/fd/runtime/Restarter$2;.<init>(Landroid/app/Activity;Ljava/lang/String;)V
+INVOKE_VIRTUAL      |     |v3.runOnUiThread(v0)  //Landroid/app/Activity;.runOnUiThread(Ljava/lang/Runnable;)V
+LABEL               |  LL4: line 175
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0008  access:0x000a
+//Lcom/android/tools/fd/runtime/Restarter;.updateActivity(Landroid/app/Activity;)V
+private static V updateActivity(android.app.Activity)
+                    :v0   //android.app.Activity
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> activity // Landroid/app/Activity; 
+LABEL               |  LL0: line 268
+INVOKE_STATIC       |     |com.android.tools.fd.runtime.Restarter.restartActivity(v0)  //Lcom/android/tools/fd/runtime/Restarter;.restartActivity(Landroid/app/Activity;)V
+LABEL               |  LL2: line 269
+RETURN_VOID         |     |return
+LABEL               |  LL1:

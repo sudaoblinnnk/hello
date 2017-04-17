@@ -1,0 +1,41 @@
+<xml>
+<scope>all</scope>
+<verbose>false</verbose>
+<replaceWholeMethodOpcode>true</replaceWholeMethodOpcode>
+<excludeClass>
+    <class>
+    	<name>com.example.android.lunarlander.LunarLander</name>
+    	<method>&lt;init&gt;</method>
+    	<method>onPause</method>
+    </class>
+    <class>
+    	<name>com.com2us.wrapper.GyroManager</name>
+    </class>
+    <class>
+    </class>
+</excludeClass>
+<includeClass>
+    <class>
+    	<name>com.class1</name>
+    	<method>getData</method>
+    	<method>execute</method>             
+    </class>
+    <class>
+    	<name>com.class2</name>
+    	<method>printData</method>
+    </class>
+    <class>
+    	<name>com.class3</name>
+    </class>
+     <class>
+        <name>com.irdeto.security.android.IrdetoDexClassLoader</name>
+    </class>
+    <class>
+    	<name>com.example.android.lunarlander.LunarView</name>
+    	<method>surfaceCreated</method>
+    	<method>&lt;init&gt;</method>
+    </class>
+    <class>
+    </class> 
+</includeClass>
+</xml>

@@ -1,0 +1,1139 @@
+//class:0016  access:0x0001
+public class com.android.tools.fd.runtime.MonkeyPatcher
+
+//method:0000  access:0x10001
+//Lcom/android/tools/fd/runtime/MonkeyPatcher;.<init>()V
+public V <init>()
+                this:v0   //com.android.tools.fd.runtime.MonkeyPatcher
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lcom/android/tools/fd/runtime/MonkeyPatcher; 
+LABEL               |  LL0: line 48
+INVOKE_DIRECT       |     |v0.<init>()  //Ljava/lang/Object;.<init>()V
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0001  access:0x0009
+//Lcom/android/tools/fd/runtime/MonkeyPatcher;.getActivityThread(Landroid/content/Context;Ljava/lang/Class;)Ljava/lang/Object;
+public static java.lang.Object getActivityThread(android.content.Context,java.lang.Class)
+                    :v9   //android.content.Context
+                    :v10   //java.lang.Class
+TR_0 LL0 ~ LL1 > LL2 Ljava/lang/Throwable;
+LOCAL_VARIABLE LL3 ~ LL4 v0 -> apk // Ljava/lang/Object; 
+LOCAL_VARIABLE LL5 ~ LL4 v1 -> currentActivityThread // Ljava/lang/Object; 
+LOCAL_VARIABLE LL6 ~ LL4 v3 -> m // Ljava/lang/reflect/Method; 
+LOCAL_VARIABLE LL7 ~ LL4 v4 -> mActivityThreadField // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL8 ~ LL4 v5 -> mLoadedApk // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL9 ~ LL10 v2 -> ignore // Ljava/lang/Throwable; 
+LOCAL_VARIABLE LL11 ~ LL10 v9 -> context // Landroid/content/Context; 
+LOCAL_VARIABLE LL11 ~ LL10 v10 -> activityThread // Ljava/lang/Class; 
+LABEL               | LL11: line 57
+CONST               |     |v6=0x00000000  // int:0   float:0.000000
+LABEL               | LL12: line 57
+IF_NEZ              |     |if v10 != 0 goto L13
+LABEL               |  LL0: line 58
+                    |     |try { // TC_0 
+CONST_STRING        |     |v7="android.app.ActivityThread"
+INVOKE_STATIC       |     |TEMP=java.lang.Class.forName(v7)  //Ljava/lang/Class;.forName(Ljava/lang/String;)Ljava/lang/Class;
+MOVE_RESULT         |     |v10=TEMP
+LABEL               | LL13: line 60
+CONST_STRING        |     |v7="currentActivityThread"
+CONST               |     |v8=0x00000000  // int:0   float:0.000000
+NEW_ARRAY           |     |v8=new java.lang.Class[][v8]
+INVOKE_VIRTUAL      |     |TEMP=v10.getMethod(v7,v8)  //Ljava/lang/Class;.getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+MOVE_RESULT         |     |v3=TEMP
+LABEL               |  LL6: line 61
+CONST               |     |v7=0x00000001  // int:1   float:0.000000
+INVOKE_VIRTUAL      |     |v3.setAccessible(v7)  //Ljava/lang/reflect/Method;.setAccessible(Z)V
+LABEL               | LL14: line 62
+CONST               |     |v7=0x00000000  // int:0   float:0.000000
+CONST               |     |v8=0x00000000  // int:0   float:0.000000
+NEW_ARRAY           |     |v8=new java.lang.Object[][v8]
+INVOKE_VIRTUAL      |     |TEMP=v3.invoke(v7,v8)  //Ljava/lang/reflect/Method;.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v1=TEMP
+LABEL               |  LL5: line 63
+IF_NEZ              |     |if v1 != 0 goto L4
+IF_EQZ              |     |if v9 == 0 goto L4
+LABEL               | LL15: line 67
+INVOKE_VIRTUAL      |     |TEMP=v9.getClass()  //Ljava/lang/Object;.getClass()Ljava/lang/Class;
+MOVE_RESULT         |     |v7=TEMP
+CONST_STRING        |     |v8="mLoadedApk"
+INVOKE_VIRTUAL      |     |TEMP=v7.getField(v8)  //Ljava/lang/Class;.getField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v5=TEMP
+LABEL               |  LL8: line 68
+CONST               |     |v7=0x00000001  // int:1   float:0.000000
+INVOKE_VIRTUAL      |     |v5.setAccessible(v7)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL16: line 69
+INVOKE_VIRTUAL      |     |TEMP=v5.get(v9)  //Ljava/lang/reflect/Field;.get(Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v0=TEMP
+LABEL               |  LL3: line 70
+INVOKE_VIRTUAL      |     |TEMP=v0.getClass()  //Ljava/lang/Object;.getClass()Ljava/lang/Class;
+MOVE_RESULT         |     |v7=TEMP
+CONST_STRING        |     |v8="mActivityThread"
+INVOKE_VIRTUAL      |     |TEMP=v7.getDeclaredField(v8)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v4=TEMP
+LABEL               |  LL7: line 71
+CONST               |     |v7=0x00000001  // int:1   float:0.000000
+INVOKE_VIRTUAL      |     |v4.setAccessible(v7)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL17: line 72
+INVOKE_VIRTUAL      |     |TEMP=v4.get(v0)  //Ljava/lang/reflect/Field;.get(Ljava/lang/Object;)Ljava/lang/Object;
+                    |     | } // TC_0
+LABEL               |  LL1:
+MOVE_RESULT         |     |v1=TEMP
+LABEL               |  LL4: line 76
+RETURN              |     |return v1
+LABEL               |  LL2: line 75
+                    |     |catch(Ljava/lang/Throwable;) // TC_0
+MOVE_EXCEPTION      |     |v2=@Exception
+LABEL               |  LL9:
+MOVE                |     |v1 = v6
+LABEL               | LL18: line 76
+GOTO                |     |goto L4
+LABEL               | LL10:
+
+//method:0002  access:0x0009
+//Lcom/android/tools/fd/runtime/MonkeyPatcher;.monkeyPatchExistingResources(Landroid/content/Context;Ljava/lang/String;Ljava/util/Collection;)V
+public static V monkeyPatchExistingResources(android.content.Context,java.lang.String,java.util.Collection)
+                    :v39   //android.content.Context
+                    :v40   //java.lang.String
+                    :v41   //java.util.Collection
+TR_0 LL0 ~ LL1 > LL1 Ljava/lang/Throwable;
+TR_1 LL2 ~ LL3 > LL1 Ljava/lang/Throwable;
+TR_2 LL4 ~ LL5 > LL6 Ljava/lang/Throwable;
+TR_3 LL5 ~ LL7 > LL1 Ljava/lang/Throwable;
+TR_4 LL8 ~ LL9 > LL10 Ljava/lang/NoSuchFieldException;
+TR_5 LL8 ~ LL9 > LL11 Ljava/lang/Throwable;
+TR_6 LL9 ~ LL12 > LL11 Ljava/lang/Throwable;
+TR_7 LL12 ~ LL13 > LL1 Ljava/lang/Throwable;
+TR_8 LL14 ~ LL15 > LL11 Ljava/lang/Throwable;
+TR_9 LL16 ~ LL17 > LL1 Ljava/lang/Throwable;
+TR_10 LL18 ~ LL19 > LL20 Ljava/lang/NoSuchFieldException;
+TR_11 LL18 ~ LL19 > LL1 Ljava/lang/Throwable;
+TR_12 LL21 ~ LL22 > LL1 Ljava/lang/Throwable;
+TR_13 LL23 ~ LL24 > LL25 Ljava/lang/Throwable;
+TR_14 LL24 ~ LL26 > LL1 Ljava/lang/Throwable;
+LOCAL_VARIABLE LL27 ~ LL1 v12 -> mAddAssetPath // Ljava/lang/reflect/Method; 
+LOCAL_VARIABLE LL28 ~ LL1 v24 -> newAssetManager // Landroid/content/res/AssetManager; 
+LOCAL_VARIABLE LL29 ~ LL2 v6 -> e // Ljava/lang/Throwable; 
+LOCAL_VARIABLE LL30 ~ LL5 v13 -> mAssets // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL31 ~ LL12 v11 -> internalTheme // Ljava/lang/Object; 
+LOCAL_VARIABLE LL32 ~ LL12 v14 -> mCreateTheme // Ljava/lang/reflect/Method; 
+LOCAL_VARIABLE LL33 ~ LL12 v19 -> mTheme // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL34 ~ LL12 v20 -> ma // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL35 ~ LL12 v22 -> mt // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL36 ~ LL12 v23 -> mtm // Ljava/lang/reflect/Method; 
+LOCAL_VARIABLE LL8 ~ LL6 v30 -> theme // Landroid/content/res/Resources$Theme; 
+LOCAL_VARIABLE LL37 ~ LL10 v8 -> ignore // Ljava/lang/Throwable; 
+LOCAL_VARIABLE LL38 ~ LL10 v10 -> implAssets // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL39 ~ LL10 v18 -> mResourcesImpl // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL40 ~ LL10 v26 -> resourceImpl // Ljava/lang/Object; 
+LOCAL_VARIABLE LL14 ~ LL11 v8 -> ignore // Ljava/lang/NoSuchFieldException; 
+LOCAL_VARIABLE LL41 ~ LL11 v9 -> impl // Ljava/lang/Object; 
+LOCAL_VARIABLE LL42 ~ LL11 v20 -> ma // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL43 ~ LL11 v31 -> themeField // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL44 ~ LL45 v3 -> activity // Landroid/app/Activity; 
+LOCAL_VARIABLE LL16 ~ LL45 v6 -> e // Ljava/lang/Throwable; 
+LOCAL_VARIABLE LL4 ~ LL45 v27 -> resources // Landroid/content/res/Resources; 
+LOCAL_VARIABLE LL10 ~ LL45 v30 -> theme // Landroid/content/res/Resources$Theme; 
+LOCAL_VARIABLE LL46 ~ LL21 v5 -> arrayMap // Landroid/util/ArrayMap; 
+LOCAL_VARIABLE LL47 ~ LL21 v7 -> fMActiveResources // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL48 ~ LL21 v16 -> mGetInstance // Ljava/lang/reflect/Method; 
+LOCAL_VARIABLE LL18 ~ LL21 v28 -> resourcesManager // Ljava/lang/Object; 
+LOCAL_VARIABLE LL49 ~ LL21 v29 -> resourcesManagerClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL50 ~ LL24 v13 -> mAssets // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL21 ~ LL20 v25 -> references // Ljava/util/Collection; 
+LOCAL_VARIABLE LL22 ~ LL20 v27 -> resources // Landroid/content/res/Resources; 
+LOCAL_VARIABLE LL51 ~ LL20 v33 -> wr // Ljava/lang/ref/WeakReference; 
+LOCAL_VARIABLE LL52 ~ LL53 v8 -> ignore // Ljava/lang/NoSuchFieldException; 
+LOCAL_VARIABLE LL20 ~ LL53 v16 -> mGetInstance // Ljava/lang/reflect/Method; 
+LOCAL_VARIABLE LL54 ~ LL53 v17 -> mResourceReferences // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL55 ~ LL53 v25 -> references // Ljava/util/Collection; 
+LOCAL_VARIABLE LL20 ~ LL53 v28 -> resourcesManager // Ljava/lang/Object; 
+LOCAL_VARIABLE LL20 ~ LL53 v29 -> resourcesManagerClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL56 ~ LL25 v4 -> activityThread // Ljava/lang/Class; 
+LOCAL_VARIABLE LL57 ~ LL25 v7 -> fMActiveResources // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL58 ~ LL25 v21 -> map // Ljava/util/HashMap; 
+LOCAL_VARIABLE LL59 ~ LL25 v32 -> thread // Ljava/lang/Object; 
+LOCAL_VARIABLE LL60 ~ LL61 v8 -> ignore // Ljava/lang/Throwable; 
+LOCAL_VARIABLE LL62 ~ LL61 v10 -> implAssets // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL2 ~ LL61 v12 -> mAddAssetPath // Ljava/lang/reflect/Method; 
+LOCAL_VARIABLE LL63 ~ LL61 v15 -> mEnsureStringBlocks // Ljava/lang/reflect/Method; 
+LOCAL_VARIABLE LL64 ~ LL61 v18 -> mResourcesImpl // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL2 ~ LL61 v24 -> newAssetManager // Landroid/content/res/AssetManager; 
+LOCAL_VARIABLE LL65 ~ LL61 v25 -> references // Ljava/util/Collection; 
+LOCAL_VARIABLE LL66 ~ LL61 v26 -> resourceImpl // Ljava/lang/Object; 
+LOCAL_VARIABLE LL25 ~ LL61 v27 -> resources // Landroid/content/res/Resources; 
+LOCAL_VARIABLE LL25 ~ LL61 v33 -> wr // Ljava/lang/ref/WeakReference; 
+LOCAL_VARIABLE LL67 ~ LL61 v39 -> context // Landroid/content/Context; 
+LOCAL_VARIABLE LL67 ~ LL61 v40 -> externalResourceFile // Ljava/lang/String; 
+LOCAL_VARIABLE LL67 ~ LL61 v41 -> activities // Ljava/util/Collection; 
+LABEL               | LL67: line 83
+IF_NEZ              |     |if v40 != 0 goto L0
+LABEL               | LL68: line 215
+RETURN_VOID         |     |return
+LABEL               |  LL0: line 16474
+                    |     |try { // TC_0 
+CONST_CLASS         |     |v34=Landroid/content/res/AssetManager;.class
+CONST               |     |v35=0x00000000  // int:0   float:0.000000
+MOVE                |     |v0 = v35
+NEW_ARRAY           |     |v0=new java.lang.Class[][v0]
+MOVE                |     |v35 = v0
+INVOKE_VIRTUAL      |     |TEMP=v34.getConstructor(v35)  //Ljava/lang/Class;.getConstructor([Ljava/lang/Class;)Ljava/lang/reflect/Constructor;
+MOVE_RESULT         |     |v34=TEMP
+CONST               |     |v35=0x00000000  // int:0   float:0.000000
+MOVE                |     |v0 = v35
+NEW_ARRAY           |     |v0=new java.lang.Object[][v0]
+MOVE                |     |v35 = v0
+INVOKE_VIRTUAL      |     |TEMP=v34.newInstance(v35)  //Ljava/lang/reflect/Constructor;.newInstance([Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v24=TEMP
+CHECK_CAST          |     |v24=(android.content.res.AssetManager) v24
+LABEL               | LL28:
+CONST_CLASS         |     |v34=Landroid/content/res/AssetManager;.class
+CONST_STRING        |     |v35="addAssetPath"
+CONST               |     |v36=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v36
+NEW_ARRAY           |     |v0=new java.lang.Class[][v0]
+MOVE                |     |v36 = v0
+CONST               |     |v37=0x00000000  // int:0   float:0.000000
+CONST_CLASS         |     |v38=Ljava/lang/String;.class
+APUT                |     |v36[v37]=v38
+INVOKE_VIRTUAL      |     |TEMP=v34.getDeclaredMethod(v35,v36)  //Ljava/lang/Class;.getDeclaredMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+MOVE_RESULT         |     |v12=TEMP
+LABEL               | LL27:
+CONST               |     |v34=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v34
+INVOKE_VIRTUAL      |     |v12.setAccessible(v0)  //Ljava/lang/reflect/Method;.setAccessible(Z)V
+LABEL               | LL69: line 16477
+CONST               |     |v34=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v34
+NEW_ARRAY           |     |v0=new java.lang.Object[][v0]
+MOVE                |     |v34 = v0
+CONST               |     |v35=0x00000000  // int:0   float:0.000000
+APUT                |     |v34[v35]=v40
+MOVE                |     |v0 = v24
+MOVE                |     |v1 = v34
+INVOKE_VIRTUAL      |     |TEMP=v12.invoke(v0,v1)  //Ljava/lang/reflect/Method;.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v34=TEMP
+CHECK_CAST          |     |v34=(java.lang.Integer) v34
+INVOKE_VIRTUAL      |     |TEMP=v34.intValue()  //Ljava/lang/Integer;.intValue()I
+MOVE_RESULT         |     |v34=TEMP
+IF_NEZ              |     |if v34 != 0 goto L2
+NEW_INSTANCE        |     |v34=NEW Ljava/lang/IllegalStateException;
+CONST_STRING        |     |v35="Could not create new AssetManager"
+INVOKE_DIRECT       |     |v34.<init>(v35)  //Ljava/lang/IllegalStateException;.<init>(Ljava/lang/String;)V
+THROW               |     |throw v34
+                    |     | } // TC_0
+LABEL               |  LL1: line 16596
+MOVE_EXCEPTION      |     |v6=@Exception
+LABEL               | LL29: line 16597
+NEW_INSTANCE        |     |v34=NEW Ljava/lang/IllegalStateException;
+MOVE                |     |v0 = v34
+INVOKE_DIRECT       |     |v0.<init>(v6)  //Ljava/lang/IllegalStateException;.<init>(Ljava/lang/Throwable;)V
+THROW               |     |throw v34
+LABEL               |  LL2: line 32867
+                    |     |try { // TC_1 
+CONST_CLASS         |     |v34=Landroid/content/res/AssetManager;.class
+CONST_STRING        |     |v35="ensureStringBlocks"
+CONST               |     |v36=0x00000000  // int:0   float:0.000000
+MOVE                |     |v0 = v36
+NEW_ARRAY           |     |v0=new java.lang.Class[][v0]
+MOVE                |     |v36 = v0
+INVOKE_VIRTUAL      |     |TEMP=v34.getDeclaredMethod(v35,v36)  //Ljava/lang/Class;.getDeclaredMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+MOVE_RESULT         |     |v15=TEMP
+LABEL               | LL63:
+CONST               |     |v34=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v34
+INVOKE_VIRTUAL      |     |v15.setAccessible(v0)  //Ljava/lang/reflect/Method;.setAccessible(Z)V
+LABEL               | LL70: line 32869
+CONST               |     |v34=0x00000000  // int:0   float:0.000000
+MOVE                |     |v0 = v34
+NEW_ARRAY           |     |v0=new java.lang.Object[][v0]
+MOVE                |     |v34 = v0
+MOVE                |     |v0 = v24
+MOVE                |     |v1 = v34
+INVOKE_VIRTUAL      |     |TEMP=v15.invoke(v0,v1)  //Ljava/lang/reflect/Method;.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+LABEL               | LL71: line 32871
+IF_EQZ              |     |if v41 == 0 goto L45
+LABEL               | LL72: line 32872
+INVOKE_INTERFACE    |     |TEMP=v41.iterator()  //Ljava/util/Collection;.iterator()Ljava/util/Iterator;
+MOVE_RESULT         |     |v34=TEMP
+LABEL               | LL73:
+INVOKE_INTERFACE    |     |TEMP=v34.hasNext()  //Ljava/util/Iterator;.hasNext()Z
+MOVE_RESULT         |     |v35=TEMP
+IF_EQZ              |     |if v35 == 0 goto L45
+INVOKE_INTERFACE    |     |TEMP=v34.next()  //Ljava/util/Iterator;.next()Ljava/lang/Object;
+MOVE_RESULT         |     |v3=TEMP
+CHECK_CAST          |     |v3=(android.app.Activity) v3
+LABEL               | LL44: line 32873
+INVOKE_VIRTUAL      |     |TEMP=v3.getResources()  //Landroid/app/Activity;.getResources()Landroid/content/res/Resources;
+                    |     | } // TC_1
+LABEL               |  LL3:
+MOVE_RESULT         |     |v27=TEMP
+LABEL               |  LL4: line 32876
+                    |     |try { // TC_2 
+CONST_CLASS         |     |v35=Landroid/content/res/Resources;.class
+CONST_STRING        |     |v36="mAssets"
+INVOKE_VIRTUAL      |     |TEMP=v35.getDeclaredField(v36)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v13=TEMP
+LABEL               | LL30: line 32877
+CONST               |     |v35=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v35
+INVOKE_VIRTUAL      |     |v13.setAccessible(v0)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL74: line 32878
+MOVE                |     |v0 = v27
+MOVE                |     |v1 = v24
+INVOKE_VIRTUAL      |     |v13.set(v0,v1)  //Ljava/lang/reflect/Field;.set(Ljava/lang/Object;Ljava/lang/Object;)V
+                    |     | } // TC_2
+LABEL               |  LL5: line 32888
+INVOKE_VIRTUAL      |     |TEMP=v3.getTheme()  //Landroid/app/Activity;.getTheme()Landroid/content/res/Resources$Theme;
+                    |     | } // TC_3
+LABEL               |  LL7:
+MOVE_RESULT         |     |v30=TEMP
+LABEL               |  LL8: line 32891
+                    |     |try { // TC_4 
+CONST_CLASS         |     |v35=Landroid/content/res/Resources$Theme;.class
+CONST_STRING        |     |v36="mAssets"
+INVOKE_VIRTUAL      |     |TEMP=v35.getDeclaredField(v36)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v20=TEMP
+LABEL               | LL34: line 32892
+CONST               |     |v35=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v20
+MOVE                |     |v1 = v35
+INVOKE_VIRTUAL      |     |v0.setAccessible(v1)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL75: line 32893
+MOVE                |     |v0 = v20
+MOVE                |     |v1 = v30
+MOVE                |     |v2 = v24
+INVOKE_VIRTUAL      |     |v0.set(v1,v2)  //Ljava/lang/reflect/Field;.set(Ljava/lang/Object;Ljava/lang/Object;)V
+                    |     | } // TC_4
+LABEL               |  LL9: line 32903
+CONST_CLASS         |     |v35=Landroid/view/ContextThemeWrapper;.class
+CONST_STRING        |     |v36="mTheme"
+INVOKE_VIRTUAL      |     |TEMP=v35.getDeclaredField(v36)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v22=TEMP
+LABEL               | LL35: line 32904
+CONST               |     |v35=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v22
+MOVE                |     |v1 = v35
+INVOKE_VIRTUAL      |     |v0.setAccessible(v1)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL76: line 32905
+CONST               |     |v35=0x00000000  // int:0   float:0.000000
+MOVE                |     |v0 = v22
+MOVE                |     |v1 = v35
+INVOKE_VIRTUAL      |     |v0.set(v3,v1)  //Ljava/lang/reflect/Field;.set(Ljava/lang/Object;Ljava/lang/Object;)V
+LABEL               | LL77: line 32906
+CONST_CLASS         |     |v35=Landroid/view/ContextThemeWrapper;.class
+CONST_STRING        |     |v36="initializeTheme"
+CONST               |     |v37=0x00000000  // int:0   float:0.000000
+MOVE                |     |v0 = v37
+NEW_ARRAY           |     |v0=new java.lang.Class[][v0]
+MOVE                |     |v37 = v0
+INVOKE_VIRTUAL      |     |TEMP=v35.getDeclaredMethod(v36,v37)  //Ljava/lang/Class;.getDeclaredMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+MOVE_RESULT         |     |v23=TEMP
+LABEL               | LL36:
+CONST               |     |v35=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v23
+MOVE                |     |v1 = v35
+INVOKE_VIRTUAL      |     |v0.setAccessible(v1)  //Ljava/lang/reflect/Method;.setAccessible(Z)V
+LABEL               | LL78: line 32908
+CONST               |     |v35=0x00000000  // int:0   float:0.000000
+MOVE                |     |v0 = v35
+NEW_ARRAY           |     |v0=new java.lang.Object[][v0]
+MOVE                |     |v35 = v0
+MOVE                |     |v0 = v23
+MOVE                |     |v1 = v35
+INVOKE_VIRTUAL      |     |TEMP=v0.invoke(v3,v1)  //Ljava/lang/reflect/Method;.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+LABEL               | LL79: line 32910
+SGET                |     |v35=android.os.Build$VERSION.SDK_INT  //Landroid/os/Build$VERSION;.SDK_INT I
+CONST               |     |v36=0x00000018  // int:24   float:0.000000
+MOVE                |     |v0 = v35
+MOVE                |     |v1 = v36
+IF_GE               |     |if v0 >= v1 goto L12
+LABEL               | LL80: line 32912
+CONST_CLASS         |     |v35=Landroid/content/res/AssetManager;.class
+CONST_STRING        |     |v36="createTheme"
+CONST               |     |v37=0x00000000  // int:0   float:0.000000
+MOVE                |     |v0 = v37
+NEW_ARRAY           |     |v0=new java.lang.Class[][v0]
+MOVE                |     |v37 = v0
+LABEL               | LL81: line 32913
+INVOKE_VIRTUAL      |     |TEMP=v35.getDeclaredMethod(v36,v37)  //Ljava/lang/Class;.getDeclaredMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+MOVE_RESULT         |     |v14=TEMP
+LABEL               | LL32: line 32914
+CONST               |     |v35=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v35
+INVOKE_VIRTUAL      |     |v14.setAccessible(v0)  //Ljava/lang/reflect/Method;.setAccessible(Z)V
+LABEL               | LL82: line 32915
+CONST               |     |v35=0x00000000  // int:0   float:0.000000
+MOVE                |     |v0 = v35
+NEW_ARRAY           |     |v0=new java.lang.Object[][v0]
+MOVE                |     |v35 = v0
+MOVE                |     |v0 = v24
+MOVE                |     |v1 = v35
+INVOKE_VIRTUAL      |     |TEMP=v14.invoke(v0,v1)  //Ljava/lang/reflect/Method;.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v11=TEMP
+LABEL               | LL31: line 32916
+CONST_CLASS         |     |v35=Landroid/content/res/Resources$Theme;.class
+CONST_STRING        |     |v36="mTheme"
+INVOKE_VIRTUAL      |     |TEMP=v35.getDeclaredField(v36)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v19=TEMP
+LABEL               | LL33: line 32917
+CONST               |     |v35=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v19
+MOVE                |     |v1 = v35
+INVOKE_VIRTUAL      |     |v0.setAccessible(v1)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL83: line 32918
+MOVE                |     |v0 = v19
+MOVE                |     |v1 = v30
+INVOKE_VIRTUAL      |     |v0.set(v1,v11)  //Ljava/lang/reflect/Field;.set(Ljava/lang/Object;Ljava/lang/Object;)V
+                    |     | } // TC_6
+LABEL               | LL12: line 32925
+INVOKE_STATIC       |     |com.android.tools.fd.runtime.MonkeyPatcher.pruneResourceCaches(v27)  //Lcom/android/tools/fd/runtime/MonkeyPatcher;.pruneResourceCaches(Ljava/lang/Object;)V
+GOTO                |     |goto L73
+LABEL               |  LL6: line 33007
+                    |     |catch(Ljava/lang/Throwable;) // TC_2
+MOVE_EXCEPTION      |     |v8=@Exception
+LABEL               | LL37: line 33008
+CONST_CLASS         |     |v35=Landroid/content/res/Resources;.class
+CONST_STRING        |     |v36="mResourcesImpl"
+INVOKE_VIRTUAL      |     |TEMP=v35.getDeclaredField(v36)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v18=TEMP
+LABEL               | LL39: line 33009
+CONST               |     |v35=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v18
+MOVE                |     |v1 = v35
+INVOKE_VIRTUAL      |     |v0.setAccessible(v1)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL84: line 33010
+MOVE                |     |v0 = v18
+MOVE                |     |v1 = v27
+INVOKE_VIRTUAL      |     |TEMP=v0.get(v1)  //Ljava/lang/reflect/Field;.get(Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v26=TEMP
+LABEL               | LL40: line 33011
+INVOKE_VIRTUAL      |     |TEMP=v26.getClass()  //Ljava/lang/Object;.getClass()Ljava/lang/Class;
+MOVE_RESULT         |     |v35=TEMP
+CONST_STRING        |     |v36="mAssets"
+INVOKE_VIRTUAL      |     |TEMP=v35.getDeclaredField(v36)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v10=TEMP
+LABEL               | LL38: line 33012
+CONST               |     |v35=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v35
+INVOKE_VIRTUAL      |     |v10.setAccessible(v0)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL85: line 33013
+MOVE                |     |v0 = v26
+MOVE                |     |v1 = v24
+INVOKE_VIRTUAL      |     |v10.set(v0,v1)  //Ljava/lang/reflect/Field;.set(Ljava/lang/Object;Ljava/lang/Object;)V
+                    |     | } // TC_7
+LABEL               | LL13:
+GOTO                |     |goto L5
+LABEL               | LL10: line 33022
+                    |     |catch(Ljava/lang/NoSuchFieldException;) // TC_4
+MOVE_EXCEPTION      |     |v8=@Exception
+LABEL               | LL14: line 33023
+                    |     |try { // TC_8 
+CONST_CLASS         |     |v35=Landroid/content/res/Resources$Theme;.class
+CONST_STRING        |     |v36="mThemeImpl"
+INVOKE_VIRTUAL      |     |TEMP=v35.getDeclaredField(v36)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v31=TEMP
+LABEL               | LL43: line 33024
+CONST               |     |v35=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v31
+MOVE                |     |v1 = v35
+INVOKE_VIRTUAL      |     |v0.setAccessible(v1)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL86: line 33025
+MOVE                |     |v0 = v31
+MOVE                |     |v1 = v30
+INVOKE_VIRTUAL      |     |TEMP=v0.get(v1)  //Ljava/lang/reflect/Field;.get(Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v9=TEMP
+LABEL               | LL41: line 33026
+INVOKE_VIRTUAL      |     |TEMP=v9.getClass()  //Ljava/lang/Object;.getClass()Ljava/lang/Class;
+MOVE_RESULT         |     |v35=TEMP
+CONST_STRING        |     |v36="mAssets"
+INVOKE_VIRTUAL      |     |TEMP=v35.getDeclaredField(v36)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v20=TEMP
+LABEL               | LL42: line 33027
+CONST               |     |v35=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v20
+MOVE                |     |v1 = v35
+INVOKE_VIRTUAL      |     |v0.setAccessible(v1)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL87: line 33028
+MOVE                |     |v0 = v20
+MOVE                |     |v1 = v24
+INVOKE_VIRTUAL      |     |v0.set(v9,v1)  //Ljava/lang/reflect/Field;.set(Ljava/lang/Object;Ljava/lang/Object;)V
+                    |     | } // TC_8
+LABEL               | LL15:
+GOTO                |     |goto L9
+LABEL               | LL11: line 33048
+                    |     |catch(Ljava/lang/Throwable;) // TC_5
+MOVE_EXCEPTION      |     |v6=@Exception
+LABEL               | LL16: line 33049
+                    |     |try { // TC_9 
+CONST_STRING        |     |v35="InstantRun"
+NEW_INSTANCE        |     |v36=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v36.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v37="Failed to update existing theme for activity "
+INVOKE_VIRTUAL      |     |TEMP=v36.append(v37)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v36=TEMP
+MOVE                |     |v0 = v36
+INVOKE_VIRTUAL      |     |TEMP=v0.append(v3)  //Ljava/lang/StringBuilder;.append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v36=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v36.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v36=TEMP
+MOVE                |     |v0 = v35
+MOVE                |     |v1 = v36
+INVOKE_STATIC       |     |TEMP=android.util.Log.e(v0,v1,v6)  //Landroid/util/Log;.e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+GOTO                |     |goto L12
+LABEL               | LL45:
+SGET                |     |v34=android.os.Build$VERSION.SDK_INT  //Landroid/os/Build$VERSION;.SDK_INT I
+CONST               |     |v35=0x00000013  // int:19   float:0.000000
+MOVE                |     |v0 = v34
+MOVE                |     |v1 = v35
+IF_LT               |     |if v0 <  v1 goto L53
+LABEL               | LL88: line 33061
+CONST_STRING        |     |v34="android.app.ResourcesManager"
+INVOKE_STATIC       |     |TEMP=java.lang.Class.forName(v34)  //Ljava/lang/Class;.forName(Ljava/lang/String;)Ljava/lang/Class;
+MOVE_RESULT         |     |v29=TEMP
+LABEL               | LL49: line 33062
+CONST_STRING        |     |v34="getInstance"
+CONST               |     |v35=0x00000000  // int:0   float:0.000000
+MOVE                |     |v0 = v35
+NEW_ARRAY           |     |v0=new java.lang.Class[][v0]
+MOVE                |     |v35 = v0
+MOVE                |     |v0 = v29
+MOVE                |     |v1 = v34
+MOVE                |     |v2 = v35
+INVOKE_VIRTUAL      |     |TEMP=v0.getDeclaredMethod(v1,v2)  //Ljava/lang/Class;.getDeclaredMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+MOVE_RESULT         |     |v16=TEMP
+LABEL               | LL48:
+CONST               |     |v34=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v16
+MOVE                |     |v1 = v34
+INVOKE_VIRTUAL      |     |v0.setAccessible(v1)  //Ljava/lang/reflect/Method;.setAccessible(Z)V
+LABEL               | LL89: line 33064
+CONST               |     |v34=0x00000000  // int:0   float:0.000000
+CONST               |     |v35=0x00000000  // int:0   float:0.000000
+MOVE                |     |v0 = v35
+NEW_ARRAY           |     |v0=new java.lang.Object[][v0]
+MOVE                |     |v35 = v0
+MOVE                |     |v0 = v16
+MOVE                |     |v1 = v34
+MOVE                |     |v2 = v35
+INVOKE_VIRTUAL      |     |TEMP=v0.invoke(v1,v2)  //Ljava/lang/reflect/Method;.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+                    |     | } // TC_9
+LABEL               | LL17:
+MOVE_RESULT         |     |v28=TEMP
+LABEL               | LL18:
+                    |     |try { // TC_10 
+CONST_STRING        |     |v34="mActiveResources"
+MOVE                |     |v0 = v29
+MOVE                |     |v1 = v34
+INVOKE_VIRTUAL      |     |TEMP=v0.getDeclaredField(v1)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v7=TEMP
+LABEL               | LL47: line 33067
+CONST               |     |v34=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v34
+INVOKE_VIRTUAL      |     |v7.setAccessible(v0)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL90: line 33070
+MOVE                |     |v0 = v28
+INVOKE_VIRTUAL      |     |TEMP=v7.get(v0)  //Ljava/lang/reflect/Field;.get(Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v5=TEMP
+CHECK_CAST          |     |v5=(android.util.ArrayMap) v5
+LABEL               | LL46: line 33071
+INVOKE_VIRTUAL      |     |TEMP=v5.values()  //Landroid/util/ArrayMap;.values()Ljava/util/Collection;
+                    |     | } // TC_10
+LABEL               | LL19:
+MOVE_RESULT         |     |v25=TEMP
+LABEL               | LL21: line 33088
+                    |     |try { // TC_12 
+INVOKE_INTERFACE    |     |TEMP=v25.iterator()  //Ljava/util/Collection;.iterator()Ljava/util/Iterator;
+MOVE_RESULT         |     |v34=TEMP
+LABEL               | LL91:
+INVOKE_INTERFACE    |     |TEMP=v34.hasNext()  //Ljava/util/Iterator;.hasNext()Z
+MOVE_RESULT         |     |v35=TEMP
+IF_EQZ              |     |if v35 == 0 goto L68
+INVOKE_INTERFACE    |     |TEMP=v34.next()  //Ljava/util/Iterator;.next()Ljava/lang/Object;
+MOVE_RESULT         |     |v33=TEMP
+CHECK_CAST          |     |v33=(java.lang.ref.WeakReference) v33
+LABEL               | LL51: line 33089
+INVOKE_VIRTUAL      |     |TEMP=v33.get()  //Ljava/lang/ref/WeakReference;.get()Ljava/lang/Object;
+MOVE_RESULT         |     |v27=TEMP
+CHECK_CAST          |     |v27=(android.content.res.Resources) v27
+                    |     | } // TC_12
+LABEL               | LL22: line 33090
+IF_EQZ              |     |if v27 == 0 goto L91
+LABEL               | LL23: line 33093
+                    |     |try { // TC_13 
+CONST_CLASS         |     |v35=Landroid/content/res/Resources;.class
+CONST_STRING        |     |v36="mAssets"
+INVOKE_VIRTUAL      |     |TEMP=v35.getDeclaredField(v36)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v13=TEMP
+LABEL               | LL50: line 33094
+CONST               |     |v35=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v35
+INVOKE_VIRTUAL      |     |v13.setAccessible(v0)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL92: line 33095
+MOVE                |     |v0 = v27
+MOVE                |     |v1 = v24
+INVOKE_VIRTUAL      |     |v13.set(v0,v1)  //Ljava/lang/reflect/Field;.set(Ljava/lang/Object;Ljava/lang/Object;)V
+                    |     | } // TC_13
+LABEL               | LL24: line 33105
+INVOKE_VIRTUAL      |     |TEMP=v27.getConfiguration()  //Landroid/content/res/Resources;.getConfiguration()Landroid/content/res/Configuration;
+MOVE_RESULT         |     |v35=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v27.getDisplayMetrics()  //Landroid/content/res/Resources;.getDisplayMetrics()Landroid/util/DisplayMetrics;
+MOVE_RESULT         |     |v36=TEMP
+MOVE                |     |v0 = v27
+MOVE                |     |v1 = v35
+MOVE                |     |v2 = v36
+INVOKE_VIRTUAL      |     |v0.updateConfiguration(v1,v2)  //Landroid/content/res/Resources;.updateConfiguration(Landroid/content/res/Configuration;Landroid/util/DisplayMetrics;)V
+GOTO                |     |goto L91
+LABEL               | LL20:
+                    |     |catch(Ljava/lang/NoSuchFieldException;) // TC_10
+MOVE_EXCEPTION      |     |v8=@Exception
+LABEL               | LL52: line 33201
+CONST_STRING        |     |v34="mResourceReferences"
+MOVE                |     |v0 = v29
+MOVE                |     |v1 = v34
+INVOKE_VIRTUAL      |     |TEMP=v0.getDeclaredField(v1)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v17=TEMP
+LABEL               | LL54: line 33202
+CONST               |     |v34=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v17
+MOVE                |     |v1 = v34
+INVOKE_VIRTUAL      |     |v0.setAccessible(v1)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL93: line 33204
+MOVE                |     |v0 = v17
+MOVE                |     |v1 = v28
+INVOKE_VIRTUAL      |     |TEMP=v0.get(v1)  //Ljava/lang/reflect/Field;.get(Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v25=TEMP
+CHECK_CAST          |     |v25=(java.util.Collection) v25
+LABEL               | LL55:
+GOTO                |     |goto L21
+LABEL               | LL53: line 33207
+CONST_STRING        |     |v34="android.app.ActivityThread"
+INVOKE_STATIC       |     |TEMP=java.lang.Class.forName(v34)  //Ljava/lang/Class;.forName(Ljava/lang/String;)Ljava/lang/Class;
+MOVE_RESULT         |     |v4=TEMP
+LABEL               | LL56: line 33208
+CONST_STRING        |     |v34="mActiveResources"
+MOVE                |     |v0 = v34
+INVOKE_VIRTUAL      |     |TEMP=v4.getDeclaredField(v0)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v7=TEMP
+LABEL               | LL57: line 33209
+CONST               |     |v34=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v34
+INVOKE_VIRTUAL      |     |v7.setAccessible(v0)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL94: line 33210
+MOVE                |     |v0 = v39
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.MonkeyPatcher.getActivityThread(v0,v4)  //Lcom/android/tools/fd/runtime/MonkeyPatcher;.getActivityThread(Landroid/content/Context;Ljava/lang/Class;)Ljava/lang/Object;
+MOVE_RESULT         |     |v32=TEMP
+LABEL               | LL59: line 33213
+MOVE                |     |v0 = v32
+INVOKE_VIRTUAL      |     |TEMP=v7.get(v0)  //Ljava/lang/reflect/Field;.get(Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v21=TEMP
+CHECK_CAST          |     |v21=(java.util.HashMap) v21
+LABEL               | LL58: line 33214
+INVOKE_VIRTUAL      |     |TEMP=v21.values()  //Ljava/util/HashMap;.values()Ljava/util/Collection;
+MOVE_RESULT         |     |v25=TEMP
+LABEL               | LL65:
+GOTO                |     |goto L21
+LABEL               | LL25: line 33224
+                    |     |catch(Ljava/lang/Throwable;) // TC_13
+MOVE_EXCEPTION      |     |v8=@Exception
+LABEL               | LL60: line 33225
+CONST_CLASS         |     |v35=Landroid/content/res/Resources;.class
+CONST_STRING        |     |v36="mResourcesImpl"
+INVOKE_VIRTUAL      |     |TEMP=v35.getDeclaredField(v36)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v18=TEMP
+LABEL               | LL64: line 33226
+CONST               |     |v35=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v18
+MOVE                |     |v1 = v35
+INVOKE_VIRTUAL      |     |v0.setAccessible(v1)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL95: line 33227
+MOVE                |     |v0 = v18
+MOVE                |     |v1 = v27
+INVOKE_VIRTUAL      |     |TEMP=v0.get(v1)  //Ljava/lang/reflect/Field;.get(Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v26=TEMP
+LABEL               | LL66: line 33228
+INVOKE_VIRTUAL      |     |TEMP=v26.getClass()  //Ljava/lang/Object;.getClass()Ljava/lang/Class;
+MOVE_RESULT         |     |v35=TEMP
+CONST_STRING        |     |v36="mAssets"
+INVOKE_VIRTUAL      |     |TEMP=v35.getDeclaredField(v36)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v10=TEMP
+LABEL               | LL62: line 33229
+CONST               |     |v35=0x00000001  // int:1   float:0.000000
+MOVE                |     |v0 = v35
+INVOKE_VIRTUAL      |     |v10.setAccessible(v0)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL96: line 33230
+MOVE                |     |v0 = v26
+MOVE                |     |v1 = v24
+INVOKE_VIRTUAL      |     |v10.set(v0,v1)  //Ljava/lang/reflect/Field;.set(Ljava/lang/Object;Ljava/lang/Object;)V
+                    |     | } // TC_14
+LABEL               | LL26:
+GOTO                |     |goto L24
+LABEL               | LL61:
+
+//method:0003  access:0x000a
+//Lcom/android/tools/fd/runtime/MonkeyPatcher;.pruneResourceCache(Ljava/lang/Object;Ljava/lang/String;)Z
+private static Z pruneResourceCache(java.lang.Object,java.lang.String)
+                    :v17   //java.lang.Object
+                    :v18   //java.lang.String
+TR_0 LL0 ~ LL1 > LL2 Ljava/lang/Throwable;
+TR_1 LL3 ~ LL4 > LL5 Ljava/lang/NoSuchFieldException;
+TR_2 LL3 ~ LL4 > LL2 Ljava/lang/Throwable;
+TR_3 LL6 ~ LL7 > LL2 Ljava/lang/Throwable;
+TR_4 LL8 ~ LL9 > LL10 Ljava/lang/NoSuchMethodException;
+TR_5 LL8 ~ LL9 > LL2 Ljava/lang/Throwable;
+TR_6 LL11 ~ LL12 > LL2 Ljava/lang/Throwable;
+TR_7 LL13 ~ LL14 > LL15 Ljava/lang/Throwable;
+LOCAL_VARIABLE LL16 ~ LL17 v3 -> cache // Ljava/lang/Object; 
+LOCAL_VARIABLE LL18 ~ LL19 v4 -> cacheField // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL3 ~ LL19 v10 -> resourcesClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL20 ~ LL19 v11 -> type // Ljava/lang/Class; 
+LOCAL_VARIABLE LL21 ~ LL22 v9 -> ignore // Ljava/lang/NoSuchFieldException; 
+LOCAL_VARIABLE LL22 ~ LL23 v3 -> cache // Ljava/lang/Object; 
+LOCAL_VARIABLE LL24 ~ LL25 v3 -> cache // Ljava/lang/Object; 
+LOCAL_VARIABLE LL26 ~ LL27 v4 -> cacheField // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL5 ~ LL27 v10 -> resourcesClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL22 ~ LL27 v11 -> type // Ljava/lang/Class; 
+LOCAL_VARIABLE LL28 ~ LL29 v5 -> clearArrayMap // Ljava/lang/reflect/Method; 
+LOCAL_VARIABLE LL30 ~ LL10 v6 -> clearSparseMap // Ljava/lang/reflect/Method; 
+LOCAL_VARIABLE LL31 ~ LL32 v3 -> cache // Ljava/lang/Object; 
+LOCAL_VARIABLE LL11 ~ LL33 v8 -> e // Ljava/lang/NoSuchMethodException; 
+LOCAL_VARIABLE LL33 ~ LL34 v3 -> cache // Ljava/lang/Object; 
+LOCAL_VARIABLE LL35 ~ LL36 v1 -> array // Landroid/util/LongSparseArray; 
+LOCAL_VARIABLE LL37 ~ LL15 v2 -> arrays // [Landroid/util/LongSparseArray; 
+LOCAL_VARIABLE LL15 ~ LL2 v3 -> cache // Ljava/lang/Object; 
+LOCAL_VARIABLE LL31 ~ LL2 v4 -> cacheField // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL38 ~ LL2 v7 -> configChangeMethod // Ljava/lang/reflect/Method; 
+LOCAL_VARIABLE LL31 ~ LL2 v10 -> resourcesClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL31 ~ LL2 v11 -> type // Ljava/lang/Class; 
+LOCAL_VARIABLE LL0 ~ LL39 v17 -> resources // Ljava/lang/Object; 
+LOCAL_VARIABLE LL0 ~ LL39 v18 -> fieldName // Ljava/lang/String; 
+LABEL               |  LL0: line 293
+                    |     |try { // TC_0 
+INVOKE_VIRTUAL      |     |TEMP=v17.getClass()  //Ljava/lang/Object;.getClass()Ljava/lang/Class;
+                    |     | } // TC_0
+LABEL               |  LL1:
+MOVE_RESULT         |     |v10=TEMP
+LABEL               |  LL3: line 296
+                    |     |try { // TC_1 
+MOVE                |     |v0 = v18
+INVOKE_VIRTUAL      |     |TEMP=v10.getDeclaredField(v0)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+                    |     | } // TC_1
+LABEL               |  LL4:
+MOVE_RESULT         |     |v4=TEMP
+LABEL               | LL18: line 300
+CONST               |     |v12=0x00000001  // int:1   float:0.000000
+LABEL               |  LL6:
+                    |     |try { // TC_3 
+INVOKE_VIRTUAL      |     |v4.setAccessible(v12)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL40: line 301
+MOVE                |     |v0 = v17
+INVOKE_VIRTUAL      |     |TEMP=v4.get(v0)  //Ljava/lang/reflect/Field;.get(Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v3=TEMP
+LABEL               | LL16: line 304
+INVOKE_VIRTUAL      |     |TEMP=v4.getType()  //Ljava/lang/reflect/Field;.getType()Ljava/lang/Class;
+MOVE_RESULT         |     |v11=TEMP
+LABEL               | LL20: line 305
+SGET                |     |v12=android.os.Build$VERSION.SDK_INT  //Landroid/os/Build$VERSION;.SDK_INT I
+CONST               |     |v13=0x00000010  // int:16   float:0.000000
+IF_GE               |     |if v12 >= v13 goto L24
+LABEL               | LL41: line 306
+INSTANCE_OF         |     |v12=v3 instanceof android.util.SparseArray
+IF_EQZ              |     |if v12 == 0 goto L22
+LABEL               | LL42: line 307
+CHECK_CAST          |     |v3=(android.util.SparseArray) v3
+LABEL               | LL17:
+INVOKE_VIRTUAL      |     |v3.clear()  //Landroid/util/SparseArray;.clear()V
+LABEL               | LL43: line 308
+CONST               |     |v12=0x00000001  // int:1   float:0.000000
+LABEL               | LL19: line 380
+RETURN              |     |return v12
+LABEL               |  LL5: line 16681
+                    |     |catch(Ljava/lang/NoSuchFieldException;) // TC_1
+MOVE_EXCEPTION      |     |v9=@Exception
+LABEL               | LL21: line 16682
+CONST_CLASS         |     |v12=Landroid/content/res/Resources;.class
+MOVE                |     |v0 = v18
+INVOKE_VIRTUAL      |     |TEMP=v12.getDeclaredField(v0)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v4=TEMP
+LABEL               | LL26:
+GOTO                |     |goto L18
+LABEL               | LL22: line 16693
+SGET                |     |v12=android.os.Build$VERSION.SDK_INT  //Landroid/os/Build$VERSION;.SDK_INT I
+CONST               |     |v13=0x0000000e  // int:14   float:0.000000
+IF_LT               |     |if v12 <  v13 goto L27
+INSTANCE_OF         |     |v12=v3 instanceof android.util.LongSparseArray
+IF_EQZ              |     |if v12 == 0 goto L27
+LABEL               | LL44: line 16697
+CHECK_CAST          |     |v3=(android.util.LongSparseArray) v3
+LABEL               | LL23:
+INVOKE_VIRTUAL      |     |v3.clear()  //Landroid/util/LongSparseArray;.clear()V
+LABEL               | LL45: line 16698
+CONST               |     |v12=0x00000001  // int:1   float:0.000000
+GOTO                |     |goto L19
+LABEL               | LL24: line 16700
+SGET                |     |v12=android.os.Build$VERSION.SDK_INT  //Landroid/os/Build$VERSION;.SDK_INT I
+CONST               |     |v13=0x00000017  // int:23   float:0.000000
+IF_GE               |     |if v12 >= v13 goto L46
+LABEL               | LL47: line 16702
+CONST_STRING        |     |v12="mColorStateListCache"
+MOVE                |     |v0 = v18
+INVOKE_VIRTUAL      |     |TEMP=v12.equals(v0)  //Ljava/lang/String;.equals(Ljava/lang/Object;)Z
+MOVE_RESULT         |     |v12=TEMP
+IF_EQZ              |     |if v12 == 0 goto L31
+LABEL               | LL48: line 16705
+INSTANCE_OF         |     |v12=v3 instanceof android.util.LongSparseArray
+IF_EQZ              |     |if v12 == 0 goto L27
+LABEL               | LL49: line 16707
+CHECK_CAST          |     |v3=(android.util.LongSparseArray) v3
+LABEL               | LL25:
+INVOKE_VIRTUAL      |     |v3.clear()  //Landroid/util/LongSparseArray;.clear()V
+LABEL               | LL27: line 16764
+CONST               |     |v12=0x00000000  // int:0   float:0.000000
+GOTO                |     |goto L19
+LABEL               | LL31: line 16837
+CONST_CLASS         |     |v12=Landroid/util/ArrayMap;.class
+INVOKE_VIRTUAL      |     |TEMP=v11.isAssignableFrom(v12)  //Ljava/lang/Class;.isAssignableFrom(Ljava/lang/Class;)Z
+MOVE_RESULT         |     |v12=TEMP
+IF_EQZ              |     |if v12 == 0 goto L29
+LABEL               | LL50: line 16838
+CONST_CLASS         |     |v12=Landroid/content/res/Resources;.class
+CONST_STRING        |     |v13="clearDrawableCachesLocked"
+CONST               |     |v14=0x00000002  // int:2   float:0.000000
+NEW_ARRAY           |     |v14=new java.lang.Class[][v14]
+CONST               |     |v15=0x00000000  // int:0   float:0.000000
+CONST_CLASS         |     |v16=Landroid/util/ArrayMap;.class
+APUT                |     |v14[v15]=v16
+CONST               |     |v15=0x00000001  // int:1   float:0.000000
+SGET                |     |v16=java.lang.Integer.TYPE  //Ljava/lang/Integer;.TYPE Ljava/lang/Class;
+APUT                |     |v14[v15]=v16
+INVOKE_VIRTUAL      |     |TEMP=v12.getDeclaredMethod(v13,v14)  //Ljava/lang/Class;.getDeclaredMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+MOVE_RESULT         |     |v5=TEMP
+LABEL               | LL28:
+CONST               |     |v12=0x00000001  // int:1   float:0.000000
+INVOKE_VIRTUAL      |     |v5.setAccessible(v12)  //Ljava/lang/reflect/Method;.setAccessible(Z)V
+LABEL               | LL51: line 16841
+CONST               |     |v12=0x00000002  // int:2   float:0.000000
+NEW_ARRAY           |     |v12=new java.lang.Object[][v12]
+CONST               |     |v13=0x00000000  // int:0   float:0.000000
+APUT                |     |v12[v13]=v3
+CONST               |     |v13=0x00000001  // int:1   float:0.000000
+CONST               |     |v14=0xffffffff  // int:-1   float:NaN
+INVOKE_STATIC       |     |TEMP=java.lang.Integer.valueOf(v14)  //Ljava/lang/Integer;.valueOf(I)Ljava/lang/Integer;
+MOVE_RESULT         |     |v14=TEMP
+APUT                |     |v12[v13]=v14
+MOVE                |     |v0 = v17
+INVOKE_VIRTUAL      |     |TEMP=v5.invoke(v0,v12)  //Ljava/lang/reflect/Method;.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+CONST               |     |v12=0x00000001  // int:1   float:0.000000
+GOTO                |     |goto L19
+LABEL               | LL29: line 16843
+CONST_CLASS         |     |v12=Landroid/util/LongSparseArray;.class
+INVOKE_VIRTUAL      |     |TEMP=v11.isAssignableFrom(v12)  //Ljava/lang/Class;.isAssignableFrom(Ljava/lang/Class;)Z
+                    |     | } // TC_3
+LABEL               |  LL7:
+MOVE_RESULT         |     |v12=TEMP
+IF_EQZ              |     |if v12 == 0 goto L33
+LABEL               |  LL8: line 16845
+                    |     |try { // TC_4 
+CONST_CLASS         |     |v12=Landroid/content/res/Resources;.class
+CONST_STRING        |     |v13="clearDrawableCachesLocked"
+CONST               |     |v14=0x00000002  // int:2   float:0.000000
+NEW_ARRAY           |     |v14=new java.lang.Class[][v14]
+CONST               |     |v15=0x00000000  // int:0   float:0.000000
+CONST_CLASS         |     |v16=Landroid/util/LongSparseArray;.class
+APUT                |     |v14[v15]=v16
+CONST               |     |v15=0x00000001  // int:1   float:0.000000
+SGET                |     |v16=java.lang.Integer.TYPE  //Ljava/lang/Integer;.TYPE Ljava/lang/Class;
+APUT                |     |v14[v15]=v16
+INVOKE_VIRTUAL      |     |TEMP=v12.getDeclaredMethod(v13,v14)  //Ljava/lang/Class;.getDeclaredMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+MOVE_RESULT         |     |v6=TEMP
+LABEL               | LL30:
+CONST               |     |v12=0x00000001  // int:1   float:0.000000
+INVOKE_VIRTUAL      |     |v6.setAccessible(v12)  //Ljava/lang/reflect/Method;.setAccessible(Z)V
+LABEL               | LL52: line 16848
+CONST               |     |v12=0x00000002  // int:2   float:0.000000
+NEW_ARRAY           |     |v12=new java.lang.Object[][v12]
+CONST               |     |v13=0x00000000  // int:0   float:0.000000
+APUT                |     |v12[v13]=v3
+CONST               |     |v13=0x00000001  // int:1   float:0.000000
+CONST               |     |v14=0xffffffff  // int:-1   float:NaN
+INVOKE_STATIC       |     |TEMP=java.lang.Integer.valueOf(v14)  //Ljava/lang/Integer;.valueOf(I)Ljava/lang/Integer;
+MOVE_RESULT         |     |v14=TEMP
+APUT                |     |v12[v13]=v14
+MOVE                |     |v0 = v17
+INVOKE_VIRTUAL      |     |TEMP=v6.invoke(v0,v12)  //Ljava/lang/reflect/Method;.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+                    |     | } // TC_4
+LABEL               |  LL9:
+CONST               |     |v12=0x00000001  // int:1   float:0.000000
+GOTO                |     |goto L19
+LABEL               | LL10: line 16850
+                    |     |catch(Ljava/lang/NoSuchMethodException;) // TC_4
+MOVE_EXCEPTION      |     |v8=@Exception
+LABEL               | LL11: line 16851
+                    |     |try { // TC_6 
+INSTANCE_OF         |     |v12=v3 instanceof android.util.LongSparseArray
+IF_EQZ              |     |if v12 == 0 goto L27
+LABEL               | LL53: line 16853
+CHECK_CAST          |     |v3=(android.util.LongSparseArray) v3
+LABEL               | LL32:
+INVOKE_VIRTUAL      |     |v3.clear()  //Landroid/util/LongSparseArray;.clear()V
+LABEL               | LL54: line 16854
+CONST               |     |v12=0x00000001  // int:1   float:0.000000
+GOTO                |     |goto L19
+LABEL               | LL33: line 16857
+INVOKE_VIRTUAL      |     |TEMP=v11.isArray()  //Ljava/lang/Class;.isArray()Z
+MOVE_RESULT         |     |v12=TEMP
+IF_EQZ              |     |if v12 == 0 goto L27
+LABEL               | LL55: line 16858
+INVOKE_VIRTUAL      |     |TEMP=v11.getComponentType()  //Ljava/lang/Class;.getComponentType()Ljava/lang/Class;
+MOVE_RESULT         |     |v12=TEMP
+CONST_CLASS         |     |v13=Landroid/util/LongSparseArray;.class
+INVOKE_VIRTUAL      |     |TEMP=v12.isAssignableFrom(v13)  //Ljava/lang/Class;.isAssignableFrom(Ljava/lang/Class;)Z
+MOVE_RESULT         |     |v12=TEMP
+IF_EQZ              |     |if v12 == 0 goto L27
+LABEL               | LL56: line 16859
+CHECK_CAST          |     |v3=(android.util.LongSparseArray[]) v3
+LABEL               | LL34:
+MOVE                |     |v0 = v3
+CHECK_CAST          |     |v0=(android.util.LongSparseArray[]) v0
+MOVE                |     |v2 = v0
+LABEL               | LL37: line 16860
+ARRAY_LENGTH        |     |v13 = v2.length
+CONST               |     |v12=0x00000000  // int:0   float:0.000000
+LABEL               | LL57:
+IF_GE               |     |if v12 >= v13 goto L36
+AGET                |     |v1=v2[v12]
+LABEL               | LL35: line 16861
+IF_EQZ              |     |if v1 == 0 goto L58
+LABEL               | LL59: line 16863
+INVOKE_VIRTUAL      |     |v1.clear()  //Landroid/util/LongSparseArray;.clear()V
+LABEL               | LL58: line 16860
+ADD_INT_LIT_X       |     |v12 = v12 + 1
+GOTO                |     |goto L57
+LABEL               | LL36: line 16866
+CONST               |     |v12=0x00000001  // int:1   float:0.000000
+GOTO                |     |goto L19
+LABEL               | LL15: line 16877
+                    |     |catch(Ljava/lang/Throwable;) // TC_7
+MOVE_EXCEPTION      |     |v12=@Exception
+LABEL               | LL60: line 16880
+INVOKE_VIRTUAL      |     |TEMP=v11.getSuperclass()  //Ljava/lang/Class;.getSuperclass()Ljava/lang/Class;
+                    |     | } // TC_6
+LABEL               | LL12:
+MOVE_RESULT         |     |v11=TEMP
+LABEL               | LL46: line 16998
+IF_EQZ              |     |if v11 == 0 goto L27
+LABEL               | LL13: line 17000
+                    |     |try { // TC_7 
+CONST_STRING        |     |v12="onConfigurationChange"
+CONST               |     |v13=0x00000001  // int:1   float:0.000000
+NEW_ARRAY           |     |v13=new java.lang.Class[][v13]
+CONST               |     |v14=0x00000000  // int:0   float:0.000000
+SGET                |     |v15=java.lang.Integer.TYPE  //Ljava/lang/Integer;.TYPE Ljava/lang/Class;
+APUT                |     |v13[v14]=v15
+INVOKE_VIRTUAL      |     |TEMP=v11.getDeclaredMethod(v12,v13)  //Ljava/lang/Class;.getDeclaredMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+MOVE_RESULT         |     |v7=TEMP
+LABEL               | LL38: line 17002
+CONST               |     |v12=0x00000001  // int:1   float:0.000000
+INVOKE_VIRTUAL      |     |v7.setAccessible(v12)  //Ljava/lang/reflect/Method;.setAccessible(Z)V
+LABEL               | LL61: line 17003
+CONST               |     |v12=0x00000001  // int:1   float:0.000000
+NEW_ARRAY           |     |v12=new java.lang.Object[][v12]
+CONST               |     |v13=0x00000000  // int:0   float:0.000000
+CONST               |     |v14=0xffffffff  // int:-1   float:NaN
+INVOKE_STATIC       |     |TEMP=java.lang.Integer.valueOf(v14)  //Ljava/lang/Integer;.valueOf(I)Ljava/lang/Integer;
+MOVE_RESULT         |     |v14=TEMP
+APUT                |     |v12[v13]=v14
+INVOKE_VIRTUAL      |     |TEMP=v7.invoke(v3,v12)  //Ljava/lang/reflect/Method;.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+                    |     | } // TC_7
+LABEL               | LL14: line 17004
+CONST               |     |v12=0x00000001  // int:1   float:0.000000
+GOTO                |     |goto L19
+LABEL               |  LL2: line 17011
+                    |     |catch(Ljava/lang/Throwable;) // TC_0
+MOVE_EXCEPTION      |     |v12=@Exception
+GOTO                |     |goto L27
+LABEL               | LL39:
+
+//method:0004  access:0x000a
+//Lcom/android/tools/fd/runtime/MonkeyPatcher;.pruneResourceCaches(Ljava/lang/Object;)V
+private static V pruneResourceCaches(java.lang.Object)
+                    :v11   //java.lang.Object
+TR_0 LL0 ~ LL1 > LL2 Ljava/lang/Throwable;
+TR_1 LL3 ~ LL4 > LL5 Ljava/lang/Throwable;
+TR_2 LL6 ~ LL7 > LL8 Ljava/lang/Throwable;
+TR_3 LL9 ~ LL10 > LL11 all
+TR_4 LL12 ~ LL13 > LL14 Ljava/lang/Throwable;
+TR_5 LL15 ~ LL16 > LL11 all
+LOCAL_VARIABLE LL17 ~ LL18 v0 -> acquireMethod // Ljava/lang/reflect/Method; 
+LOCAL_VARIABLE LL19 ~ LL18 v4 -> pool // Ljava/lang/Object; 
+LOCAL_VARIABLE LL20 ~ LL18 v5 -> poolClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL21 ~ LL18 v6 -> typedArray // Ljava/lang/Object; 
+LOCAL_VARIABLE LL22 ~ LL18 v7 -> typedArrayPoolField // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL23 ~ LL24 v3 -> mResourcesImpl // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL25 ~ LL26 v1 -> field // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL27 ~ LL26 v2 -> lock // Ljava/lang/Object; 
+LOCAL_VARIABLE LL28 ~ LL15 v1 -> field // Ljava/lang/reflect/Field; 
+LOCAL_VARIABLE LL12 ~ LL15 v2 -> lock // Ljava/lang/Object; 
+LOCAL_VARIABLE LL14 ~ LL5 v2 -> lock // Ljava/lang/Object; 
+LOCAL_VARIABLE LL29 ~ LL30 v11 -> resources // Ljava/lang/Object; 
+LABEL               | LL29: line 220
+CONST               |     |v10=0x00000017  // int:23   float:0.000000
+LABEL               | LL31: line 220
+SGET                |     |v8=android.os.Build$VERSION.SDK_INT  //Landroid/os/Build$VERSION;.SDK_INT I
+CONST               |     |v9=0x00000015  // int:21   float:0.000000
+IF_LT               |     |if v8 <  v9 goto L18
+LABEL               |  LL0: line 222
+                    |     |try { // TC_0 
+CONST_CLASS         |     |v8=Landroid/content/res/Resources;.class
+CONST_STRING        |     |v9="mTypedArrayPool"
+LABEL               | LL32: line 223
+INVOKE_VIRTUAL      |     |TEMP=v8.getDeclaredField(v9)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v7=TEMP
+LABEL               | LL22: line 224
+CONST               |     |v8=0x00000001  // int:1   float:0.000000
+INVOKE_VIRTUAL      |     |v7.setAccessible(v8)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL33: line 225
+INVOKE_VIRTUAL      |     |TEMP=v7.get(v11)  //Ljava/lang/reflect/Field;.get(Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v4=TEMP
+LABEL               | LL19: line 226
+INVOKE_VIRTUAL      |     |TEMP=v4.getClass()  //Ljava/lang/Object;.getClass()Ljava/lang/Class;
+MOVE_RESULT         |     |v5=TEMP
+LABEL               | LL20: line 227
+CONST_STRING        |     |v8="acquire"
+CONST               |     |v9=0x00000000  // int:0   float:0.000000
+NEW_ARRAY           |     |v9=new java.lang.Class[][v9]
+INVOKE_VIRTUAL      |     |TEMP=v5.getDeclaredMethod(v8,v9)  //Ljava/lang/Class;.getDeclaredMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+MOVE_RESULT         |     |v0=TEMP
+LABEL               | LL17: line 228
+CONST               |     |v8=0x00000001  // int:1   float:0.000000
+INVOKE_VIRTUAL      |     |v0.setAccessible(v8)  //Ljava/lang/reflect/Method;.setAccessible(Z)V
+LABEL               | LL34: line 230
+CONST               |     |v8=0x00000000  // int:0   float:0.000000
+NEW_ARRAY           |     |v8=new java.lang.Object[][v8]
+INVOKE_VIRTUAL      |     |TEMP=v0.invoke(v4,v8)  //Ljava/lang/reflect/Method;.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+                    |     | } // TC_0
+LABEL               |  LL1:
+MOVE_RESULT         |     |v6=TEMP
+LABEL               | LL21: line 231
+IF_NEZ              |     |if v6 != 0 goto L34
+LABEL               | LL18: line 239
+SGET                |     |v8=android.os.Build$VERSION.SDK_INT  //Landroid/os/Build$VERSION;.SDK_INT I
+IF_LT               |     |if v8 <  v10 goto L24
+LABEL               |  LL3: line 242
+                    |     |try { // TC_1 
+CONST_CLASS         |     |v8=Landroid/content/res/Resources;.class
+CONST_STRING        |     |v9="mResourcesImpl"
+INVOKE_VIRTUAL      |     |TEMP=v8.getDeclaredField(v9)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v3=TEMP
+LABEL               | LL23: line 243
+CONST               |     |v8=0x00000001  // int:1   float:0.000000
+INVOKE_VIRTUAL      |     |v3.setAccessible(v8)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL35: line 246
+INVOKE_VIRTUAL      |     |TEMP=v3.get(v11)  //Ljava/lang/reflect/Field;.get(Ljava/lang/Object;)Ljava/lang/Object;
+                    |     | } // TC_1
+LABEL               |  LL4:
+MOVE_RESULT         |     |v11=TEMP
+LABEL               | LL24: line 252
+CONST               |     |v2=0x00000000  // int:0   float:0.000000
+LABEL               | LL27: line 253
+SGET                |     |v8=android.os.Build$VERSION.SDK_INT  //Landroid/os/Build$VERSION;.SDK_INT I
+CONST               |     |v9=0x00000012  // int:18   float:0.000000
+IF_LT               |     |if v8 <  v9 goto L12
+LABEL               |  LL6: line 255
+                    |     |try { // TC_2 
+INVOKE_VIRTUAL      |     |TEMP=v11.getClass()  //Ljava/lang/Object;.getClass()Ljava/lang/Class;
+MOVE_RESULT         |     |v8=TEMP
+CONST_STRING        |     |v9="mAccessLock"
+INVOKE_VIRTUAL      |     |TEMP=v8.getDeclaredField(v9)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v1=TEMP
+LABEL               | LL25: line 256
+CONST               |     |v8=0x00000001  // int:1   float:0.000000
+INVOKE_VIRTUAL      |     |v1.setAccessible(v8)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL36: line 257
+INVOKE_VIRTUAL      |     |TEMP=v1.get(v11)  //Ljava/lang/reflect/Field;.get(Ljava/lang/Object;)Ljava/lang/Object;
+                    |     | } // TC_2
+LABEL               |  LL7:
+MOVE_RESULT         |     |v2=TEMP
+LABEL               | LL26: line 269
+IF_NEZ              |     |if v2 != 0 goto L37
+LABEL               | LL38: line 270
+CONST_CLASS         |     |v2=Lcom/android/tools/fd/runtime/MonkeyPatcher;.class
+LABEL               | LL37: line 274
+MONITOR_ENTER       |     |lock v2
+LABEL               |  LL9: line 276
+                    |     |try { // TC_3 
+CONST_STRING        |     |v8="mDrawableCache"
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.MonkeyPatcher.pruneResourceCache(v11,v8)  //Lcom/android/tools/fd/runtime/MonkeyPatcher;.pruneResourceCache(Ljava/lang/Object;Ljava/lang/String;)Z
+LABEL               | LL39: line 277
+CONST_STRING        |     |v8="mColorDrawableCache"
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.MonkeyPatcher.pruneResourceCache(v11,v8)  //Lcom/android/tools/fd/runtime/MonkeyPatcher;.pruneResourceCache(Ljava/lang/Object;Ljava/lang/String;)Z
+LABEL               | LL40: line 278
+CONST_STRING        |     |v8="mColorStateListCache"
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.MonkeyPatcher.pruneResourceCache(v11,v8)  //Lcom/android/tools/fd/runtime/MonkeyPatcher;.pruneResourceCache(Ljava/lang/Object;Ljava/lang/String;)Z
+LABEL               | LL41: line 279
+SGET                |     |v8=android.os.Build$VERSION.SDK_INT  //Landroid/os/Build$VERSION;.SDK_INT I
+IF_LT               |     |if v8 <  v10 goto L15
+LABEL               | LL42: line 280
+CONST_STRING        |     |v8="mAnimatorCache"
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.MonkeyPatcher.pruneResourceCache(v11,v8)  //Lcom/android/tools/fd/runtime/MonkeyPatcher;.pruneResourceCache(Ljava/lang/Object;Ljava/lang/String;)Z
+LABEL               | LL43: line 281
+CONST_STRING        |     |v8="mStateListAnimatorCache"
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.MonkeyPatcher.pruneResourceCache(v11,v8)  //Lcom/android/tools/fd/runtime/MonkeyPatcher;.pruneResourceCache(Ljava/lang/Object;Ljava/lang/String;)Z
+LABEL               | LL44: line 287
+MONITOR_EXIT        |     |unlock v2
+                    |     | } // TC_3
+LABEL               | LL10: line 288
+RETURN_VOID         |     |return
+LABEL               | LL12: line 390
+                    |     |try { // TC_4 
+CONST_CLASS         |     |v8=Landroid/content/res/Resources;.class
+CONST_STRING        |     |v9="mTmpValue"
+INVOKE_VIRTUAL      |     |TEMP=v8.getDeclaredField(v9)  //Ljava/lang/Class;.getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
+MOVE_RESULT         |     |v1=TEMP
+LABEL               | LL28: line 391
+CONST               |     |v8=0x00000001  // int:1   float:0.000000
+INVOKE_VIRTUAL      |     |v1.setAccessible(v8)  //Ljava/lang/reflect/Field;.setAccessible(Z)V
+LABEL               | LL45: line 392
+INVOKE_VIRTUAL      |     |TEMP=v1.get(v11)  //Ljava/lang/reflect/Field;.get(Ljava/lang/Object;)Ljava/lang/Object;
+                    |     | } // TC_4
+LABEL               | LL13:
+MOVE_RESULT         |     |v2=TEMP
+GOTO                |     |goto L26
+LABEL               | LL15: line 410
+                    |     |try { // TC_5 
+SGET                |     |v8=android.os.Build$VERSION.SDK_INT  //Landroid/os/Build$VERSION;.SDK_INT I
+CONST               |     |v9=0x00000013  // int:19   float:0.000000
+IF_NE               |     |if v8 != v9 goto L44
+LABEL               | LL46: line 411
+CONST_STRING        |     |v8="sPreloadedDrawables"
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.MonkeyPatcher.pruneResourceCache(v11,v8)  //Lcom/android/tools/fd/runtime/MonkeyPatcher;.pruneResourceCache(Ljava/lang/Object;Ljava/lang/String;)Z
+LABEL               | LL47: line 412
+CONST_STRING        |     |v8="sPreloadedColorDrawables"
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.MonkeyPatcher.pruneResourceCache(v11,v8)  //Lcom/android/tools/fd/runtime/MonkeyPatcher;.pruneResourceCache(Ljava/lang/Object;Ljava/lang/String;)Z
+LABEL               | LL48: line 413
+CONST_STRING        |     |v8="sPreloadedColorStateLists"
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.MonkeyPatcher.pruneResourceCache(v11,v8)  //Lcom/android/tools/fd/runtime/MonkeyPatcher;.pruneResourceCache(Ljava/lang/Object;Ljava/lang/String;)Z
+GOTO                |     |goto L44
+LABEL               | LL11: line 415
+                    |     |catch(all) // TC_3
+MOVE_EXCEPTION      |     |v8=@Exception
+MONITOR_EXIT        |     |unlock v2
+                    |     | } // TC_5
+LABEL               | LL16:
+THROW               |     |throw v8
+LABEL               | LL14: line 521
+                    |     |catch(Ljava/lang/Throwable;) // TC_4
+MOVE_EXCEPTION      |     |v8=@Exception
+GOTO                |     |goto L26
+LABEL               |  LL8: line 642
+                    |     |catch(Ljava/lang/Throwable;) // TC_2
+MOVE_EXCEPTION      |     |v8=@Exception
+GOTO                |     |goto L26
+LABEL               |  LL5: line 759
+                    |     |catch(Ljava/lang/Throwable;) // TC_1
+MOVE_EXCEPTION      |     |v8=@Exception
+GOTO                |     |goto L24
+LABEL               |  LL2: line 875
+                    |     |catch(Ljava/lang/Throwable;) // TC_0
+MOVE_EXCEPTION      |     |v8=@Exception
+GOTO                |     |goto L18
+LABEL               | LL30:

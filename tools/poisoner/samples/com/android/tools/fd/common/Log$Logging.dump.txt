@@ -1,0 +1,14 @@
+//class:0000  access:0x0601
+public interace com.android.tools.fd.common.Log$Logging
+
+//method:0000  access:0x0401
+//Lcom/android/tools/fd/common/Log$Logging;.isLoggable(Ljava/util/logging/Level;)Z
+public abstract Z isLoggable(java.util.logging.Level)
+
+//method:0001  access:0x0401
+//Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;)V
+public abstract V log(java.util.logging.Level,java.lang.String)
+
+//method:0002  access:0x0401
+//Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+public abstract V log(java.util.logging.Level,java.lang.String,java.lang.Throwable)

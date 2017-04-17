@@ -1,0 +1,6 @@
+//class:0003  access:0x0601
+public interace com.android.tools.fd.runtime.PatchesLoader
+
+//method:0000  access:0x0401
+//Lcom/android/tools/fd/runtime/PatchesLoader;.load()Z
+public abstract Z load()

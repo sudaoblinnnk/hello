@@ -1,0 +1,65 @@
+//class:0005  access:0x0010
+final class com.android.tools.fd.runtime.AndroidInstantRuntime$1 implements com.android.tools.fd.common.Log$Logging
+//field:0000  access:0x1010
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime$1;.val$logger Ljava/util/logging/Logger;
+final  java.util.logging.Logger val$logger;
+
+//method:0000  access:0x10000
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime$1;.<init>(Ljava/util/logging/Logger;)V
+V <init>(java.util.logging.Logger)
+                this:v0   //com.android.tools.fd.runtime.AndroidInstantRuntime$1
+                    :v1   //java.util.logging.Logger
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lcom/android/tools/fd/runtime/AndroidInstantRuntime$1; 
+LABEL               |  LL0: line 51
+IPUT                |     |v0.val$logger=v1  //Lcom/android/tools/fd/runtime/AndroidInstantRuntime$1;.val$logger Ljava/util/logging/Logger;
+INVOKE_DIRECT       |     |v0.<init>()  //Ljava/lang/Object;.<init>()V
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0001  access:0x0001
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime$1;.isLoggable(Ljava/util/logging/Level;)Z
+public Z isLoggable(java.util.logging.Level)
+                this:v1   //com.android.tools.fd.runtime.AndroidInstantRuntime$1
+                    :v2   //java.util.logging.Level
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> this // Lcom/android/tools/fd/runtime/AndroidInstantRuntime$1; 
+LOCAL_VARIABLE LL0 ~ LL1 v2 -> level // Ljava/util/logging/Level; 
+LABEL               |  LL0: line 59
+IGET                |     |v0=v1.val$logger  //Lcom/android/tools/fd/runtime/AndroidInstantRuntime$1;.val$logger Ljava/util/logging/Logger;
+INVOKE_VIRTUAL      |     |TEMP=v0.isLoggable(v2)  //Ljava/util/logging/Logger;.isLoggable(Ljava/util/logging/Level;)Z
+MOVE_RESULT         |     |v0=TEMP
+RETURN              |     |return v0
+LABEL               |  LL1:
+
+//method:0002  access:0x0001
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime$1;.log(Ljava/util/logging/Level;Ljava/lang/String;)V
+public V log(java.util.logging.Level,java.lang.String)
+                this:v1   //com.android.tools.fd.runtime.AndroidInstantRuntime$1
+                    :v2   //java.util.logging.Level
+                    :v3   //java.lang.String
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> this // Lcom/android/tools/fd/runtime/AndroidInstantRuntime$1; 
+LOCAL_VARIABLE LL0 ~ LL1 v2 -> level // Ljava/util/logging/Level; 
+LOCAL_VARIABLE LL0 ~ LL1 v3 -> string // Ljava/lang/String; 
+LABEL               |  LL0: line 54
+IGET                |     |v0=v1.val$logger  //Lcom/android/tools/fd/runtime/AndroidInstantRuntime$1;.val$logger Ljava/util/logging/Logger;
+INVOKE_VIRTUAL      |     |v0.log(v2,v3)  //Ljava/util/logging/Logger;.log(Ljava/util/logging/Level;Ljava/lang/String;)V
+LABEL               |  LL2: line 55
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0003  access:0x0001
+//Lcom/android/tools/fd/runtime/AndroidInstantRuntime$1;.log(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+public V log(java.util.logging.Level,java.lang.String,java.lang.Throwable)
+                this:v1   //com.android.tools.fd.runtime.AndroidInstantRuntime$1
+                    :v2   //java.util.logging.Level
+                    :v3   //java.lang.String
+                    :v4   //java.lang.Throwable
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> this // Lcom/android/tools/fd/runtime/AndroidInstantRuntime$1; 
+LOCAL_VARIABLE LL0 ~ LL1 v2 -> level // Ljava/util/logging/Level; 
+LOCAL_VARIABLE LL0 ~ LL1 v3 -> string // Ljava/lang/String; 
+LOCAL_VARIABLE LL0 ~ LL1 v4 -> throwable // Ljava/lang/Throwable; 
+LABEL               |  LL0: line 65
+IGET                |     |v0=v1.val$logger  //Lcom/android/tools/fd/runtime/AndroidInstantRuntime$1;.val$logger Ljava/util/logging/Logger;
+INVOKE_VIRTUAL      |     |v0.log(v2,v3,v4)  //Ljava/util/logging/Logger;.log(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+LABEL               |  LL2: line 66
+RETURN_VOID         |     |return
+LABEL               |  LL1:

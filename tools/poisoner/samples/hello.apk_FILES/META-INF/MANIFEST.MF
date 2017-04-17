@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Created-By: 1.0 (Android)
+
+Name: lib/armeabi/libjavasign.so
+SHA1-Digest: kERPlxaD8Hy2Ry3oqmMz6rxioOc=
+
+Name: AndroidManifest.xml
+SHA1-Digest: ablKM57sTCPpTSX3P2cD+1/p/QE=
+
+Name: res/layout/main.xml
+SHA1-Digest: OXl+ysaeXuoupr4N2IIiYDgJNMQ=
+
+Name: resources.arsc
+SHA1-Digest: nSf/u3KQ44DvXRp61mc3kKC9WJ4=
+
+Name: classes.dex
+SHA1-Digest: Iq4h6bSO7E0Tp4WU7KKIxhZizeM=
+

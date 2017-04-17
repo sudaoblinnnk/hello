@@ -1,0 +1,39 @@
+//class:0019  access:0x0010
+final class com.android.tools.fd.runtime.Restarter$1 implements java.lang.Runnable
+//field:0000  access:0x1010
+//Lcom/android/tools/fd/runtime/Restarter$1;.val$activity Landroid/app/Activity;
+final  android.app.Activity val$activity;
+
+//method:0000  access:0x10000
+//Lcom/android/tools/fd/runtime/Restarter$1;.<init>(Landroid/app/Activity;)V
+V <init>(android.app.Activity)
+                this:v0   //com.android.tools.fd.runtime.Restarter$1
+                    :v1   //android.app.Activity
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lcom/android/tools/fd/runtime/Restarter$1; 
+LABEL               |  LL0: line 57
+IPUT                |     |v0.val$activity=v1  //Lcom/android/tools/fd/runtime/Restarter$1;.val$activity Landroid/app/Activity;
+INVOKE_DIRECT       |     |v0.<init>()  //Ljava/lang/Object;.<init>()V
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0001  access:0x0001
+//Lcom/android/tools/fd/runtime/Restarter$1;.run()V
+public V run()
+                this:v2   //com.android.tools.fd.runtime.Restarter$1
+LOCAL_VARIABLE LL0 ~ LL1 v2 -> this // Lcom/android/tools/fd/runtime/Restarter$1; 
+LABEL               |  LL0: line 60
+CONST_STRING        |     |v0="InstantRun"
+CONST               |     |v1=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v0,v1)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v0=TEMP
+IF_EQZ              |     |if v0 == 0 goto L2
+LABEL               |  LL3: line 61
+CONST_STRING        |     |v0="InstantRun"
+CONST_STRING        |     |v1="Resources updated: notify activities"
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v0,v1)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               |  LL2: line 63
+IGET                |     |v0=v2.val$activity  //Lcom/android/tools/fd/runtime/Restarter$1;.val$activity Landroid/app/Activity;
+INVOKE_STATIC       |     |com.android.tools.fd.runtime.Restarter.access$000(v0)  //Lcom/android/tools/fd/runtime/Restarter;.access$000(Landroid/app/Activity;)V
+LABEL               |  LL4: line 64
+RETURN_VOID         |     |return
+LABEL               |  LL1:

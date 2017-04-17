@@ -1,0 +1,220 @@
+//class:0013  access:0x0001
+public class com.android.tools.fd.runtime.InstantRunService extends android.app.Service
+//field:0000  access:0x0002
+//Lcom/android/tools/fd/runtime/InstantRunService;.server Lcom/android/tools/fd/runtime/Server;
+private  com.android.tools.fd.runtime.Server server;
+
+//method:0000  access:0x10001
+//Lcom/android/tools/fd/runtime/InstantRunService;.<init>()V
+public V <init>()
+                this:v0   //com.android.tools.fd.runtime.InstantRunService
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lcom/android/tools/fd/runtime/InstantRunService; 
+LABEL               |  LL0: line 34
+INVOKE_DIRECT       |     |v0.<init>()  //Landroid/app/Service;.<init>()V
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0001  access:0x0001
+//Lcom/android/tools/fd/runtime/InstantRunService;.onBind(Landroid/content/Intent;)Landroid/os/IBinder;
+public android.os.IBinder onBind(android.content.Intent)
+                this:v1   //com.android.tools.fd.runtime.InstantRunService
+                    :v2   //android.content.Intent
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> this // Lcom/android/tools/fd/runtime/InstantRunService; 
+LOCAL_VARIABLE LL0 ~ LL1 v2 -> intent // Landroid/content/Intent; 
+LABEL               |  LL0: line 46
+CONST               |     |v0=0x00000000  // int:0   float:0.000000
+RETURN              |     |return v0
+LABEL               |  LL1:
+
+//method:0002  access:0x0001
+//Lcom/android/tools/fd/runtime/InstantRunService;.onCreate()V
+public V onCreate()
+                this:v11   //com.android.tools.fd.runtime.InstantRunService
+TR_0 LL0 ~ LL1 > LL2 Ljava/lang/Throwable;
+LOCAL_VARIABLE LL3 ~ LL4 v3 -> processInfo // Landroid/app/ActivityManager$RunningAppProcessInfo; 
+LOCAL_VARIABLE LL0 ~ LL5 v0 -> foundPackage // Z 
+LOCAL_VARIABLE LL6 ~ LL5 v1 -> manager // Landroid/app/ActivityManager; 
+LOCAL_VARIABLE LL7 ~ LL5 v2 -> pid // I 
+LOCAL_VARIABLE LL8 ~ LL5 v4 -> processes // Ljava/util/List; 
+LOCAL_VARIABLE LL9 ~ LL5 v5 -> startServer // Z 
+LOCAL_VARIABLE LL10 ~ LL2 v1 -> manager // Landroid/app/ActivityManager; 
+LOCAL_VARIABLE LL10 ~ LL2 v2 -> pid // I 
+LOCAL_VARIABLE LL10 ~ LL2 v4 -> processes // Ljava/util/List; 
+LOCAL_VARIABLE LL11 ~ LL2 v5 -> startServer // Z 
+LOCAL_VARIABLE LL10 ~ LL12 v0 -> foundPackage // Z 
+LOCAL_VARIABLE LL13 ~ LL12 v6 -> t // Ljava/lang/Throwable; 
+LOCAL_VARIABLE LL14 ~ LL15 v11 -> this // Lcom/android/tools/fd/runtime/InstantRunService; 
+LABEL               | LL14: line 51
+CONST               |     |v10=0x00000002  // int:2   float:0.000000
+LABEL               | LL16: line 51
+CONST_STRING        |     |v7="InstantRun"
+NEW_INSTANCE        |     |v8=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v8.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v9="Starting Instant Run Server for "
+INVOKE_VIRTUAL      |     |TEMP=v8.append(v9)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v8=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v11.getPackageName()  //Lcom/android/tools/fd/runtime/InstantRunService;.getPackageName()Ljava/lang/String;
+MOVE_RESULT         |     |v9=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v8.append(v9)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v8=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v8.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v8=TEMP
+INVOKE_STATIC       |     |TEMP=android.util.Log.i(v7,v8)  //Landroid/util/Log;.i(Ljava/lang/String;Ljava/lang/String;)I
+INVOKE_SUPER        |     |v11.onCreate()  //Landroid/app/Service;.onCreate()V
+LABEL               | LL17: line 56
+SGET                |     |v7=com.android.tools.fd.runtime.AppInfo.applicationId  //Lcom/android/tools/fd/runtime/AppInfo;.applicationId Ljava/lang/String;
+IF_EQZ              |     |if v7 == 0 goto L12
+LABEL               | LL18: line 58
+CONST               |     |v0=0x00000000  // int:0   float:0.000000
+LABEL               |  LL0: line 59
+                    |     |try { // TC_0 
+INVOKE_STATIC       |     |TEMP=android.os.Process.myPid()  //Landroid/os/Process;.myPid()I
+MOVE_RESULT         |     |v2=TEMP
+LABEL               |  LL7: line 60
+CONST_STRING        |     |v7="activity"
+INVOKE_VIRTUAL      |     |TEMP=v11.getSystemService(v7)  //Lcom/android/tools/fd/runtime/InstantRunService;.getSystemService(Ljava/lang/String;)Ljava/lang/Object;
+MOVE_RESULT         |     |v1=TEMP
+CHECK_CAST          |     |v1=(android.app.ActivityManager) v1
+LABEL               |  LL6: line 62
+INVOKE_VIRTUAL      |     |TEMP=v1.getRunningAppProcesses()  //Landroid/app/ActivityManager;.getRunningAppProcesses()Ljava/util/List;
+MOVE_RESULT         |     |v4=TEMP
+LABEL               |  LL8: line 65
+IF_EQZ              |     |if v4 == 0 goto L10
+INVOKE_INTERFACE    |     |TEMP=v4.size()  //Ljava/util/List;.size()I
+MOVE_RESULT         |     |v7=TEMP
+CONST               |     |v8=0x00000001  // int:1   float:0.000000
+IF_LE               |     |if v7 <= v8 goto L10
+LABEL               | LL19: line 68
+CONST               |     |v5=0x00000000  // int:0   float:0.000000
+LABEL               |  LL9: line 69
+INVOKE_INTERFACE    |     |TEMP=v4.iterator()  //Ljava/util/List;.iterator()Ljava/util/Iterator;
+MOVE_RESULT         |     |v7=TEMP
+LABEL               | LL20:
+INVOKE_INTERFACE    |     |TEMP=v7.hasNext()  //Ljava/util/Iterator;.hasNext()Z
+MOVE_RESULT         |     |v8=TEMP
+IF_EQZ              |     |if v8 == 0 goto L4
+INVOKE_INTERFACE    |     |TEMP=v7.next()  //Ljava/util/Iterator;.next()Ljava/lang/Object;
+MOVE_RESULT         |     |v3=TEMP
+CHECK_CAST          |     |v3=(android.app.ActivityManager$RunningAppProcessInfo) v3
+LABEL               |  LL3: line 70
+SGET                |     |v8=com.android.tools.fd.runtime.AppInfo.applicationId  //Lcom/android/tools/fd/runtime/AppInfo;.applicationId Ljava/lang/String;
+IGET                |     |v9=v3.processName  //Landroid/app/ActivityManager$RunningAppProcessInfo;.processName Ljava/lang/String;
+INVOKE_VIRTUAL      |     |TEMP=v8.equals(v9)  //Ljava/lang/String;.equals(Ljava/lang/Object;)Z
+MOVE_RESULT         |     |v8=TEMP
+IF_EQZ              |     |if v8 == 0 goto L20
+LABEL               | LL21: line 71
+CONST               |     |v0=0x00000001  // int:1   float:0.000000
+LABEL               | LL22: line 72
+IGET                |     |v8=v3.pid  //Landroid/app/ActivityManager$RunningAppProcessInfo;.pid I
+IF_NE               |     |if v8 != v2 goto L20
+LABEL               | LL23: line 73
+CONST               |     |v5=0x00000001  // int:1   float:0.000000
+LABEL               |  LL4: line 78
+IF_NEZ              |     |if v5 != 0 goto L24
+IF_NEZ              |     |if v0 != 0 goto L24
+LABEL               | LL25: line 82
+CONST               |     |v5=0x00000001  // int:1   float:0.000000
+LABEL               | LL26: line 83
+CONST_STRING        |     |v7="InstantRun"
+CONST               |     |v8=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v7,v8)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v7=TEMP
+IF_EQZ              |     |if v7 == 0 goto L24
+LABEL               | LL27: line 84
+CONST_STRING        |     |v7="InstantRun"
+CONST_STRING        |     |v8="Multiprocess but didn't find process with package: starting server anyway"
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v7,v8)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               | LL24: line 93
+IF_EQZ              |     |if v5 == 0 goto L28
+LABEL               | LL29: line 94
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.Server.create(v11)  //Lcom/android/tools/fd/runtime/Server;.create(Landroid/content/Context;)Lcom/android/tools/fd/runtime/Server;
+MOVE_RESULT         |     |v7=TEMP
+IPUT                |     |v11.server=v7  //Lcom/android/tools/fd/runtime/InstantRunService;.server Lcom/android/tools/fd/runtime/Server;
+LABEL               |  LL5: line 109
+RETURN_VOID         |     |return
+LABEL               | LL10: line 218
+CONST               |     |v5=0x00000001  // int:1   float:0.000000
+LABEL               | LL11:
+GOTO                |     |goto L24
+LABEL               | LL28: line 224
+CONST_STRING        |     |v7="InstantRun"
+CONST               |     |v8=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v7,v8)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v7=TEMP
+IF_EQZ              |     |if v7 == 0 goto L5
+LABEL               | LL30: line 225
+CONST_STRING        |     |v7="InstantRun"
+CONST_STRING        |     |v8="In secondary process: Not starting server"
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v7,v8)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+                    |     | } // TC_0
+LABEL               |  LL1:
+GOTO                |     |goto L5
+LABEL               |  LL2: line 228
+                    |     |catch(Ljava/lang/Throwable;) // TC_0
+MOVE_EXCEPTION      |     |v6=@Exception
+LABEL               | LL13: line 229
+CONST_STRING        |     |v7="InstantRun"
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v7,v10)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v7=TEMP
+IF_EQZ              |     |if v7 == 0 goto L31
+LABEL               | LL32: line 230
+CONST_STRING        |     |v7="InstantRun"
+CONST_STRING        |     |v8="Failed during multi process check"
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v7,v8,v6)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+LABEL               | LL31: line 232
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.Server.create(v11)  //Lcom/android/tools/fd/runtime/Server;.create(Landroid/content/Context;)Lcom/android/tools/fd/runtime/Server;
+MOVE_RESULT         |     |v7=TEMP
+IPUT                |     |v11.server=v7  //Lcom/android/tools/fd/runtime/InstantRunService;.server Lcom/android/tools/fd/runtime/Server;
+GOTO                |     |goto L5
+LABEL               | LL12: line 235
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.Server.create(v11)  //Lcom/android/tools/fd/runtime/Server;.create(Landroid/content/Context;)Lcom/android/tools/fd/runtime/Server;
+MOVE_RESULT         |     |v7=TEMP
+IPUT                |     |v11.server=v7  //Lcom/android/tools/fd/runtime/InstantRunService;.server Lcom/android/tools/fd/runtime/Server;
+GOTO                |     |goto L5
+LABEL               | LL15:
+
+//method:0003  access:0x0001
+//Lcom/android/tools/fd/runtime/InstantRunService;.onDestroy()V
+public V onDestroy()
+                this:v3   //com.android.tools.fd.runtime.InstantRunService
+LOCAL_VARIABLE LL0 ~ LL1 v3 -> this // Lcom/android/tools/fd/runtime/InstantRunService; 
+LABEL               |  LL0: line 113
+IGET                |     |v0=v3.server  //Lcom/android/tools/fd/runtime/InstantRunService;.server Lcom/android/tools/fd/runtime/Server;
+IF_EQZ              |     |if v0 == 0 goto L2
+LABEL               |  LL3: line 114
+CONST_STRING        |     |v0="InstantRun"
+NEW_INSTANCE        |     |v1=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v1.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v2="Stopping Instant Run Server for "
+INVOKE_VIRTUAL      |     |TEMP=v1.append(v2)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v1=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v3.getPackageName()  //Lcom/android/tools/fd/runtime/InstantRunService;.getPackageName()Ljava/lang/String;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v1.append(v2)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v1=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v1.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v1=TEMP
+INVOKE_STATIC       |     |TEMP=android.util.Log.i(v0,v1)  //Landroid/util/Log;.i(Ljava/lang/String;Ljava/lang/String;)I
+IGET                |     |v0=v3.server  //Lcom/android/tools/fd/runtime/InstantRunService;.server Lcom/android/tools/fd/runtime/Server;
+INVOKE_VIRTUAL      |     |v0.shutdown()  //Lcom/android/tools/fd/runtime/Server;.shutdown()V
+LABEL               |  LL2: line 117
+INVOKE_SUPER        |     |v3.onDestroy()  //Landroid/app/Service;.onDestroy()V
+LABEL               |  LL4: line 118
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0004  access:0x0001
+//Lcom/android/tools/fd/runtime/InstantRunService;.onStartCommand(Landroid/content/Intent;II)I
+public int onStartCommand(android.content.Intent,int,int)
+                this:v1   //com.android.tools.fd.runtime.InstantRunService
+                    :v2   //android.content.Intent
+                    :v3   //int
+                    :v4   //int
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> this // Lcom/android/tools/fd/runtime/InstantRunService; 
+LOCAL_VARIABLE LL0 ~ LL1 v2 -> intent // Landroid/content/Intent; 
+LOCAL_VARIABLE LL0 ~ LL1 v3 -> flags // I 
+LOCAL_VARIABLE LL0 ~ LL1 v4 -> startId // I 
+LABEL               |  LL0: line 40
+CONST               |     |v0=0x00000001  // int:1   float:0.000000
+RETURN              |     |return v0
+LABEL               |  LL1:

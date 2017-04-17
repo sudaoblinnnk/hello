@@ -1,0 +1,7 @@
+
+ANDROID_TARGET_DEVICE       emulator-5554
+JAVA_SIGNING_PACKAGE        /home/test/workspace/GuluGulu/bin/GuluGulu.apk
+MY_SHARED_LIB_PATH          /home/test/workspace/GuluGulu/libs/armeabi
+MY_SHARED_LIB_TARGET_PATH   /data/data/com.easytime.gulustar/lib
+JAVA_SIGNING_CONFIG_FILE    /home/test/jrong/iac/rpm/irdeto_java_access_config.xml.gulugulu
+DEX_APK_FILE                /home/test/jrong/iac/rpm/data/GuluGulu.apk

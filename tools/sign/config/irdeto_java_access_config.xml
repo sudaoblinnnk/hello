@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <jvmType>DVM</jvmType>
+    <applicationtype>omp</applicationtype>
+    <loglevel>fine</loglevel>
+    <operation>signing</operation>
+    <javaSigningToolHome>/home/test/workspace/commandLineSign</javaSigningToolHome>
+    <javaSigningConfigDeployPath>/data/local</javaSigningConfigDeployPath>
+    <androidSDKHome>/opt/toolchain/android/sdk/android-sdk-r8</androidSDKHome>
+    <javaArchiving>
+        <nativeLibDirForJavaArchive>mypath</nativeLibDirForJavaArchive>
+        <javaArchivingFiles>
+            <file>/home/test/workspace/SecreteApps/bin/SecreteApps.apk</file>
+        </javaArchivingFiles>
+    </javaArchiving>
+    <javaSigning>
+        <JACPolicy>3</JACPolicy>
+        <storePath>/data/local/jac_store.dat</storePath>
+        <outputFilePath>/data/local</outputFilePath>
+        <stubClass>com.irdeto.security.NativeAppManager</stubClass>
+        <userTargetAPK>/data/local/SampleJACruntime.apk</userTargetAPK>
+        <nativeLibPath>/data/data/com.irdeto.signing/lib</nativeLibPath>
+        <packageParameters>
+            <package>/data/local/SampleJACruntime.apk</package>
+<!-- The noSigningJavaPackage entries will not be considered should includeJavaPackage is used
+-->
+	    <includeJavaPackage>com.ir.app</includeJavaPackage>
+	    <includeJavaPackage>com.another.javapackage</includeJavaPackage>
+            <noSigningJavaPackage>com.irdeto.signing</noSigningJavaPackage>
+            <noSigningJavaPackage>com.irdeto.drm.oma</noSigningJavaPackage>
+        </packageParameters>
+    </javaSigning>
+</configuration>

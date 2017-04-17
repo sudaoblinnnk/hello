@@ -1,0 +1,25 @@
+//class:0015  access:0x0001
+public class com.android.tools.fd.runtime.Logging
+//field:0000  access:0x0019
+//Lcom/android/tools/fd/runtime/Logging;.LOG_TAG Ljava/lang/String;
+public static final  java.lang.String LOG_TAG=InstantRun;
+
+//method:0000  access:0x10008
+//Lcom/android/tools/fd/runtime/Logging;.<clinit>()V
+static V <clinit>()
+LABEL               |  LL0: line 33
+NEW_INSTANCE        |     |v0=NEW Lcom/android/tools/fd/runtime/Logging$1;
+INVOKE_DIRECT       |     |v0.<init>()  //Lcom/android/tools/fd/runtime/Logging$1;.<init>()V
+SPUT                |     |com.android.tools.fd.common.Log.logging=v0  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+LABEL               |  LL1: line 75
+RETURN_VOID         |     |return
+
+//method:0001  access:0x10001
+//Lcom/android/tools/fd/runtime/Logging;.<init>()V
+public V <init>()
+                this:v0   //com.android.tools.fd.runtime.Logging
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lcom/android/tools/fd/runtime/Logging; 
+LABEL               |  LL0: line 27
+INVOKE_DIRECT       |     |v0.<init>()  //Ljava/lang/Object;.<init>()V
+RETURN_VOID         |     |return
+LABEL               |  LL1:

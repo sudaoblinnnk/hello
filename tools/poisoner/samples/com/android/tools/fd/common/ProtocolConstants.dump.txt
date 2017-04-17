@@ -1,0 +1,47 @@
+//class:0002  access:0x0601
+public interace com.android.tools.fd.common.ProtocolConstants
+//field:0000  access:0x0019
+//Lcom/android/tools/fd/common/ProtocolConstants;.MESSAGE_EOF I
+public static final  int MESSAGE_EOF=7;
+//field:0001  access:0x0019
+//Lcom/android/tools/fd/common/ProtocolConstants;.MESSAGE_PATCHES I
+public static final  int MESSAGE_PATCHES=1;
+//field:0002  access:0x0019
+//Lcom/android/tools/fd/common/ProtocolConstants;.MESSAGE_PATH_CHECKSUM I
+public static final  int MESSAGE_PATH_CHECKSUM=4;
+//field:0003  access:0x0019
+//Lcom/android/tools/fd/common/ProtocolConstants;.MESSAGE_PATH_EXISTS I
+public static final  int MESSAGE_PATH_EXISTS=3;
+//field:0004  access:0x0019
+//Lcom/android/tools/fd/common/ProtocolConstants;.MESSAGE_PING I
+public static final  int MESSAGE_PING=2;
+//field:0005  access:0x0019
+//Lcom/android/tools/fd/common/ProtocolConstants;.MESSAGE_RESTART_ACTIVITY I
+public static final  int MESSAGE_RESTART_ACTIVITY=5;
+//field:0006  access:0x0019
+//Lcom/android/tools/fd/common/ProtocolConstants;.MESSAGE_SEND_FILE I
+public static final  int MESSAGE_SEND_FILE=8;
+//field:0007  access:0x0019
+//Lcom/android/tools/fd/common/ProtocolConstants;.MESSAGE_SHELL_COMMAND I
+public static final  int MESSAGE_SHELL_COMMAND=9;
+//field:0008  access:0x0019
+//Lcom/android/tools/fd/common/ProtocolConstants;.MESSAGE_SHOW_TOAST I
+public static final  int MESSAGE_SHOW_TOAST=6;
+//field:0009  access:0x0019
+//Lcom/android/tools/fd/common/ProtocolConstants;.PROTOCOL_IDENTIFIER J
+public static final  long PROTOCOL_IDENTIFIER=890269988;
+//field:0010  access:0x0019
+//Lcom/android/tools/fd/common/ProtocolConstants;.PROTOCOL_VERSION I
+public static final  int PROTOCOL_VERSION=4;
+//field:0011  access:0x0019
+//Lcom/android/tools/fd/common/ProtocolConstants;.UPDATE_MODE_COLD_SWAP I
+public static final  int UPDATE_MODE_COLD_SWAP=3;
+//field:0012  access:0x0019
+//Lcom/android/tools/fd/common/ProtocolConstants;.UPDATE_MODE_HOT_SWAP I
+public static final  int UPDATE_MODE_HOT_SWAP=1;
+//field:0013  access:0x0019
+//Lcom/android/tools/fd/common/ProtocolConstants;.UPDATE_MODE_NONE I
+public static final  int UPDATE_MODE_NONE=0;
+//field:0014  access:0x0019
+//Lcom/android/tools/fd/common/ProtocolConstants;.UPDATE_MODE_WARM_SWAP I
+public static final  int UPDATE_MODE_WARM_SWAP=2;

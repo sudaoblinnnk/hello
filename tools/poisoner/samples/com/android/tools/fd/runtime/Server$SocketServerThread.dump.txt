@@ -1,0 +1,109 @@
+//class:0024  access:0x0000
+class com.android.tools.fd.runtime.Server$SocketServerThread extends java.lang.Thread
+//field:0000  access:0x1010
+//Lcom/android/tools/fd/runtime/Server$SocketServerThread;.this$0 Lcom/android/tools/fd/runtime/Server;
+final  com.android.tools.fd.runtime.Server this$0;
+
+//method:0000  access:0x10002
+//Lcom/android/tools/fd/runtime/Server$SocketServerThread;.<init>(Lcom/android/tools/fd/runtime/Server;)V
+private V <init>(com.android.tools.fd.runtime.Server)
+                this:v0   //com.android.tools.fd.runtime.Server$SocketServerThread
+                    :v1   //com.android.tools.fd.runtime.Server
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lcom/android/tools/fd/runtime/Server$SocketServerThread; 
+LABEL               |  LL0: line 130
+IPUT                |     |v0.this$0=v1  //Lcom/android/tools/fd/runtime/Server$SocketServerThread;.this$0 Lcom/android/tools/fd/runtime/Server;
+INVOKE_DIRECT       |     |v0.<init>()  //Ljava/lang/Thread;.<init>()V
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0001  access:0x11000
+//Lcom/android/tools/fd/runtime/Server$SocketServerThread;.<init>(Lcom/android/tools/fd/runtime/Server;Lcom/android/tools/fd/runtime/Server$1;)V
+V <init>(com.android.tools.fd.runtime.Server,com.android.tools.fd.runtime.Server$1)
+                this:v0   //com.android.tools.fd.runtime.Server$SocketServerThread
+                    :v1   //com.android.tools.fd.runtime.Server
+                    :v2   //com.android.tools.fd.runtime.Server$1
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lcom/android/tools/fd/runtime/Server$SocketServerThread; 
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> x0 // Lcom/android/tools/fd/runtime/Server; 
+LOCAL_VARIABLE LL0 ~ LL1 v2 -> x1 // Lcom/android/tools/fd/runtime/Server$1; 
+LABEL               |  LL0: line 130
+INVOKE_DIRECT       |     |v0.<init>(v1)  //Lcom/android/tools/fd/runtime/Server$SocketServerThread;.<init>(Lcom/android/tools/fd/runtime/Server;)V
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0002  access:0x0001
+//Lcom/android/tools/fd/runtime/Server$SocketServerThread;.run()V
+public V run()
+                this:v7   //com.android.tools.fd.runtime.Server$SocketServerThread
+TR_0 LL0 ~ LL1 > LL2 Ljava/lang/Throwable;
+LOCAL_VARIABLE LL3 ~ LL2 v1 -> serverSocket // Landroid/net/LocalServerSocket; 
+LOCAL_VARIABLE LL4 ~ LL2 v2 -> socket // Landroid/net/LocalSocket; 
+LOCAL_VARIABLE LL5 ~ LL2 v3 -> socketServerReplyThread // Lcom/android/tools/fd/runtime/Server$SocketServerReplyThread; 
+LOCAL_VARIABLE LL6 ~ LL7 v0 -> e // Ljava/lang/Throwable; 
+LOCAL_VARIABLE LL8 ~ LL7 v7 -> this // Lcom/android/tools/fd/runtime/Server$SocketServerThread; 
+LABEL               |  LL8: line 153
+CONST               |     |v6=0x00000002  // int:2   float:0.000000
+LABEL               |  LL0: line 153
+                    |     |try { // TC_0 
+IGET                |     |v4=v7.this$0  //Lcom/android/tools/fd/runtime/Server$SocketServerThread;.this$0 Lcom/android/tools/fd/runtime/Server;
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.Server.access$100(v4)  //Lcom/android/tools/fd/runtime/Server;.access$100(Lcom/android/tools/fd/runtime/Server;)Landroid/net/LocalServerSocket;
+MOVE_RESULT         |     |v1=TEMP
+LABEL               |  LL3: line 154
+IF_NEZ              |     |if v1 != 0 goto L9
+LABEL               | LL10: line 180
+RETURN_VOID         |     |return
+LABEL               |  LL9: line 285
+INVOKE_VIRTUAL      |     |TEMP=v1.accept()  //Landroid/net/LocalServerSocket;.accept()Landroid/net/LocalSocket;
+MOVE_RESULT         |     |v2=TEMP
+LABEL               |  LL4: line 287
+CONST_STRING        |     |v4="InstantRun"
+CONST               |     |v5=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v4,v5)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v4=TEMP
+IF_EQZ              |     |if v4 == 0 goto L11
+LABEL               | LL12: line 288
+CONST_STRING        |     |v4="InstantRun"
+CONST_STRING        |     |v5="Received connection from IDE: spawning connection thread"
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v4,v5)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               | LL11: line 291
+NEW_INSTANCE        |     |v3=NEW Lcom/android/tools/fd/runtime/Server$SocketServerReplyThread;
+IGET                |     |v4=v7.this$0  //Lcom/android/tools/fd/runtime/Server$SocketServerThread;.this$0 Lcom/android/tools/fd/runtime/Server;
+INVOKE_DIRECT       |     |v3.<init>(v4,v2)  //Lcom/android/tools/fd/runtime/Server$SocketServerReplyThread;.<init>(Lcom/android/tools/fd/runtime/Server;Landroid/net/LocalSocket;)V
+LABEL               |  LL5: line 293
+INVOKE_VIRTUAL      |     |v3.run()  //Lcom/android/tools/fd/runtime/Server$SocketServerReplyThread;.run()V
+LABEL               | LL13: line 295
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.Server.access$200()  //Lcom/android/tools/fd/runtime/Server;.access$200()I
+MOVE_RESULT         |     |v4=TEMP
+CONST               |     |v5=0x00000032  // int:50   float:0.000000
+IF_LE               |     |if v4 <= v5 goto L0
+LABEL               | LL14: line 296
+CONST_STRING        |     |v4="InstantRun"
+CONST               |     |v5=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v4,v5)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v4=TEMP
+IF_EQZ              |     |if v4 == 0 goto L15
+LABEL               | LL16: line 297
+CONST_STRING        |     |v4="InstantRun"
+CONST_STRING        |     |v5="Stopping server: too many wrong token connections"
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v4,v5)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               | LL15: line 299
+IGET                |     |v4=v7.this$0  //Lcom/android/tools/fd/runtime/Server$SocketServerThread;.this$0 Lcom/android/tools/fd/runtime/Server;
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.Server.access$100(v4)  //Lcom/android/tools/fd/runtime/Server;.access$100(Lcom/android/tools/fd/runtime/Server;)Landroid/net/LocalServerSocket;
+MOVE_RESULT         |     |v4=TEMP
+INVOKE_VIRTUAL      |     |v4.close()  //Landroid/net/LocalServerSocket;.close()V
+                    |     | } // TC_0
+LABEL               |  LL1:
+GOTO                |     |goto L10
+LABEL               |  LL2: line 302
+                    |     |catch(Ljava/lang/Throwable;) // TC_0
+MOVE_EXCEPTION      |     |v0=@Exception
+LABEL               |  LL6: line 303
+CONST_STRING        |     |v4="InstantRun"
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v4,v6)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v4=TEMP
+IF_EQZ              |     |if v4 == 0 goto L0
+LABEL               | LL17: line 304
+CONST_STRING        |     |v4="InstantRun"
+CONST_STRING        |     |v5="Fatal error accepting connection on local socket"
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v4,v5,v0)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+GOTO                |     |goto L0
+LABEL               |  LL7:

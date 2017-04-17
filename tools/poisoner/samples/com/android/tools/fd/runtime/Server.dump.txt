@@ -1,0 +1,908 @@
+//class:0025  access:0x0001
+public class com.android.tools.fd.runtime.Server
+//field:0000  access:0x001a
+//Lcom/android/tools/fd/runtime/Server;.POST_ALIVE_STATUS Z
+private static final  Z POST_ALIVE_STATUS;
+//field:0001  access:0x001a
+//Lcom/android/tools/fd/runtime/Server;.RESTART_LOCALLY Z
+private static final  Z RESTART_LOCALLY;
+//field:0002  access:0x000a
+//Lcom/android/tools/fd/runtime/Server;.wrongTokenCount I
+private static  int wrongTokenCount;
+//field:0003  access:0x0012
+//Lcom/android/tools/fd/runtime/Server;.context Landroid/content/Context;
+private final  android.content.Context context;
+//field:0004  access:0x0002
+//Lcom/android/tools/fd/runtime/Server;.serverSocket Landroid/net/LocalServerSocket;
+private  android.net.LocalServerSocket serverSocket;
+
+//method:0000  access:0x10002
+//Lcom/android/tools/fd/runtime/Server;.<init>(Ljava/lang/String;Landroid/content/Context;)V
+private V <init>(java.lang.String,android.content.Context)
+                this:v5   //com.android.tools.fd.runtime.Server
+                    :v6   //java.lang.String
+                    :v7   //android.content.Context
+TR_0 LL0 ~ LL1 > LL2 Ljava/io/IOException;
+LOCAL_VARIABLE LL3 ~ LL4 v0 -> e // Ljava/io/IOException; 
+LOCAL_VARIABLE LL5 ~ LL4 v5 -> this // Lcom/android/tools/fd/runtime/Server; 
+LOCAL_VARIABLE LL5 ~ LL4 v6 -> packageName // Ljava/lang/String; 
+LOCAL_VARIABLE LL5 ~ LL4 v7 -> context // Landroid/content/Context; 
+LABEL               |  LL5: line 88
+CONST               |     |v4=0x00000002  // int:2   float:0.000000
+LABEL               |  LL6: line 88
+INVOKE_DIRECT       |     |v5.<init>()  //Ljava/lang/Object;.<init>()V
+LABEL               |  LL7: line 89
+IPUT                |     |v5.context=v7  //Lcom/android/tools/fd/runtime/Server;.context Landroid/content/Context;
+LABEL               |  LL0: line 91
+                    |     |try { // TC_0 
+NEW_INSTANCE        |     |v1=NEW Landroid/net/LocalServerSocket;
+INVOKE_DIRECT       |     |v1.<init>(v6)  //Landroid/net/LocalServerSocket;.<init>(Ljava/lang/String;)V
+IPUT                |     |v5.serverSocket=v1  //Lcom/android/tools/fd/runtime/Server;.serverSocket Landroid/net/LocalServerSocket;
+LABEL               |  LL8: line 92
+CONST_STRING        |     |v1="InstantRun"
+CONST               |     |v2=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v1,v2)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v1=TEMP
+IF_EQZ              |     |if v1 == 0 goto L1
+LABEL               |  LL9: line 93
+CONST_STRING        |     |v1="InstantRun"
+NEW_INSTANCE        |     |v2=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v2.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v3="Starting server socket listening for package "
+INVOKE_VIRTUAL      |     |TEMP=v2.append(v3)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v2.append(v6)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v2=TEMP
+CONST_STRING        |     |v3=" on "
+INVOKE_VIRTUAL      |     |TEMP=v2.append(v3)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v2=TEMP
+IGET                |     |v3=v5.serverSocket  //Lcom/android/tools/fd/runtime/Server;.serverSocket Landroid/net/LocalServerSocket;
+INVOKE_VIRTUAL      |     |TEMP=v3.getLocalSocketAddress()  //Landroid/net/LocalServerSocket;.getLocalSocketAddress()Landroid/net/LocalSocketAddress;
+MOVE_RESULT         |     |v3=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v2.append(v3)  //Ljava/lang/StringBuilder;.append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v2.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v2=TEMP
+LABEL               | LL10: line 93
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v1,v2)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+                    |     | } // TC_0
+LABEL               |  LL1: line 100
+INVOKE_DIRECT       |     |v5.startServer()  //Lcom/android/tools/fd/runtime/Server;.startServer()V
+LABEL               | LL11: line 102
+CONST_STRING        |     |v1="InstantRun"
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v1,v4)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v1=TEMP
+IF_EQZ              |     |if v1 == 0 goto L12
+LABEL               | LL13: line 103
+CONST_STRING        |     |v1="InstantRun"
+NEW_INSTANCE        |     |v2=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v2.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v3="Started server for package "
+INVOKE_VIRTUAL      |     |TEMP=v2.append(v3)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v2.append(v6)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v2.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v1,v2)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               | LL12:
+RETURN_VOID         |     |return
+LABEL               |  LL2: line 224
+                    |     |catch(Ljava/io/IOException;) // TC_0
+MOVE_EXCEPTION      |     |v0=@Exception
+LABEL               |  LL3: line 225
+CONST_STRING        |     |v1="InstantRun"
+NEW_INSTANCE        |     |v2=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v2.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v3="IO Error creating local socket at "
+INVOKE_VIRTUAL      |     |TEMP=v2.append(v3)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v2.append(v6)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v2.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v2=TEMP
+INVOKE_STATIC       |     |TEMP=android.util.Log.e(v1,v2,v0)  //Landroid/util/Log;.e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+GOTO                |     |goto L12
+LABEL               |  LL4:
+
+//method:0001  access:0x1008
+//Lcom/android/tools/fd/runtime/Server;.access$100(Lcom/android/tools/fd/runtime/Server;)Landroid/net/LocalServerSocket;
+static android.net.LocalServerSocket access$100(com.android.tools.fd.runtime.Server)
+                    :v1   //com.android.tools.fd.runtime.Server
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> x0 // Lcom/android/tools/fd/runtime/Server; 
+LABEL               |  LL0: line 58
+IGET                |     |v0=v1.serverSocket  //Lcom/android/tools/fd/runtime/Server;.serverSocket Landroid/net/LocalServerSocket;
+RETURN              |     |return v0
+LABEL               |  LL1:
+
+//method:0002  access:0x1008
+//Lcom/android/tools/fd/runtime/Server;.access$200()I
+static int access$200()
+LABEL               |  LL0: line 58
+SGET                |     |v0=com.android.tools.fd.runtime.Server.wrongTokenCount  //Lcom/android/tools/fd/runtime/Server;.wrongTokenCount I
+RETURN              |     |return v0
+
+//method:0003  access:0x1008
+//Lcom/android/tools/fd/runtime/Server;.access$208()I
+static int access$208()
+LABEL               |  LL0: line 58
+SGET                |     |v0=com.android.tools.fd.runtime.Server.wrongTokenCount  //Lcom/android/tools/fd/runtime/Server;.wrongTokenCount I
+ADD_INT_LIT_X       |     |v1 = v0 + 1
+SPUT                |     |com.android.tools.fd.runtime.Server.wrongTokenCount=v1  //Lcom/android/tools/fd/runtime/Server;.wrongTokenCount I
+RETURN              |     |return v0
+
+//method:0004  access:0x1008
+//Lcom/android/tools/fd/runtime/Server;.access$300(Lcom/android/tools/fd/runtime/Server;)Landroid/content/Context;
+static android.content.Context access$300(com.android.tools.fd.runtime.Server)
+                    :v1   //com.android.tools.fd.runtime.Server
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> x0 // Lcom/android/tools/fd/runtime/Server; 
+LABEL               |  LL0: line 58
+IGET                |     |v0=v1.context  //Lcom/android/tools/fd/runtime/Server;.context Landroid/content/Context;
+RETURN              |     |return v0
+LABEL               |  LL1:
+
+//method:0005  access:0x1008
+//Lcom/android/tools/fd/runtime/Server;.access$400(Ljava/util/List;)Z
+static Z access$400(java.util.List)
+                    :v1   //java.util.List
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> x0 // Ljava/util/List; 
+LABEL               |  LL0: line 58
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.Server.hasResources(v1)  //Lcom/android/tools/fd/runtime/Server;.hasResources(Ljava/util/List;)Z
+MOVE_RESULT         |     |v0=TEMP
+RETURN              |     |return v0
+LABEL               |  LL1:
+
+//method:0006  access:0x1008
+//Lcom/android/tools/fd/runtime/Server;.access$500(Lcom/android/tools/fd/runtime/Server;Ljava/util/List;ZI)I
+static int access$500(com.android.tools.fd.runtime.Server,java.util.List,Z,int)
+                    :v1   //com.android.tools.fd.runtime.Server
+                    :v2   //java.util.List
+                    :v3   //Z
+                    :v4   //int
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> x0 // Lcom/android/tools/fd/runtime/Server; 
+LOCAL_VARIABLE LL0 ~ LL1 v2 -> x1 // Ljava/util/List; 
+LOCAL_VARIABLE LL0 ~ LL1 v3 -> x2 // Z 
+LOCAL_VARIABLE LL0 ~ LL1 v4 -> x3 // I 
+LABEL               |  LL0: line 58
+INVOKE_DIRECT       |     |TEMP=v1.handlePatches(v2,v3,v4)  //Lcom/android/tools/fd/runtime/Server;.handlePatches(Ljava/util/List;ZI)I
+MOVE_RESULT         |     |v0=TEMP
+RETURN              |     |return v0
+LABEL               |  LL1:
+
+//method:0007  access:0x1008
+//Lcom/android/tools/fd/runtime/Server;.access$600(Lcom/android/tools/fd/runtime/Server;IZZ)V
+static V access$600(com.android.tools.fd.runtime.Server,int,Z,Z)
+                    :v0   //com.android.tools.fd.runtime.Server
+                    :v1   //int
+                    :v2   //Z
+                    :v3   //Z
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> x0 // Lcom/android/tools/fd/runtime/Server; 
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> x1 // I 
+LOCAL_VARIABLE LL0 ~ LL1 v2 -> x2 // Z 
+LOCAL_VARIABLE LL0 ~ LL1 v3 -> x3 // Z 
+LABEL               |  LL0: line 58
+INVOKE_DIRECT       |     |v0.restart(v1,v2,v3)  //Lcom/android/tools/fd/runtime/Server;.restart(IZZ)V
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0008  access:0x0009
+//Lcom/android/tools/fd/runtime/Server;.create(Landroid/content/Context;)Lcom/android/tools/fd/runtime/Server;
+public static com.android.tools.fd.runtime.Server create(android.content.Context)
+                    :v2   //android.content.Context
+LOCAL_VARIABLE LL0 ~ LL1 v2 -> context // Landroid/content/Context; 
+LABEL               |  LL0: line 85
+NEW_INSTANCE        |     |v0=NEW Lcom/android/tools/fd/runtime/Server;
+INVOKE_VIRTUAL      |     |TEMP=v2.getPackageName()  //Landroid/content/Context;.getPackageName()Ljava/lang/String;
+MOVE_RESULT         |     |v1=TEMP
+INVOKE_DIRECT       |     |v0.<init>(v1,v2)  //Lcom/android/tools/fd/runtime/Server;.<init>(Ljava/lang/String;Landroid/content/Context;)V
+RETURN              |     |return v0
+LABEL               |  LL1:
+
+//method:0009  access:0x0002
+//Lcom/android/tools/fd/runtime/Server;.handleHotSwapPatch(ILcom/android/tools/fd/runtime/ApplicationPatch;)I
+private int handleHotSwapPatch(int,com.android.tools.fd.runtime.ApplicationPatch)
+                this:v15   //com.android.tools.fd.runtime.Server
+                    :v16   //int
+                    :v17   //com.android.tools.fd.runtime.ApplicationPatch
+TR_0 LL0 ~ LL1 > LL2 Ljava/lang/Throwable;
+TR_1 LL3 ~ LL4 > LL5 Ljava/lang/Exception;
+TR_2 LL3 ~ LL4 > LL2 Ljava/lang/Throwable;
+TR_3 LL6 ~ LL7 > LL2 Ljava/lang/Throwable;
+LOCAL_VARIABLE LL8 ~ LL9 v3 -> dexFile // Ljava/lang/String; 
+LOCAL_VARIABLE LL10 ~ LL9 v16 -> updateMode // I 
+LOCAL_VARIABLE LL9 ~ LL11 v9 -> updateMode // I 
+LOCAL_VARIABLE LL12 ~ LL13 v5 -> getPatchedClass // Ljava/lang/String; 
+LOCAL_VARIABLE LL3 ~ LL14 v1 -> aClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL15 ~ LL14 v2 -> dexClassLoader // Ldalvik/system/DexClassLoader; 
+LOCAL_VARIABLE LL11 ~ LL14 v3 -> dexFile // Ljava/lang/String; 
+LOCAL_VARIABLE LL16 ~ LL14 v6 -> getPatchedClasses // [Ljava/lang/String; 
+LOCAL_VARIABLE LL17 ~ LL14 v7 -> loader // Lcom/android/tools/fd/runtime/PatchesLoader; 
+LOCAL_VARIABLE LL18 ~ LL14 v8 -> nativeLibraryPath // Ljava/lang/String; 
+LOCAL_VARIABLE LL11 ~ LL19 v16 -> updateMode // I 
+LOCAL_VARIABLE LL19 ~ LL5 v9 -> updateMode // I 
+LOCAL_VARIABLE LL5 ~ LL2 v1 -> aClass // Ljava/lang/Class; 
+LOCAL_VARIABLE LL5 ~ LL2 v2 -> dexClassLoader // Ldalvik/system/DexClassLoader; 
+LOCAL_VARIABLE LL5 ~ LL2 v3 -> dexFile // Ljava/lang/String; 
+LOCAL_VARIABLE LL6 ~ LL2 v4 -> e // Ljava/lang/Exception; 
+LOCAL_VARIABLE LL5 ~ LL2 v8 -> nativeLibraryPath // Ljava/lang/String; 
+LOCAL_VARIABLE LL20 ~ LL21 v4 -> e // Ljava/lang/Throwable; 
+LOCAL_VARIABLE LL10 ~ LL21 v15 -> this // Lcom/android/tools/fd/runtime/Server; 
+LOCAL_VARIABLE LL5 ~ LL21 v16 -> updateMode // I 
+LOCAL_VARIABLE LL10 ~ LL21 v17 -> patch // Lcom/android/tools/fd/runtime/ApplicationPatch; 
+LABEL               | LL10: line 428
+CONST_STRING        |     |v10="InstantRun"
+CONST               |     |v11=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v10,v11)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v10=TEMP
+IF_EQZ              |     |if v10 == 0 goto L0
+LABEL               | LL22: line 429
+CONST_STRING        |     |v10="InstantRun"
+CONST_STRING        |     |v11="Received incremental code patch"
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v10,v11)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               |  LL0: line 432
+                    |     |try { // TC_0 
+INVOKE_VIRTUAL      |     |TEMP=v17.getBytes()  //Lcom/android/tools/fd/runtime/ApplicationPatch;.getBytes()[B
+MOVE_RESULT         |     |v10=TEMP
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.FileManager.writeTempDexFile(v10)  //Lcom/android/tools/fd/runtime/FileManager;.writeTempDexFile([B)Ljava/lang/String;
+MOVE_RESULT         |     |v3=TEMP
+LABEL               |  LL8: line 433
+IF_NEZ              |     |if v3 != 0 goto L11
+LABEL               | LL23: line 434
+CONST_STRING        |     |v10="InstantRun"
+CONST_STRING        |     |v11="No file to write the code to"
+INVOKE_STATIC       |     |TEMP=android.util.Log.e(v10,v11)  //Landroid/util/Log;.e(Ljava/lang/String;Ljava/lang/String;)I
+MOVE                |     |v9 = v16
+LABEL               |  LL9: line 476
+RETURN              |     |return v9
+LABEL               | LL11: line 564
+CONST_STRING        |     |v10="InstantRun"
+CONST               |     |v11=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v10,v11)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v10=TEMP
+IF_EQZ              |     |if v10 == 0 goto L24
+LABEL               | LL25: line 565
+CONST_STRING        |     |v10="InstantRun"
+NEW_INSTANCE        |     |v11=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v11.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v12="Reading live code from "
+INVOKE_VIRTUAL      |     |TEMP=v11.append(v12)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v11=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v11.append(v3)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v11=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v11.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v11=TEMP
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v10,v11)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               | LL24:
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.FileManager.getNativeLibraryFolder()  //Lcom/android/tools/fd/runtime/FileManager;.getNativeLibraryFolder()Ljava/io/File;
+MOVE_RESULT         |     |v10=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v10.getPath()  //Ljava/io/File;.getPath()Ljava/lang/String;
+MOVE_RESULT         |     |v8=TEMP
+LABEL               | LL18: line 568
+NEW_INSTANCE        |     |v2=NEW Ldalvik/system/DexClassLoader;
+IGET                |     |v10=v15.context  //Lcom/android/tools/fd/runtime/Server;.context Landroid/content/Context;
+LABEL               | LL26: line 569
+INVOKE_VIRTUAL      |     |TEMP=v10.getCacheDir()  //Landroid/content/Context;.getCacheDir()Ljava/io/File;
+MOVE_RESULT         |     |v10=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v10.getPath()  //Ljava/io/File;.getPath()Ljava/lang/String;
+MOVE_RESULT         |     |v10=TEMP
+LABEL               | LL27: line 570
+INVOKE_VIRTUAL      |     |TEMP=v15.getClass()  //Ljava/lang/Object;.getClass()Ljava/lang/Class;
+MOVE_RESULT         |     |v11=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v11.getClassLoader()  //Ljava/lang/Class;.getClassLoader()Ljava/lang/ClassLoader;
+MOVE_RESULT         |     |v11=TEMP
+INVOKE_DIRECT       |     |v2.<init>(v3,v10,v8,v11)  //Ldalvik/system/DexClassLoader;.<init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/ClassLoader;)V
+LABEL               | LL15: line 573
+CONST_STRING        |     |v10="com.android.tools.fd.runtime.AppPatchesLoaderImpl"
+CONST               |     |v11=0x00000001  // int:1   float:0.000000
+INVOKE_STATIC       |     |TEMP=java.lang.Class.forName(v10,v11,v2)  //Ljava/lang/Class;.forName(Ljava/lang/String;ZLjava/lang/ClassLoader;)Ljava/lang/Class;
+                    |     | } // TC_0
+LABEL               |  LL1:
+MOVE_RESULT         |     |v1=TEMP
+LABEL               |  LL3: line 576
+                    |     |try { // TC_1 
+CONST_STRING        |     |v10="InstantRun"
+CONST               |     |v11=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v10,v11)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v10=TEMP
+IF_EQZ              |     |if v10 == 0 goto L28
+LABEL               | LL29: line 577
+CONST_STRING        |     |v10="InstantRun"
+NEW_INSTANCE        |     |v11=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v11.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v12="Got the patcher class "
+INVOKE_VIRTUAL      |     |TEMP=v11.append(v12)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v11=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v11.append(v1)  //Ljava/lang/StringBuilder;.append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v11=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v11.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v11=TEMP
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v10,v11)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               | LL28:
+INVOKE_VIRTUAL      |     |TEMP=v1.newInstance()  //Ljava/lang/Class;.newInstance()Ljava/lang/Object;
+MOVE_RESULT         |     |v7=TEMP
+CHECK_CAST          |     |v7=(com.android.tools.fd.runtime.PatchesLoader) v7
+LABEL               | LL17: line 581
+CONST_STRING        |     |v10="InstantRun"
+CONST               |     |v11=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v10,v11)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v10=TEMP
+IF_EQZ              |     |if v10 == 0 goto L30
+LABEL               | LL31: line 582
+CONST_STRING        |     |v10="InstantRun"
+NEW_INSTANCE        |     |v11=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v11.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v12="Got the patcher instance "
+INVOKE_VIRTUAL      |     |TEMP=v11.append(v12)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v11=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v11.append(v7)  //Ljava/lang/StringBuilder;.append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v11=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v11.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v11=TEMP
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v10,v11)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               | LL30:
+CONST_STRING        |     |v10="getPatchedClasses"
+CONST               |     |v11=0x00000000  // int:0   float:0.000000
+NEW_ARRAY           |     |v11=new java.lang.Class[][v11]
+LABEL               | LL32: line 585
+INVOKE_VIRTUAL      |     |TEMP=v1.getDeclaredMethod(v10,v11)  //Ljava/lang/Class;.getDeclaredMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+MOVE_RESULT         |     |v10=TEMP
+CONST               |     |v11=0x00000000  // int:0   float:0.000000
+NEW_ARRAY           |     |v11=new java.lang.Object[][v11]
+INVOKE_VIRTUAL      |     |TEMP=v10.invoke(v7,v11)  //Ljava/lang/reflect/Method;.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v10=TEMP
+CHECK_CAST          |     |v10=(java.lang.String[]) v10
+MOVE                |     |v0 = v10
+CHECK_CAST          |     |v0=(java.lang.String[]) v0
+MOVE                |     |v6 = v0
+LABEL               | LL16:
+CONST_STRING        |     |v10="InstantRun"
+CONST               |     |v11=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v10,v11)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v10=TEMP
+IF_EQZ              |     |if v10 == 0 goto L13
+LABEL               | LL33: line 587
+CONST_STRING        |     |v10="InstantRun"
+CONST_STRING        |     |v11="Got the list of classes "
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v10,v11)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               | LL34: line 588
+ARRAY_LENGTH        |     |v11 = v6.length
+CONST               |     |v10=0x00000000  // int:0   float:0.000000
+LABEL               | LL35:
+IF_GE               |     |if v10 >= v11 goto L13
+AGET                |     |v5=v6[v10]
+LABEL               | LL12: line 589
+CONST_STRING        |     |v12="InstantRun"
+NEW_INSTANCE        |     |v13=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v13.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v14="class "
+INVOKE_VIRTUAL      |     |TEMP=v13.append(v14)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v13=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v13.append(v5)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v13=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v13.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v13=TEMP
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v12,v13)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+ADD_INT_LIT_X       |     |v10 = v10 + 1
+GOTO                |     |goto L35
+LABEL               | LL13: line 592
+INVOKE_INTERFACE    |     |TEMP=v7.load()  //Lcom/android/tools/fd/runtime/PatchesLoader;.load()Z
+                    |     | } // TC_1
+LABEL               |  LL4:
+MOVE_RESULT         |     |v10=TEMP
+IF_NEZ              |     |if v10 != 0 goto L14
+LABEL               | LL36: line 593
+CONST               |     |v16=0x00000003  // int:3   float:0.000000
+LABEL               | LL14:
+MOVE                |     |v9 = v16
+LABEL               | LL19: line 604
+GOTO                |     |goto L9
+LABEL               |  LL5: line 723
+                    |     |catch(Ljava/lang/Exception;) // TC_1
+MOVE_EXCEPTION      |     |v4=@Exception
+LABEL               |  LL6: line 724
+                    |     |try { // TC_3 
+CONST_STRING        |     |v10="InstantRun"
+CONST_STRING        |     |v11="Couldn't apply code changes"
+INVOKE_STATIC       |     |TEMP=android.util.Log.e(v10,v11,v4)  //Landroid/util/Log;.e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+LABEL               | LL37: line 725
+INVOKE_VIRTUAL      |     |v4.printStackTrace()  //Ljava/lang/Exception;.printStackTrace()V
+                    |     | } // TC_3
+LABEL               |  LL7: line 726
+CONST               |     |v16=0x00000003  // int:3   float:0.000000
+GOTO                |     |goto L14
+LABEL               |  LL2: line 728
+                    |     |catch(Ljava/lang/Throwable;) // TC_0
+MOVE_EXCEPTION      |     |v4=@Exception
+LABEL               | LL20: line 729
+CONST_STRING        |     |v10="InstantRun"
+CONST_STRING        |     |v11="Couldn't apply code changes"
+INVOKE_STATIC       |     |TEMP=android.util.Log.e(v10,v11,v4)  //Landroid/util/Log;.e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+LABEL               | LL38: line 730
+CONST               |     |v16=0x00000003  // int:3   float:0.000000
+GOTO                |     |goto L14
+LABEL               | LL21:
+
+//method:0010  access:0x0002
+//Lcom/android/tools/fd/runtime/Server;.handlePatches(Ljava/util/List;ZI)I
+private int handlePatches(java.util.List,Z,int)
+                this:v4   //com.android.tools.fd.runtime.Server
+                    :v5   //java.util.List
+                    :v6   //Z
+                    :v7   //int
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> change // Lcom/android/tools/fd/runtime/ApplicationPatch; 
+LOCAL_VARIABLE LL2 ~ LL1 v1 -> path // Ljava/lang/String; 
+LOCAL_VARIABLE LL3 ~ LL4 v4 -> this // Lcom/android/tools/fd/runtime/Server; 
+LOCAL_VARIABLE LL3 ~ LL4 v5 -> changes // Ljava/util/List; 
+LOCAL_VARIABLE LL3 ~ LL4 v6 -> hasResources // Z 
+LOCAL_VARIABLE LL3 ~ LL4 v7 -> updateMode // I 
+LABEL               |  LL3: line 396
+IF_EQZ              |     |if v6 == 0 goto L5
+LABEL               |  LL6: line 397
+INVOKE_STATIC       |     |com.android.tools.fd.runtime.FileManager.startUpdate()  //Lcom/android/tools/fd/runtime/FileManager;.startUpdate()V
+LABEL               |  LL5: line 400
+INVOKE_INTERFACE    |     |TEMP=v5.iterator()  //Ljava/util/List;.iterator()Ljava/util/Iterator;
+MOVE_RESULT         |     |v2=TEMP
+LABEL               |  LL7:
+INVOKE_INTERFACE    |     |TEMP=v2.hasNext()  //Ljava/util/Iterator;.hasNext()Z
+MOVE_RESULT         |     |v3=TEMP
+IF_EQZ              |     |if v3 == 0 goto L1
+INVOKE_INTERFACE    |     |TEMP=v2.next()  //Ljava/util/Iterator;.next()Ljava/lang/Object;
+MOVE_RESULT         |     |v0=TEMP
+CHECK_CAST          |     |v0=(com.android.tools.fd.runtime.ApplicationPatch) v0
+LABEL               |  LL0: line 401
+INVOKE_VIRTUAL      |     |TEMP=v0.getPath()  //Lcom/android/tools/fd/runtime/ApplicationPatch;.getPath()Ljava/lang/String;
+MOVE_RESULT         |     |v1=TEMP
+LABEL               |  LL2: line 402
+CONST_STRING        |     |v3="classes.dex.3"
+INVOKE_VIRTUAL      |     |TEMP=v1.equals(v3)  //Ljava/lang/String;.equals(Ljava/lang/Object;)Z
+MOVE_RESULT         |     |v3=TEMP
+IF_EQZ              |     |if v3 == 0 goto L8
+LABEL               |  LL9: line 403
+INVOKE_DIRECT       |     |TEMP=v4.handleHotSwapPatch(v7,v0)  //Lcom/android/tools/fd/runtime/Server;.handleHotSwapPatch(ILcom/android/tools/fd/runtime/ApplicationPatch;)I
+MOVE_RESULT         |     |v7=TEMP
+GOTO                |     |goto L7
+LABEL               |  LL8: line 404
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.Server.isResourcePath(v1)  //Lcom/android/tools/fd/runtime/Server;.isResourcePath(Ljava/lang/String;)Z
+MOVE_RESULT         |     |v3=TEMP
+IF_EQZ              |     |if v3 == 0 goto L7
+LABEL               | LL10: line 405
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.Server.handleResourcePatch(v7,v0,v1)  //Lcom/android/tools/fd/runtime/Server;.handleResourcePatch(ILcom/android/tools/fd/runtime/ApplicationPatch;Ljava/lang/String;)I
+MOVE_RESULT         |     |v7=TEMP
+GOTO                |     |goto L7
+LABEL               |  LL1: line 409
+IF_EQZ              |     |if v6 == 0 goto L11
+LABEL               | LL12: line 410
+CONST               |     |v2=0x00000001  // int:1   float:0.000000
+INVOKE_STATIC       |     |com.android.tools.fd.runtime.FileManager.finishUpdate(v2)  //Lcom/android/tools/fd/runtime/FileManager;.finishUpdate(Z)V
+LABEL               | LL11: line 413
+RETURN              |     |return v7
+LABEL               |  LL4:
+
+//method:0011  access:0x000a
+//Lcom/android/tools/fd/runtime/Server;.handleResourcePatch(ILcom/android/tools/fd/runtime/ApplicationPatch;Ljava/lang/String;)I
+private static int handleResourcePatch(int,com.android.tools.fd.runtime.ApplicationPatch,java.lang.String)
+                    :v4   //int
+                    :v5   //com.android.tools.fd.runtime.ApplicationPatch
+                    :v6   //java.lang.String
+LOCAL_VARIABLE LL0 ~ LL1 v4 -> updateMode // I 
+LOCAL_VARIABLE LL0 ~ LL1 v5 -> patch // Lcom/android/tools/fd/runtime/ApplicationPatch; 
+LOCAL_VARIABLE LL0 ~ LL1 v6 -> path // Ljava/lang/String; 
+LABEL               |  LL0: line 418
+CONST               |     |v3=0x00000002  // int:2   float:0.000000
+LABEL               |  LL2: line 418
+CONST_STRING        |     |v0="InstantRun"
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v0,v3)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v0=TEMP
+IF_EQZ              |     |if v0 == 0 goto L3
+LABEL               |  LL4: line 419
+CONST_STRING        |     |v0="InstantRun"
+NEW_INSTANCE        |     |v1=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v1.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v2="Received resource changes ("
+INVOKE_VIRTUAL      |     |TEMP=v1.append(v2)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v1=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v1.append(v6)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v1=TEMP
+CONST_STRING        |     |v2=")"
+INVOKE_VIRTUAL      |     |TEMP=v1.append(v2)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v1=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v1.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v1=TEMP
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v0,v1)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               |  LL3:
+INVOKE_VIRTUAL      |     |TEMP=v5.getBytes()  //Lcom/android/tools/fd/runtime/ApplicationPatch;.getBytes()[B
+MOVE_RESULT         |     |v0=TEMP
+INVOKE_STATIC       |     |com.android.tools.fd.runtime.FileManager.writeAaptResources(v6,v0)  //Lcom/android/tools/fd/runtime/FileManager;.writeAaptResources(Ljava/lang/String;[B)V
+LABEL               |  LL5: line 423
+INVOKE_STATIC       |     |TEMP=java.lang.Math.max(v4,v3)  //Ljava/lang/Math;.max(II)I
+MOVE_RESULT         |     |v4=TEMP
+LABEL               |  LL6: line 424
+RETURN              |     |return v4
+LABEL               |  LL1:
+
+//method:0012  access:0x000a
+//Lcom/android/tools/fd/runtime/Server;.hasResources(Ljava/util/List;)Z
+private static Z hasResources(java.util.List)
+                    :v4   //java.util.List
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> change // Lcom/android/tools/fd/runtime/ApplicationPatch; 
+LOCAL_VARIABLE LL2 ~ LL1 v1 -> path // Ljava/lang/String; 
+LOCAL_VARIABLE LL3 ~ LL4 v4 -> changes // Ljava/util/List; 
+LABEL               |  LL3: line 384
+INVOKE_INTERFACE    |     |TEMP=v4.iterator()  //Ljava/util/List;.iterator()Ljava/util/Iterator;
+MOVE_RESULT         |     |v2=TEMP
+LABEL               |  LL5:
+INVOKE_INTERFACE    |     |TEMP=v2.hasNext()  //Ljava/util/Iterator;.hasNext()Z
+MOVE_RESULT         |     |v3=TEMP
+IF_EQZ              |     |if v3 == 0 goto L6
+INVOKE_INTERFACE    |     |TEMP=v2.next()  //Ljava/util/Iterator;.next()Ljava/lang/Object;
+MOVE_RESULT         |     |v0=TEMP
+CHECK_CAST          |     |v0=(com.android.tools.fd.runtime.ApplicationPatch) v0
+LABEL               |  LL0: line 385
+INVOKE_VIRTUAL      |     |TEMP=v0.getPath()  //Lcom/android/tools/fd/runtime/ApplicationPatch;.getPath()Ljava/lang/String;
+MOVE_RESULT         |     |v1=TEMP
+LABEL               |  LL2: line 386
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.Server.isResourcePath(v1)  //Lcom/android/tools/fd/runtime/Server;.isResourcePath(Ljava/lang/String;)Z
+MOVE_RESULT         |     |v3=TEMP
+IF_EQZ              |     |if v3 == 0 goto L5
+LABEL               |  LL7: line 387
+CONST               |     |v2=0x00000001  // int:1   float:0.000000
+LABEL               |  LL1: line 391
+RETURN              |     |return v2
+LABEL               |  LL6:
+CONST               |     |v2=0x00000000  // int:0   float:0.000000
+GOTO                |     |goto L1
+LABEL               |  LL4:
+
+//method:0013  access:0x000a
+//Lcom/android/tools/fd/runtime/Server;.isResourcePath(Ljava/lang/String;)Z
+private static Z isResourcePath(java.lang.String)
+                    :v1   //java.lang.String
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> path // Ljava/lang/String; 
+LABEL               |  LL0: line 378
+CONST_STRING        |     |v0="resources.ap_"
+INVOKE_VIRTUAL      |     |TEMP=v1.equals(v0)  //Ljava/lang/String;.equals(Ljava/lang/Object;)Z
+MOVE_RESULT         |     |v0=TEMP
+IF_NEZ              |     |if v0 != 0 goto L2
+CONST_STRING        |     |v0="res/"
+INVOKE_VIRTUAL      |     |TEMP=v1.startsWith(v0)  //Ljava/lang/String;.startsWith(Ljava/lang/String;)Z
+MOVE_RESULT         |     |v0=TEMP
+IF_EQZ              |     |if v0 == 0 goto L3
+LABEL               |  LL2:
+CONST               |     |v0=0x00000001  // int:1   float:0.000000
+LABEL               |  LL4:
+RETURN              |     |return v0
+LABEL               |  LL3:
+CONST               |     |v0=0x00000000  // int:0   float:0.000000
+GOTO                |     |goto L4
+LABEL               |  LL1:
+
+//method:0014  access:0x0002
+//Lcom/android/tools/fd/runtime/Server;.restart(IZZ)V
+private V restart(int,Z,Z)
+                this:v13   //com.android.tools.fd.runtime.Server
+                    :v14   //int
+                    :v15   //Z
+                    :v16   //Z
+TR_0 LL0 ~ LL1 > LL2 Ljava/lang/Throwable;
+LOCAL_VARIABLE LL3 ~ LL4 v3 -> foreground // Landroid/app/Activity; 
+LOCAL_VARIABLE LL5 ~ LL6 v3 -> foreground // Landroid/app/Activity; 
+LOCAL_VARIABLE LL7 ~ LL8 v2 -> file // Ljava/io/File; 
+LOCAL_VARIABLE LL9 ~ LL8 v6 -> resources // Ljava/lang/String; 
+LOCAL_VARIABLE LL10 ~ LL1 v5 -> method // Ljava/lang/reflect/Method; 
+LOCAL_VARIABLE LL11 ~ LL1 v7 -> result // Ljava/lang/Object; 
+LOCAL_VARIABLE LL12 ~ LL13 v1 -> activity // Landroid/app/Activity; 
+LOCAL_VARIABLE LL0 ~ LL13 v4 -> handledRestart // Z 
+LOCAL_VARIABLE LL13 ~ LL14 v2 -> file // Ljava/io/File; 
+LOCAL_VARIABLE LL15 ~ LL16 v0 -> activities // Ljava/util/List; 
+LOCAL_VARIABLE LL14 ~ LL16 v1 -> activity // Landroid/app/Activity; 
+LOCAL_VARIABLE LL2 ~ LL16 v4 -> handledRestart // Z 
+LOCAL_VARIABLE LL17 ~ LL16 v13 -> this // Lcom/android/tools/fd/runtime/Server; 
+LOCAL_VARIABLE LL17 ~ LL16 v14 -> updateMode // I 
+LOCAL_VARIABLE LL17 ~ LL16 v15 -> incrementalResources // Z 
+LOCAL_VARIABLE LL17 ~ LL16 v16 -> toast // Z 
+LABEL               | LL17: line 480
+CONST_STRING        |     |v8="InstantRun"
+CONST               |     |v9=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v8,v9)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v8=TEMP
+IF_EQZ              |     |if v8 == 0 goto L18
+LABEL               | LL19: line 481
+CONST_STRING        |     |v8="InstantRun"
+NEW_INSTANCE        |     |v9=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v9.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v10="Finished loading changes; update mode ="
+INVOKE_VIRTUAL      |     |TEMP=v9.append(v10)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v9=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v9.append(v14)  //Ljava/lang/StringBuilder;.append(I)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v9=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v9.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v9=TEMP
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v8,v9)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               | LL18:
+IF_EQZ              |     |if v14 == 0 goto L20
+CONST               |     |v8=0x00000001  // int:1   float:0.000000
+IF_NE               |     |if v14 != v8 goto L6
+LABEL               | LL20: line 485
+CONST_STRING        |     |v8="InstantRun"
+CONST               |     |v9=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v8,v9)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v8=TEMP
+IF_EQZ              |     |if v8 == 0 goto L21
+LABEL               | LL22: line 486
+CONST_STRING        |     |v8="InstantRun"
+CONST_STRING        |     |v9="Applying incremental code without restart"
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v8,v9)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               | LL21: line 489
+IF_EQZ              |     |if v16 == 0 goto L4
+LABEL               | LL23: line 490
+IGET                |     |v8=v13.context  //Lcom/android/tools/fd/runtime/Server;.context Landroid/content/Context;
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.Restarter.getForegroundActivity(v8)  //Lcom/android/tools/fd/runtime/Restarter;.getForegroundActivity(Landroid/content/Context;)Landroid/app/Activity;
+MOVE_RESULT         |     |v3=TEMP
+LABEL               |  LL3: line 491
+IF_EQZ              |     |if v3 == 0 goto L5
+LABEL               | LL24: line 492
+CONST_STRING        |     |v8="Applied code changes without activity restart"
+INVOKE_STATIC       |     |com.android.tools.fd.runtime.Restarter.showToast(v3,v8)  //Lcom/android/tools/fd/runtime/Restarter;.showToast(Landroid/app/Activity;Ljava/lang/String;)V
+LABEL               |  LL4: line 581
+RETURN_VOID         |     |return
+LABEL               |  LL5: line 16878
+CONST_STRING        |     |v8="InstantRun"
+CONST               |     |v9=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v8,v9)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v8=TEMP
+IF_EQZ              |     |if v8 == 0 goto L4
+LABEL               | LL25: line 16879
+CONST_STRING        |     |v8="InstantRun"
+CONST_STRING        |     |v9="Couldn't show toast: no activity found"
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v8,v9)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+GOTO                |     |goto L4
+LABEL               |  LL6: line 16885
+IGET                |     |v8=v13.context  //Lcom/android/tools/fd/runtime/Server;.context Landroid/content/Context;
+CONST               |     |v9=0x00000000  // int:0   float:0.000000
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.Restarter.getActivities(v8,v9)  //Lcom/android/tools/fd/runtime/Restarter;.getActivities(Landroid/content/Context;Z)Ljava/util/List;
+MOVE_RESULT         |     |v0=TEMP
+LABEL               | LL15: line 16887
+IF_EQZ              |     |if v15 == 0 goto L8
+CONST               |     |v8=0x00000002  // int:2   float:0.000000
+IF_NE               |     |if v14 != v8 goto L8
+LABEL               | LL26: line 16889
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.FileManager.getExternalResourceFile()  //Lcom/android/tools/fd/runtime/FileManager;.getExternalResourceFile()Ljava/io/File;
+MOVE_RESULT         |     |v2=TEMP
+LABEL               |  LL7: line 16891
+CONST_STRING        |     |v8="InstantRun"
+CONST               |     |v9=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v8,v9)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v8=TEMP
+IF_EQZ              |     |if v8 == 0 goto L27
+LABEL               | LL28: line 16892
+CONST_STRING        |     |v8="InstantRun"
+NEW_INSTANCE        |     |v9=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v9.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v10="About to update resource file="
+INVOKE_VIRTUAL      |     |TEMP=v9.append(v10)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v9=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v9.append(v2)  //Ljava/lang/StringBuilder;.append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v9=TEMP
+CONST_STRING        |     |v10=", activities="
+INVOKE_VIRTUAL      |     |TEMP=v9.append(v10)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v9=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v9.append(v0)  //Ljava/lang/StringBuilder;.append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v9=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v9.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v9=TEMP
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v8,v9)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               | LL27:
+IF_EQZ              |     |if v2 == 0 goto L13
+LABEL               | LL29: line 16897
+INVOKE_VIRTUAL      |     |TEMP=v2.getPath()  //Ljava/io/File;.getPath()Ljava/lang/String;
+MOVE_RESULT         |     |v6=TEMP
+LABEL               |  LL9: line 16898
+IGET                |     |v8=v13.context  //Lcom/android/tools/fd/runtime/Server;.context Landroid/content/Context;
+INVOKE_STATIC       |     |com.android.tools.fd.runtime.MonkeyPatcher.monkeyPatchExistingResources(v8,v6,v0)  //Lcom/android/tools/fd/runtime/MonkeyPatcher;.monkeyPatchExistingResources(Landroid/content/Context;Ljava/lang/String;Ljava/util/Collection;)V
+LABEL               |  LL8: line 16905
+IGET                |     |v8=v13.context  //Lcom/android/tools/fd/runtime/Server;.context Landroid/content/Context;
+INVOKE_STATIC       |     |TEMP=com.android.tools.fd.runtime.Restarter.getForegroundActivity(v8)  //Lcom/android/tools/fd/runtime/Restarter;.getForegroundActivity(Landroid/content/Context;)Landroid/app/Activity;
+MOVE_RESULT         |     |v1=TEMP
+LABEL               | LL12: line 16906
+CONST               |     |v8=0x00000002  // int:2   float:0.000000
+IF_NE               |     |if v14 != v8 goto L30
+LABEL               | LL31: line 16907
+IF_EQZ              |     |if v1 == 0 goto L14
+LABEL               | LL32: line 16908
+CONST_STRING        |     |v8="InstantRun"
+CONST               |     |v9=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v8,v9)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v8=TEMP
+IF_EQZ              |     |if v8 == 0 goto L33
+LABEL               | LL34: line 16909
+CONST_STRING        |     |v8="InstantRun"
+CONST_STRING        |     |v9="Restarting activity only!"
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v8,v9)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               | LL33: line 16912
+CONST               |     |v4=0x00000000  // int:0   float:0.000000
+LABEL               |  LL0: line 16917
+                    |     |try { // TC_0 
+INVOKE_VIRTUAL      |     |TEMP=v1.getClass()  //Ljava/lang/Object;.getClass()Ljava/lang/Class;
+MOVE_RESULT         |     |v8=TEMP
+CONST_STRING        |     |v9="onHandleCodeChange"
+CONST               |     |v10=0x00000001  // int:1   float:0.000000
+NEW_ARRAY           |     |v10=new java.lang.Class[][v10]
+CONST               |     |v11=0x00000000  // int:0   float:0.000000
+SGET                |     |v12=java.lang.Long.TYPE  //Ljava/lang/Long;.TYPE Ljava/lang/Class;
+APUT                |     |v10[v11]=v12
+INVOKE_VIRTUAL      |     |TEMP=v8.getMethod(v9,v10)  //Ljava/lang/Class;.getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+MOVE_RESULT         |     |v5=TEMP
+LABEL               | LL10:
+CONST               |     |v8=0x00000001  // int:1   float:0.000000
+NEW_ARRAY           |     |v8=new java.lang.Object[][v8]
+CONST               |     |v9=0x00000000  // int:0   float:0.000000
+CONST               |     |v10=0x0000000000000000  // long:0   double:0.000000
+INVOKE_STATIC       |     |TEMP=java.lang.Long.valueOf(v10)  //Ljava/lang/Long;.valueOf(J)Ljava/lang/Long;
+MOVE_RESULT         |     |v10=TEMP
+APUT                |     |v8[v9]=v10
+INVOKE_VIRTUAL      |     |TEMP=v5.invoke(v1,v8)  //Ljava/lang/reflect/Method;.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+MOVE_RESULT         |     |v7=TEMP
+LABEL               | LL11: line 16919
+CONST_STRING        |     |v8="InstantRun"
+CONST               |     |v9=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v8,v9)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v8=TEMP
+IF_EQZ              |     |if v8 == 0 goto L35
+LABEL               | LL36: line 16920
+CONST_STRING        |     |v8="InstantRun"
+NEW_INSTANCE        |     |v9=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v9.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v10="Activity "
+INVOKE_VIRTUAL      |     |TEMP=v9.append(v10)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v9=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v9.append(v1)  //Ljava/lang/StringBuilder;.append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v9=TEMP
+CONST_STRING        |     |v10=" provided manual restart method; return "
+INVOKE_VIRTUAL      |     |TEMP=v9.append(v10)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v9=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v9.append(v7)  //Ljava/lang/StringBuilder;.append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v9=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v9.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v9=TEMP
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v8,v9)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               | LL35:
+SGET                |     |v8=java.lang.Boolean.TRUE  //Ljava/lang/Boolean;.TRUE Ljava/lang/Boolean;
+INVOKE_VIRTUAL      |     |TEMP=v8.equals(v7)  //Ljava/lang/Boolean;.equals(Ljava/lang/Object;)Z
+MOVE_RESULT         |     |v8=TEMP
+IF_EQZ              |     |if v8 == 0 goto L1
+LABEL               | LL37: line 16924
+CONST               |     |v4=0x00000001  // int:1   float:0.000000
+LABEL               | LL38: line 16925
+IF_EQZ              |     |if v16 == 0 goto L1
+LABEL               | LL39: line 16926
+CONST_STRING        |     |v8="Applied changes"
+INVOKE_STATIC       |     |com.android.tools.fd.runtime.Restarter.showToast(v1,v8)  //Lcom/android/tools/fd/runtime/Restarter;.showToast(Landroid/app/Activity;Ljava/lang/String;)V
+                    |     | } // TC_0
+LABEL               |  LL1: line 16932
+IF_NEZ              |     |if v4 != 0 goto L4
+LABEL               | LL40: line 16933
+IF_EQZ              |     |if v16 == 0 goto L41
+LABEL               | LL42: line 16934
+CONST_STRING        |     |v8="Applied changes, restarted activity"
+INVOKE_STATIC       |     |com.android.tools.fd.runtime.Restarter.showToast(v1,v8)  //Lcom/android/tools/fd/runtime/Restarter;.showToast(Landroid/app/Activity;Ljava/lang/String;)V
+LABEL               | LL41: line 16936
+INVOKE_STATIC       |     |com.android.tools.fd.runtime.Restarter.restartActivityOnUiThread(v1)  //Lcom/android/tools/fd/runtime/Restarter;.restartActivityOnUiThread(Landroid/app/Activity;)V
+GOTO                |     |goto L4
+LABEL               | LL13: line 17028
+CONST_STRING        |     |v8="InstantRun"
+CONST_STRING        |     |v9="No resource file found to apply"
+INVOKE_STATIC       |     |TEMP=android.util.Log.e(v8,v9)  //Landroid/util/Log;.e(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               | LL43: line 17029
+CONST               |     |v14=0x00000003  // int:3   float:0.000000
+GOTO                |     |goto L8
+LABEL               | LL14: line 17069
+CONST_STRING        |     |v8="InstantRun"
+CONST               |     |v9=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v8,v9)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v8=TEMP
+IF_EQZ              |     |if v8 == 0 goto L44
+LABEL               | LL45: line 17070
+CONST_STRING        |     |v8="InstantRun"
+CONST_STRING        |     |v9="No activity found, falling through to do a full app restart"
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v8,v9)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+LABEL               | LL44: line 17072
+CONST               |     |v14=0x00000003  // int:3   float:0.000000
+LABEL               | LL30: line 17075
+CONST               |     |v8=0x00000003  // int:3   float:0.000000
+IF_EQ               |     |if v14 == v8 goto L46
+LABEL               | LL47: line 17076
+CONST_STRING        |     |v8="InstantRun"
+CONST               |     |v9=0x00000006  // int:6   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v8,v9)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v8=TEMP
+IF_EQZ              |     |if v8 == 0 goto L4
+LABEL               | LL48: line 17077
+CONST_STRING        |     |v8="InstantRun"
+NEW_INSTANCE        |     |v9=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v9.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v10="Unexpected update mode: "
+INVOKE_VIRTUAL      |     |TEMP=v9.append(v10)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v9=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v9.append(v14)  //Ljava/lang/StringBuilder;.append(I)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v9=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v9.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v9=TEMP
+INVOKE_STATIC       |     |TEMP=android.util.Log.e(v8,v9)  //Landroid/util/Log;.e(Ljava/lang/String;Ljava/lang/String;)I
+GOTO                |     |goto L4
+LABEL               | LL46:
+CONST_STRING        |     |v8="InstantRun"
+CONST               |     |v9=0x00000002  // int:2   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v8,v9)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v8=TEMP
+IF_EQZ              |     |if v8 == 0 goto L4
+LABEL               | LL49: line 17090
+CONST_STRING        |     |v8="InstantRun"
+CONST_STRING        |     |v9="Waiting for app to be killed and restarted by the IDE..."
+INVOKE_STATIC       |     |TEMP=android.util.Log.v(v8,v9)  //Landroid/util/Log;.v(Ljava/lang/String;Ljava/lang/String;)I
+GOTO                |     |goto L4
+LABEL               |  LL2: line 17185
+                    |     |catch(Ljava/lang/Throwable;) // TC_0
+MOVE_EXCEPTION      |     |v8=@Exception
+GOTO                |     |goto L1
+LABEL               | LL16:
+
+//method:0015  access:0x0002
+//Lcom/android/tools/fd/runtime/Server;.startServer()V
+private V startServer()
+                this:v4   //com.android.tools.fd.runtime.Server
+TR_0 LL0 ~ LL1 > LL2 Ljava/lang/Throwable;
+LOCAL_VARIABLE LL3 ~ LL1 v1 -> socketServerThread // Ljava/lang/Thread; 
+LOCAL_VARIABLE LL4 ~ LL5 v0 -> e // Ljava/lang/Throwable; 
+LOCAL_VARIABLE LL0 ~ LL5 v4 -> this // Lcom/android/tools/fd/runtime/Server; 
+LABEL               |  LL0: line 109
+                    |     |try { // TC_0 
+NEW_INSTANCE        |     |v1=NEW Ljava/lang/Thread;
+NEW_INSTANCE        |     |v2=NEW Lcom/android/tools/fd/runtime/Server$SocketServerThread;
+CONST               |     |v3=0x00000000  // int:0   float:0.000000
+INVOKE_DIRECT       |     |v2.<init>(v4,v3)  //Lcom/android/tools/fd/runtime/Server$SocketServerThread;.<init>(Lcom/android/tools/fd/runtime/Server;Lcom/android/tools/fd/runtime/Server$1;)V
+INVOKE_DIRECT       |     |v1.<init>(v2)  //Ljava/lang/Thread;.<init>(Ljava/lang/Runnable;)V
+LABEL               |  LL3: line 110
+INVOKE_VIRTUAL      |     |v1.start()  //Ljava/lang/Thread;.start()V
+                    |     | } // TC_0
+LABEL               |  LL1: line 118
+RETURN_VOID         |     |return
+LABEL               |  LL2: line 239
+                    |     |catch(Ljava/lang/Throwable;) // TC_0
+MOVE_EXCEPTION      |     |v0=@Exception
+LABEL               |  LL4: line 242
+CONST_STRING        |     |v2="InstantRun"
+CONST               |     |v3=0x00000006  // int:6   float:0.000000
+INVOKE_STATIC       |     |TEMP=android.util.Log.isLoggable(v2,v3)  //Landroid/util/Log;.isLoggable(Ljava/lang/String;I)Z
+MOVE_RESULT         |     |v2=TEMP
+IF_EQZ              |     |if v2 == 0 goto L1
+LABEL               |  LL6: line 243
+CONST_STRING        |     |v2="InstantRun"
+CONST_STRING        |     |v3="Fatal error starting Instant Run server"
+INVOKE_STATIC       |     |TEMP=android.util.Log.e(v2,v3,v0)  //Landroid/util/Log;.e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+GOTO                |     |goto L1
+LABEL               |  LL5:
+
+//method:0016  access:0x0001
+//Lcom/android/tools/fd/runtime/Server;.shutdown()V
+public V shutdown()
+                this:v1   //com.android.tools.fd.runtime.Server
+TR_0 LL0 ~ LL1 > LL2 Ljava/io/IOException;
+LOCAL_VARIABLE LL3 ~ LL4 v1 -> this // Lcom/android/tools/fd/runtime/Server; 
+LABEL               |  LL3: line 121
+IGET                |     |v0=v1.serverSocket  //Lcom/android/tools/fd/runtime/Server;.serverSocket Landroid/net/LocalServerSocket;
+IF_EQZ              |     |if v0 == 0 goto L5
+LABEL               |  LL0: line 123
+                    |     |try { // TC_0 
+IGET                |     |v0=v1.serverSocket  //Lcom/android/tools/fd/runtime/Server;.serverSocket Landroid/net/LocalServerSocket;
+INVOKE_VIRTUAL      |     |v0.close()  //Landroid/net/LocalServerSocket;.close()V
+                    |     | } // TC_0
+LABEL               |  LL1: line 126
+CONST               |     |v0=0x00000000  // int:0   float:0.000000
+IPUT                |     |v1.serverSocket=v0  //Lcom/android/tools/fd/runtime/Server;.serverSocket Landroid/net/LocalServerSocket;
+LABEL               |  LL5: line 128
+RETURN_VOID         |     |return
+LABEL               |  LL2: line 124
+                    |     |catch(Ljava/io/IOException;) // TC_0
+MOVE_EXCEPTION      |     |v0=@Exception
+GOTO                |     |goto L1
+LABEL               |  LL4:

@@ -1,0 +1,23 @@
+//class:0001  access:0x0001
+public class com.android.tools.fd.common.Log
+//field:0000  access:0x0009
+//Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+public static  com.android.tools.fd.common.Log$Logging logging;
+
+//method:0000  access:0x10008
+//Lcom/android/tools/fd/common/Log;.<clinit>()V
+static V <clinit>()
+LABEL               |  LL0: line 27
+CONST               |     |v0=0x00000000  // int:0   float:0.000000
+SPUT                |     |com.android.tools.fd.common.Log.logging=v0  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+RETURN_VOID         |     |return
+
+//method:0001  access:0x10001
+//Lcom/android/tools/fd/common/Log;.<init>()V
+public V <init>()
+                this:v0   //com.android.tools.fd.common.Log
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lcom/android/tools/fd/common/Log; 
+LABEL               |  LL0: line 24
+INVOKE_DIRECT       |     |v0.<init>()  //Ljava/lang/Object;.<init>()V
+RETURN_VOID         |     |return
+LABEL               |  LL1:

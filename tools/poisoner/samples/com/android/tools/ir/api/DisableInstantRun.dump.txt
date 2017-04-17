@@ -1,0 +1,2 @@
+//class:0026  access:0x2601
+public annotation interace com.android.tools.ir.api.DisableInstantRun implements java.lang.annotation.Annotation

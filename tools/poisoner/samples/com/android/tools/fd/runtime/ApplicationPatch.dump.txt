@@ -1,0 +1,148 @@
+//class:0008  access:0x0001
+public class com.android.tools.fd.runtime.ApplicationPatch
+//field:0000  access:0x0011
+//Lcom/android/tools/fd/runtime/ApplicationPatch;.data [B
+public final  byte[] data;
+//field:0001  access:0x0011
+//Lcom/android/tools/fd/runtime/ApplicationPatch;.path Ljava/lang/String;
+public final  java.lang.String path;
+
+//method:0000  access:0x10001
+//Lcom/android/tools/fd/runtime/ApplicationPatch;.<init>(Ljava/lang/String;[B)V
+public V <init>(java.lang.String,byte[])
+                this:v0   //com.android.tools.fd.runtime.ApplicationPatch
+                    :v1   //java.lang.String
+                    :v2   //byte[]
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lcom/android/tools/fd/runtime/ApplicationPatch; 
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> path // Ljava/lang/String; 
+LOCAL_VARIABLE LL0 ~ LL1 v2 -> data // [B 
+LABEL               |  LL0: line 37
+INVOKE_DIRECT       |     |v0.<init>()  //Ljava/lang/Object;.<init>()V
+LABEL               |  LL2: line 38
+IPUT                |     |v0.path=v1  //Lcom/android/tools/fd/runtime/ApplicationPatch;.path Ljava/lang/String;
+LABEL               |  LL3: line 39
+IPUT                |     |v0.data=v2  //Lcom/android/tools/fd/runtime/ApplicationPatch;.data [B
+LABEL               |  LL4: line 40
+RETURN_VOID         |     |return
+LABEL               |  LL1:
+
+//method:0001  access:0x0009
+//Lcom/android/tools/fd/runtime/ApplicationPatch;.read(Ljava/io/DataInputStream;)Ljava/util/List;
+public static java.util.List read(java.io.DataInputStream)
+                    :v10   //java.io.DataInputStream
+LOCAL_VARIABLE LL0 ~ LL1 v0 -> bytes // [B 
+LOCAL_VARIABLE LL2 ~ LL1 v4 -> path // Ljava/lang/String; 
+LOCAL_VARIABLE LL3 ~ LL1 v5 -> size // I 
+LOCAL_VARIABLE LL4 ~ LL5 v1 -> changeCount // I 
+LOCAL_VARIABLE LL6 ~ LL5 v2 -> changes // Ljava/util/List; 
+LOCAL_VARIABLE LL7 ~ LL5 v3 -> i // I 
+LOCAL_VARIABLE LL8 ~ LL5 v10 -> input // Ljava/io/DataInputStream; 
+LABEL               |  LL8: line 53
+INVOKE_VIRTUAL      |     |TEMP=v10.readInt()  //Ljava/io/DataInputStream;.readInt()I
+MOVE_RESULT         |     |v1=TEMP
+LABEL               |  LL4: line 55
+SGET                |     |v6=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+IF_EQZ              |     |if v6 == 0 goto L9
+SGET                |     |v6=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v7=java.util.logging.Level.FINE  //Ljava/util/logging/Level;.FINE Ljava/util/logging/Level;
+INVOKE_INTERFACE    |     |TEMP=v6.isLoggable(v7)  //Lcom/android/tools/fd/common/Log$Logging;.isLoggable(Ljava/util/logging/Level;)Z
+MOVE_RESULT         |     |v6=TEMP
+IF_EQZ              |     |if v6 == 0 goto L9
+LABEL               | LL10: line 56
+SGET                |     |v6=com.android.tools.fd.common.Log.logging  //Lcom/android/tools/fd/common/Log;.logging Lcom/android/tools/fd/common/Log$Logging;
+SGET                |     |v7=java.util.logging.Level.FINE  //Ljava/util/logging/Level;.FINE Ljava/util/logging/Level;
+NEW_INSTANCE        |     |v8=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v8.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v9="Receiving "
+INVOKE_VIRTUAL      |     |TEMP=v8.append(v9)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v8=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v8.append(v1)  //Ljava/lang/StringBuilder;.append(I)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v8=TEMP
+CONST_STRING        |     |v9=" changes"
+INVOKE_VIRTUAL      |     |TEMP=v8.append(v9)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v8=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v8.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v8=TEMP
+INVOKE_INTERFACE    |     |v6.log(v7,v8)  //Lcom/android/tools/fd/common/Log$Logging;.log(Ljava/util/logging/Level;Ljava/lang/String;)V
+LABEL               |  LL9:
+NEW_INSTANCE        |     |v2=NEW Ljava/util/ArrayList;
+INVOKE_DIRECT       |     |v2.<init>(v1)  //Ljava/util/ArrayList;.<init>(I)V
+LABEL               |  LL6: line 60
+CONST               |     |v3=0x00000000  // int:0   float:0.000000
+LABEL               |  LL7:
+IF_GE               |     |if v3 >= v1 goto L1
+LABEL               | LL11: line 61
+INVOKE_VIRTUAL      |     |TEMP=v10.readUTF()  //Ljava/io/DataInputStream;.readUTF()Ljava/lang/String;
+MOVE_RESULT         |     |v4=TEMP
+LABEL               |  LL2: line 62
+INVOKE_VIRTUAL      |     |TEMP=v10.readInt()  //Ljava/io/DataInputStream;.readInt()I
+MOVE_RESULT         |     |v5=TEMP
+LABEL               |  LL3: line 63
+NEW_ARRAY           |     |v0=new byte[][v5]
+LABEL               |  LL0: line 64
+INVOKE_VIRTUAL      |     |v10.readFully(v0)  //Ljava/io/DataInputStream;.readFully([B)V
+LABEL               | LL12: line 65
+NEW_INSTANCE        |     |v6=NEW Lcom/android/tools/fd/runtime/ApplicationPatch;
+INVOKE_DIRECT       |     |v6.<init>(v4,v0)  //Lcom/android/tools/fd/runtime/ApplicationPatch;.<init>(Ljava/lang/String;[B)V
+INVOKE_INTERFACE    |     |TEMP=v2.add(v6)  //Ljava/util/List;.add(Ljava/lang/Object;)Z
+LABEL               | LL13: line 188
+ADD_INT_LIT_X       |     |v3 = v3 + 1
+GOTO                |     |goto L7
+LABEL               |  LL1: line 196
+RETURN              |     |return v2
+LABEL               |  LL5:
+
+//method:0002  access:0x0001
+//Lcom/android/tools/fd/runtime/ApplicationPatch;.getBytes()[B
+public byte[] getBytes()
+                this:v1   //com.android.tools.fd.runtime.ApplicationPatch
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> this // Lcom/android/tools/fd/runtime/ApplicationPatch; 
+LABEL               |  LL0: line 78
+IGET                |     |v0=v1.data  //Lcom/android/tools/fd/runtime/ApplicationPatch;.data [B
+RETURN              |     |return v0
+LABEL               |  LL1:
+
+//method:0003  access:0x0001
+//Lcom/android/tools/fd/runtime/ApplicationPatch;.getPath()Ljava/lang/String;
+public java.lang.String getPath()
+                this:v1   //com.android.tools.fd.runtime.ApplicationPatch
+LOCAL_VARIABLE LL0 ~ LL1 v1 -> this // Lcom/android/tools/fd/runtime/ApplicationPatch; 
+LABEL               |  LL0: line 73
+IGET                |     |v0=v1.path  //Lcom/android/tools/fd/runtime/ApplicationPatch;.path Ljava/lang/String;
+RETURN              |     |return v0
+LABEL               |  LL1:
+
+//method:0004  access:0x0001
+//Lcom/android/tools/fd/runtime/ApplicationPatch;.toString()Ljava/lang/String;
+public java.lang.String toString()
+                this:v3   //com.android.tools.fd.runtime.ApplicationPatch
+LOCAL_VARIABLE LL0 ~ LL1 v3 -> this // Lcom/android/tools/fd/runtime/ApplicationPatch; 
+LABEL               |  LL0: line 44
+CONST               |     |v2=0x00000027  // int:39   float:0.000000
+LABEL               |  LL2: line 44
+NEW_INSTANCE        |     |v0=NEW Ljava/lang/StringBuilder;
+INVOKE_DIRECT       |     |v0.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+CONST_STRING        |     |v1="ApplicationPatch{path='"
+INVOKE_VIRTUAL      |     |TEMP=v0.append(v1)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v0=TEMP
+IGET                |     |v1=v3.path  //Lcom/android/tools/fd/runtime/ApplicationPatch;.path Ljava/lang/String;
+INVOKE_VIRTUAL      |     |TEMP=v0.append(v1)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v0=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v0.append(v2)  //Ljava/lang/StringBuilder;.append(C)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v0=TEMP
+CONST_STRING        |     |v1=", data.length='"
+INVOKE_VIRTUAL      |     |TEMP=v0.append(v1)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v0=TEMP
+IGET                |     |v1=v3.data  //Lcom/android/tools/fd/runtime/ApplicationPatch;.data [B
+ARRAY_LENGTH        |     |v1 = v1.length
+INVOKE_VIRTUAL      |     |TEMP=v0.append(v1)  //Ljava/lang/StringBuilder;.append(I)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v0=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v0.append(v2)  //Ljava/lang/StringBuilder;.append(C)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v0=TEMP
+CONST               |     |v1=0x0000007d  // int:125   float:0.000000
+INVOKE_VIRTUAL      |     |TEMP=v0.append(v1)  //Ljava/lang/StringBuilder;.append(C)Ljava/lang/StringBuilder;
+MOVE_RESULT         |     |v0=TEMP
+INVOKE_VIRTUAL      |     |TEMP=v0.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+MOVE_RESULT         |     |v0=TEMP
+RETURN              |     |return v0
+LABEL               |  LL1:
