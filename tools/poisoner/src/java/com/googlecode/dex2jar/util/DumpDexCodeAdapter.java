@@ -71,9 +71,11 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 	public static final String CONST_OP = "CONST";
 	public static final String CONST_STRING_OP = "CONST_STRING";
+	public static final String CONST_CLASS_OP = "CONST_CLASS";
 
 	public static final String SGET_OP = "SGET";
 	public static final String SPUT_OP = "SPUT";
+	public static final String RETURN_OP = "RETURN";
 	public static final String RETURN_VOID_OP = "RETURN_VOID";
 	public static final String IF_EQZ_OP = "IF_EQZ";
 	public static final String INVOKE_SUPER_OP = "INVOKE_SUPER";
@@ -338,6 +340,10 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		out.println("return;");
 	}
 
+	private void parseRETURN_OP(String s) {
+		out.println(s + ";");
+	}
+
 	private void parseCONST_STRING_OP(String s) {
 		String patternSpace = " ";
 		Pattern patternS = Pattern.compile(patternSpace);
@@ -348,6 +354,35 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		for (String element : split) {
 			System.out.println("element = " + element);
 		}
+		if (split.length > 0) {
+			String patternEqual = "=";
+			Pattern patternE = Pattern.compile(patternEqual);
+			String[] elements = patternE.split(split[0]);
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(elements[0]);
+			sb.append(" = ");
+			sb.append("env->NewStringUTF(");
+			sb.append(elements[1]);
+			sb.append(");");
+			sb.append("\n");
+
+			out.print(sb);
+		}
+	}
+
+	// v0=Lcom/irdeto/aca/key/KeyLogic;.class
+	private void parseCONST_CLASS_OP(String s) {
+		String patternSpace = " ";
+		Pattern patternS = Pattern.compile(patternSpace);
+		String[] split = patternS.split(s);
+
+		System.out.println("split.length = " + split.length);
+
+		for (String element : split) {
+			System.out.println("element = " + element);
+		}
+
 		if (split.length > 0) {
 			String patternEqual = "=";
 			Pattern patternE = Pattern.compile(patternEqual);
@@ -444,6 +479,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 			if (opStr.equals(CONST_OP)) {
 				parseCONST_OP(s);
+			} else if (opStr.equals(CONST_CLASS_OP)) {
+				parseCONST_CLASS_OP(s);
 			} else if (opStr.equals(CONST_STRING_OP)) {
 				parseCONST_STRING_OP(s);
 			} else if (opStr.equals(SGET_OP)) {
@@ -452,6 +489,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				parseSPUT_OP(s);
 			} else if (opStr.equals(IF_EQZ_OP)) {
 				parseIF_EQZ_OP(s);
+			} else if (opStr.equals(RETURN_OP)) {
+				parseRETURN_OP(s);
 			} else if (opStr.equals(RETURN_VOID_OP)) {
 				parseRETURN_VOID_OP(s);
 			} else if (opStr.equals(INVOKE_SUPER_OP)
