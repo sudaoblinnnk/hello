@@ -60,6 +60,10 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 	private boolean isStatic;
 
+	private int localFieldCounter = 0;
+	private int localMethodCounter = 0;
+	private int localClassCounter = 0;
+
 	/**
 	 * @param dcv
 	 */
@@ -82,29 +86,6 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	public static final String INVOKE_VIRTUAL_OP = "INVOKE_VIRTUAL";
 	public static final String INVOKE_DIRECT_OP = "INVOKE_DIRECT";
 	public static final String INVOKE_STATIC_OP = "INVOKE_STATIC";
-
-	// v0=0x00000000 // int:0 float:0.000000
-	// j2n.irdeto.com.demo.MainActivity.debug=v0
-	// //Lj2n/irdeto/com/demo/MainActivity;.debug Z
-	// RETURN_VOID | |return
-
-	// private V printLog()
-	// this:v2 //j2n.irdeto.com.demo.MainActivity
-	// LOCAL_VARIABLE LL0 ~ LL1 v2 -> this // Lj2n/irdeto/com/demo/MainActivity;
-	// LABEL | LL0: line 20
-	// SGET | |v0=j2n.irdeto.com.demo.MainActivity.debug
-	// //Lj2n/irdeto/com/demo/MainActivity;.debug Z
-	// IF_EQZ | |if v0 == 0 goto L2
-	// LABEL | LL3: line 21
-	// CONST_STRING | |v0="MainActivity"
-	// v0="MainActivity"v0 = env->NewStringUTF("MainActivity")CONST_STRING |
-	// |v1="printLog"
-	// v1="printLog"v1 = env->NewStringUTF("printLog")INVOKE_STATIC |
-	// |TEMP=android.util.Log.d(v0,v1)
-	// //Landroid/util/Log;.d(Ljava/lang/String;Ljava/lang/String;)I
-	// LABEL | LL2: line 23
-	// RETURN_VOID | |return
-	// LABEL | LL1:
 
 	// SGET | |v0=j2n.irdeto.com.demo.MainActivity.debug
 	// //Lj2n/irdeto/com/demo/MainActivity;.debug Z
@@ -130,44 +111,51 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String type = getType(codeBlocks[3]);
 		String typeSignature = getTypeSignature(codeBlocks[3]);
 
-		sb.append(getFindClass(className));
+		String localClass = String.format("localClass%d", localClassCounter++);
+		sb.append(getFindClass(localClass, className));
 		sb.append("\n");
 
-		sb.append(getField("field1", fieldName, typeSignature, true));
+		String fieldId = String.format("fieldId%d", localFieldCounter++);
+		sb.append(getField(localClass, fieldId, fieldName, typeSignature, true));
 		sb.append("\n");
 
 		sb.append(String.format(("%s "), type));
 
-		sb.append(getFieldObject(varible, "localClazz1", "field1", true));
+		sb.append(getStaticObjectField(localClass, varible, fieldId));
 		sb.append("\n");
 		out.println(sb);
 
 	}
 
-	private static String getField(String fieldId, String fieldName,
-			String typeSignature, boolean isStatic) {
-		return String.format(
-				("jfield %s = env->%s(localClazz1, \"%s\", \"%s\");"), fieldId,
-				isStatic ? "GetFieldID" : "GetStaticFieldID", fieldName,
-				typeSignature);
+	private static String getField(String localClass, String fieldId,
+			String fieldName, String typeSignature, boolean isStatic) {
+		return String.format(("jfieldID %s = env->%s(%s, \"%s\", \"%s\");"),
+				fieldId, isStatic ? "GetStaticFieldID" : "GetFieldID",
+				localClass, fieldName, typeSignature);
 	}
 
-	private static String getFieldObject(String fieldObject, String className,
-			String fieldName, boolean isStatic) {
+	private static String getStaticObjectField(String localClass,
+			String fieldObject, String fieldName) {
 		return String.format(("%s = env->%s(%s, %s);"), fieldObject,
-				isStatic ? "GetObjectField" : "GetStaticObjectField",
-				className, fieldName);
+				"GetStaticObjectField", localClass, fieldName);
 	}
 
-	private static String getFindClass(String className) {
-		return String.format(("jclass localClazz1 = env->FindClass(\"%s\");"),
-				className);
+	private static String getObjectField(String obj, String fieldObject,
+			String fieldName) {
+		return String.format(("%s = env->%s(%s, %s);"), fieldObject,
+				"GetObjectField", obj, fieldName);
+	}
+
+	private static String getFindClass(String localClass, String className) {
+		return String.format(("jclass %s = env->FindClass(\"%s\");"),
+				localClass, className);
 	}
 
 	private static String getClassNameFromclassNameSignature(
 			String classNameSignature) {
-		return classNameSignature.substring("\\L".length() - 1,
-				classNameSignature.length() - 1);
+		int start = classNameSignature.indexOf('L');
+		int end = classNameSignature.indexOf(';');
+		return classNameSignature.substring(start + 1, end);
 	}
 
 	// SPUT | |j2n.irdeto.com.demo.MainActivity.debug=v0
@@ -193,14 +181,16 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String type = getType(codeBlocks[3]);
 		String typeSignature = getTypeSignature(codeBlocks[3]);
 
-		sb.append(getFindClass(className));
+		String localClass = String.format("localClass%d", localClassCounter++);
+		sb.append(getFindClass(localClass, className));
 		sb.append("\n");
 
-		sb.append(getField("field1", fieldName, typeSignature, true));
+		String fieldId = String.format("fieldId%d", localFieldCounter++);
+		sb.append(getField(localClass, fieldId, fieldName, typeSignature, true));
 		sb.append("\n");
 
 		sb.append(String.format(("env->SetStaticObjectField(%s, %s, %s);"),
-				"localClazz1", "field1", varibleValue));
+				localClass, fieldId, varibleValue));
 
 		sb.append("\n");
 		out.println(sb);
@@ -273,7 +263,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		System.out.println(s);
 		if (s.length() < 4)
 			throw new IllegalArgumentException();
-		String c = s.substring(2);// skip //
+		int divL = s.indexOf('L');
+		String c = s.substring(divL);
 		System.out.println("clazzMethodType : " + c);
 		StringTokenizer st = new StringTokenizer(c, ".");
 
@@ -371,35 +362,6 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		}
 	}
 
-	// v0=Lcom/irdeto/aca/key/KeyLogic;.class
-	private void parseCONST_CLASS_OP(String s) {
-		String patternSpace = " ";
-		Pattern patternS = Pattern.compile(patternSpace);
-		String[] split = patternS.split(s);
-
-		System.out.println("split.length = " + split.length);
-
-		for (String element : split) {
-			System.out.println("element = " + element);
-		}
-
-		if (split.length > 0) {
-			String patternEqual = "=";
-			Pattern patternE = Pattern.compile(patternEqual);
-			String[] elements = patternE.split(split[0]);
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(elements[0]);
-			sb.append(" = ");
-			sb.append("env->NewStringUTF(");
-			sb.append(elements[1]);
-			sb.append(");");
-			sb.append("\n");
-
-			out.print(sb);
-		}
-	}
-
 	// INVOKE_DIRECT | |v1.printLog()
 	// //Lj2n/irdeto/com/demo/MainActivity;.printLog()V
 	// INVOKE_VIRTUAL | |v1.setContentView(v0)
@@ -411,16 +373,21 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 	private static String getMethodStr(String methodId, String className,
 			String methodName, String signature, boolean isStatic) {
-		return String.format("jmethodID %s = env->%s(\"%s\", \"%s\", \"%s\");",
+		return String.format("jmethodID %s = env->%s(%s, \"%s\", \"%s\");",
 				methodId, isStatic ? "GetStaticMethodID" : "GetMethodID",
 				className, methodName, signature);
 	}
 
-	private static String getInvokeMethodByMethodSignature(
-			String methedSignature, boolean isStatic) {
+	private static String getReturnTypeByMethodSignature(String methedSignature) {
 		int i = methedSignature.indexOf(')');
 		String returnStr = methedSignature.substring(i + 1);
 		String methodReturnType = getInvokeMethodType(returnStr);
+		return methodReturnType;
+	}
+
+	private static String getInvokeMethodByMethodSignature(
+			String methedSignature, boolean isStatic) {
+		String methodReturnType = getReturnTypeByMethodSignature(methedSignature);
 		StringBuilder sb = new StringBuilder();
 		sb.append("Call").append(isStatic ? "Static" : "")
 				.append(methodReturnType).append("Method");
@@ -451,16 +418,20 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String signature = ms[1];
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(getFindClass(className));
+		String localClass = String.format("localClass%d", localClassCounter++);
+
+		sb.append(getFindClass(localClass, className));
 		sb.append("\n");
 
-		sb.append(getMethodStr("method1", className, methodName, signature,
+		String methodId = String.format("methodId%d", localMethodCounter++);
+
+		sb.append(getMethodStr(methodId, localClass, methodName, signature,
 				true));
 		sb.append("\n");
 
 		sb.append(getCallFunction(
 				getInvokeMethodByMethodSignature(signature, isStatic), "obj",
-				"method1"));
+				methodId));
 		sb.append("\n");
 
 		out.print(sb);
@@ -480,7 +451,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			if (opStr.equals(CONST_OP)) {
 				parseCONST_OP(s);
 			} else if (opStr.equals(CONST_CLASS_OP)) {
-				parseCONST_CLASS_OP(s);
+
 			} else if (opStr.equals(CONST_STRING_OP)) {
 				parseCONST_STRING_OP(s);
 			} else if (opStr.equals(SGET_OP)) {
@@ -496,7 +467,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			} else if (opStr.equals(INVOKE_SUPER_OP)
 					|| opStr.equals(INVOKE_DIRECT_OP)
 					|| opStr.equals(INVOKE_VIRTUAL_OP)) {
-				parseINVOKE_OP(s, false);
+				// parseINVOKE_OP(s, false);
 			} else if (opStr.equals(INVOKE_STATIC_OP)) {
 				parseINVOKE_OP(s, true);
 			}
@@ -519,12 +490,12 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		if (!this.isStatic) {
 			int reg = args[i++];
 			String type = Dump.toJavaClass(method.getOwner());
-			out.printf("%20s:v%d   //%s\n", "this", reg, type);
+			out.printf("//%20s:v%d   //%s\n", "this", reg, type);
 		}
 		for (String type : method.getParameterTypes()) {
 			int reg = args[i++];
 			type = Dump.toJavaClass(type);
-			out.printf("%20s:v%d   //%s\n", "", reg, type);
+			out.printf("//%20s:v%d   //%s\n", "", reg, type);
 		}
 	}
 
@@ -603,28 +574,121 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	@Override
 	public void visitLocalVariable(String name, String type, String signature,
 			DexLabel start, DexLabel end, int reg) {
-		// out.printf("LOCAL_VARIABLE L%s ~ L%s v%d -> %s // %s \n",
-		// labelToString(start), labelToString(end), reg, name, type);
+		out.printf("LOCAL_VARIABLE L%s ~ L%s v%d -> %s // %s \n",
+				labelToString(start), labelToString(end), reg, name, type);
 
 		// out.println("visitLocalVariable reg:" + reg);
 		// out.println("visitLocalVariable name:" + name);
 		// out.println("visitLocalVariable sig:" + signature);
 		// out.println("visitLocalVariable type:" + type);
-
-		String className = getClassNameFromclassNameSignature(type);
 		StringBuilder sb = new StringBuilder();
-		sb.append(getFindClass(className));
+
+		String localClass = String.format("localClass%d", localClassCounter++);
+		String className = getClassNameFromclassNameSignature(type);
+		sb.append(getFindClass(localClass, className));
 		sb.append("\n");
+
 		String fieldId = String.format("field%d", reg);
-		sb.append(getField(fieldId, name, type, false));
+		sb.append(getField(localClass, fieldId, name, type, false));
 		sb.append("\n");
 
 		sb.append(String.format(("%s "), getType(type)));
-		sb.append(getFieldObject(String.format("v%d", reg), className, fieldId,
-				false));
+		sb.append(getObjectField(String.format("v%d", reg), "object", fieldId));
 		sb.append("\n");
 
 		out.print(sb);
 	}
 
+	protected void nativeCONST(int opcode, String reg, String value) {
+
+	}
+
+	protected void nativeCONST_STRING(int opcode, String reg, String value) {
+
+	}
+
+	protected void nativeCONST_CLASS(int opcode, String reg, String signature,
+			String cls) {
+
+		String className = getClassNameFromclassNameSignature(signature);
+		StringBuilder sb = new StringBuilder();
+
+		String localClass = String.format("localClass%d", localClassCounter++);
+		sb.append(getFindClass(localClass, className));
+		sb.append("\n");
+
+		String fieldId = String.format("field%d", localFieldCounter++);
+		sb.append(getField(localClass, fieldId, cls, "java/lang/Class", false));
+		sb.append("\n");
+
+		out.print(sb);
+
+	}
+
+	protected void nativeVoidInvoke(int opcode, String reg, String methodName,
+			String param, String method) {
+
+		List<String> clazzFieldList = getClazzFieldName(method);
+		String classNameSignature = clazzFieldList.get(0);
+		String className = getClassNameFromclassNameSignature(classNameSignature);
+
+		String methodSignature = clazzFieldList.get(1);
+		String[] ms = getFunctionNameAndSignature(methodSignature);
+		// String methodName = ms[0];
+		String signature = ms[1];
+		StringBuilder sb = new StringBuilder();
+
+		String localClass = String.format("localClass%d", localClassCounter++);
+
+		sb.append(getFindClass(localClass, className));
+		sb.append("\n");
+
+		String methodId = String.format("methodId%d", localMethodCounter++);
+
+		sb.append(getMethodStr(methodId, localClass, methodName, signature,
+				true));
+		sb.append("\n");
+
+		sb.append(getCallFunction(
+				getInvokeMethodByMethodSignature(signature, false), reg,
+				methodId));
+		sb.append("\n");
+
+		out.print(sb);
+	}
+
+	protected void nativeReturnInvoke(int opcode, String temp, String reg,
+			String methodName, String param, String method) {
+
+		List<String> clazzFieldList = getClazzFieldName(method);
+		String classNameSignature = clazzFieldList.get(0);
+		String className = getClassNameFromclassNameSignature(classNameSignature);
+
+		String methodSignature = clazzFieldList.get(1);
+		String[] ms = getFunctionNameAndSignature(methodSignature);
+		// String methodName = ms[0];
+		String signature = ms[1];
+		StringBuilder sb = new StringBuilder();
+
+		String localClass = String.format("localClass%d", localClassCounter++);
+
+		sb.append(getFindClass(localClass, className));
+		sb.append("\n");
+
+		String methodId = String.format("methodId%d", localMethodCounter++);
+
+		sb.append(getMethodStr(methodId, localClass, methodName, signature,
+				true));
+		sb.append("\n");
+
+		sb.append(String.format("%s %s = ",
+				getReturnTypeByMethodSignature(method), temp));
+
+		sb.append(getCallFunction(
+				getInvokeMethodByMethodSignature(signature, false), reg,
+				methodId));
+		sb.append("\n");
+
+		out.print(sb);
+	}
 }
