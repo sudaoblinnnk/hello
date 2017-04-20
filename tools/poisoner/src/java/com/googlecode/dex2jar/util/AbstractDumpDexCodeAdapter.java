@@ -15,6 +15,9 @@
  */
 package com.googlecode.dex2jar.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.googlecode.dex2jar.DexLabel;
 import com.googlecode.dex2jar.Field;
 import com.googlecode.dex2jar.Method;
@@ -469,7 +472,8 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			} else {
 				info(opcode, "TEMP=v%d.%s(%s)  //%s", regs[0],
 						method.getName(), sb.toString(), method.toString());
-				nativeReturnInvoke(opcode, "TEMP",
+				nativeReturnInvoke(opcode,
+						String.format("TEMP%d", tempCounter++),
 						String.format("v%d", regs[0]), method.getName(),
 						sb.toString(), method.toString());
 			}
@@ -501,6 +505,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		switch (opcode) {
 		case OP_MOVE_RESULT:
 			info(opcode, "v%d=TEMP", reg);
+			HandleTEMP("v" + reg, lastTemp);
 			break;
 		case OP_MOVE_EXCEPTION:
 			info(opcode, "v%d=@Exception", reg);
@@ -537,6 +542,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		switch (opcode) {
 		case OP_RETURN:
 			info(opcode, "return v%d", reg);
+			nativeReturnStmt(opcode, "v" + reg);
 			break;
 		case OP_THROW:
 			info(opcode, "throw v%d", reg);
@@ -631,4 +637,25 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 
 	protected abstract void nativeReturnInvoke(int opcode, String temp,
 			String reg, String methodName, String param, String method);
+
+	protected abstract void nativeReturnStmt(int opcode, String reg);
+
+	// ////////////////////////////////////////////////////////////////////
+
+	protected Map<String, String> registerValueMap = new HashMap<String, String>();
+	protected int tempCounter = 0;
+	protected String lastTemp;
+
+	protected void updateTEMP(String tempNumber) {
+		lastTemp = tempNumber;
+	}
+
+	protected void HandleTEMP(String register, String value) {
+		registerValueMap.put(register, value);
+
+	}
+
+	protected void clearRegisterValueMap() {
+		registerValueMap.clear();
+	}
 }

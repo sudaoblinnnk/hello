@@ -237,6 +237,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		METHOD_TYPE_MAP.put(TYPE_OBJECT, "Object");
 		METHOD_TYPE_MAP.put(TYPE_SHORT, "Short");
 		METHOD_TYPE_MAP.put(TYPE_VOID, "Void");
+		METHOD_TYPE_MAP.put(TYPE_ARRAY, "jarray");
 	}
 
 	private static String getTypeSignature(String s) {
@@ -248,6 +249,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			return TYPE_MAP.get(s);
 		if (s.startsWith(TYPE_OBJECT))
 			return "jobject";
+		if (s.startsWith(TYPE_ARRAY))
+			return "jarray";
 		return s;
 	}
 
@@ -256,6 +259,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			return METHOD_TYPE_MAP.get(s);
 		if (s.startsWith(TYPE_OBJECT))
 			return "Object";
+		if (s.startsWith(TYPE_ARRAY))
+			return "jarray";
 		throw new IllegalArgumentException();
 	}
 
@@ -329,10 +334,6 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	// RETURN_VOID | |return
 	private void parseRETURN_VOID_OP(String s) {
 		out.println("return;");
-	}
-
-	private void parseRETURN_OP(String s) {
-		out.println(s + ";");
 	}
 
 	private void parseCONST_STRING_OP(String s) {
@@ -461,7 +462,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			} else if (opStr.equals(IF_EQZ_OP)) {
 				parseIF_EQZ_OP(s);
 			} else if (opStr.equals(RETURN_OP)) {
-				parseRETURN_OP(s);
+
 			} else if (opStr.equals(RETURN_VOID_OP)) {
 				parseRETURN_VOID_OP(s);
 			} else if (opStr.equals(INVOKE_SUPER_OP)
@@ -646,12 +647,14 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String methodId = String.format("methodId%d", localMethodCounter++);
 
 		sb.append(getMethodStr(methodId, localClass, methodName, signature,
-				true));
+				false));
 		sb.append("\n");
 
+		String caller = getCallerByReg(reg);
 		sb.append(getCallFunction(
-				getInvokeMethodByMethodSignature(signature, false), reg,
+				getInvokeMethodByMethodSignature(signature, false), caller,
 				methodId));
+
 		sb.append("\n");
 
 		out.print(sb);
@@ -678,17 +681,34 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String methodId = String.format("methodId%d", localMethodCounter++);
 
 		sb.append(getMethodStr(methodId, localClass, methodName, signature,
-				true));
+				false));
 		sb.append("\n");
 
 		sb.append(String.format("%s %s = ",
 				getReturnTypeByMethodSignature(method), temp));
 
+		String caller = getCallerByReg(reg);
+
 		sb.append(getCallFunction(
-				getInvokeMethodByMethodSignature(signature, false), reg,
+				getInvokeMethodByMethodSignature(signature, false), caller,
 				methodId));
 		sb.append("\n");
 
+		updateTEMP(temp);
+
 		out.print(sb);
+	}
+
+	protected void nativeReturnStmt(int opcode, String reg) {
+		String caller = getCallerByReg(reg);
+		out.println("return " + caller + ";");
+	}
+
+	private String getCallerByReg(String reg) {
+		String caller = reg;
+		if (registerValueMap.containsKey(reg)) {
+			caller = registerValueMap.get(reg);
+		}
+		return caller;
 	}
 }
