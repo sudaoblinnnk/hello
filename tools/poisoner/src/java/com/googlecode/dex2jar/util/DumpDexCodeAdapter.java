@@ -379,11 +379,39 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				className, methodName, signature);
 	}
 
+	public static String toJniType(String desc) {
+		System.out.println("toJniType :" + desc);
+		switch (desc.charAt(0)) {
+		case 'L':
+			if (desc.equals("Ljava/lang/String;")) {
+				return "jstring";
+			}
+			return desc.substring(1, desc.length() - 1).replace('/', '.');
+		case 'B':
+			return "jbyte";
+		case 'S':
+			return "jshort";
+		case 'C':
+			return "jchar";
+
+		case 'I':
+			return "jint";
+		case 'J':
+			return "jlong";
+		case 'F':
+			return "jfloat";
+		case 'D':
+			return "jdouble";
+		case '[':
+			return toJavaClass(desc.substring(1)) + "[]";
+		}
+		return desc;
+	}
+
 	private static String getReturnTypeByMethodSignature(String methedSignature) {
 		int i = methedSignature.indexOf(')');
 		String returnStr = methedSignature.substring(i + 1);
-		String methodReturnType = getInvokeMethodType(returnStr);
-		return methodReturnType;
+		return getInvokeMethodType(returnStr);
 	}
 
 	private static String getInvokeMethodByMethodSignature(
@@ -491,13 +519,31 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		if (!this.isStatic) {
 			int reg = args[i++];
 			String type = Dump.toJavaClass(method.getOwner());
-			out.printf("//%20s:v%d   //%s\n", "this", reg, type);
+			out.printf("v" + reg);
+
+			System.out.printf("//%20s:v%d   //%s\n", "this", reg, type);
 		}
 		for (String type : method.getParameterTypes()) {
 			int reg = args[i++];
-			type = Dump.toJavaClass(type);
-			out.printf("//%20s:v%d   //%s\n", "", reg, type);
+			type = toJniType(type);
+
+			out.print(',');
+			out.print(type);
+			out.print(" v" + reg);
 		}
+
+		i = 0;
+		for (String type : method.getParameterTypes()) {
+
+			int reg = args[i++];
+			type = Dump.toJavaClass(type);
+
+			System.out.printf("//%20s:v%d   //%s\n", "", reg, type);
+
+		}
+
+		out.print(")\n {\n");
+		clearRegisterValueMap();// TODO clear register map when function begin
 	}
 
 	/*
@@ -616,10 +662,6 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		String localClass = String.format("localClass%d", localClassCounter++);
 		sb.append(getFindClass(localClass, className));
-		sb.append("\n");
-
-		String fieldId = String.format("field%d", localFieldCounter++);
-		sb.append(getField(localClass, fieldId, cls, "java/lang/Class", false));
 		sb.append("\n");
 
 		out.print(sb);

@@ -260,7 +260,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			}
 
 			private static final String NATIVE_METHOD_PREFIX = "Java_";
-			private static final String NATIVE_PARAMETER_OBJECT = "JNIEnv * env, jobject  obj";
+			private static final String NATIVE_PARAMETER_OBJECT = "JNIEnv * env, jobject ";
 			private static final String NATIVE_PARAMETER_STATIC = "JNIEnv *env, jclass type";
 			private static final String JNI_FUNCTION_DELCLEAR_FORMAT = "extern \"C\" JNIEXPORT %s JNICALL";
 
@@ -272,11 +272,11 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 						accesFlags);
 				out.printf("//%s\n", method);
 
-				String staticMethodArgs;
+				String methodArgs;
 				if ((accesFlags & DexOpcodes.ACC_STATIC) != 0) {
-					staticMethodArgs = NATIVE_PARAMETER_STATIC;
+					methodArgs = NATIVE_PARAMETER_STATIC;
 				} else {
-					staticMethodArgs = NATIVE_PARAMETER_OBJECT;
+					methodArgs = NATIVE_PARAMETER_OBJECT;
 				}
 
 				out.printf(
@@ -287,18 +287,17 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 								+ currentJavaClass.replace('.', '_') + "_",
 						method.getName());
 
-				out.printf(String.format("%s", staticMethodArgs));
+				out.printf(String.format("%s", methodArgs));
 
-				String ps[] = method.getParameterTypes();
-				if (ps != null && ps.length > 0) {
-					out.print(toJavaClass(ps[0]));
-					for (int i = 1; i < ps.length; i++) {
-						out.print(',');
-						out.print(toJavaClass(ps[i]));
-					}
-				}
-				out.println(')');
-				out.println("\n{");
+				// String ps[] = method.getParameterTypes();
+				// if (ps != null && ps.length > 0) {
+				// out.print(toJavaClass(ps[0]));
+				// for (int i = 1; i < ps.length; i++) {
+				// out.print(',');
+				// out.print(toJavaClass(ps[i]));
+				// }
+				// }
+
 				EmptyVisitor ev = new EmptyVisitor() {
 					@Override
 					public DexCodeVisitor visitCode() {
@@ -307,7 +306,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 								method, out);
 					}
 				};
-				out.println("\n}");
+
 				return ev;
 			}
 
