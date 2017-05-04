@@ -504,8 +504,15 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	public void visitMoveStmt(int opcode, int reg, int xt) {
 		switch (opcode) {
 		case OP_MOVE_RESULT:
-			info(opcode, "v%d=TEMP", reg);
-			HandleTEMP("v" + reg, lastTemp);
+			String register = String.format("v%d=TEMP", reg);
+			info(opcode, register);
+			Register r = new Register(lastTemp.type, register, lastTemp.value);// register
+																				// type
+																				// comes
+																				// from
+																				// TEMP
+																				// type
+			recordRegister(register, r);
 			break;
 		case OP_MOVE_EXCEPTION:
 			info(opcode, "v%d=@Exception", reg);
@@ -642,17 +649,56 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 
 	// ////////////////////////////////////////////////////////////////////
 
-	protected Map<String, String> registerValueMap = new HashMap<String, String>();
-	protected int tempCounter = 0;
-	protected String lastTemp;
+	public static class Register {
+		String type;
+		String name;
+		String value;
 
-	protected void updateTEMP(String tempNumber) {
-		lastTemp = tempNumber;
+		public Register(String t, String n) {
+			this(t, n, "null");
+		}
+
+		public Register(String t, String n, String v) {
+			type = t;
+			name = n;
+			value = v;
+		}
+
+		public void setValue(String v) {
+			value = v;
+		}
+
+		public String toString() {
+			return "type = " + type + ", name = " + name + ", value = " + value;
+		}
 	}
 
-	protected void HandleTEMP(String register, String value) {
-		registerValueMap.put(register, value);
+	private static final String TEMP = "TEMP";
 
+	public static class RegisterTemp extends Register {
+		public RegisterTemp(String t, String v) {
+			super(t, TEMP, v);
+		}
+
+		public RegisterTemp(String t) {
+			super(t, TEMP);
+		}
+	}
+
+	protected static Map<String, Register> registerValueMap = new HashMap<String, Register>();
+	protected int tempCounter = 0;
+	protected RegisterTemp lastTemp;
+
+	protected void updateTEMP(RegisterTemp rt) {
+		lastTemp = rt;
+	}
+
+	protected void recordRegister(String register, Register r) {
+		registerValueMap.put(register, r);
+	}
+
+	protected Register getRegister(String register) {
+		return registerValueMap.get(register);
 	}
 
 	protected void clearRegisterValueMap() {

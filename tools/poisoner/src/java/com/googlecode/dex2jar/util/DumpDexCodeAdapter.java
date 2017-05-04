@@ -415,11 +415,12 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	}
 
 	private static String getInvokeMethodByMethodSignature(
-			String methedSignature, boolean isStatic) {
+			String methedSignature, boolean isStatic, boolean isVirtual) {
 		String methodReturnType = getReturnTypeByMethodSignature(methedSignature);
 		StringBuilder sb = new StringBuilder();
-		sb.append("Call").append(isStatic ? "Static" : "")
-				.append(methodReturnType).append("Method");
+		sb.append(isVirtual ? "Call" : "CallNonvirtual");
+		sb.append(isStatic ? "Static" : "").append(methodReturnType)
+				.append("Method");
 		return sb.toString();
 	}
 
@@ -459,8 +460,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		sb.append("\n");
 
 		sb.append(getCallFunction(
-				getInvokeMethodByMethodSignature(signature, isStatic), "obj",
-				methodId));
+				getInvokeMethodByMethodSignature(signature, isStatic, false),
+				"obj", methodId));
 		sb.append("\n");
 
 		out.print(sb);
@@ -666,6 +667,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		out.print(sb);
 
+		// type name=value : java/lang/Class v0=localClass
+		recordRegister(reg, new Register(className, reg, localClass));
 	}
 
 	protected void nativeVoidInvoke(int opcode, String reg, String methodName,
@@ -693,13 +696,23 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		sb.append("\n");
 
 		String caller = getCallerByReg(reg);
+
+		boolean isVirtual = isVirtual(reg, className);
+
 		sb.append(getCallFunction(
-				getInvokeMethodByMethodSignature(signature, false), caller,
-				methodId));
+				getInvokeMethodByMethodSignature(signature, false, isVirtual),
+				caller, methodId));
 
 		sb.append("\n");
 
 		out.print(sb);
+	}
+
+	private final boolean isVirtual(String reg, String methodClassName) {
+		if (getRegister(reg) != null) {
+			return getRegister(reg).type.equals(methodClassName);
+		}
+		return false;
 	}
 
 	protected void nativeReturnInvoke(int opcode, String temp, String reg,
@@ -731,12 +744,14 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		String caller = getCallerByReg(reg);
 
+		boolean isVirtual = isVirtual(reg, className);
+
 		sb.append(getCallFunction(
-				getInvokeMethodByMethodSignature(signature, false), caller,
-				methodId));
+				getInvokeMethodByMethodSignature(signature, false, isVirtual),
+				caller, methodId));
 		sb.append("\n");
 
-		updateTEMP(temp);
+		updateTEMP(new RegisterTemp(getReturnTypeByMethodSignature(method), reg));
 
 		out.print(sb);
 	}
@@ -749,7 +764,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	private String getCallerByReg(String reg) {
 		String caller = reg;
 		if (registerValueMap.containsKey(reg)) {
-			caller = registerValueMap.get(reg);
+			System.out.println(registerValueMap.get(reg).toString());
+			caller = registerValueMap.get(reg).value;
 		}
 		return caller;
 	}
