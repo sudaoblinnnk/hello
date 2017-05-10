@@ -504,14 +504,9 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	public void visitMoveStmt(int opcode, int reg, int xt) {
 		switch (opcode) {
 		case OP_MOVE_RESULT:
-			String register = String.format("v%d=TEMP", reg);
-			info(opcode, register);
-			Register r = new Register(lastTemp.type, register, lastTemp.value);// register
-																				// type
-																				// comes
-																				// from
-																				// TEMP
-																				// type
+			String register = String.format("v%d", reg);
+			info(opcode, register + "=TEMP");
+			Register r = new Register(lastTemp.type, register, lastTemp.value);
 			recordRegister(register, r);
 			break;
 		case OP_MOVE_EXCEPTION:
@@ -673,16 +668,12 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		}
 	}
 
-	private static final String TEMP = "TEMP";
-
 	public static class RegisterTemp extends Register {
-		public RegisterTemp(String t, String v) {
-			super(t, TEMP, v);
+
+		public RegisterTemp(String t, String n, String v) {
+			super(t, n, v);
 		}
 
-		public RegisterTemp(String t) {
-			super(t, TEMP);
-		}
 	}
 
 	protected static Map<String, Register> registerValueMap = new HashMap<String, Register>();

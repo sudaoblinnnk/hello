@@ -622,29 +622,32 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	@Override
 	public void visitLocalVariable(String name, String type, String signature,
 			DexLabel start, DexLabel end, int reg) {
-		out.printf("LOCAL_VARIABLE L%s ~ L%s v%d -> %s // %s \n",
+		out.printf("//LOCAL_VARIABLE L%s ~ L%s v%d -> %s // %s \n",
 				labelToString(start), labelToString(end), reg, name, type);
 
 		// out.println("visitLocalVariable reg:" + reg);
 		// out.println("visitLocalVariable name:" + name);
 		// out.println("visitLocalVariable sig:" + signature);
 		// out.println("visitLocalVariable type:" + type);
-		StringBuilder sb = new StringBuilder();
 
-		String localClass = String.format("localClass%d", localClassCounter++);
-		String className = getClassNameFromclassNameSignature(type);
-		sb.append(getFindClass(localClass, className));
-		sb.append("\n");
-
-		String fieldId = String.format("field%d", reg);
-		sb.append(getField(localClass, fieldId, name, type, false));
-		sb.append("\n");
-
-		sb.append(String.format(("%s "), getType(type)));
-		sb.append(getObjectField(String.format("v%d", reg), "object", fieldId));
-		sb.append("\n");
-
-		out.print(sb);
+		// StringBuilder sb = new StringBuilder();
+		//
+		// String localClass = String.format("localClass%d",
+		// localClassCounter++);
+		// String className = getClassNameFromclassNameSignature(type);
+		// sb.append(getFindClass(localClass, className));
+		// sb.append("\n");
+		//
+		// String fieldId = String.format("field%d", reg);
+		// sb.append(getField(localClass, fieldId, name, type, false));
+		// sb.append("\n");
+		//
+		// sb.append(String.format(("%s "), getType(type)));
+		// sb.append(getObjectField(String.format("v%d", reg), "object",
+		// fieldId));
+		// sb.append("\n");
+		//
+		// out.print(sb);
 	}
 
 	protected void nativeCONST(int opcode, String reg, String value) {
@@ -709,10 +712,11 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	}
 
 	private final boolean isVirtual(String reg, String methodClassName) {
-		if (getRegister(reg) != null) {
-			return getRegister(reg).type.equals(methodClassName);
-		}
-		return false;
+		// if (getRegister(reg) != null) {
+		// return getRegister(reg).type.equals(methodClassName);
+		// }
+		// return false;
+		return true;
 	}
 
 	protected void nativeReturnInvoke(int opcode, String temp, String reg,
@@ -751,7 +755,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				caller, methodId));
 		sb.append("\n");
 
-		updateTEMP(new RegisterTemp(getReturnTypeByMethodSignature(method), reg));
+		updateTEMP(new RegisterTemp(getReturnTypeByMethodSignature(method),
+				temp, temp));
 
 		out.print(sb);
 	}
