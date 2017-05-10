@@ -211,6 +211,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 	private static final Map<String, String> TYPE_MAP = new HashMap<String, String>();
 	private static final Map<String, String> METHOD_TYPE_MAP = new HashMap<String, String>();
+	private static final Map<String, String> CALL_TYPE = new HashMap<String, String>();
 
 	static {
 		TYPE_MAP.put(TYPE_BOOLEAN, "jboolean");
@@ -238,6 +239,18 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		METHOD_TYPE_MAP.put(TYPE_SHORT, "Short");
 		METHOD_TYPE_MAP.put(TYPE_VOID, "Void");
 		METHOD_TYPE_MAP.put(TYPE_ARRAY, "jarray");
+	}
+
+	static {
+		CALL_TYPE.put("Object", "jobject");
+		CALL_TYPE.put("Boolean", "jboolean");
+		CALL_TYPE.put("Byte", "jbyte");
+		CALL_TYPE.put("Char", "jchar");
+		CALL_TYPE.put("Short", "jshort");
+		CALL_TYPE.put("Int", "jint");
+		CALL_TYPE.put("Long", "jlong");
+		CALL_TYPE.put("Float", "jfloat");
+		CALL_TYPE.put("Double", "jdouble");
 	}
 
 	private static String getTypeSignature(String s) {
@@ -412,6 +425,13 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		int i = methedSignature.indexOf(')');
 		String returnStr = methedSignature.substring(i + 1);
 		return getInvokeMethodType(returnStr);
+	}
+
+	private static String getReturnSignatureByMethodSignature(
+			String methedSignature) {
+		int i = methedSignature.indexOf(')');
+		String returnStr = methedSignature.substring(i + 1);
+		return returnStr;
 	}
 
 	private static String getInvokeMethodByMethodSignature(
@@ -743,8 +763,10 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				false));
 		sb.append("\n");
 
+		// sb.append(String.format("%s %s = ",
+		// CALL_TYPE.get(getReturnTypeByMethodSignature(method)), temp));
 		sb.append(String.format("%s %s = ",
-				getReturnTypeByMethodSignature(method), temp));
+				toJniType(getReturnSignatureByMethodSignature(method)), temp));
 
 		String caller = getCallerByReg(reg);
 
@@ -773,5 +795,44 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			caller = registerValueMap.get(reg).value;
 		}
 		return caller;
+	}
+
+	protected void nativeBinop(int opcode, int saveToReg, int opReg, int opReg2) {
+		String opStr = null;
+		switch (opcode) {
+		case OP_AND:
+			opStr = "&";
+			break;
+		case OP_OR:
+			opStr = "|";
+			break;
+		case OP_XOR:
+			opStr = "^";
+			break;
+		case OP_SUB:
+			opStr = "-";
+			break;
+		case OP_MUL:
+			opStr = "*";
+			break;
+		case OP_DIV:
+			opStr = "/";
+			break;
+		case OP_ADD:
+			opStr = "+";
+			break;
+		case OP_REM:
+			opStr = "%%";
+			break;
+		default:
+			throw new IllegalArgumentException();
+		}
+
+		out.print(String.format("v%d = v%d %s v%d", saveToReg, opReg, opStr,
+				opReg2));
+		out.println("\n");
+		String register = "v" + saveToReg;
+		String type = getRegister(register).type;
+		recordRegister(register, new Register(type, register, register));
 	}
 }

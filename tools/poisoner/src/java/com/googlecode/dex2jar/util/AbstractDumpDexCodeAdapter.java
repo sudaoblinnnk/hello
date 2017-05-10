@@ -129,6 +129,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			info(opcode, "v%d = v%d %% v%d", saveToReg, opReg, opReg2);
 			break;
 		}
+		nativeBinop(opcode, saveToReg, opReg, opReg2);
 	}
 
 	/*
@@ -505,7 +506,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		switch (opcode) {
 		case OP_MOVE_RESULT:
 			String register = String.format("v%d", reg);
-			info(opcode, register + "=TEMP");
+			info(opcode, register + "=" + lastTemp.value);
 			Register r = new Register(lastTemp.type, register, lastTemp.value);
 			recordRegister(register, r);
 			break;
@@ -641,6 +642,9 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			String reg, String methodName, String param, String method);
 
 	protected abstract void nativeReturnStmt(int opcode, String reg);
+
+	protected abstract void nativeBinop(int op, int saveToReg, int opReg,
+			int opReg2);
 
 	// ////////////////////////////////////////////////////////////////////
 
