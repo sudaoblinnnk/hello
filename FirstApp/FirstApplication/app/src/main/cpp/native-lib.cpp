@@ -4,6 +4,25 @@
 #include <android/log.h>
 
 static const char * IAC_AGENT_TAG = "kurt";
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_irdeto_j2n_firstapplication_MainActivity_onCreate(JNIEnv * env, jobject v1, jobject v2)
+{
+    //LOCAL_VARIABLE LL0 ~ LL1 v1 -> this // Lj2n/irdeto/com/demo/MainActivity;
+    //LOCAL_VARIABLE LL0 ~ LL1 v2 -> savedInstanceState // Landroid/os/Bundle;
+    LL0:
+    //        INVOKE_SUPER        |     |v1.onCreate(v2)  //Landroid/app/Activity;.onCreate(Landroid/os/Bundle;)V
+    jclass localClass0 = env->FindClass("android/app/Activity");
+    jmethodID methodId0 = env->GetMethodID(localClass0, "onCreate", "(Landroid/os/Bundle;)V");
+    env->CallVoidMethod(v1, methodId0);
+    LL2:
+    //        CONST               |     |v0=0x7f030000  // int:2130903040   float:174128867447823980000000000000000000000.000000
+    int v0 = 0x7f030000;
+    //INVOKE_VIRTUAL      |     |v1.setContentView(v0)  //Lj2n/irdeto/com/demo/MainActivity;.setContentView(I)V
+    jclass localClass1 = env->FindClass("j2n/irdeto/com/demo/MainActivity");
+    jmethodID methodId1 = env->GetMethodID(localClass1, "setContentView", "(I)V");
+    env->CallVoidMethod(v1, methodId1);
+}
 
 #define LOGI(fmt, args...) __android_log_print(ANDROID_LOG_INFO,  IAC_AGENT_TAG, fmt, ##args)
 #define LOGD(fmt, args...) __android_log_print(ANDROID_LOG_DEBUG, IAC_AGENT_TAG, fmt, ##args)
