@@ -1,18 +1,3 @@
-/*
- * Copyright (c) 2009-2012 Panxiaobo
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.googlecode.dex2jar.util;
 
 import java.io.PrintWriter;
@@ -24,12 +9,9 @@ import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
 import com.googlecode.dex2jar.DexLabel;
+import com.googlecode.dex2jar.Field;
 import com.googlecode.dex2jar.Method;
 
-/**
- * @author <a href="mailto:pxb1988@gmail.com">Panxiaobo</a>
- * @version $Rev$
- */
 public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	private static class TryCatch {
 		public DexLabel end;
@@ -87,18 +69,65 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	public static final String INVOKE_DIRECT_OP = "INVOKE_DIRECT";
 	public static final String INVOKE_STATIC_OP = "INVOKE_STATIC";
 
-	// SGET | |v0=j2n.irdeto.com.demo.MainActivity.debug
-	// //Lj2n/irdeto/com/demo/MainActivity;.debug Z
-	// v0=j2n.irdeto.com.demo.MainActivity.debug
-	// //Lj2n/irdeto/com/demo/MainActivity;.debug Z
+	@Override
+	protected void nativeSPUT(String fromOrToReg, String fieldOwner,
+			String fieldName, Field field) {
+		String className = fieldOwner;
+
+		StringBuilder sb = new StringBuilder();
+
+		String type = getType(field.getType());
+		String typeSignature = getTypeSignature(field.getType());
+
+		String localClass = String.format("localClass%d", localClassCounter++);
+		sb.append(getFindClass(localClass, className));
+		sb.append("\n");
+
+		String fieldId = String.format("fieldId%d", localFieldCounter++);
+		sb.append(getField(localClass, fieldId, fieldName, typeSignature, true));
+		sb.append("\n");
+
+		sb.append(String.format(("env->SetStaticObjectField(%s, %s, %s);"),
+				localClass, fieldId, fromOrToReg));
+
+		sb.append("\n");
+		out.println(sb);
+	}
+
+	@Override
+	protected void nativeSGET(String fromOrToReg, String fieldOwner,
+			String fieldName, Field field) {
+		String className = fieldOwner;
+
+		StringBuilder sb = new StringBuilder();
+
+		String type = getType(field.getType());
+		String typeSignature = getTypeSignature(field.getType());
+
+		String localClass = String.format("localClass%d", localClassCounter++);
+		sb.append(getFindClass(localClass, className));
+		sb.append("\n");
+
+		String fieldId = String.format("fieldId%d", localFieldCounter++);
+		sb.append(getField(localClass, fieldId, fieldName, typeSignature, true));
+		sb.append("\n");
+
+		sb.append(String.format(("%s "), type));
+
+		sb.append(getStaticObjectField(localClass, fromOrToReg, fieldId));
+		sb.append("\n");
+		out.println(sb);
+	}
+
 	private void parseSGET_OP(String s) {
+
 		String[] codeBlocks = getCodeBlocks(s);
 
 		// for (String c : codeBlocks) {
 		// System.out.println("===========" + c + "======");
 		// }
 
-		String varible = getVarible(codeBlocks[0]);
+		String varible = "v";
 
 		List<String> clazzFieldList = getClazzFieldName(codeBlocks[2]);
 
@@ -140,10 +169,22 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				"GetStaticObjectField", localClass, fieldName);
 	}
 
+	private static String setStaticObjectField(String localClass,
+			String fieldName, String value) {
+		return String.format(("env->%s(%s, %s, %s);"), "SetStaticObjectField",
+				localClass, fieldName, value);
+	}
+
 	private static String getObjectField(String obj, String fieldObject,
 			String fieldName) {
 		return String.format(("%s = env->%s(%s, %s);"), fieldObject,
 				"GetObjectField", obj, fieldName);
+	}
+
+	private static String setObjectField(String obj, String fieldName,
+			String value) {
+		return String.format(("env->%s(%s, %s, %s);"), "SetObjectField", obj,
+				fieldName, value);
 	}
 
 	private static String getFindClass(String localClass, String className) {
@@ -450,7 +491,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				.format("env->%s(%s, %s);", callFunction, caller, methodId);
 	}
 
-	private void parseINVOKE_OP(String s, boolean isStatic) {
+	private void parseINVOKE_OP1(String s, boolean isStatic) {
 		String[] codeBlocks = getCodeBlocks(s);
 
 		System.out.println("===========" + s + "======");
@@ -499,27 +540,27 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				out.printf("%-20s|%5s|%s\n", opStr, "", s);
 
 			if (opStr.equals(CONST_OP)) {
-				parseCONST_OP(s);
+				// parseCONST_OP(s);
 			} else if (opStr.equals(CONST_CLASS_OP)) {
 
 			} else if (opStr.equals(CONST_STRING_OP)) {
-				parseCONST_STRING_OP(s);
+				// parseCONST_STRING_OP(s);
 			} else if (opStr.equals(SGET_OP)) {
-				parseSGET_OP(s);
+				// parseSGET_OP(s);
 			} else if (opStr.equals(SPUT_OP)) {
-				parseSPUT_OP(s);
+				// parseSPUT_OP(s);
 			} else if (opStr.equals(IF_EQZ_OP)) {
-				parseIF_EQZ_OP(s);
+				// parseIF_EQZ_OP(s);
 			} else if (opStr.equals(RETURN_OP)) {
 
 			} else if (opStr.equals(RETURN_VOID_OP)) {
-				parseRETURN_VOID_OP(s);
+				// parseRETURN_VOID_OP(s);
 			} else if (opStr.equals(INVOKE_SUPER_OP)
 					|| opStr.equals(INVOKE_DIRECT_OP)
 					|| opStr.equals(INVOKE_VIRTUAL_OP)) {
 				// parseINVOKE_OP(s, false);
 			} else if (opStr.equals(INVOKE_STATIC_OP)) {
-				parseINVOKE_OP(s, true);
+				// parseINVOKE_OP(s, true);
 			}
 		}
 	}
@@ -563,7 +604,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		}
 
-		out.print(")\n {\n");
+		out.print(")\n{\n");
 		clearRegisterValueMap();// TODO clear register map when function begin
 	}
 
@@ -671,11 +712,25 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	}
 
 	protected void nativeCONST(int opcode, String reg, String value) {
-
+		StringBuilder sb = new StringBuilder();
+		sb.append("int ");
+		sb.append(reg);
+		sb.append(" = ");
+		sb.append(value);
+		sb.append(";\n");
+		out.print(sb);
 	}
 
 	protected void nativeCONST_STRING(int opcode, String reg, String value) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(reg);
+		sb.append(" = ");
+		sb.append("env->NewStringUTF(");
+		sb.append(value);
+		sb.append(");");
+		sb.append("\n");
 
+		out.print(sb);
 	}
 
 	protected void nativeCONST_CLASS(int opcode, String reg, String signature,
@@ -722,8 +777,13 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		boolean isVirtual = isVirtual(reg, className);
 
+		boolean isStatic = false;
+		if (opcode == OP_INVOKE_STATIC) {
+			isStatic = true;
+			caller = localClass;
+		}
 		sb.append(getCallFunction(
-				getInvokeMethodByMethodSignature(signature, false, isVirtual),
+				getInvokeMethodByMethodSignature(signature, isStatic, isVirtual),
 				caller, methodId));
 
 		sb.append("\n");
@@ -768,12 +828,18 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		sb.append(String.format("%s %s = ",
 				toJniType(getReturnSignatureByMethodSignature(method)), temp));
 
-		String caller = getCallerByReg(reg);
-
-		boolean isVirtual = isVirtual(reg, className);
-
+		String caller;
+		boolean isVirtual = false;
+		boolean isStatic = false;
+		if (opcode == OP_INVOKE_STATIC) {
+			isStatic = true;
+			caller = localClass;
+		} else {
+			caller = getCallerByReg(reg);
+			isVirtual = isVirtual(reg, className);
+		}
 		sb.append(getCallFunction(
-				getInvokeMethodByMethodSignature(signature, false, isVirtual),
+				getInvokeMethodByMethodSignature(signature, isStatic, isVirtual),
 				caller, methodId));
 		sb.append("\n");
 
@@ -825,7 +891,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			opStr = "%%";
 			break;
 		default:
-			throw new IllegalArgumentException();
+			// throw new IllegalArgumentException();
 		}
 
 		out.print(String.format("v%d = v%d %s v%d", saveToReg, opReg, opStr,
@@ -835,4 +901,75 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String type = getRegister(register).type;
 		recordRegister(register, new Register(type, register, register));
 	}
+
+	@Override
+	protected void nativeIGET(int regFromOrTo, int ownerReg, String fieldName,
+			Field field) {
+		String fromRegister = "v" + regFromOrTo;
+		String obj = "v" + ownerReg;
+
+		String className = toJavaClass(field.getOwner());
+
+		StringBuilder sb = new StringBuilder();
+
+		String type = getType(field.getType());
+		String typeSignature = getTypeSignature(field.getType());
+
+		String localClass = String.format("localClass%d", localClassCounter++);
+		sb.append(getFindClass(localClass, className));
+		sb.append("\n");
+
+		String fieldId = String.format("fieldId%d", localFieldCounter++);
+		sb.append(getField(localClass, fieldId, fieldName, typeSignature, false));
+		sb.append("\n");
+
+		sb.append(String.format(("%s "), type));
+
+		sb.append(getObjectField(obj, fromRegister, fieldId));
+		sb.append("\n");
+		out.println(sb);
+	}
+
+	@Override
+	protected void nativeIPUT(int ownerReg, String fieldName, int regFromOrTo,
+			Field field) {
+
+		String toRegister = "v" + regFromOrTo;
+		String obj = "v" + ownerReg;
+
+		String className = toJavaClass(field.getOwner());
+
+		StringBuilder sb = new StringBuilder();
+
+		String type = getType(field.getType());
+		String typeSignature = getTypeSignature(field.getType());
+
+		String localClass = String.format("localClass%d", localClassCounter++);
+		sb.append(getFindClass(localClass, className));
+		sb.append("\n");
+
+		String fieldId = String.format("fieldId%d", localFieldCounter++);
+		sb.append(getField(localClass, fieldId, fieldName, typeSignature, false));
+		sb.append("\n");
+
+		sb.append(String.format(("%s "), type));
+
+		sb.append(setObjectField(obj, fieldId, toRegister));
+		sb.append("\n");
+		out.println(sb);
+	}
+
+	@Override
+	protected void nativeNEW_INSTANCE(int toReg, String type) {
+		String toRegister = "v" + toReg;
+		String className = toJavaClass(type);
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(String.format("jobject %s = AllocObject(%s)", toRegister,
+				className));
+		sb.append("\n");
+		out.println(sb);
+	}
+
 }

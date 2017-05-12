@@ -305,6 +305,11 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 								(accesFlags & DexOpcodes.ACC_STATIC) != 0,
 								method, out);
 					}
+
+					@Override
+					public void visitEnd() {
+						out.println("}\n");
+					}
 				};
 
 				return ev;

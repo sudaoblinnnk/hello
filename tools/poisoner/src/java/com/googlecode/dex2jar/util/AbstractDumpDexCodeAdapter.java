@@ -48,10 +48,10 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			int xt) {
 		switch (opcode) {
 		case OP_APUT:
-			info(opcode, "v%d[v%d]=v%d", array, index, value);
+			info(opcode, "v%d[v%d]=v%d;", array, index, value);
 			break;
 		case OP_AGET:
-			info(opcode, "v%d=v%d[v%d]", value, array, index);
+			info(opcode, "v%d=v%d[v%d];", value, array, index);
 			break;
 		}
 	}
@@ -68,34 +68,34 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			int value) {
 		switch (opcode) {
 		case OP_AND_INT_LIT_X:
-			info(opcode, "v%d = v%d & %d", saveToReg, opReg, value);
+			info(opcode, "v%d = v%d & %d;", saveToReg, opReg, value);
 			break;
 		case OP_ADD_INT_LIT_X:
-			info(opcode, "v%d = v%d + %d", saveToReg, opReg, value);
+			info(opcode, "v%d = v%d + %d;", saveToReg, opReg, value);
 			break;
 		case OP_REM_INT_LIT_X:
-			info(opcode, "v%d = v%d %% %d", saveToReg, opReg, value);
+			info(opcode, "v%d = v%d %% %d;", saveToReg, opReg, value);
 			break;
 		case OP_DIV_INT_LIT_X:
-			info(opcode, "v%d = v%d / %d", saveToReg, opReg, value);
+			info(opcode, "v%d = v%d / %d;", saveToReg, opReg, value);
 			break;
 		case OP_MUL_INT_LIT_X:
-			info(opcode, "v%d = v%d * %d", saveToReg, opReg, value);
+			info(opcode, "v%d = v%d * %d;", saveToReg, opReg, value);
 			break;
 		case OP_SHR_INT_LIT_X:
-			info(opcode, "v%d = v%d >> %d", saveToReg, opReg, value);
+			info(opcode, "v%d = v%d >> %d;", saveToReg, opReg, value);
 			break;
 		case OP_SHL_INT_LIT_X:
-			info(opcode, "v%d = v%d << %d", saveToReg, opReg, value);
+			info(opcode, "v%d = v%d << %d;", saveToReg, opReg, value);
 			break;
 		case OP_USHR_INT_LIT_X:
-			info(opcode, "v%d = v%d >>> %d", saveToReg, opReg, value);
+			info(opcode, "v%d = v%d >>> %d;", saveToReg, opReg, value);
 			break;
 		case OP_OR_INT_LIT_X:
-			info(opcode, "v%d = v%d | %d", saveToReg, opReg, value);
+			info(opcode, "v%d = v%d | %d;", saveToReg, opReg, value);
 			break;
 		case OP_XOR_INT_LIT_X:
-			info(opcode, "v%d = v%d ^ %d", saveToReg, opReg, value);
+			info(opcode, "v%d = v%d ^ %d;", saveToReg, opReg, value);
 			break;
 		}
 	}
@@ -105,28 +105,28 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			int opReg2, int xt) {
 		switch (opcode) {
 		case OP_AND:
-			info(opcode, "v%d = v%d & v%d", saveToReg, opReg, opReg2);
+			info(opcode, "v%d = v%d & v%d;", saveToReg, opReg, opReg2);
 			break;
 		case OP_OR:
-			info(opcode, "v%d = v%d | v%d", saveToReg, opReg, opReg2);
+			info(opcode, "v%d = v%d | v%d;", saveToReg, opReg, opReg2);
 			break;
 		case OP_XOR:
-			info(opcode, "v%d = v%d ^ v%d", saveToReg, opReg, opReg2);
+			info(opcode, "v%d = v%d ^ v%d;", saveToReg, opReg, opReg2);
 			break;
 		case OP_SUB:
-			info(opcode, "v%d = v%d - v%d", saveToReg, opReg, opReg2);
+			info(opcode, "v%d = v%d - v%d;", saveToReg, opReg, opReg2);
 			break;
 		case OP_MUL:
-			info(opcode, "v%d = v%d * v%d", saveToReg, opReg, opReg2);
+			info(opcode, "v%d = v%d * v%d;", saveToReg, opReg, opReg2);
 			break;
 		case OP_DIV:
-			info(opcode, "v%d = v%d / v%d", saveToReg, opReg, opReg2);
+			info(opcode, "v%d = v%d / v%d;", saveToReg, opReg, opReg2);
 			break;
 		case OP_ADD:
-			info(opcode, "v%d = v%d + v%d", saveToReg, opReg, opReg2);
+			info(opcode, "v%d = v%d + v%d;", saveToReg, opReg, opReg2);
 			break;
 		case OP_REM:
-			info(opcode, "v%d = v%d %% v%d", saveToReg, opReg, opReg2);
+			info(opcode, "v%d = v%d %% v%d;", saveToReg, opReg, opReg2);
 			break;
 		}
 		nativeBinop(opcode, saveToReg, opReg, opReg2);
@@ -164,6 +164,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		switch (opcode) {
 		case OP_NEW_INSTANCE:
 			info(opcode, "v%d=NEW %s", toReg, type);
+			nativeNEW_INSTANCE(toReg, type);
 			break;
 		case OP_CHECK_CAST:
 			info(opcode, "v%d=(%s) v%d", toReg, Dump.toJavaClass(type), toReg);
@@ -235,10 +236,14 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		case OP_SPUT:
 			info(opcode, "%s.%s=v%d  //%s", toJavaClass(field.getOwner()),
 					field.getName(), fromOrToReg, field);
+			nativeSPUT("v" + fromOrToReg, toJavaClass(field.getOwner()),
+					field.getName(), field);
 			break;
 		case OP_SGET:
 			info(opcode, "v%d=%s.%s  //%s", fromOrToReg,
 					toJavaClass(field.getOwner()), field.getName(), field);
+			nativeSGET("v" + fromOrToReg, toJavaClass(field.getOwner()),
+					field.getName(), field);
 			break;
 		}
 	}
@@ -250,10 +255,12 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		case OP_IGET:
 			info(opcode, "v%d=v%d.%s  //%s", regFromOrTo, owner_reg,
 					field.getName(), field);
+			nativeIGET(regFromOrTo, owner_reg, field.getName(), field);
 			break;
 		case OP_IPUT:
 			info(opcode, "v%d.%s=v%d  //%s", owner_reg, field.getName(),
 					regFromOrTo, field);
+			nativeIPUT(owner_reg, field.getName(), regFromOrTo, field);
 			break;
 		}
 	}
@@ -321,7 +328,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	public void visitJumpStmt(int opcode, DexLabel label) {
 		switch (opcode) {
 		case OP_GOTO:
-			info(opcode, "goto %s", labelToString(label));
+			info(opcode, "goto %s;", labelToString(label));
 			break;
 		}
 	}
@@ -330,22 +337,28 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	public void visitJumpStmt(int opcode, int reg, DexLabel label) {
 		switch (opcode) {
 		case OP_IF_EQZ:
-			info(opcode, "if v%d == 0 goto %s", reg, labelToString(label));
+			info(opcode, "if (v%d == 0) { goto %s; }", reg,
+					labelToString(label));
 			break;
 		case OP_IF_NEZ:
-			info(opcode, "if v%d != 0 goto %s", reg, labelToString(label));
+			info(opcode, "if (v%d != 0) { goto %s; }", reg,
+					labelToString(label));
 			break;
 		case OP_IF_LTZ:
-			info(opcode, "if v%d <  0 goto %s", reg, labelToString(label));
+			info(opcode, "if (v%d <  0) { goto %s; }", reg,
+					labelToString(label));
 			break;
 		case OP_IF_GEZ:
-			info(opcode, "if v%d >= 0 goto %s", reg, labelToString(label));
+			info(opcode, "if (v%d >= 0) { goto %s; }", reg,
+					labelToString(label));
 			break;
 		case OP_IF_GTZ:
-			info(opcode, "if v%d >  0 goto %s", reg, labelToString(label));
+			info(opcode, "if (v%d >  0) { goto %s; }", reg,
+					labelToString(label));
 			break;
 		case OP_IF_LEZ:
-			info(opcode, "if v%d <= 0 goto %s", reg, labelToString(label));
+			info(opcode, "if (v%d <= 0) { goto %s; }", reg,
+					labelToString(label));
 			break;
 		}
 	}
@@ -360,27 +373,27 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	public void visitJumpStmt(int opcode, int reg1, int reg2, DexLabel label) {
 		switch (opcode) {
 		case OP_IF_EQ:
-			info(opcode, "if v%d == v%d goto %s", reg1, reg2,
+			info(opcode, "if (v%d == v%d) {  goto %s; }", reg1, reg2,
 					labelToString(label));
 			break;
 		case OP_IF_NE:
-			info(opcode, "if v%d != v%d goto %s", reg1, reg2,
+			info(opcode, "if (v%d != v%d) {  goto %s; }", reg1, reg2,
 					labelToString(label));
 			break;
 		case OP_IF_LT:
-			info(opcode, "if v%d <  v%d goto %s", reg1, reg2,
+			info(opcode, "if (v%d <  v%d) {  goto %s; }", reg1, reg2,
 					labelToString(label));
 			break;
 		case OP_IF_GE:
-			info(opcode, "if v%d >= v%d goto %s", reg1, reg2,
+			info(opcode, "if (v%d >= v%d) {  goto %s; }", reg1, reg2,
 					labelToString(label));
 			break;
 		case OP_IF_GT:
-			info(opcode, "if v%d >  v%d goto %s", reg1, reg2,
+			info(opcode, "if (v%d >  v%d) {  goto %s; }", reg1, reg2,
 					labelToString(label));
 			break;
 		case OP_IF_LE:
-			info(opcode, "if v%d <= v%d goto %s", reg1, reg2,
+			info(opcode, "if (v%d <= v%d) {  goto %s; }", reg1, reg2,
 					labelToString(label));
 			break;
 		}
@@ -445,11 +458,17 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			if (method.getReturnType().equals("V")) {
 				info(opcode, "%s.%s(%s)  //%s", toJavaClass(method.getOwner()),
 						method.getName(), sb.toString(), method.toString());
+
+				nativeVoidInvoke(opcode, String.format("v%d", regs[0]),
+						method.getName(), sb.toString(), method.toString());
 			} else {
 				info(opcode, "TEMP=%s.%s(%s)  //%s",
 						toJavaClass(method.getOwner()), method.getName(),
 						sb.toString(), method.toString());
 
+				nativeReturnInvoke(opcode,
+						String.format("TEMP%d", tempCounter++), null,
+						method.getName(), sb.toString(), method.toString());
 			}
 		}
 			break;
@@ -506,9 +525,15 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		switch (opcode) {
 		case OP_MOVE_RESULT:
 			String register = String.format("v%d", reg);
-			info(opcode, register + "=" + lastTemp.value);
-			Register r = new Register(lastTemp.type, register, lastTemp.value);
-			recordRegister(register, r);
+			if (lastTemp != null) {
+				info(opcode, register + "=" + lastTemp.value);
+				Register r = new Register(lastTemp.type, register,
+						lastTemp.value);
+				recordRegister(register, r);
+			} else {
+				info(opcode, register + "=" + "kurt");
+			}
+
 			break;
 		case OP_MOVE_EXCEPTION:
 			info(opcode, "v%d=@Exception", reg);
@@ -646,6 +671,20 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	protected abstract void nativeBinop(int op, int saveToReg, int opReg,
 			int opReg2);
 
+	protected abstract void nativeSGET(String fromOrToReg, String fieldOwner,
+			String fieldName, Field field);
+
+	protected abstract void nativeSPUT(String fromOrToReg, String fieldOwner,
+			String fieldName, Field field);
+
+	protected abstract void nativeIGET(int regFromOrTo, int owner_reg,
+			String fieldName, Field field);
+
+	protected abstract void nativeIPUT(int owner_reg, String fieldName,
+			int regFromOrTo, Field field);
+
+	protected abstract void nativeNEW_INSTANCE(int toReg, String type);
+
 	// ////////////////////////////////////////////////////////////////////
 
 	public static class Register {
@@ -693,7 +732,11 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	}
 
 	protected Register getRegister(String register) {
-		return registerValueMap.get(register);
+		Register r = registerValueMap.get(register);
+		if (r == null) {
+			r = new Register("kurt", register, register);
+		}
+		return r;
 	}
 
 	protected void clearRegisterValueMap() {
