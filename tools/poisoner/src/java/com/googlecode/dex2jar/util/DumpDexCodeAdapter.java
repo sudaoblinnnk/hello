@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.regex.Pattern;
 
 import com.googlecode.dex2jar.DexLabel;
 import com.googlecode.dex2jar.Field;
@@ -119,43 +118,6 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		out.println(sb);
 	}
 
-	private void parseSGET_OP(String s) {
-
-		String[] codeBlocks = getCodeBlocks(s);
-
-		// for (String c : codeBlocks) {
-		// System.out.println("===========" + c + "======");
-		// }
-
-		String varible = "v";
-
-		List<String> clazzFieldList = getClazzFieldName(codeBlocks[2]);
-
-		String classNameSignature = clazzFieldList.get(0);
-		String className = getClassNameFromclassNameSignature(classNameSignature);
-		String fieldName = clazzFieldList.get(1);
-
-		StringBuilder sb = new StringBuilder();
-
-		String type = getType(codeBlocks[3]);
-		String typeSignature = getTypeSignature(codeBlocks[3]);
-
-		String localClass = String.format("localClass%d", localClassCounter++);
-		sb.append(getFindClass(localClass, className));
-		sb.append("\n");
-
-		String fieldId = String.format("fieldId%d", localFieldCounter++);
-		sb.append(getField(localClass, fieldId, fieldName, typeSignature, true));
-		sb.append("\n");
-
-		sb.append(String.format(("%s "), type));
-
-		sb.append(getStaticObjectField(localClass, varible, fieldId));
-		sb.append("\n");
-		out.println(sb);
-
-	}
-
 	private static String getField(String localClass, String fieldId,
 			String fieldName, String typeSignature, boolean isStatic) {
 		return String.format(("jfieldID %s = env->%s(%s, \"%s\", \"%s\");"),
@@ -197,45 +159,6 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		int start = classNameSignature.indexOf('L');
 		int end = classNameSignature.indexOf(';');
 		return classNameSignature.substring(start + 1, end);
-	}
-
-	// SPUT | |j2n.irdeto.com.demo.MainActivity.debug=v0
-	// //Lj2n/irdeto/com/demo/MainActivity;.debug Z
-	private void parseSPUT_OP(String s) {
-		String[] codeBlocks = getCodeBlocks(s);
-
-		for (String c : codeBlocks) {
-			System.out.println("===========" + c + "======");
-		}
-
-		String varible = getVarible(codeBlocks[0]);
-		String varibleValue = getVaribleValue(codeBlocks[0]);
-
-		List<String> clazzFieldList = getClazzFieldName(codeBlocks[2]);
-
-		String classNameSignature = clazzFieldList.get(0);
-		String className = getClassNameFromclassNameSignature(classNameSignature);
-		String fieldName = clazzFieldList.get(1);
-
-		StringBuilder sb = new StringBuilder();
-
-		String type = getType(codeBlocks[3]);
-		String typeSignature = getTypeSignature(codeBlocks[3]);
-
-		String localClass = String.format("localClass%d", localClassCounter++);
-		sb.append(getFindClass(localClass, className));
-		sb.append("\n");
-
-		String fieldId = String.format("fieldId%d", localFieldCounter++);
-		sb.append(getField(localClass, fieldId, fieldName, typeSignature, true));
-		sb.append("\n");
-
-		sb.append(String.format(("env->SetStaticObjectField(%s, %s, %s);"),
-				localClass, fieldId, varibleValue));
-
-		sb.append("\n");
-		out.println(sb);
-
 	}
 
 	public static final String TYPE_BOOLEAN = "Z";
@@ -334,89 +257,6 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		return list;
 	}
 
-	private String getVarible(String s) {
-		String patternEqual = "=";
-		Pattern patternE = Pattern.compile(patternEqual);
-		String[] elements = patternE.split(s);
-		return elements[0];
-	}
-
-	private String getVaribleValue(String s) {
-		String patternEqual = "=";
-		Pattern patternE = Pattern.compile(patternEqual);
-		String[] elements = patternE.split(s);
-		return elements[1];
-	}
-
-	private String[] getCodeBlocks(String s) {
-		String patternSpace = " ";
-		Pattern patternS = Pattern.compile(patternSpace);
-		return patternS.split(s);
-	}
-
-	private void parseCONST_OP(String s) {
-		String patternSpace = " ";
-		Pattern patternS = Pattern.compile(patternSpace);
-		String[] split = patternS.split(s);
-
-		System.out.println("split.length = " + split.length);
-
-		for (String element : split) {
-			System.out.println("element = " + element);
-		}
-		if (split.length > 0) {
-			String patternEqual = "=";
-			Pattern patternE = Pattern.compile(patternEqual);
-			String[] elements = patternE.split(split[0]);
-
-			StringBuilder sb = new StringBuilder();
-			sb.append("int ");
-			sb.append(elements[0]);
-			sb.append(" = ");
-			sb.append(elements[1]);
-			sb.append(";\n");
-
-			out.print(sb);
-		}
-	}
-
-	// if v0 == 0 goto L2
-	private void parseIF_EQZ_OP(String s) {
-		out.println(s);
-	}
-
-	// RETURN_VOID | |return
-	private void parseRETURN_VOID_OP(String s) {
-		out.println("return;");
-	}
-
-	private void parseCONST_STRING_OP(String s) {
-		String patternSpace = " ";
-		Pattern patternS = Pattern.compile(patternSpace);
-		String[] split = patternS.split(s);
-
-		System.out.println("split.length = " + split.length);
-
-		for (String element : split) {
-			System.out.println("element = " + element);
-		}
-		if (split.length > 0) {
-			String patternEqual = "=";
-			Pattern patternE = Pattern.compile(patternEqual);
-			String[] elements = patternE.split(split[0]);
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(elements[0]);
-			sb.append(" = ");
-			sb.append("env->NewStringUTF(");
-			sb.append(elements[1]);
-			sb.append(");");
-			sb.append("\n");
-
-			out.print(sb);
-		}
-	}
-
 	// INVOKE_DIRECT | |v1.printLog()
 	// //Lj2n/irdeto/com/demo/MainActivity;.printLog()V
 	// INVOKE_VIRTUAL | |v1.setContentView(v0)
@@ -486,46 +326,17 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	}
 
 	private static String getCallFunction(String callFunction, String caller,
-			String methodId) {
-		return String
-				.format("env->%s(%s, %s);", callFunction, caller, methodId);
-	}
+			String methodId, String param, String superClass) {
 
-	private void parseINVOKE_OP1(String s, boolean isStatic) {
-		String[] codeBlocks = getCodeBlocks(s);
+		String nonVirtualCaller = ((superClass == null) ? "%s, " : "%s, "
+				+ superClass + ", ");
 
-		System.out.println("===========" + s + "======");
-		for (String c : codeBlocks) {
-			System.out.println("===========" + c + "======");
-		}
-
-		List<String> clazzFieldList = getClazzFieldName(codeBlocks[2]);
-		String classNameSignature = clazzFieldList.get(0);
-		String className = getClassNameFromclassNameSignature(classNameSignature);
-
-		String methodSignature = clazzFieldList.get(1);
-		String[] ms = getFunctionNameAndSignature(methodSignature);
-		String methodName = ms[0];
-		String signature = ms[1];
-		StringBuilder sb = new StringBuilder();
-
-		String localClass = String.format("localClass%d", localClassCounter++);
-
-		sb.append(getFindClass(localClass, className));
-		sb.append("\n");
-
-		String methodId = String.format("methodId%d", localMethodCounter++);
-
-		sb.append(getMethodStr(methodId, localClass, methodName, signature,
-				true));
-		sb.append("\n");
-
-		sb.append(getCallFunction(
-				getInvokeMethodByMethodSignature(signature, isStatic, false),
-				"obj", methodId));
-		sb.append("\n");
-
-		out.print(sb);
+		if (param == null || param.equals(""))
+			return String.format("env->%s(" + nonVirtualCaller + "%s);",
+					callFunction, caller, methodId);
+		else
+			return String.format("env->%s(" + nonVirtualCaller + "%s, %s);",
+					callFunction, caller, methodId, param);
 	}
 
 	@Override
@@ -536,32 +347,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			out.printf("info opcode < 0 =============================================================\n");
 		} else {
 			String opStr = DexOpcodeDump.dump(opcode);
-			if (!opStr.equals(RETURN_VOID_OP))
-				out.printf("%-20s|%5s|%s\n", opStr, "", s);
-
-			if (opStr.equals(CONST_OP)) {
-				// parseCONST_OP(s);
-			} else if (opStr.equals(CONST_CLASS_OP)) {
-
-			} else if (opStr.equals(CONST_STRING_OP)) {
-				// parseCONST_STRING_OP(s);
-			} else if (opStr.equals(SGET_OP)) {
-				// parseSGET_OP(s);
-			} else if (opStr.equals(SPUT_OP)) {
-				// parseSPUT_OP(s);
-			} else if (opStr.equals(IF_EQZ_OP)) {
-				// parseIF_EQZ_OP(s);
-			} else if (opStr.equals(RETURN_OP)) {
-
-			} else if (opStr.equals(RETURN_VOID_OP)) {
-				// parseRETURN_VOID_OP(s);
-			} else if (opStr.equals(INVOKE_SUPER_OP)
-					|| opStr.equals(INVOKE_DIRECT_OP)
-					|| opStr.equals(INVOKE_VIRTUAL_OP)) {
-				// parseINVOKE_OP(s, false);
-			} else if (opStr.equals(INVOKE_STATIC_OP)) {
-				// parseINVOKE_OP(s, true);
-			}
+			out.printf("//%-20s|%5s|%s\n", opStr, "", s);
 		}
 	}
 
@@ -775,7 +561,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		String caller = getCallerByReg(reg);
 
-		boolean isVirtual = isVirtual(reg, className);
+		boolean isVirtual = isVirtual(reg, className, opcode);
 
 		boolean isStatic = false;
 		if (opcode == OP_INVOKE_STATIC) {
@@ -784,18 +570,21 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		}
 		sb.append(getCallFunction(
 				getInvokeMethodByMethodSignature(signature, isStatic, isVirtual),
-				caller, methodId));
+				caller, methodId, param, isVirtual ? null : localClass));
 
 		sb.append("\n");
 
 		out.print(sb);
 	}
 
-	private final boolean isVirtual(String reg, String methodClassName) {
+	private final boolean isVirtual(String reg, String methodClassName,
+			int opcode) {
 		// if (getRegister(reg) != null) {
 		// return getRegister(reg).type.equals(methodClassName);
 		// }
 		// return false;
+		if (opcode == OP_INVOKE_SUPER)
+			return false;
 		return true;
 	}
 
@@ -829,18 +618,19 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				toJniType(getReturnSignatureByMethodSignature(method)), temp));
 
 		String caller;
-		boolean isVirtual = false;
+		boolean isVirtual = isVirtual(reg, className, opcode);
 		boolean isStatic = false;
 		if (opcode == OP_INVOKE_STATIC) {
 			isStatic = true;
 			caller = localClass;
 		} else {
+			isStatic = false;
 			caller = getCallerByReg(reg);
-			isVirtual = isVirtual(reg, className);
 		}
+
 		sb.append(getCallFunction(
 				getInvokeMethodByMethodSignature(signature, isStatic, isVirtual),
-				caller, methodId));
+				caller, methodId, param, isVirtual ? null : localClass));
 		sb.append("\n");
 
 		updateTEMP(new RegisterTemp(getReturnTypeByMethodSignature(method),
