@@ -8,20 +8,39 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_irdeto_j2n_firstapplication_MainActivity_onCreate(JNIEnv * env, jobject v1, jobject v2)
 {
-    //LOCAL_VARIABLE LL0 ~ LL1 v1 -> this // Lj2n/irdeto/com/demo/MainActivity;
-    //LOCAL_VARIABLE LL0 ~ LL1 v2 -> savedInstanceState // Landroid/os/Bundle;
-    LL0:
-    //        INVOKE_SUPER        |     |v1.onCreate(v2)  //Landroid/app/Activity;.onCreate(Landroid/os/Bundle;)V
+//    //LOCAL_VARIABLE LL0 ~ LL1 v1 -> this // Lj2n/irdeto/com/demo/MainActivity;
+//    //LOCAL_VARIABLE LL0 ~ LL1 v2 -> savedInstanceState // Landroid/os/Bundle;
+//    LL0:
+//    //        INVOKE_SUPER        |     |v1.onCreate(v2)  //Landroid/app/Activity;.onCreate(Landroid/os/Bundle;)V
+//    jclass localClass0 = env->FindClass("android/app/Activity");
+//    jmethodID methodId0 = env->GetMethodID(localClass0, "onCreate", "(Landroid/os/Bundle;)V");
+//    //env->CallVoidMethod(v1, methodId0, v2);
+//    env->CallNonvirtualVoidMethod(v1, localClass0, methodId0, v2);
+//    LL2:
+//    //        CONST               |     |v0=0x7f030000  // int:2130903040   float:174128867447823980000000000000000000000.000000
+//    int v0 = 0x7f030000;
+//    //INVOKE_VIRTUAL      |     |v1.setContentView(v0)  //Lj2n/irdeto/com/demo/MainActivity;.setContentView(I)V
+//    jclass localClass1 = env->FindClass("com/irdeto/j2n/firstapplication/MainActivity");
+//    jmethodID methodId1 = env->GetMethodID(localClass1, "setContentView", "(I)V");
+//    //env->CallNonvirtualVoidMethod(v1, localClass0, methodId1, v0);
+//    env->CallVoidMethod(v1, methodId1, v0);
+
+
+//INVOKE_SUPER        |     |v1.onCreate(v2)  //Landroid/app/Activity;.onCreate(Landroid/os/Bundle;)V
     jclass localClass0 = env->FindClass("android/app/Activity");
     jmethodID methodId0 = env->GetMethodID(localClass0, "onCreate", "(Landroid/os/Bundle;)V");
-    env->CallVoidMethod(v1, methodId0);
+    env->CallNonvirtualVoidMethod(v1, localClass0, methodId0, v2);
     LL2:
-    //        CONST               |     |v0=0x7f030000  // int:2130903040   float:174128867447823980000000000000000000000.000000
+//CONST               |     |v0=0x7f030000  // int:2130903040   float:174128867447823980000000000000000000000.000000
     int v0 = 0x7f030000;
-    //INVOKE_VIRTUAL      |     |v1.setContentView(v0)  //Lj2n/irdeto/com/demo/MainActivity;.setContentView(I)V
-    jclass localClass1 = env->FindClass("j2n/irdeto/com/demo/MainActivity");
+//INVOKE_VIRTUAL      |     |v1.setContentView(v0)  //Lj2n/irdeto/com/demo/MainActivity;.setContentView(I)V
+    jclass localClass1 = env->FindClass("com/irdeto/j2n/firstapplication/MainActivity");
     jmethodID methodId1 = env->GetMethodID(localClass1, "setContentView", "(I)V");
-    env->CallVoidMethod(v1, methodId1);
+    env->CallVoidMethod(v1, methodId1, v0);
+
+
+
+
 }
 
 #define LOGI(fmt, args...) __android_log_print(ANDROID_LOG_INFO,  IAC_AGENT_TAG, fmt, ##args)
@@ -116,4 +135,31 @@ Java_com_irdeto_j2n_firstapplication_MainActivity_stringFromJNI(
         jobject /* this */) {
     std::string hello = "Hello from C++";
     return env->NewStringUTF(hello.c_str());
+}
+//method:0000  access:0x10008
+//Lj2n/irdeto/com/demo/MainActivity;.<clinit>()V
+extern "C" JNIEXPORT void JNICALL Java_j2n_irdeto_com_demo_MainActivity_clinit(JNIEnv *env, jclass type)
+{
+    LL0:
+//CONST               |     |v0=0x00000000  // int:0   float:0.000000
+    int v0 = 0x00000000;
+//SPUT                |     |j2n.irdeto.com.demo.MainActivity.debug=v0  //Lj2n/irdeto/com/demo/MainActivity;.debug Z
+    jclass localClass0 = env->FindClass("j2n.irdeto.com.demo.MainActivity");
+    jfieldID fieldId0 = env->GetStaticFieldID(localClass0, "debug", "Z");
+    env->SetStaticObjectField(localClass0, fieldId0, (jobject) v0);
+
+//RETURN_VOID         |     |return
+}
+
+//method:0001  access:0x10001
+//Lj2n/irdeto/com/demo/MainActivity;.<init>()V
+extern "C" JNIEXPORT void JNICALL Java_j2n_irdeto_com_demo_MainActivity_init(JNIEnv * env, jobject v0)
+{
+//LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lj2n/irdeto/com/demo/MainActivity;
+    LL0:
+//INVOKE_DIRECT       |     |v0.<init>()  //Landroid/app/Activity;.<init>()V
+    jclass localClass0 = env->FindClass("android/app/Activity");
+    jmethodID methodId0 = env->GetMethodID(localClass0, "<init>", "()V");
+    env->CallVoidMethod(v0, methodId0);
+//RETURN_VOID         |     |return
 }
