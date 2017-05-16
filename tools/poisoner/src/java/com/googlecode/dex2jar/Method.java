@@ -80,8 +80,10 @@ public class Method {
 				ps.append(paramter++);
 				ps.append(',');
 			}
+			if (paramter > 0) {
+				ps.deleteCharAt(ps.length() - 1);
+			}
 		}
-		ps.deleteCharAt(ps.length() - 1);
 		ps.append(")");
 		return ps.toString();
 	}
