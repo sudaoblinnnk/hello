@@ -344,7 +344,11 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			@Override
 			public DexMethodVisitor visitMethod(final int accesFlags,
 					final Method method) {
-
+				if (method.getName().contains("<init>")
+						|| method.getName().contains("<clinit>")
+						|| (accesFlags & DexOpcodes.ACC_NATIVE) != 0) {
+					return super.visitMethod(accesFlags, method);
+				}
 				if (PROCESS_NATIVE == processing) {
 					out.println();
 					out.printf("//method:%04d  access:0x%04x\n",
@@ -369,15 +373,6 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 
 					out.printf(String.format("%s", methodArgs));
 
-					// String ps[] = method.getParameterTypes();
-					// if (ps != null && ps.length > 0) {
-					// out.print(toJavaClass(ps[0]));
-					// for (int i = 1; i < ps.length; i++) {
-					// out.print(',');
-					// out.print(toJavaClass(ps[i]));
-					// }
-					// }
-
 					EmptyVisitor ev = new EmptyVisitor() {
 						@Override
 						public DexCodeVisitor visitCode() {
@@ -393,24 +388,19 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 					};
 					return ev;
 				} else if (PROCESS_JAVA == processing) {
-					if (method.getName().contains("<init>")
-							|| method.getName().contains("<clinit>")
-							|| (accesFlags & DexOpcodes.ACC_NATIVE) != 0) {
-					} else {
-						out.println();
-						out.printf(getAccDes(accesFlags));
-						out.printf(" native ");
+					out.println();
+					out.printf(getAccDes(accesFlags));
+					out.printf(" native ");
 
-						out.printf(" %s ", AbstractDumpDexCodeAdapter
-								.toJavaClass(method.getReturnType()));
-						out.printf(" %s",
-								method.getName() + method.getJavaParameter());
-						out.print(";\n");
-					}
+					out.printf(" %s ", AbstractDumpDexCodeAdapter
+							.toJavaClass(method.getReturnType()));
+					out.printf(" %s",
+							method.getName() + method.getJavaParameter());
+					out.print(";\n");
 					EmptyVisitor ev = new EmptyVisitor();
 					return ev;
 				}
-				return null;
+				return super.visitMethod(accesFlags, method);
 			}
 
 		};
