@@ -324,18 +324,24 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			@Override
 			public DexFieldVisitor visitField(int accesFlags, Field field,
 					Object value) {
+
 				out.printf("//field:%04d  access:0x%04x\n", field_count++,
 						accesFlags);
 				out.printf("//%s\n", field);
-				out.printf("%s %s %s", getAccDes(accesFlags),
-						toJavaClass(field.getType()), field.getName());
-				if (value != null) {
-					out.print('=');
-					out.print(value);
-				}
-				out.println(';');
 
-				return null;
+				if (PROCESS_NATIVE == processing) {
+
+				} else if (PROCESS_JAVA == processing) {
+					out.printf("%s %s %s", getAccDes(accesFlags),
+							toJavaClass(field.getType()), field.getName());
+					if (value != null) {
+						out.print('=');
+						out.print(value);
+					}
+					out.println(';');
+				}
+
+				return super.visitField(accesFlags, field, value);
 			}
 
 			private static final String NATIVE_METHOD_PREFIX = "Java_";
