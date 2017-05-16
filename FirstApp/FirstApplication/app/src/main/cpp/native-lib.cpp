@@ -3,6 +3,10 @@
 
 #include <android/log.h>
 
+#define LOGI(fmt, args...) __android_log_print(ANDROID_LOG_INFO,  IAC_AGENT_TAG, fmt, ##args)
+#define LOGD(fmt, args...) __android_log_print(ANDROID_LOG_DEBUG, IAC_AGENT_TAG, fmt, ##args)
+#define LOGE(fmt, args...) __android_log_print(ANDROID_LOG_ERROR, IAC_AGENT_TAG, fmt, ##args)
+
 static const char * IAC_AGENT_TAG = "kurt";
 extern "C"
 JNIEXPORT void JNICALL
@@ -37,15 +41,8 @@ Java_com_irdeto_j2n_firstapplication_MainActivity_onCreate(JNIEnv * env, jobject
     jclass localClass1 = env->FindClass("com/irdeto/j2n/firstapplication/MainActivity");
     jmethodID methodId1 = env->GetMethodID(localClass1, "setContentView", "(I)V");
     env->CallVoidMethod(v1, methodId1, v0);
-
-
-
-
+    LOGD("changed apk.............................");
 }
-
-#define LOGI(fmt, args...) __android_log_print(ANDROID_LOG_INFO,  IAC_AGENT_TAG, fmt, ##args)
-#define LOGD(fmt, args...) __android_log_print(ANDROID_LOG_DEBUG, IAC_AGENT_TAG, fmt, ##args)
-#define LOGE(fmt, args...) __android_log_print(ANDROID_LOG_ERROR, IAC_AGENT_TAG, fmt, ##args)
 
 extern "C"
 JNIEXPORT jstring JNICALL
@@ -121,10 +118,6 @@ Java_com_irdeto_aca_key_KeyLogic_value2(JNIEnv *env, jobject instance, jint b) {
 extern "C"
 JNIEXPORT jstring JNICALL
 Java_com_irdeto_j2n_firstapplication_MainActivity_staticStringFromJNI(JNIEnv *env, jclass type) {
-
-    // TODO
-
-
     return env->NewStringUTF("111");
 }
 
