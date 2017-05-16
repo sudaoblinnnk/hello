@@ -685,9 +685,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			// throw new IllegalArgumentException();
 		}
 
-		out.print(String.format("v%d = v%d %s v%d", saveToReg, opReg, opStr,
+		out.println(String.format("v%d = v%d %s v%d;", saveToReg, opReg, opStr,
 				opReg2));
-		out.println("\n");
 		String register = "v" + saveToReg;
 		String type = getRegister(register).type;
 		recordRegister(register, new Register(type, register, register));
