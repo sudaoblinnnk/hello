@@ -5,12 +5,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import com.googlecode.dex2jar.DexOpcodes;
 import com.googlecode.dex2jar.Field;
 import com.googlecode.dex2jar.Method;
+import com.googlecode.dex2jar.util.AbstractDumpDexCodeAdapter;
 import com.googlecode.dex2jar.util.DumpDexCodeAdapter;
 import com.googlecode.dex2jar.visitors.DexClassVisitor;
 import com.googlecode.dex2jar.visitors.DexCodeVisitor;
@@ -21,7 +23,15 @@ import com.googlecode.dex2jar.visitors.EmptyVisitor;
 public class IrdetoDexConvertor extends EmptyVisitor {
 
 	static DexConfigure dexConfig = null;
-	static String dummyFile = "dummy.jar";
+
+	static final int PROCESS_NATIVE = 1;
+	static final int PROCESS_JAVA = 2;
+
+	private static final String INCLUDE = "#include <jni.h>";
+	static int processing = PROCESS_NATIVE;
+
+	static String nativeFile = "native.jar";
+	static String javaFile = "java.jar";
 
 	public interface WriterManager {
 		PrintWriter get(String name);
@@ -40,6 +50,8 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 
 	public static void doData(DexFileScanner dexFileReader, File destJar)
 			throws IOException {
+		final String fileType = ((PROCESS_NATIVE == processing) ? ".cpp"
+				: ".java");
 
 		final ZipOutputStream zos = new ZipOutputStream(
 				new BufferedOutputStream(new FileOutputStream(destJar)));
@@ -47,7 +59,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 
 			public PrintWriter get(String name) {
 				try {
-					String s = name.replace('.', '/') + ".dump.txt";
+					String s = name.replace('.', '/') + fileType;
 					ZipEntry zipEntry = new ZipEntry(s);
 					zos.putNextEntry(zipEntry);
 					return new PrintWriter(zos) {
@@ -150,8 +162,17 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		}
 		System.out.println("\nReceiving file: " + args[0] + "\n");
 		setConfig();
-		File output = new File(dummyFile);
-		System.out.println("dummy file location : " + output.getAbsolutePath());
+
+		processing = PROCESS_NATIVE;
+		File output = new File(nativeFile);
+		System.out
+				.println("native file location : " + output.getAbsolutePath());
+		doFile(new File(args[0]), output);
+		System.out.println("\nDone!");
+
+		processing = PROCESS_JAVA;
+		output = new File(javaFile);
+		System.out.println("java file location : " + output.getAbsolutePath());
 		doFile(new File(args[0]), output);
 		System.out.println("\nDone!");
 	}
@@ -201,35 +222,86 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		}
 	}
 
+	private String[] getPackageNameByClassName(String s) {
+		StringTokenizer stringTokenizer = new StringTokenizer(s, ".");
+		String className = "";
+		while (stringTokenizer.hasMoreElements()) {
+			className = stringTokenizer.nextElement().toString();
+		}
+		return new String[] {
+				s.substring(0, s.length() - className.length() - 1), className };
+	}
+
 	public DexClassVisitor visit(int access_flags, String className,
 			String superClass, String[] interfaceNames) {
 
 		String javaClassName = toJavaClass(className);
 		out = writerManager.get(javaClassName);
-		out.printf("//class:%04d  access:0x%04x\n", class_count++, access_flags);
-		out.print(getAccDes(access_flags));
-		if ((access_flags & DexOpcodes.ACC_INTERFACE) == 0) {
-			out.print("class ");
-		}
-		out.print(javaClassName);
 
-		updateCurrentJavaClassName(javaClassName);
-
-		if (superClass != null) {
-			if (!"Ljava/lang/Object;".equals(superClass)) {
-				out.print(" extends ");
-				out.print(toJavaClass(superClass));
+		if (PROCESS_JAVA == processing) {
+			String[] header = getPackageNameByClassName(javaClassName);
+			String pkgName = header[0];
+			String clsName = header[1];
+			out.printf("package %s;\n", pkgName);
+			out.printf("//class:%04d  access:0x%04x\n", class_count++,
+					access_flags);
+			out.print(getAccDes(access_flags));
+			if ((access_flags & DexOpcodes.ACC_INTERFACE) == 0) {
+				out.print("class ");
 			}
-		}
-		if (interfaceNames != null && interfaceNames.length > 0) {
-			out.print(" implements ");
-			out.print(toJavaClass(interfaceNames[0]));
-			for (int i = 1; i < interfaceNames.length; i++) {
-				out.print(',');
-				out.print(toJavaClass(interfaceNames[i]));
+			out.print(clsName);
+
+			updateCurrentJavaClassName(javaClassName);
+
+			if (superClass != null) {
+				if (!"Ljava/lang/Object;".equals(superClass)) {
+					out.print(" extends ");
+					out.print(toJavaClass(superClass));
+				}
+			}
+			if (interfaceNames != null && interfaceNames.length > 0) {
+				out.print(" implements ");
+				out.print(toJavaClass(interfaceNames[0]));
+				for (int i = 1; i < interfaceNames.length; i++) {
+					out.print(',');
+					out.print(toJavaClass(interfaceNames[i]));
+				}
+			}
+
+			StringBuilder sb = new StringBuilder();
+			out.println("\n{\n");
+			sb.append(" static {System.loadLibrary(\"native-lib\");} ");
+			out.println(sb.toString());
+		} else if (PROCESS_NATIVE == processing) {
+			out.println(INCLUDE);
+			out.printf("//class:%04d  access:0x%04x\n", class_count++,
+					access_flags);
+			out.print("//");
+			out.print(getAccDes(access_flags));
+			if ((access_flags & DexOpcodes.ACC_INTERFACE) == 0) {
+				out.print("class ");
+			}
+			out.print(javaClassName);
+
+			updateCurrentJavaClassName(javaClassName);
+
+			if (superClass != null) {
+				if (!"Ljava/lang/Object;".equals(superClass)) {
+					out.print(" extends ");
+					out.print(toJavaClass(superClass));
+				}
+			}
+			if (interfaceNames != null && interfaceNames.length > 0) {
+				out.print(" implements ");
+				out.print(toJavaClass(interfaceNames[0]));
+				for (int i = 1; i < interfaceNames.length; i++) {
+					out.print(',');
+					out.print(toJavaClass(interfaceNames[i]));
+				}
 			}
 		}
 		out.println();
+
 		return new EmptyVisitor() {
 
 			int field_count = 0;
@@ -238,6 +310,9 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 
 			@Override
 			public void visitEnd() {
+				if (PROCESS_JAVA == processing) {
+					out.println("}\n");
+				}
 				out.flush();
 				out.close();
 				out = null;
@@ -269,53 +344,73 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			@Override
 			public DexMethodVisitor visitMethod(final int accesFlags,
 					final Method method) {
-				out.println();
-				out.printf("//method:%04d  access:0x%04x\n", method_count++,
-						accesFlags);
-				out.printf("//%s\n", method);
 
-				String methodArgs;
-				if ((accesFlags & DexOpcodes.ACC_STATIC) != 0) {
-					methodArgs = NATIVE_PARAMETER_STATIC;
-				} else {
-					methodArgs = NATIVE_PARAMETER_OBJECT;
+				if (PROCESS_NATIVE == processing) {
+					out.println();
+					out.printf("//method:%04d  access:0x%04x\n",
+							method_count++, accesFlags);
+					out.printf("//%s\n", method);
+
+					String methodArgs;
+					if ((accesFlags & DexOpcodes.ACC_STATIC) != 0) {
+						methodArgs = NATIVE_PARAMETER_STATIC;
+					} else {
+						methodArgs = NATIVE_PARAMETER_OBJECT;
+					}
+
+					out.printf(
+							"%s %s%s(",
+							String.format(JNI_FUNCTION_DELCLEAR_FORMAT,
+									DumpDexCodeAdapter.toJniType(method
+											.getReturnType())),
+							NATIVE_METHOD_PREFIX
+									+ currentJavaClass.replace('.', '_') + "_",
+							method.getName());
+
+					out.printf(String.format("%s", methodArgs));
+
+					// String ps[] = method.getParameterTypes();
+					// if (ps != null && ps.length > 0) {
+					// out.print(toJavaClass(ps[0]));
+					// for (int i = 1; i < ps.length; i++) {
+					// out.print(',');
+					// out.print(toJavaClass(ps[i]));
+					// }
+					// }
+
+					EmptyVisitor ev = new EmptyVisitor() {
+						@Override
+						public DexCodeVisitor visitCode() {
+							return new DumpDexCodeAdapter(
+									(accesFlags & DexOpcodes.ACC_STATIC) != 0,
+									method, out);
+						}
+
+						@Override
+						public void visitEnd() {
+							out.println("}\n");
+						}
+					};
+					return ev;
+				} else if (PROCESS_JAVA == processing) {
+					if (method.getName().contains("<init>")
+							|| method.getName().contains("<clinit>")
+							|| (accesFlags & DexOpcodes.ACC_NATIVE) != 0) {
+					} else {
+						out.println();
+						out.printf(getAccDes(accesFlags));
+						out.printf(" native ");
+
+						out.printf(" %s ", AbstractDumpDexCodeAdapter
+								.toJavaClass(method.getReturnType()));
+						out.printf(" %s",
+								method.getName() + method.getJavaParameter());
+						out.print(";\n");
+					}
+					EmptyVisitor ev = new EmptyVisitor();
+					return ev;
 				}
-
-				out.printf(
-						"%s %s%s(",
-						String.format(JNI_FUNCTION_DELCLEAR_FORMAT,
-								DumpDexCodeAdapter.toJniType(method
-										.getReturnType())),
-						NATIVE_METHOD_PREFIX
-								+ currentJavaClass.replace('.', '_') + "_",
-						method.getName());
-
-				out.printf(String.format("%s", methodArgs));
-
-				// String ps[] = method.getParameterTypes();
-				// if (ps != null && ps.length > 0) {
-				// out.print(toJavaClass(ps[0]));
-				// for (int i = 1; i < ps.length; i++) {
-				// out.print(',');
-				// out.print(toJavaClass(ps[i]));
-				// }
-				// }
-
-				EmptyVisitor ev = new EmptyVisitor() {
-					@Override
-					public DexCodeVisitor visitCode() {
-						return new DumpDexCodeAdapter(
-								(accesFlags & DexOpcodes.ACC_STATIC) != 0,
-								method, out);
-					}
-
-					@Override
-					public void visitEnd() {
-						out.println("}\n");
-					}
-				};
-
-				return ev;
+				return null;
 			}
 
 		};

@@ -38,258 +38,273 @@ import com.googlecode.dex2jar.visitors.EmptyVisitor;
  * @version $Rev$
  */
 public class Dump extends EmptyVisitor {
-    public interface WriterManager {
-        PrintWriter get(String name);
-    }
+	public interface WriterManager {
+		PrintWriter get(String name);
+	}
 
-    public static void doData(DexFileReader dexFileReader, File destJar) throws IOException {
-        final ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(destJar)));
-        dexFileReader.accept(new Dump(new WriterManager() {
+	public static void doData(DexFileReader dexFileReader, File destJar)
+			throws IOException {
+		final ZipOutputStream zos = new ZipOutputStream(
+				new BufferedOutputStream(new FileOutputStream(destJar)));
+		dexFileReader.accept(new Dump(new WriterManager() {
 
-            @Override
-            public PrintWriter get(String name) {
-                try {
-                    String s = name.replace('.', '/') + ".dump.txt";
-                    ZipEntry zipEntry = new ZipEntry(s);
-                    zos.putNextEntry(zipEntry);
-                    return new PrintWriter(zos) {
-                        @Override
-                        public void close() {
-                            try {
-                                zos.closeEntry();
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-                    };
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }));
-        zos.finish();
-        zos.close();
-    }
+			@Override
+			public PrintWriter get(String name) {
+				try {
+					String s = name.replace('.', '/') + ".dump.txt";
+					ZipEntry zipEntry = new ZipEntry(s);
+					zos.putNextEntry(zipEntry);
+					return new PrintWriter(zos) {
+						@Override
+						public void close() {
+							try {
+								zos.closeEntry();
+							} catch (IOException e) {
+								throw new RuntimeException(e);
+							}
+						}
+					};
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}));
+		zos.finish();
+		zos.close();
+	}
 
-    public static void doData(byte[] data, File destJar) throws IOException {
-        doData(new DexFileReader(data), destJar);
-    }
+	public static void doData(byte[] data, File destJar) throws IOException {
+		doData(new DexFileReader(data), destJar);
+	}
 
-    public static void doFile(File srcDex) throws IOException {
-        doFile(srcDex, new File(srcDex.getParentFile(), srcDex.getName() + "_dump.jar"));
-    }
+	public static void doFile(File srcDex) throws IOException {
+		doFile(srcDex, new File(srcDex.getParentFile(), srcDex.getName()
+				+ "_dump.jar"));
+	}
 
-    public static void doFile(File srcDex, File destJar) throws IOException {
-        doData(DexFileReader.readDex(srcDex), destJar);
-    }
+	public static void doFile(File srcDex, File destJar) throws IOException {
+		doData(DexFileReader.readDex(srcDex), destJar);
+	}
 
-    public static String getAccDes(int acc) {
-        StringBuilder sb = new StringBuilder();
-        if ((acc & DexOpcodes.ACC_PUBLIC) != 0) {
-            sb.append("public ");
-        }
-        if ((acc & DexOpcodes.ACC_PROTECTED) != 0) {
-            sb.append("protected ");
-        }
-        if ((acc & DexOpcodes.ACC_PRIVATE) != 0) {
-            sb.append("private ");
-        }
-        if ((acc & DexOpcodes.ACC_STATIC) != 0) {
-            sb.append("static ");
-        }
-        if ((acc & DexOpcodes.ACC_ABSTRACT) != 0 && (acc & DexOpcodes.ACC_INTERFACE) == 0) {
-            sb.append("abstract ");
-        }
-        if ((acc & DexOpcodes.ACC_ANNOTATION) != 0) {
-            sb.append("annotation ");
-        }
-        if ((acc & DexOpcodes.ACC_BRIDGE) != 0) {
-            sb.append("bridge ");
-        }
-        if ((acc & DexOpcodes.ACC_ENUM) != 0) {
-            sb.append("enum ");
-        }
-        if ((acc & DexOpcodes.ACC_FINAL) != 0) {
-            sb.append("final ");
-        }
-        if ((acc & DexOpcodes.ACC_INTERFACE) != 0) {
-            sb.append("interace ");
-        }
-        if ((acc & DexOpcodes.ACC_NATIVE) != 0) {
-            sb.append("native ");
-        }
-        if ((acc & DexOpcodes.ACC_STRICT) != 0) {
-            sb.append("strict ");
-        }
-        if ((acc & DexOpcodes.ACC_SYNCHRONIZED) != 0) {
-            sb.append("synchronized ");
-        }
-        if ((acc & DexOpcodes.ACC_TRANSIENT) != 0) {
-            sb.append("transient ");
-        }
-        if ((acc & DexOpcodes.ACC_VARARGS) != 0) {
-            sb.append("varargs ");
-        }
-        if ((acc & DexOpcodes.ACC_VOLATILE) != 0) {
-            sb.append("volatile ");
-        }
-        return sb.toString();
-    }
+	public static String getAccDes(int acc) {
+		StringBuilder sb = new StringBuilder();
+		if ((acc & DexOpcodes.ACC_PUBLIC) != 0) {
+			sb.append("public ");
+		}
+		if ((acc & DexOpcodes.ACC_PROTECTED) != 0) {
+			sb.append("protected ");
+		}
+		if ((acc & DexOpcodes.ACC_PRIVATE) != 0) {
+			sb.append("private ");
+		}
+		if ((acc & DexOpcodes.ACC_STATIC) != 0) {
+			sb.append("static ");
+		}
+		if ((acc & DexOpcodes.ACC_ABSTRACT) != 0
+				&& (acc & DexOpcodes.ACC_INTERFACE) == 0) {
+			sb.append("abstract ");
+		}
+		if ((acc & DexOpcodes.ACC_ANNOTATION) != 0) {
+			sb.append("annotation ");
+		}
+		if ((acc & DexOpcodes.ACC_BRIDGE) != 0) {
+			sb.append("bridge ");
+		}
+		if ((acc & DexOpcodes.ACC_ENUM) != 0) {
+			sb.append("enum ");
+		}
+		if ((acc & DexOpcodes.ACC_FINAL) != 0) {
+			sb.append("final ");
+		}
+		if ((acc & DexOpcodes.ACC_INTERFACE) != 0) {
+			sb.append("interace ");
+		}
+		if ((acc & DexOpcodes.ACC_NATIVE) != 0) {
+			sb.append("native ");
+		}
+		if ((acc & DexOpcodes.ACC_STRICT) != 0) {
+			sb.append("strict ");
+		}
+		if ((acc & DexOpcodes.ACC_SYNCHRONIZED) != 0) {
+			sb.append("synchronized ");
+		}
+		if ((acc & DexOpcodes.ACC_TRANSIENT) != 0) {
+			sb.append("transient ");
+		}
+		if ((acc & DexOpcodes.ACC_VARARGS) != 0) {
+			sb.append("varargs ");
+		}
+		if ((acc & DexOpcodes.ACC_VOLATILE) != 0) {
+			sb.append("volatile ");
+		}
+		return sb.toString();
+	}
 
-    public static void main(String... args) throws IOException {
-        if (args.length < 2) {
-            System.out.println("Dump in.dexORapk out.dump.jar");
-            return;
-        }
-        doFile(new File(args[0]), new File(args[1]));
-    }
+	public static void main(String... args) throws IOException {
+		if (args.length < 2) {
+			System.out.println("Dump in.dexORapk out.dump.jar");
+			return;
+		}
+		doFile(new File(args[0]), new File(args[1]));
+	}
 
-    private int class_count = 0;
+	private int class_count = 0;
 
-    private PrintWriter out;
+	private PrintWriter out;
 
-    private WriterManager writerManager;
+	private WriterManager writerManager;
 
-    /**
-     * @param dfv
-     */
-    public Dump(WriterManager writerManager) {
-        super();
-        this.writerManager = writerManager;
-    }
+	/**
+	 * @param dfv
+	 */
+	public Dump(WriterManager writerManager) {
+		super();
+		this.writerManager = writerManager;
+	}
 
-    public static String toJavaClass(String desc) {
-        switch (desc.charAt(0)) {
-        case 'L':
-            return desc.substring(1, desc.length() - 1).replace('/', '.');
-        case 'B':
-            return "byte";
-        case 'S':
-            return "short";
-        case 'C':
-            return "char";
+	public static String toJavaClass(String desc) {
+		switch (desc.charAt(0)) {
+		case 'L':
+			return desc.substring(1, desc.length() - 1).replace('/', '.');
+		case 'B':
+			return "byte";
+		case 'S':
+			return "short";
+		case 'C':
+			return "char";
 
-        case 'I':
-            return "int";
-        case 'J':
-            return "long";
-        case 'F':
-            return "float";
-        case 'D':
-            return "double";
-        case '[':
-            return toJavaClass(desc.substring(1)) + "[]";
-        }
-        return desc;
-    }
+		case 'I':
+			return "int";
+		case 'J':
+			return "long";
+		case 'F':
+			return "float";
+		case 'D':
+			return "double";
+		case 'V':
+			return "void";
+		case '[':
+			return toJavaClass(desc.substring(1)) + "[]";
+		}
+		return desc;
+	}
 
-    StringBuilder deps = new StringBuilder();
+	StringBuilder deps = new StringBuilder();
 
-    @Override
-    public void visitDepedence(String name, byte[] checksum) {
-        deps.append("dep: " + name + ", checksum: ");
-        for (byte element : checksum) {
-            deps.append(String.format("%02x", element));
-        }
-        deps.append("\n");
-    }
+	@Override
+	public void visitDepedence(String name, byte[] checksum) {
+		deps.append("dep: " + name + ", checksum: ");
+		for (byte element : checksum) {
+			deps.append(String.format("%02x", element));
+		}
+		deps.append("\n");
+	}
 
-    @Override
-    public void visitEnd() {
-        if (deps.length() > 0) {
-            PrintWriter out = writerManager.get("depedence");
-            out.print(deps.toString());
-            out.flush();
-            out.close();
-        }
-    }
+	@Override
+	public void visitEnd() {
+		if (deps.length() > 0) {
+			PrintWriter out = writerManager.get("depedence");
+			out.print(deps.toString());
+			out.flush();
+			out.close();
+		}
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.googlecode.dex2jar.visitors.DexFileVisitor#visit(int, java.lang.String, java.lang.String,
-     * java.lang.String[])
-     */
-    @Override
-    public DexClassVisitor visit(int access_flags, String className, String superClass, String[] interfaceNames) {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.googlecode.dex2jar.visitors.DexFileVisitor#visit(int,
+	 * java.lang.String, java.lang.String, java.lang.String[])
+	 */
+	@Override
+	public DexClassVisitor visit(int access_flags, String className,
+			String superClass, String[] interfaceNames) {
 
-        String javaClassName = toJavaClass(className);
-        out = writerManager.get(javaClassName);
-        out.printf("//class:%04d  access:0x%04x\n", class_count++, access_flags);
-        out.print(getAccDes(access_flags));
-        if ((access_flags & DexOpcodes.ACC_INTERFACE) == 0) {
-            out.print("class ");
-        }
-        out.print(javaClassName);
+		String javaClassName = toJavaClass(className);
+		out = writerManager.get(javaClassName);
+		out.printf("//class:%04d  access:0x%04x\n", class_count++, access_flags);
+		out.print(getAccDes(access_flags));
+		if ((access_flags & DexOpcodes.ACC_INTERFACE) == 0) {
+			out.print("class ");
+		}
+		out.print(javaClassName);
 
-        if (superClass != null) {
-            if (!"Ljava/lang/Object;".equals(superClass)) {
-                out.print(" extends ");
-                out.print(toJavaClass(superClass));
-            }
-        }
-        if (interfaceNames != null && interfaceNames.length > 0) {
-            out.print(" implements ");
-            out.print(toJavaClass(interfaceNames[0]));
-            for (int i = 1; i < interfaceNames.length; i++) {
-                out.print(',');
-                out.print(toJavaClass(interfaceNames[i]));
-            }
-        }
-        out.println();
-        return new EmptyVisitor() {
+		if (superClass != null) {
+			if (!"Ljava/lang/Object;".equals(superClass)) {
+				out.print(" extends ");
+				out.print(toJavaClass(superClass));
+			}
+		}
+		if (interfaceNames != null && interfaceNames.length > 0) {
+			out.print(" implements ");
+			out.print(toJavaClass(interfaceNames[0]));
+			for (int i = 1; i < interfaceNames.length; i++) {
+				out.print(',');
+				out.print(toJavaClass(interfaceNames[i]));
+			}
+		}
+		out.println();
+		return new EmptyVisitor() {
 
-            int field_count = 0;
+			int field_count = 0;
 
-            int method_count = 0;
+			int method_count = 0;
 
-            @Override
-            public void visitEnd() {
-                out.flush();
-                out.close();
-                out = null;
-                super.visitEnd();
-            }
+			@Override
+			public void visitEnd() {
+				out.flush();
+				out.close();
+				out = null;
+				super.visitEnd();
+			}
 
-            @Override
-            public DexFieldVisitor visitField(int accesFlags, Field field, Object value) {
-                out.printf("//field:%04d  access:0x%04x\n", field_count++, accesFlags);
-                out.printf("//%s\n", field);
-                out.printf("%s %s %s", getAccDes(accesFlags), toJavaClass(field.getType()), field.getName());
-                if (value != null) {
-                    out.print('=');
-                    out.print(value);
-                }
-                out.println(';');
+			@Override
+			public DexFieldVisitor visitField(int accesFlags, Field field,
+					Object value) {
+				out.printf("//field:%04d  access:0x%04x\n", field_count++,
+						accesFlags);
+				out.printf("//%s\n", field);
+				out.printf("%s %s %s", getAccDes(accesFlags),
+						toJavaClass(field.getType()), field.getName());
+				if (value != null) {
+					out.print('=');
+					out.print(value);
+				}
+				out.println(';');
 
-                return null;
-            }
+				return null;
+			}
 
-            @Override
-            public DexMethodVisitor visitMethod(final int accesFlags, final Method method) {
-                out.println();
-                out.printf("//method:%04d  access:0x%04x\n", method_count++, accesFlags);
-                out.printf("//%s\n", method);
+			@Override
+			public DexMethodVisitor visitMethod(final int accesFlags,
+					final Method method) {
+				out.println();
+				out.printf("//method:%04d  access:0x%04x\n", method_count++,
+						accesFlags);
+				out.printf("//%s\n", method);
 
-                out.printf("%s%s %s(", getAccDes(accesFlags), toJavaClass(method.getReturnType()), method.getName());
-                String ps[] = method.getParameterTypes();
-                if (ps != null && ps.length > 0) {
-                    out.print(toJavaClass(ps[0]));
-                    for (int i = 1; i < ps.length; i++) {
-                        out.print(',');
-                        out.print(toJavaClass(ps[i]));
-                    }
-                }
-                out.println(')');
+				out.printf("%s%s %s(", getAccDes(accesFlags),
+						toJavaClass(method.getReturnType()), method.getName());
+				String ps[] = method.getParameterTypes();
+				if (ps != null && ps.length > 0) {
+					out.print(toJavaClass(ps[0]));
+					for (int i = 1; i < ps.length; i++) {
+						out.print(',');
+						out.print(toJavaClass(ps[i]));
+					}
+				}
+				out.println(')');
 
-                return new EmptyVisitor() {
-                    @Override
-                    public DexCodeVisitor visitCode() {
-                        return new DumpDexCodeAdapter((accesFlags & DexOpcodes.ACC_STATIC) != 0, method, out);
-                    }
-                };
-            }
+				return new EmptyVisitor() {
+					@Override
+					public DexCodeVisitor visitCode() {
+						return new DumpDexCodeAdapter(
+								(accesFlags & DexOpcodes.ACC_STATIC) != 0,
+								method, out);
+					}
+				};
+			}
 
-        };
-    }
+		};
+	}
 }

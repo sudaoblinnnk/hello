@@ -35,7 +35,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			"illegal-method-access", "class-change-error",
 			"instantiation-error" };
 
-	protected static String toJavaClass(String type) {
+	public static String toJavaClass(String type) {
 		return Dump.toJavaClass(type);
 	}
 
