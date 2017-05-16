@@ -270,7 +270,9 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 
 			StringBuilder sb = new StringBuilder();
 			out.println("\n{\n");
-			sb.append(" static {System.loadLibrary(\"native-lib\");} ");
+			if (!clsName.contains("$")) { // skip inner class
+				sb.append(" static {System.loadLibrary(\"native-lib\");} ");
+			}
 			out.println(sb.toString());
 		} else if (PROCESS_NATIVE == processing) {
 			out.println(INCLUDE);
