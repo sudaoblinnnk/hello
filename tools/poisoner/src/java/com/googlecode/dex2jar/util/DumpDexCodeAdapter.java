@@ -763,4 +763,9 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		out.println(sb);
 	}
 
+	@Override
+	protected void nativeReturnVoidStmt(String reg) {
+		out.println(reg + ";");
+	}
+
 }
