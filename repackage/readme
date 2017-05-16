@@ -1,0 +1,4 @@
+install apk
+
+sudo cp apktool* /usr/local/bin
+../build.sh
