@@ -280,14 +280,13 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			if (desc.equals("Ljava/lang/String;")) {
 				return "jstring";
 			}
-			return desc.substring(1, desc.length() - 1).replace('/', '.');
+			return "jobject";
 		case 'B':
 			return "jbyte";
 		case 'S':
 			return "jshort";
 		case 'C':
 			return "jchar";
-
 		case 'I':
 			return "jint";
 		case 'J':
@@ -296,6 +295,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			return "jfloat";
 		case 'D':
 			return "jdouble";
+		case 'V':
+			return "void";
 		case '[':
 			return toJavaClass(desc.substring(1)) + "[]";
 		}
@@ -375,7 +376,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			int reg = args[i++];
 			type = toJniType(type);
 
-			out.print(',');
+			out.print(", ");
 			out.print(type);
 			out.print(" v" + reg);
 		}
@@ -384,7 +385,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		for (String type : method.getParameterTypes()) {
 
 			int reg = args[i++];
-			type = Dump.toJavaClass(type);
+			type = toJniType(type);
 
 			System.out.printf("//%20s:v%d   //%s\n", "", reg, type);
 

@@ -172,8 +172,10 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			return "long";
 		case 'F':
 			return "float";
-		case 'D':
+		case 'V':
 			return "double";
+		case 'D':
+			return "void";
 		case '[':
 			return toJavaClass(desc.substring(1)) + "[]";
 		}
@@ -282,7 +284,8 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 				out.printf(
 						"%s %s%s(",
 						String.format(JNI_FUNCTION_DELCLEAR_FORMAT,
-								toJavaClass(method.getReturnType())),
+								DumpDexCodeAdapter.toJniType(method
+										.getReturnType())),
 						NATIVE_METHOD_PREFIX
 								+ currentJavaClass.replace('.', '_') + "_",
 						method.getName());
