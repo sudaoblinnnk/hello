@@ -15,6 +15,16 @@ cd OriginalApp/FirstApplication/app
 cp build/outputs/apk/app-release.apk ../../../repackage/
 popd
 
+#extract protected apk classes.dex
+mkdir temp
+cp repackage/app-release.apk temp
+pushd .
+cd temp
+unzip app-release.apk -d apkdir
+cp apkdir/classes.dex ../tools/poisoner/samples/classes.dex
+popd
+rm -rf temp
+
 #remove auto generated files
 pushd .
 cd repackage
@@ -28,11 +38,19 @@ apktool d app-release.apk
 mv app-release target
 popd
 
+pushd .
+cd tools/poisoner/samples/
+. run_dex_poisoner_test.sh
+popd
+
 #copy machine translated source code
 pushd .
 cd FirstApp/FirstApplication/app
 cp $NATIVE_CODE_DIR/native/com/irdeto/j2n/firstapplication/MainActivity.cpp src/main/cpp/native-lib.cpp
 cp $NATIVE_CODE_DIR/java/com/irdeto/j2n/firstapplication/MainActivity.java  src/main/java/com/irdeto/j2n/firstapplication/MainActivity.java
+
+cat $NATIVE_CODE_DIR/native/com/irdeto/j2n/firstapplication/MainActivity\$KeyLogic.cpp >> src/main/cpp/native-lib.cpp
+cp $NATIVE_CODE_DIR/java/com/irdeto/j2n/firstapplication/MainActivity\$KeyLogic.java  src/main/java/com/irdeto/j2n/firstapplication/MainActivity\$KeyLogic.java
 
 #compile machine translated source code
 ../gradlew assembleRelease
