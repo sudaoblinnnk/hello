@@ -138,9 +138,10 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	}
 
 	private static String getObjectField(String obj, String fieldObject,
-			String fieldName) {
+			String fieldName, String fieldType) {
+		String GetXXXField = String.format("Get%sField", fieldType);
 		return String.format(("%s = env->%s(%s, %s);"), fieldObject,
-				"GetObjectField", obj, fieldName);
+				GetXXXField, obj, fieldName);
 	}
 
 	private static String setObjectField(String obj, String fieldName,
@@ -613,10 +614,11 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				false));
 		sb.append("\n");
 
-		// sb.append(String.format("%s %s = ",
-		// CALL_TYPE.get(getReturnTypeByMethodSignature(method)), temp));
-		sb.append(String.format("%s %s = ",
-				toJniType(getReturnSignatureByMethodSignature(method)), temp));
+		String returnType = toJniType(getReturnSignatureByMethodSignature(method));
+		String castJObjectJString = (returnType.equals("jstring")) ? " (jstring) "
+				: "";
+		sb.append(String.format("%s %s = %s", returnType, temp,
+				castJObjectJString));
 
 		String caller;
 		boolean isVirtual = isVirtual(reg, className, opcode);
@@ -705,6 +707,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String type = getType(field.getType());
 		String typeSignature = getTypeSignature(field.getType());
 
+		String fieldType = getReturnTypeByMethodSignature(typeSignature);
+
 		String localClass = String.format("localClass%d", localClassCounter++);
 		sb.append(getFindClass(localClass, className));
 		sb.append("\n");
@@ -715,7 +719,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		sb.append(String.format(("%s "), type));
 
-		sb.append(getObjectField(obj, fromRegister, fieldId));
+		sb.append(getObjectField(obj, fromRegister, fieldId, fieldType));
 		sb.append("\n");
 		out.println(sb);
 	}
