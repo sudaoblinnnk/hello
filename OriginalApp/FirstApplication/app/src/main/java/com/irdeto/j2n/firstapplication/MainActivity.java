@@ -9,22 +9,11 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        add();
     }
 
-    private static class KeyLogic {
-        int value;
-        private KeyLogic(int value) {
-            this.value = value;
-        }
-
-        private static KeyLogic instance = new KeyLogic(1);
-
-        public static KeyLogic getInstance() {
-            return instance;
-        }
-
-        public int getValue() {
-            return KeyLogic.class.getSimpleName().hashCode() + value;
-        }
+    private int add() {
+        return 1+2;
     }
 }

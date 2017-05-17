@@ -1,5 +1,6 @@
 #remove previous auto generated files
 NATIVE_CODE_DIR=/home/kurt/company/workspace.eclipse/J2NConverter
+#NATIVE_CODE_DIR=/home/kurt/innovation/hello/tools/poisoner/samples
 pushd .
 cd $NATIVE_CODE_DIR
 rm -rf native
@@ -11,6 +12,7 @@ popd
 #compile apk need to protect
 pushd .
 cd OriginalApp/FirstApplication/app
+../gradlew clean
 ../gradlew assembleRelease
 cp build/outputs/apk/app-release.apk ../../../repackage/
 popd
@@ -40,7 +42,7 @@ popd
 
 pushd .
 cd tools/poisoner/samples/
-. run_dex_poisoner_test.sh
+#. run_dex_poisoner_test.sh
 popd
 
 #copy machine translated source code
@@ -53,6 +55,7 @@ cat $NATIVE_CODE_DIR/native/com/irdeto/j2n/firstapplication/MainActivity\$KeyLog
 cp $NATIVE_CODE_DIR/java/com/irdeto/j2n/firstapplication/MainActivity\$KeyLogic.java  src/main/java/com/irdeto/j2n/firstapplication/MainActivity\$KeyLogic.java
 
 #compile machine translated source code
+../gradlew clean
 ../gradlew assembleRelease
 cp build/outputs/apk/app-release.apk ../../../repackage/app-native.apk
 popd
