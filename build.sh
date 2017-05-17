@@ -48,11 +48,18 @@ popd
 #copy machine translated source code
 pushd .
 cd FirstApp/FirstApplication/app
-cp $NATIVE_CODE_DIR/native/com/irdeto/j2n/firstapplication/MainActivity.cpp src/main/cpp/native-lib.cpp
-cp $NATIVE_CODE_DIR/java/com/irdeto/j2n/firstapplication/MainActivity.java  src/main/java/com/irdeto/j2n/firstapplication/MainActivity.java
 
-cat $NATIVE_CODE_DIR/native/com/irdeto/j2n/firstapplication/MainActivity\$KeyLogic.cpp >> src/main/cpp/native-lib.cpp
-cp $NATIVE_CODE_DIR/java/com/irdeto/j2n/firstapplication/MainActivity\$KeyLogic.java  src/main/java/com/irdeto/j2n/firstapplication/MainActivity\$KeyLogic.java
+#copy all machine generated cpp files
+
+cd src/main/cpp/
+touch code.txt
+
+find $NATIVE_CODE_DIR/native/com/irdeto/j2n/firstapplication/ -name '*.cpp' | xargs cat >> code.txt
+mv code.txt native-lib.cpp
+cd ../../../
+
+#copy all machine generated java files
+cp $NATIVE_CODE_DIR/java/com/irdeto/j2n/firstapplication/*  src/main/java/com/irdeto/j2n/firstapplication/
 
 #compile machine translated source code
 ../gradlew clean
@@ -74,6 +81,6 @@ apktool b target -o app-repackage.apk
 #java sign
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore signkey.jks -storepass irdeto app-repackage.apk customer.key.alias
 #run
-adb uninstall  com.irdeto.j2n.firstapplication && adb install -r app-repackage.apk
+#adb uninstall  com.irdeto.j2n.firstapplication && adb install -r app-repackage.apk
 popd
 
