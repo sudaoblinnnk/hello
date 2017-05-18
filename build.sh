@@ -1,13 +1,9 @@
 #remove previous auto generated files
-NATIVE_CODE_DIR=/home/kurt/company/workspace.eclipse/J2NConverter
-#NATIVE_CODE_DIR=/home/kurt/innovation/hello/tools/poisoner/samples
-pushd .
-cd $NATIVE_CODE_DIR
-rm -rf native
-rm -rf java
-unzip native.jar -d native
-unzip java.jar -d   java
-popd
+export NATIVE_CODE_DIR=/home/kurt/company/workspace.eclipse/J2NConverter
+#export NATIVE_CODE_DIR=/home/kurt/innovation/hello/tools/poisoner/samples
+
+if [ "$1" == "app" ]; then
+    echo "finish build OriginalApp"
 
 #compile apk need to protect
 pushd .
@@ -26,6 +22,17 @@ unzip app-release.apk -d apkdir
 cp apkdir/classes.dex ../tools/poisoner/samples/classes.dex
 popd
 rm -rf temp
+
+else
+
+#remove NATIVE_CODE_DIR auto generated files
+pushd .
+cd $NATIVE_CODE_DIR
+rm -rf native
+rm -rf java
+unzip native.jar -d native
+unzip java.jar -d   java
+popd
 
 #remove auto generated files
 pushd .
@@ -54,12 +61,13 @@ cd FirstApp/FirstApplication/app
 cd src/main/cpp/
 touch code.txt
 
-find $NATIVE_CODE_DIR/native/com/irdeto/j2n/firstapplication/ -name '*.cpp' | xargs cat >> code.txt
+find $NATIVE_CODE_DIR/native/com/irdeto/j2n/firstapplication/ -name 'MainActivity*.cpp' | xargs cat >> code.txt
 mv code.txt native-lib.cpp
 cd ../../../
 
 #copy all machine generated java files
-cp $NATIVE_CODE_DIR/java/com/irdeto/j2n/firstapplication/*  src/main/java/com/irdeto/j2n/firstapplication/
+rm -rf  src/main/java/com/irdeto/j2n/firstapplication/*
+cp $NATIVE_CODE_DIR/java/com/irdeto/j2n/firstapplication/MainActivity*  src/main/java/com/irdeto/j2n/firstapplication/
 
 #compile machine translated source code
 ../gradlew clean
@@ -73,7 +81,7 @@ cd repackage
 apktool d app-native.apk
 mv app-native source
 
-cp source/smali/com/irdeto/j2n/firstapplication/MainActivity.smali target/smali/com/irdeto/j2n/firstapplication/MainActivity.smali
+cp source/smali/com/irdeto/j2n/firstapplication/MainActivity*.smali target/smali/com/irdeto/j2n/firstapplication/
 cp -r source/lib target
 
 #repackage protected apk
@@ -84,3 +92,4 @@ jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore signkey.jks -st
 #adb uninstall  com.irdeto.j2n.firstapplication && adb install -r app-repackage.apk
 popd
 
+fi
