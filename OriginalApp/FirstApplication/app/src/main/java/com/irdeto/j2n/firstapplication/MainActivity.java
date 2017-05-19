@@ -12,7 +12,7 @@ public class MainActivity extends Activity {
 
         add();
 
-        KeyLogic.getInstance().getValue();
+        KeyLogic.getValue();
     }
 
     private int add() {
@@ -31,8 +31,19 @@ public class MainActivity extends Activity {
             return instance;
         }
 
-        public int getValue() {
+        public static int getValue() {
             return KeyLogic.class.getSimpleName().hashCode();
         }
+
     }
+
+    private static class StaticPrivateClass{
+    }
+    public static class StaticPublicClass{
+    }
+    public class PrivateClass{
+    }
+    public class PublicClass{
+    }
+
 }
