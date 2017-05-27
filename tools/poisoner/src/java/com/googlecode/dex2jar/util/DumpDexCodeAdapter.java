@@ -366,7 +366,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	@Override
 	public void visitArguments(int total, int[] args) {
 		int i = 0;
-		if (!this.isStatic) {
+		if (!isStatic) {
 			int reg = args[i++];
 			String type = Dump.toJavaClass(method.getOwner());
 			out.printf("v" + reg);

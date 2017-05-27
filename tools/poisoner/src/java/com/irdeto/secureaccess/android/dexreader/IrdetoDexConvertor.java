@@ -32,6 +32,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 
 	static String nativeFile = "native.jar";
 	static String javaFile = "java.jar";
+	static boolean isSubClass = false;
 
 	public interface WriterManager {
 		PrintWriter get(String name);
@@ -234,7 +235,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 
 	public DexClassVisitor visit(int access_flags, String className,
 			String superClass, String[] interfaceNames) {
-
+		isSubClass = false;
 		String javaClassName = toJavaClass(className);
 		out = writerManager.get(javaClassName);
 
@@ -272,6 +273,8 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			out.println("\n{\n");
 			if (!clsName.contains("$")) { // skip inner class
 				sb.append(" static {System.loadLibrary(\"native-lib\");} ");
+			} else {
+				isSubClass = true;
 			}
 			out.println(sb.toString());
 		} else if (PROCESS_NATIVE == processing) {
