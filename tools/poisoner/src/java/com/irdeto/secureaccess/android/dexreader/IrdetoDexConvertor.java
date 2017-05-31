@@ -28,6 +28,11 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 	static final int PROCESS_JAVA = 2;
 
 	private static final String INCLUDE = "#include <jni.h>";
+
+	private static final String OUTTER_CLASS_OBJECT = "this$0";
+
+	private static final String SUBCLASS_DIV = "$";
+
 	static int processing = PROCESS_NATIVE;
 
 	static String nativeFile = "native.jar";
@@ -240,17 +245,30 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		out = writerManager.get(javaClassName);
 
 		if (PROCESS_JAVA == processing) {
+
 			String[] header = getPackageNameByClassName(javaClassName);
 			String pkgName = header[0];
 			String clsName = header[1];
-			out.printf("package %s;\n", pkgName);
+
+			if (clsName.contains(SUBCLASS_DIV)) {
+				isSubClass = true;
+			}
+
+			if (!isSubClass) {
+				out.printf("package %s;\n", pkgName);
+			}
 			out.printf("//class:%04d  access:0x%04x\n", class_count++,
 					access_flags);
 			out.print(getAccDes(access_flags));
 			if ((access_flags & DexOpcodes.ACC_INTERFACE) == 0) {
 				out.print("class ");
 			}
-			out.print(clsName);
+			if (isSubClass) {
+				int i = clsName.indexOf(SUBCLASS_DIV) + 1;
+				out.print(clsName.substring(i));
+			} else {
+				out.print(clsName);
+			}
 
 			updateCurrentJavaClassName(javaClassName);
 
@@ -335,13 +353,17 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 				if (PROCESS_NATIVE == processing) {
 
 				} else if (PROCESS_JAVA == processing) {
-					out.printf("%s %s %s", getAccDes(accesFlags),
-							toJavaClass(field.getType()), field.getName());
-					if (value != null) {
-						out.print('=');
-						out.print(value);
+					if (field.getName().equals(OUTTER_CLASS_OBJECT)) {
+
+					} else {
+						out.printf("%s %s %s", getAccDes(accesFlags),
+								toJavaClass(field.getType()), field.getName());
+						if (value != null) {
+							out.print('=');
+							out.print(value);
+						}
+						out.println(';');
 					}
-					out.println(';');
 				}
 
 				return super.visitField(accesFlags, field, value);
