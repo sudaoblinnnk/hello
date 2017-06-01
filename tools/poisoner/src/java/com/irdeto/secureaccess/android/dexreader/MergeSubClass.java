@@ -174,14 +174,6 @@ public class MergeSubClass {
 		}
 	}
 
-	public static void main(String[] args) {
-		String root = "../J2NConverter/java/com/irdeto/j2n/firstapplication";
-		collectMainClasses(root);
-		removeRightCurveBrace();
-		walk(root);
-		addRightCurveBrace();
-	}
-
 	public static void addRightCurveBrace() {
 		for (String mainClass : mainClasses) {
 			addRightCurveBrace(mainClass);

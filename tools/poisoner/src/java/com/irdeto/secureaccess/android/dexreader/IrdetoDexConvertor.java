@@ -190,6 +190,9 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 				.println("native file location : " + output.getAbsolutePath());
 		doFile(new File(args[0]), output);
 
+		String removeNativeJavaDir = "rm -rf java native";
+		Command.exeCmd(removeNativeJavaDir);
+
 		String extract = "unzip " + output.getAbsolutePath() + " -d native";
 		Command.exeCmd(extract);
 		System.out.println("\nDone!");
@@ -369,6 +372,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 					}
 				} else if (PROCESS_NATIVE == processing) {
 					registerNativeFunc();
+					jniOnLoadFunc();
 				}
 				out.flush();
 				out.close();
@@ -486,7 +490,6 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 
 	private void updateCurrentJavaClassName(String javaClassName) {
 		currentJavaClass = javaClassName;
-
 	}
 
 	private static final String NATIVE_FUNCTION_REGIST_FUNCTION = "static int registerNativeSymbols%d(JNIEnv * env) { int returnVal = JNI_TRUE; JNINativeMethod symbolListApi[] = { %s }; "
@@ -516,6 +519,20 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		String registCode = String.format(NATIVE_FUNCTION_REGIST_FUNCTION,
 				registerNativeFuncCount++, nativeFuncList, currentJavaClass);
 		out.printf(registCode);
+	}
+
+	private static final String JNI_ONLOAD_FUNC = "JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) { JNIEnv *env; jint registerResult = JNI_FALSE; if (vm->GetEnv((void **) &env, JNI_VERSION_1_4) != JNI_OK) { return -1; } registerResult = %s return JNI_VERSION_1_4; }";
+
+	private void jniOnLoadFunc() {
+		out.println();
+		StringBuilder regFuns = new StringBuilder();
+		String registCode = "";
+		for (int i = 0; i < registerNativeFuncCount; i++) {
+			regFuns.append(String.format("registerNativeSymbols%d(env);\n", i));
+
+		}
+		registCode = String.format(JNI_ONLOAD_FUNC, regFuns);
+		out.print(registCode);
 	}
 
 	private static class Command {
