@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -48,6 +50,8 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 	private PrintWriter out;
 
 	private WriterManager writerManager;
+
+	private List<String[]> nativeFunctions = new LinkedList<String[]>();
 
 	public IrdetoDexConvertor(WriterManager writerManager) {
 		super();
@@ -296,6 +300,8 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			}
 			out.println(sb.toString());
 		} else if (PROCESS_NATIVE == processing) {
+			nativeFunctions.clear();
+
 			out.println(INCLUDE);
 			out.printf("//class:%04d  access:0x%04x\n", class_count++,
 					access_flags);
@@ -335,6 +341,8 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			public void visitEnd() {
 				if (PROCESS_JAVA == processing) {
 					out.println("}\n");
+				} else if (PROCESS_NATIVE == processing) {
+					registerNativeFunc();
 				}
 				out.flush();
 				out.close();
@@ -372,7 +380,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			private static final String NATIVE_METHOD_PREFIX = "Java_";
 			private static final String NATIVE_PARAMETER_OBJECT = "JNIEnv * env, jobject ";
 			private static final String NATIVE_PARAMETER_STATIC = "JNIEnv *env, jclass type";
-			private static final String JNI_FUNCTION_DELCLEAR_FORMAT = "extern \"C\" JNIEXPORT %s JNICALL";
+			private static final String JNI_FUNCTION_DELCLEAR_FORMAT = "%s ";// "extern \"C\" JNIEXPORT %s JNICALL";
 
 			@Override
 			public DexMethodVisitor visitMethod(final int accesFlags,
@@ -395,15 +403,22 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 						methodArgs = NATIVE_PARAMETER_OBJECT;
 					}
 
-					out.printf(
-							"%s %s%s(",
-							String.format(JNI_FUNCTION_DELCLEAR_FORMAT,
-									DumpDexCodeAdapter.toJniType(method
-											.getReturnType())),
+					String funcReturn = String.format(
+							JNI_FUNCTION_DELCLEAR_FORMAT, DumpDexCodeAdapter
+									.toJniType(method.getReturnType()));
+
+					String funcName = String.format(
+							"%s%s",
 							NATIVE_METHOD_PREFIX
 									+ currentJavaClass.replace('.', '_') + "_",
 							method.getName());
 
+					String nativeFuncRegistrationInfo[] = new String[] {
+							method.getName(), method.getDesc(), funcName };
+
+					nativeFunctions.add(nativeFuncRegistrationInfo);
+
+					out.printf("%s %s(", funcReturn, funcName);
 					out.printf(String.format("%s", methodArgs));
 
 					EmptyVisitor ev = new EmptyVisitor() {
@@ -444,5 +459,34 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 	private void updateCurrentJavaClassName(String javaClassName) {
 		currentJavaClass = javaClassName;
 
+	}
+
+	private static final String NATIVE_FUNCTION_REGIST_FUNCTION = "static int registerNativeSymbols%d(JNIEnv * env) { int returnVal = JNI_TRUE; JNINativeMethod symbolListApi[] = { %s }; "
+			+ "clazz = env->FindClass(\"%s\");"
+			+ "if (clazz == NULL) { returnVal = JNI_FALSE; }"
+			+ "if (env->RegisterNatives(clazz, symbolListApi, sizeof(symbolListApi) / sizeof(symbolListApi[0])) < 0) {"
+			+ "returnVal = JNI_FALSE; }" + "return returnVal;}";
+
+	private static int registerNativeFuncCount;
+
+	private void registerNativeFunc() {
+		if (nativeFunctions.isEmpty()) {
+			return;
+		}
+		String nativeFuncListItem = "{\"%s\", \"%s\",  (void *)\"%s\" }";
+		StringBuilder nativeFuncList = new StringBuilder();
+
+		for (String[] item : nativeFunctions) {
+			nativeFuncList.append(String.format(nativeFuncListItem, item[0],
+					item[1], item[2]));
+			nativeFuncList.append(",");
+		}
+		if (nativeFuncList.length() > 0) {
+			nativeFuncList.deleteCharAt(nativeFuncList.length() - 1);
+		}
+
+		String registCode = String.format(NATIVE_FUNCTION_REGIST_FUNCTION,
+				registerNativeFuncCount++, nativeFuncList, currentJavaClass);
+		out.printf(registCode);
 	}
 }
