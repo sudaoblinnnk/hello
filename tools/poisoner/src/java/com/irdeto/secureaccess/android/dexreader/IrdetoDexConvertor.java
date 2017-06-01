@@ -168,6 +168,14 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		return dexConfig;
 	}
 
+	private static void mergeSubClass() {
+		String root = "java/com/irdeto/j2n/firstapplication";
+		MergeSubClass.collectMainClasses(root);
+		MergeSubClass.removeRightCurveBrace();
+		MergeSubClass.walk(root);
+		MergeSubClass.addRightCurveBrace();
+	}
+
 	public static void main(String... args) throws Exception {
 		if (args.length < 1) {
 			System.out.println("Specify input file in DEX or APK");
@@ -194,6 +202,8 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 
 		extract = "unzip " + output.getAbsolutePath() + " -d java";
 		Command.exeCmd(extract);
+
+		mergeSubClass();
 	}
 
 	public static String toJavaClass(String desc) {
