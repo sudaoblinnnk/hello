@@ -31,7 +31,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 
 	private static final String INCLUDE = "#include <jni.h>";
 
-	private static final String OUTTER_CLASS_OBJECT = "this$0";
+	private static final String OUTTER_CLASS_PTR = "this$0";
 
 	private static final String SUBCLASS_DIV = "$";
 
@@ -39,7 +39,8 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 
 	static String nativeFile = "native.jar";
 	static String javaFile = "java.jar";
-	static boolean isSubClass = false;
+	private static boolean isSubClass = false;
+	private static boolean isStaticSubClass = true;
 
 	public interface WriterManager {
 		PrintWriter get(String name);
@@ -244,7 +245,10 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 
 	public DexClassVisitor visit(int access_flags, String className,
 			String superClass, String[] interfaceNames) {
+
 		isSubClass = false;
+		isStaticSubClass = true;
+
 		String javaClassName = toJavaClass(className);
 		out = writerManager.get(javaClassName);
 
@@ -340,7 +344,11 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			@Override
 			public void visitEnd() {
 				if (PROCESS_JAVA == processing) {
-					out.println("}\n");
+					if (isStaticSubClass) {
+						out.println("} ");
+					} else {
+						out.println("}");
+					}
 				} else if (PROCESS_NATIVE == processing) {
 					registerNativeFunc();
 				}
@@ -361,8 +369,10 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 				if (PROCESS_NATIVE == processing) {
 
 				} else if (PROCESS_JAVA == processing) {
-					if (field.getName().equals(OUTTER_CLASS_OBJECT)) {
-
+					if (field.getName().equals(OUTTER_CLASS_PTR)) {
+						if (isSubClass) {
+							isStaticSubClass = false;
+						}
 					} else {
 						out.printf("%s %s %s", getAccDes(accesFlags),
 								toJavaClass(field.getType()), field.getName());
