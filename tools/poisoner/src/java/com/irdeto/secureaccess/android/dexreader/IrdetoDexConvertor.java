@@ -1,9 +1,11 @@
 package com.irdeto.secureaccess.android.dexreader;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
@@ -179,6 +181,9 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		System.out
 				.println("native file location : " + output.getAbsolutePath());
 		doFile(new File(args[0]), output);
+
+		String extract = "unzip " + output.getAbsolutePath() + " -d native";
+		Command.exeCmd(extract);
 		System.out.println("\nDone!");
 
 		processing = PROCESS_JAVA;
@@ -186,6 +191,9 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		System.out.println("java file location : " + output.getAbsolutePath());
 		doFile(new File(args[0]), output);
 		System.out.println("\nDone!");
+
+		extract = "unzip " + output.getAbsolutePath() + " -d java";
+		Command.exeCmd(extract);
 	}
 
 	public static String toJavaClass(String desc) {
@@ -499,4 +507,32 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 				registerNativeFuncCount++, nativeFuncList, currentJavaClass);
 		out.printf(registCode);
 	}
+
+	private static class Command {
+		public static void exeCmd(String commandStr) {
+			BufferedReader br = null;
+			try {
+				Process p = Runtime.getRuntime().exec(commandStr);
+				br = new BufferedReader(new InputStreamReader(
+						p.getInputStream()));
+				String line = null;
+				StringBuilder sb = new StringBuilder();
+				while ((line = br.readLine()) != null) {
+					sb.append(line + "\n");
+				}
+				System.out.println(sb.toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (br != null) {
+					try {
+						br.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+
 }
