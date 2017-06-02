@@ -26,13 +26,13 @@ rm -rf temp
 else
 
 #remove NATIVE_CODE_DIR auto generated files
-pushd .
-cd $NATIVE_CODE_DIR
-rm -rf native
-rm -rf java
-unzip native.jar -d native
-unzip java.jar -d   java
-popd
+#pushd .
+#cd $NATIVE_CODE_DIR
+#rm -rf native
+#rm -rf java
+#unzip native.jar -d native
+#unzip java.jar -d   java
+#popd
 
 #remove auto generated files
 pushd .
@@ -61,13 +61,13 @@ cd FirstApp/FirstApplication/app
 cd src/main/cpp/
 touch code.txt
 
-find $NATIVE_CODE_DIR/native/com/irdeto/j2n/firstapplication/ -name 'MainActivity*.cpp' | xargs cat >> code.txt
+find $NATIVE_CODE_DIR/native/com/irdeto/j2n/firstapplication/ -name 'MainActivity*.cpp' | sort -r | xargs cat >> code.txt
 mv code.txt native-lib.cpp
 cd ../../../
 
 #copy all machine generated java files
 rm -rf  src/main/java/com/irdeto/j2n/firstapplication/*
-cp $NATIVE_CODE_DIR/java/com/irdeto/j2n/firstapplication/MainActivity*  src/main/java/com/irdeto/j2n/firstapplication/
+cp $NATIVE_CODE_DIR/java/com/irdeto/j2n/firstapplication/MainActivity.java  src/main/java/com/irdeto/j2n/firstapplication/
 
 #compile machine translated source code
 ../gradlew clean
@@ -89,7 +89,7 @@ apktool b target -o app-repackage.apk
 #java sign
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore signkey.jks -storepass irdeto app-repackage.apk customer.key.alias
 #run
-#adb uninstall  com.irdeto.j2n.firstapplication && adb install -r app-repackage.apk
+adb uninstall  com.irdeto.j2n.firstapplication && adb install -r app-repackage.apk
 popd
 
 fi

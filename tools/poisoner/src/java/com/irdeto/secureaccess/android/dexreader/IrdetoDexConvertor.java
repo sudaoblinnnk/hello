@@ -520,7 +520,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		if (nativeFunctions.isEmpty()) {
 			return;
 		}
-		String nativeFuncListItem = "{\"%s\", \"%s\",  (void *)\"%s\" }";
+		String nativeFuncListItem = "{\"%s\", \"%s\",  (void *)%s }";
 		StringBuilder nativeFuncList = new StringBuilder();
 
 		for (String[] item : nativeFunctions) {
@@ -538,7 +538,8 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		packageRegisterNativeSymbols.add(registerNativeSymbols);
 
 		String registCode = String.format(NATIVE_FUNCTION_REGIST_FUNCTION,
-				registerNativeSymbols, nativeFuncList, currentJavaClass);
+				registerNativeSymbols, nativeFuncList,
+				currentJavaClass.replace('.', '/'));
 		out.println(registCode);
 	}
 
