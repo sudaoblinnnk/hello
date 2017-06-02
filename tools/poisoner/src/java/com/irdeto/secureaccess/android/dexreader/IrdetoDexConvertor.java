@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -31,13 +32,23 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 	static final int PROCESS_NATIVE = 1;
 	static final int PROCESS_JAVA = 2;
 
-	private static final String INCLUDE = "#include <jni.h>";
+	private static final String INCLUDES = "#include <jni.h>\n#include <stdio.h>";
 
 	private static final String OUTTER_CLASS_PTR = "this$0";
 
 	private static final String SUBCLASS_DIV = "$";
 
+	public static String[] AUTO_GENERATED_CLASS = { "BuildConfig", "R$", "R." };
+
+	private static final String APP_PACKAGE = "com.irdeto.j2n.firstapplication";
+	private static List<String> packageFilter = new ArrayList<String>();
+
+	protected static final String APP_MAIN_ENTRANCE = APP_PACKAGE
+			+ ".MainActivity";
+	private static final String ROOT = "java/com/irdeto/j2n/firstapplication";
 	static int processing = PROCESS_NATIVE;
+
+	private static final String LINE = "_";
 
 	static String nativeFile = "native.jar";
 	static String javaFile = "java.jar";
@@ -55,6 +66,8 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 	private WriterManager writerManager;
 
 	private List<String[]> nativeFunctions = new LinkedList<String[]>();
+
+	private List<String> packageRegisterNativeSymbols = new ArrayList<String>();
 
 	public IrdetoDexConvertor(WriterManager writerManager) {
 		super();
@@ -169,10 +182,9 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 	}
 
 	private static void mergeSubClass() {
-		String root = "java/com/irdeto/j2n/firstapplication";
-		MergeSubClass.collectMainClasses(root);
-		MergeSubClass.removeRightCurveBrace();
-		MergeSubClass.walk(root);
+		MergeSubClass.collectMainClasses(ROOT);
+		MergeSubClass.removeAllCollectedClassesRightCurveBrace();
+		MergeSubClass.walk(ROOT);
 		MergeSubClass.addRightCurveBrace();
 	}
 
@@ -183,6 +195,8 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		}
 		System.out.println("\nReceiving file: " + args[0] + "\n");
 		setConfig();
+
+		packageFilter.add(APP_PACKAGE);
 
 		processing = PROCESS_NATIVE;
 		File output = new File(nativeFile);
@@ -327,7 +341,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		} else if (PROCESS_NATIVE == processing) {
 			nativeFunctions.clear();
 
-			out.println(INCLUDE);
+			out.println(INCLUDES);
 			out.printf("//class:%04d  access:0x%04x\n", class_count++,
 					access_flags);
 			out.print("//");
@@ -365,14 +379,16 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			@Override
 			public void visitEnd() {
 				if (PROCESS_JAVA == processing) {
-					if (isStaticSubClass) {
+					if (isSubClass && isStaticSubClass) {
 						out.println("} ");
 					} else {
 						out.println("}");
 					}
 				} else if (PROCESS_NATIVE == processing) {
 					registerNativeFunc();
-					jniOnLoadFunc();
+					if (currentJavaClass.equals(APP_MAIN_ENTRANCE)) {
+						jniOnLoadFunc();
+					}
 				}
 				out.flush();
 				out.close();
@@ -492,8 +508,8 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		currentJavaClass = javaClassName;
 	}
 
-	private static final String NATIVE_FUNCTION_REGIST_FUNCTION = "static int registerNativeSymbols%d(JNIEnv * env) { int returnVal = JNI_TRUE; JNINativeMethod symbolListApi[] = { %s }; "
-			+ "clazz = env->FindClass(\"%s\");"
+	private static final String NATIVE_FUNCTION_REGIST_FUNCTION = "static int registerNativeSymbols%s(JNIEnv * env) { int returnVal = JNI_TRUE; JNINativeMethod symbolListApi[] = { %s }; "
+			+ "jclass clazz = env->FindClass(\"%s\");"
 			+ "if (clazz == NULL) { returnVal = JNI_FALSE; }"
 			+ "if (env->RegisterNatives(clazz, symbolListApi, sizeof(symbolListApi) / sizeof(symbolListApi[0])) < 0) {"
 			+ "returnVal = JNI_FALSE; }" + "return returnVal;}";
@@ -516,9 +532,18 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			nativeFuncList.deleteCharAt(nativeFuncList.length() - 1);
 		}
 
+		String registerNativeSymbols = registerNativeSymbolsSuffix()
+				+ registerNativeFuncCount++;
+
+		packageRegisterNativeSymbols.add(registerNativeSymbols);
+
 		String registCode = String.format(NATIVE_FUNCTION_REGIST_FUNCTION,
-				registerNativeFuncCount++, nativeFuncList, currentJavaClass);
-		out.printf(registCode);
+				registerNativeSymbols, nativeFuncList, currentJavaClass);
+		out.println(registCode);
+	}
+
+	private String registerNativeSymbolsSuffix() {
+		return getPackageNameByClassName(currentJavaClass)[0].hashCode() + LINE;
 	}
 
 	private static final String JNI_ONLOAD_FUNC = "JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) { JNIEnv *env; jint registerResult = JNI_FALSE; if (vm->GetEnv((void **) &env, JNI_VERSION_1_4) != JNI_OK) { return -1; } registerResult = %s return JNI_VERSION_1_4; }";
@@ -527,12 +552,19 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		out.println();
 		StringBuilder regFuns = new StringBuilder();
 		String registCode = "";
-		for (int i = 0; i < registerNativeFuncCount; i++) {
-			regFuns.append(String.format("registerNativeSymbols%d(env);\n", i));
-
+		for (int i = 0; i < packageRegisterNativeSymbols.size(); i++) {
+			String registerNativeSymbols = packageRegisterNativeSymbols.get(i);
+			for (int j = 0; j < packageFilter.size(); j++) {
+				String suffix = packageFilter.get(j).hashCode() + "_";
+				if (registerNativeSymbols.contains(suffix)) {
+					regFuns.append(String.format(
+							"registerNativeSymbols%s(env);\n",
+							registerNativeSymbols));
+				}
+			}
 		}
 		registCode = String.format(JNI_ONLOAD_FUNC, regFuns);
-		out.print(registCode);
+		out.println(registCode);
 	}
 
 	private static class Command {

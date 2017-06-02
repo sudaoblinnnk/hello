@@ -2,9 +2,11 @@ package com.irdeto.secureaccess.android.dexreader;
 
 import static java.lang.System.out;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -42,12 +44,39 @@ public class MergeSubClass {
 		}
 	}
 
+	/*
+	 * public static void mergeFiles(String outFile, String[] files) {
+	 * 
+	 * FileChannel outChannel = null; // out.println("Merge " +
+	 * Arrays.toString(files) + " into " + outFile); try { outChannel = new
+	 * FileOutputStream(outFile, true).getChannel(); for (String f : files) {
+	 * FileChannel fc = new FileInputStream(f).getChannel(); //
+	 * outChannel.position(outChannel.size()); // fc.transferTo(0, fc.size(),
+	 * outChannel); ByteBuffer bb = ByteBuffer.allocate(BUFSIZE);
+	 * 
+	 * // /////// by check last - 2 byte == ' ' , judge this class is // static
+	 * class. ////////////////////////////////////// fc.position(fc.size() - 2);
+	 * if (fc.read(bb) != -1) { if (bb.get(0) == ' ') {
+	 * System.out.println("======= " + Arrays.toString(files) +
+	 * "static method");
+	 * outChannel.write(ByteBuffer.wrap("static ".getBytes())); } }
+	 * fc.position(0); //
+	 * ///////////////////////////////////////////////////////////
+	 * 
+	 * while (fc.read(bb) != -1) { bb.flip(); outChannel.write(bb); bb.clear();
+	 * }
+	 * 
+	 * fc.close(); } out.println("Merged!! "); } catch (IOException ioe) {
+	 * ioe.printStackTrace(); } finally { try { if (outChannel != null) {
+	 * outChannel.close(); } } catch (IOException ignore) { } } }
+	 */
 	public static void mergeFiles(String outFile, String[] files) {
-
-		FileChannel outChannel = null;
+		BufferedWriter writer = null;
+		// FileChannel outChannel = null;
 		// out.println("Merge " + Arrays.toString(files) + " into " + outFile);
 		try {
-			outChannel = new FileOutputStream(outFile, true).getChannel();
+			// outChannel = new FileOutputStream(outFile, true).getChannel();
+			writer = new BufferedWriter(new FileWriter(outFile, true));
 			for (String f : files) {
 				FileChannel fc = new FileInputStream(f).getChannel();
 				// outChannel.position(outChannel.size());
@@ -61,28 +90,35 @@ public class MergeSubClass {
 					if (bb.get(0) == ' ') {
 						System.out.println("======= " + Arrays.toString(files)
 								+ "static method");
-						outChannel.write(ByteBuffer.wrap("static ".getBytes()));
+						// outChannel.write(ByteBuffer.wrap("static ".getBytes()));
+						writer.write("static ");
 					}
 				}
 				fc.position(0);
-				// ///////////////////////////////////////////////////////////
-
-				while (fc.read(bb) != -1) {
-					bb.flip();
-					outChannel.write(bb);
-					bb.clear();
-				}
-
 				fc.close();
+				// ///////////////////////////////////////////////////////////
+				BufferedReader reader = new BufferedReader(new FileReader(f));
+				String content = null;
+				while ((content = reader.readLine()) != null) {
+					// bb.flip();
+					// outChannel.write(bb);
+					writer.write(content);
+					writer.write("\n");
+					// bb.clear();
+				}
+				reader.close();
+
 			}
 			out.println("Merged!! ");
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		} finally {
 			try {
-				if (outChannel != null) {
-					outChannel.close();
-				}
+				// if (outChannel != null) {
+				// outChannel.close();
+				// }
+				if (writer != null)
+					writer.close();
 			} catch (IOException ignore) {
 			}
 		}
@@ -92,7 +128,7 @@ public class MergeSubClass {
 		return fileName.substring(0, fileName.length() - 5);
 	}
 
-	private static String[] getClassNames(String fileName) {
+	private static String[] getClassMainAndSubNames(String fileName) {
 		int i = fileName.indexOf(DIV);
 
 		return new String[] { fileName.substring(0, i),
@@ -100,6 +136,7 @@ public class MergeSubClass {
 	}
 
 	public static void collectMainClasses(String root) {
+		mainClasses.clear();
 		try {
 			Path startPath = Paths.get(root);
 			Files.walkFileTree(startPath, new SimpleFileVisitor<Path>() {
@@ -116,7 +153,7 @@ public class MergeSubClass {
 							.toString());
 
 					if (file.getFileName().toString().contains(DIV)) {
-						String classNames[] = getClassNames(fileName);
+						String classNames[] = getClassMainAndSubNames(fileName);
 						String outClass = file.getParent() + "/"
 								+ classNames[0] + ".java";
 
@@ -154,7 +191,7 @@ public class MergeSubClass {
 							.toString());
 					System.out.println("FileName : " + file.getParent());
 					if (file.getFileName().toString().contains(DIV)) {
-						String classNames[] = getClassNames(fileName);
+						String classNames[] = getClassMainAndSubNames(fileName);
 						// System.out.println("mainclass : " + classNames[0] +
 						// "\n subclass : " + classNames[1]);
 						String outClass = file.getParent() + "/"
@@ -180,22 +217,26 @@ public class MergeSubClass {
 		}
 	}
 
-	public static void removeRightCurveBrace() {
-		for (String mainClass : mainClasses) {
-			FileChannel outChannel = null;
+	private static void removeRightCurveBrace(String mainClass) {
+		FileChannel outChannel = null;
+		try {
+			outChannel = new FileOutputStream(mainClass, true).getChannel();
+			outChannel.truncate(outChannel.size() - 3);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
 			try {
-				outChannel = new FileOutputStream(mainClass, true).getChannel();
-				outChannel.truncate(outChannel.size() - 2 * 2);
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					if (outChannel != null) {
-						outChannel.close();
-					}
-				} catch (IOException ignore) {
+				if (outChannel != null) {
+					outChannel.close();
 				}
+			} catch (IOException ignore) {
 			}
+		}
+	}
+
+	public static void removeAllCollectedClassesRightCurveBrace() {
+		for (String mainClass : mainClasses) {
+			removeRightCurveBrace(mainClass);
 		}
 	}
 }
