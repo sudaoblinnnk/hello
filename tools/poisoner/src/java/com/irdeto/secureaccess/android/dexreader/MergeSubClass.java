@@ -44,44 +44,13 @@ public class MergeSubClass {
 		}
 	}
 
-	/*
-	 * public static void mergeFiles(String outFile, String[] files) {
-	 * 
-	 * FileChannel outChannel = null; // out.println("Merge " +
-	 * Arrays.toString(files) + " into " + outFile); try { outChannel = new
-	 * FileOutputStream(outFile, true).getChannel(); for (String f : files) {
-	 * FileChannel fc = new FileInputStream(f).getChannel(); //
-	 * outChannel.position(outChannel.size()); // fc.transferTo(0, fc.size(),
-	 * outChannel); ByteBuffer bb = ByteBuffer.allocate(BUFSIZE);
-	 * 
-	 * // /////// by check last - 2 byte == ' ' , judge this class is // static
-	 * class. ////////////////////////////////////// fc.position(fc.size() - 2);
-	 * if (fc.read(bb) != -1) { if (bb.get(0) == ' ') {
-	 * System.out.println("======= " + Arrays.toString(files) +
-	 * "static method");
-	 * outChannel.write(ByteBuffer.wrap("static ".getBytes())); } }
-	 * fc.position(0); //
-	 * ///////////////////////////////////////////////////////////
-	 * 
-	 * while (fc.read(bb) != -1) { bb.flip(); outChannel.write(bb); bb.clear();
-	 * }
-	 * 
-	 * fc.close(); } out.println("Merged!! "); } catch (IOException ioe) {
-	 * ioe.printStackTrace(); } finally { try { if (outChannel != null) {
-	 * outChannel.close(); } } catch (IOException ignore) { } } }
-	 */
 	public static void mergeFiles(String outFile, String[] files) {
 		BufferedWriter writer = null;
-		// FileChannel outChannel = null;
-		// out.println("Merge " + Arrays.toString(files) + " into " + outFile);
 		try {
-			// outChannel = new FileOutputStream(outFile, true).getChannel();
 			writer = new BufferedWriter(new FileWriter(outFile, true));
 			for (String f : files) {
 				FileChannel fc = new FileInputStream(f).getChannel();
-				// outChannel.position(outChannel.size());
-				// fc.transferTo(0, fc.size(), outChannel);
-				ByteBuffer bb = ByteBuffer.allocate(BUFSIZE);
+				ByteBuffer bb = ByteBuffer.allocate(50);
 
 				// /////// by check last - 2 byte == ' ' , judge this class is
 				// static class. //////////////////////////////////////
@@ -90,7 +59,6 @@ public class MergeSubClass {
 					if (bb.get(0) == ' ') {
 						System.out.println("======= " + Arrays.toString(files)
 								+ "static method");
-						// outChannel.write(ByteBuffer.wrap("static ".getBytes()));
 						writer.write("static ");
 					}
 				}
@@ -100,11 +68,8 @@ public class MergeSubClass {
 				BufferedReader reader = new BufferedReader(new FileReader(f));
 				String content = null;
 				while ((content = reader.readLine()) != null) {
-					// bb.flip();
-					// outChannel.write(bb);
 					writer.write(content);
 					writer.write("\n");
-					// bb.clear();
 				}
 				reader.close();
 
@@ -114,9 +79,6 @@ public class MergeSubClass {
 			ioe.printStackTrace();
 		} finally {
 			try {
-				// if (outChannel != null) {
-				// outChannel.close();
-				// }
 				if (writer != null)
 					writer.close();
 			} catch (IOException ignore) {
