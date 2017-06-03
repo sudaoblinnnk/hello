@@ -790,4 +790,11 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String s = String.format(code, labelToString);
 		out.println(s);
 	}
+
+	@Override
+	protected void nativeBinopLitXStmt(int opcode, String code, int saveToReg,
+			int opReg, int value) {
+		String s = String.format(code, saveToReg, opReg, value);
+		out.println(s);
+	}
 }

@@ -66,38 +66,50 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	@Override
 	public void visitBinopLitXStmt(int opcode, int saveToReg, int opReg,
 			int value) {
+		String code = "";
 		switch (opcode) {
 		case OP_AND_INT_LIT_X:
-			info(opcode, "v%d = v%d & %d;", saveToReg, opReg, value);
+			code = "v%d = v%d & %d;";
+			info(opcode, code, saveToReg, opReg, value);
 			break;
 		case OP_ADD_INT_LIT_X:
-			info(opcode, "v%d = v%d + %d;", saveToReg, opReg, value);
+			code = "v%d = v%d + %d;";
+			info(opcode, code, saveToReg, opReg, value);
 			break;
 		case OP_REM_INT_LIT_X:
-			info(opcode, "v%d = v%d %% %d;", saveToReg, opReg, value);
+			code = "v%d = v%d %% %d;";
+			info(opcode, code, saveToReg, opReg, value);
 			break;
 		case OP_DIV_INT_LIT_X:
-			info(opcode, "v%d = v%d / %d;", saveToReg, opReg, value);
+			code = "v%d = v%d / %d;";
+			info(opcode, code, saveToReg, opReg, value);
 			break;
 		case OP_MUL_INT_LIT_X:
-			info(opcode, "v%d = v%d * %d;", saveToReg, opReg, value);
+			code = "v%d = v%d * %d;";
+			info(opcode, code, saveToReg, opReg, value);
 			break;
 		case OP_SHR_INT_LIT_X:
-			info(opcode, "v%d = v%d >> %d;", saveToReg, opReg, value);
+			code = "v%d = v%d >> %d;";
+			info(opcode, code, saveToReg, opReg, value);
 			break;
 		case OP_SHL_INT_LIT_X:
-			info(opcode, "v%d = v%d << %d;", saveToReg, opReg, value);
+			code = "v%d = v%d << %d;";
+			info(opcode, code, saveToReg, opReg, value);
 			break;
 		case OP_USHR_INT_LIT_X:
-			info(opcode, "v%d = v%d >>> %d;", saveToReg, opReg, value);
+			code = "v%d = v%d >>> %d;";
+			info(opcode, code, saveToReg, opReg, value);
 			break;
 		case OP_OR_INT_LIT_X:
-			info(opcode, "v%d = v%d | %d;", saveToReg, opReg, value);
+			code = "v%d = v%d | %d;";
+			info(opcode, code, saveToReg, opReg, value);
 			break;
 		case OP_XOR_INT_LIT_X:
-			info(opcode, "v%d = v%d ^ %d;", saveToReg, opReg, value);
+			code = "v%d = v%d ^ %d;";
+			info(opcode, code, saveToReg, opReg, value);
 			break;
 		}
+		nativeBinopLitXStmt(opcode, code, saveToReg, opReg, value);
 	}
 
 	@Override
@@ -715,6 +727,10 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	
 
 	protected abstract void nativeGoto(int opcode, String code, String labelToString);
+	
+
+	protected abstract void nativeBinopLitXStmt(int opcode, String code, int saveToReg, int opReg, int value);
+	
 	// ////////////////////////////////////////////////////////////////////
 
 	public static class Register {
