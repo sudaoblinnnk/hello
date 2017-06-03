@@ -335,32 +335,41 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 
 	@Override
 	public void visitJumpStmt(int opcode, int reg, DexLabel label) {
+		String code = "";
 		switch (opcode) {
 		case OP_IF_EQZ:
-			info(opcode, "if (v%d == 0) { goto %s; }", reg,
+			code = "if (v%d == 0) { goto %s; }";
+			info(opcode, code, reg,
 					labelToString(label));
 			break;
 		case OP_IF_NEZ:
-			info(opcode, "if (v%d != 0) { goto %s; }", reg,
+			code = "if (v%d != 0) { goto %s; }";
+			info(opcode, code, reg,
 					labelToString(label));
 			break;
 		case OP_IF_LTZ:
-			info(opcode, "if (v%d <  0) { goto %s; }", reg,
+			code = "if (v%d <  0) { goto %s; }";
+			info(opcode, code, reg,
 					labelToString(label));
 			break;
 		case OP_IF_GEZ:
-			info(opcode, "if (v%d >= 0) { goto %s; }", reg,
+			code = "if (v%d >= 0) { goto %s; }";
+			info(opcode, code, reg,
 					labelToString(label));
 			break;
 		case OP_IF_GTZ:
-			info(opcode, "if (v%d >  0) { goto %s; }", reg,
+			code = "if (v%d >  0) { goto %s; }";
+			info(opcode, code, reg,
 					labelToString(label));
 			break;
 		case OP_IF_LEZ:
-			info(opcode, "if (v%d <= 0) { goto %s; }", reg,
+			code = "if (v%d <= 0) { goto %s; }";
+			info(opcode, code, reg,
 					labelToString(label));
 			break;
 		}
+		
+		nativeIf(opcode, code, reg, labelToString(label));
 	}
 
 	/*
@@ -371,32 +380,40 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	 */
 	@Override
 	public void visitJumpStmt(int opcode, int reg1, int reg2, DexLabel label) {
+		String code = "";
 		switch (opcode) {
 		case OP_IF_EQ:
-			info(opcode, "if (v%d == v%d) {  goto %s; }", reg1, reg2,
+			code = "if (v%d == v%d) {  goto %s; }";
+			info(opcode, code, reg1, reg2,
 					labelToString(label));
 			break;
 		case OP_IF_NE:
-			info(opcode, "if (v%d != v%d) {  goto %s; }", reg1, reg2,
+			code = "if (v%d != v%d) {  goto %s; }";
+			info(opcode, code, reg1, reg2,
 					labelToString(label));
 			break;
 		case OP_IF_LT:
-			info(opcode, "if (v%d <  v%d) {  goto %s; }", reg1, reg2,
+			code = "if (v%d <  v%d) {  goto %s; }";
+			info(opcode, code, reg1, reg2,
 					labelToString(label));
 			break;
 		case OP_IF_GE:
-			info(opcode, "if (v%d >= v%d) {  goto %s; }", reg1, reg2,
+			code = "if (v%d >= v%d) {  goto %s; }";
+			info(opcode, code, reg1, reg2,
 					labelToString(label));
 			break;
 		case OP_IF_GT:
-			info(opcode, "if (v%d >  v%d) {  goto %s; }", reg1, reg2,
+			code = "if (v%d >  v%d) {  goto %s; }";
+			info(opcode, code, reg1, reg2,
 					labelToString(label));
 			break;
 		case OP_IF_LE:
-			info(opcode, "if (v%d <= v%d) {  goto %s; }", reg1, reg2,
+			code = "if (v%d <= v%d) {  goto %s; }";
+			info(opcode, code, reg1, reg2,
 					labelToString(label));
 			break;
 		}
+		nativeIf(opcode, code, reg1, reg2, labelToString(label));
 	}
 
 	/*
@@ -687,7 +704,11 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			int regFromOrTo, Field field);
 
 	protected abstract void nativeNEW_INSTANCE(int toReg, String type);
+	
 
+	protected abstract void nativeIf(int opcode, String code, int reg, String labelToString);
+	
+	protected abstract void nativeIf(int opcode, String code, int reg1, int reg2, String labelToString);
 	// ////////////////////////////////////////////////////////////////////
 
 	public static class Register {

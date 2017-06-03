@@ -420,7 +420,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		}
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append("L" + labelToString(label));
+		sb.append(labelToString(label));
 		sb.append(":\n");
 		out.print(sb);
 		
@@ -771,4 +771,17 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		out.println(reg + ";");
 	}
 
+	@Override
+	protected void nativeIf(int opcode, String code, int reg,
+			String labelToString) {
+		String s = String.format(code, reg, labelToString);
+		out.println(s);
+	}
+
+	@Override
+	protected void nativeIf(int opcode, String code, int reg1, int reg2,
+			String labelToString) {
+		String s = String.format(code, reg1, reg2, labelToString);
+		out.println(s);
+	}
 }
