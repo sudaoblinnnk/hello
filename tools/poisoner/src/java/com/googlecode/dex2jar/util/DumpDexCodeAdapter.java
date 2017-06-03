@@ -784,4 +784,10 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String s = String.format(code, reg1, reg2, labelToString);
 		out.println(s);
 	}
+
+	@Override
+	protected void nativeGoto(int opcode, String code, String labelToString) {
+		String s = String.format(code, labelToString);
+		out.println(s);
+	}
 }

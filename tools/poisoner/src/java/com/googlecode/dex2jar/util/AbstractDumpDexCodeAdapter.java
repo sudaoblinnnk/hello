@@ -326,11 +326,14 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	 */
 	@Override
 	public void visitJumpStmt(int opcode, DexLabel label) {
+		String code = "";
 		switch (opcode) {
 		case OP_GOTO:
-			info(opcode, "goto %s;", labelToString(label));
+			code = "goto %s;";
+			info(opcode, code, labelToString(label));
 			break;
 		}
+		nativeGoto(opcode, code, labelToString(label));
 	}
 
 	@Override
@@ -709,6 +712,9 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	protected abstract void nativeIf(int opcode, String code, int reg, String labelToString);
 	
 	protected abstract void nativeIf(int opcode, String code, int reg1, int reg2, String labelToString);
+	
+
+	protected abstract void nativeGoto(int opcode, String code, String labelToString);
 	// ////////////////////////////////////////////////////////////////////
 
 	public static class Register {
