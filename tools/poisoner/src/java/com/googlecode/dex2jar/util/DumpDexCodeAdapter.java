@@ -414,16 +414,16 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		}
 		Integer line = lines.get(label);
 		if (line != null) {
-			// out.printf("%-20s|%5s: line %d\n", "LABEL", "L"
-			// + labelToString(label), line);
-			StringBuilder sb = new StringBuilder();
-			sb.append("L" + labelToString(label));
-			sb.append(":\n");
-			out.print(sb);
+			out.printf("//%-20s|%5s: line %d\n", "LABEL", "L" + labelToString(label), line);
 		} else {
-			// LABEL | LL1:
-			// out.printf("%-20s|%5s:\n", "LABEL", "L" + labelToString(label));
+			out.printf("//%-20s|%5s:\n", "LABEL", "L" + labelToString(label));
 		}
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("L" + labelToString(label));
+		sb.append(":\n");
+		out.print(sb);
+		
 		if (!find) {
 			for (TryCatch tc : trys) {
 				if (label.equals(tc.start)) {
