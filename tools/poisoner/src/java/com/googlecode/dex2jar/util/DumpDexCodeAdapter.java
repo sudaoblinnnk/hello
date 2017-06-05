@@ -368,11 +368,15 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 	@Override
 	public void visitArguments(int total, int[] args) {
+		clearRegisterValueMap();// TODO clear register map when function begin
+
 		int i = 0;
 		if (!isStatic) {
 			int reg = args[i++];
 			String type = Dump.toJavaClass(method.getOwner());
-			out.printf("v" + reg);
+			String regName = "v" + reg;
+			out.printf(" " + regName);
+			addArgumentRegisters(regName, new Register(type, regName, regName));
 
 			System.out.printf("//%20s:v%d   //%s\n", "this", reg, type);
 		}
@@ -382,7 +386,9 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 			out.print(", ");
 			out.print(type);
-			out.print(" v" + reg);
+			String regName = "v" + reg;
+			out.print(" " + regName);
+			addArgumentRegisters(regName, new Register(type, regName, regName));
 		}
 
 		i = 0;
@@ -392,11 +398,9 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			type = toJniType(type);
 
 			System.out.printf("//%20s:v%d   //%s\n", "", reg, type);
-
 		}
 
 		out.print(")\n{\n");
-		clearRegisterValueMap();// TODO clear register map when function begin
 	}
 
 	/*
@@ -776,10 +780,18 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	protected void nativeBinop(int opcode, String code, int saveToReg,
 			int opReg, int opReg2) {
 
-		out.println(String.format(code, saveToReg, opReg, opReg2));
+		String firstOperator = "v" + opReg;
+		String SecondOperator = "v" + opReg2;
+
+		String firstOperatorRegisterName = getRegister(firstOperator).name;
+		String SecondOperatorRegisterName = getRegister(SecondOperator).name;
 
 		String register = "v" + saveToReg;
 		String type = getRegister(register).type;
-		setRegister(register, new Register(type, register, register));
+		String resultRegisterName = setRegister(register, new Register(type,
+				register, register)).name;
+
+		out.println(String.format(code, resultRegisterName,
+				firstOperatorRegisterName, SecondOperatorRegisterName));
 	}
 }

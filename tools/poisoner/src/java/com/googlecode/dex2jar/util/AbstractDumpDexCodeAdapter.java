@@ -116,41 +116,50 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	public void visitBinopStmt(int opcode, int saveToReg, int opReg,
 			int opReg2, int xt) {
 		String code = "";
+		String code1 = "";
 		switch (opcode) {
 		case OP_AND:
 			code = "v%d = v%d & v%d;";
+			code1 = "%s = %s & %s;";
 			info(opcode, code, saveToReg, opReg, opReg2);
 			break;
 		case OP_OR:
 			code = "v%d = v%d | v%d;";
+			code1 = "%s = %s | %s;";
 			info(opcode, code, saveToReg, opReg, opReg2);
 			break;
 		case OP_XOR:
 			code = "v%d = v%d ^ v%d;";
+			code1 = "%s = %s ^ %s;";
 			info(opcode, code, saveToReg, opReg, opReg2);
 			break;
 		case OP_SUB:
 			code = "v%d = v%d - v%d;";
+			code1 = "%s = %s - %s;";
 			info(opcode, code, saveToReg, opReg, opReg2);
 			break;
 		case OP_MUL:
 			code = "v%d = v%d * v%d;";
+			code1 = "%s = %s * %s;";
 			info(opcode, code, saveToReg, opReg, opReg2);
 			break;
 		case OP_DIV:
 			code = "v%d = v%d / v%d;";
+			code1 = "%s = %s / %s;";
 			info(opcode, code, saveToReg, opReg, opReg2);
 			break;
 		case OP_ADD:
 			code = "v%d = v%d + v%d;";
+			code1 = "%s = %s + %s;";
 			info(opcode, code, saveToReg, opReg, opReg2);
 			break;
 		case OP_REM:
 			code = "v%d = v%d %% v%d;";
+			code1 = "%s = %s %% %s;";
 			info(opcode, code, saveToReg, opReg, opReg2);
 			break;
 		}
-		nativeBinop(opcode, code, saveToReg, opReg, opReg2);
+		nativeBinop(opcode, code1, saveToReg, opReg, opReg2);
 	}
 
 	/*
@@ -700,8 +709,8 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 
 	protected abstract void nativeReturnVoidStmt(String reg);
 
-	protected abstract void nativeBinop(int op, String code, int saveToReg, int opReg,
-			int opReg2);
+	protected abstract void nativeBinop(int op, String code, int saveToReg,
+			int opReg, int opReg2);
 
 	protected abstract void nativeSGET(String fromOrToReg, String fieldOwner,
 			String fieldName, Field field);
@@ -737,10 +746,29 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		String value;
 
 		public Register(String t, String n) {
-			this(t, n, "null");
+			if (argumentRegister.keySet().contains(n)) {
+				throw new RuntimeException("argment could not be set.");
+			}
+
+			if (!registerValueMap.keySet().contains(n)) {
+				String v = n + "_" + 0;
+				init(t, n, v);
+			} else {
+				String v = (String) registerValueMap.get(n).name;
+				int i = v.lastIndexOf("_");
+				String major = v.substring(0, i);
+				String minor = v.substring(i + 1);
+				String minor_plus_one = "" + Integer.parseInt(minor) + 1;
+				String newValue = major + "_" + minor_plus_one;
+				init(t, n, newValue);
+			}
 		}
 
 		public Register(String t, String n, String v) {
+			init(t, n, v);
+		}
+
+		private void init(String t, String n, String v) {
 			type = t;
 			name = n;
 			value = v;
@@ -764,6 +792,8 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	}
 
 	protected static Map<String, Register> registerValueMap = new HashMap<String, Register>();
+	protected static Map<String, Register> argumentRegister = new HashMap<String, Register>();
+
 	protected int tempCounter = 0;
 	protected RegisterTemp lastTemp;
 
@@ -771,11 +801,15 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		lastTemp = rt;
 	}
 
-	protected void setRegister(String register, Register r) {
+	protected Register setRegister(String register, Register r) {
 		registerValueMap.put(register, r);
+		return getRegister(register);
 	}
 
 	protected Register getRegister(String register) {
+		if (argumentRegister.keySet().contains(register)) {
+			return argumentRegister.get(register);
+		}
 		Register r = registerValueMap.get(register);
 		if (r == null) {
 			r = new Register("kurt", register, register);
@@ -784,6 +818,12 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	}
 
 	protected void clearRegisterValueMap() {
+		argumentRegister.clear();
 		registerValueMap.clear();
 	}
+
+	protected void addArgumentRegisters(String r, Register reg) {
+		argumentRegister.put(r, reg);
+	}
+
 }
