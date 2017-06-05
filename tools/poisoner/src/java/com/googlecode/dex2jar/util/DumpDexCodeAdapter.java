@@ -518,12 +518,17 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 	protected void nativeCONST(int opcode, String reg, String value) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("int ");
-		sb.append(reg);
+		String type = "int";
+
+		String resultRegisterName = setRegister(reg, new Register(type, reg)).value;
+
+		sb.append(type);
+		sb.append(" ");
+		sb.append(resultRegisterName);
 		sb.append(" = ");
 		sb.append(value);
-		sb.append(";\n");
-		out.print(sb);
+		sb.append(";");
+		out.println(sb);
 	}
 
 	protected void nativeCONST_STRING(int opcode, String reg, String value) {
@@ -773,13 +778,22 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	@Override
 	protected void nativeBinopLitXStmt(int opcode, String code, int saveToReg,
 			int opReg, int value) {
-		String s = String.format(code, saveToReg, opReg, value);
-		out.println(s);
+
+		String firstOperator = "v" + opReg;
+
+		String firstOperatorRegisterName = getRegister(firstOperator).name;
+
+		String register = "v" + saveToReg;
+		String type = getRegister(register).type;
+		String resultRegisterName = setRegister(register, new Register(type,
+				register)).value;
+
+		out.println(String.format(code, resultRegisterName,
+				firstOperatorRegisterName, value + ""));
 	}
 
 	protected void nativeBinop(int opcode, String code, int saveToReg,
 			int opReg, int opReg2) {
-
 		String firstOperator = "v" + opReg;
 		String SecondOperator = "v" + opReg2;
 
@@ -789,7 +803,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String register = "v" + saveToReg;
 		String type = getRegister(register).type;
 		String resultRegisterName = setRegister(register, new Register(type,
-				register, register)).name;
+				register)).value;
 
 		out.println(String.format(code, resultRegisterName,
 				firstOperatorRegisterName, SecondOperatorRegisterName));

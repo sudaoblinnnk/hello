@@ -67,49 +67,60 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	public void visitBinopLitXStmt(int opcode, int saveToReg, int opReg,
 			int value) {
 		String code = "";
+		String code1 = "";
 		switch (opcode) {
 		case OP_AND_INT_LIT_X:
 			code = "v%d = v%d & %d;";
+			code1 = "%s = %s & %s;";
 			info(opcode, code, saveToReg, opReg, value);
 			break;
 		case OP_ADD_INT_LIT_X:
 			code = "v%d = v%d + %d;";
+			code1 = "%s = %s + %s;";
 			info(opcode, code, saveToReg, opReg, value);
 			break;
 		case OP_REM_INT_LIT_X:
 			code = "v%d = v%d %% %d;";
+			code1 = "%s = %s %% %s;";
 			info(opcode, code, saveToReg, opReg, value);
 			break;
 		case OP_DIV_INT_LIT_X:
 			code = "v%d = v%d / %d;";
+			code1 = "%s = %s / %s;";
 			info(opcode, code, saveToReg, opReg, value);
 			break;
 		case OP_MUL_INT_LIT_X:
 			code = "v%d = v%d * %d;";
+			code1 = "%s = %s * %s;";
 			info(opcode, code, saveToReg, opReg, value);
 			break;
 		case OP_SHR_INT_LIT_X:
 			code = "v%d = v%d >> %d;";
+			code1 = "%s = %s >> %s;";
 			info(opcode, code, saveToReg, opReg, value);
 			break;
 		case OP_SHL_INT_LIT_X:
 			code = "v%d = v%d << %d;";
+			code1 = "%s = %s << %s;";
 			info(opcode, code, saveToReg, opReg, value);
 			break;
 		case OP_USHR_INT_LIT_X:
 			code = "v%d = v%d >>> %d;";
+			code1 = "%s = %s >>> %s;";
 			info(opcode, code, saveToReg, opReg, value);
 			break;
 		case OP_OR_INT_LIT_X:
 			code = "v%d = v%d | %d;";
+			code1 = "%s = %s | %s;";
 			info(opcode, code, saveToReg, opReg, value);
 			break;
 		case OP_XOR_INT_LIT_X:
 			code = "v%d = v%d ^ %d;";
+			code1 = "%s = %s ^ %s;";
 			info(opcode, code, saveToReg, opReg, value);
 			break;
 		}
-		nativeBinopLitXStmt(opcode, code, saveToReg, opReg, value);
+		nativeBinopLitXStmt(opcode, code1, saveToReg, opReg, value);
 	}
 
 	@Override
@@ -746,16 +757,26 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		String value;
 
 		public Register(String t, String n) {
+			System.out
+					.println("----------------------------------------- " + n);
 			if (argumentRegister.keySet().contains(n)) {
 				throw new RuntimeException("argment could not be set.");
 			}
 
 			if (!registerValueMap.keySet().contains(n)) {
-				String v = n + "_" + 0;
+
+				String v = n + "_0";
 				init(t, n, v);
+				System.out
+						.println("-----------------------------------------kkk--- "
+								+ v);
 			} else {
 				String v = (String) registerValueMap.get(n).name;
 				int i = v.lastIndexOf("_");
+				// if (i < 0) {
+				// init(t, n, "kurt");
+				// return;
+				// }
 				String major = v.substring(0, i);
 				String minor = v.substring(i + 1);
 				String minor_plus_one = "" + Integer.parseInt(minor) + 1;
