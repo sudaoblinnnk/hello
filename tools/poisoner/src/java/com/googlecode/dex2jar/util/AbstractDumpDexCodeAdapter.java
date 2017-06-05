@@ -115,33 +115,42 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	@Override
 	public void visitBinopStmt(int opcode, int saveToReg, int opReg,
 			int opReg2, int xt) {
+		String code = "";
 		switch (opcode) {
 		case OP_AND:
-			info(opcode, "v%d = v%d & v%d;", saveToReg, opReg, opReg2);
+			code = "v%d = v%d & v%d;";
+			info(opcode, code, saveToReg, opReg, opReg2);
 			break;
 		case OP_OR:
-			info(opcode, "v%d = v%d | v%d;", saveToReg, opReg, opReg2);
+			code = "v%d = v%d | v%d;";
+			info(opcode, code, saveToReg, opReg, opReg2);
 			break;
 		case OP_XOR:
-			info(opcode, "v%d = v%d ^ v%d;", saveToReg, opReg, opReg2);
+			code = "v%d = v%d ^ v%d;";
+			info(opcode, code, saveToReg, opReg, opReg2);
 			break;
 		case OP_SUB:
-			info(opcode, "v%d = v%d - v%d;", saveToReg, opReg, opReg2);
+			code = "v%d = v%d - v%d;";
+			info(opcode, code, saveToReg, opReg, opReg2);
 			break;
 		case OP_MUL:
-			info(opcode, "v%d = v%d * v%d;", saveToReg, opReg, opReg2);
+			code = "v%d = v%d * v%d;";
+			info(opcode, code, saveToReg, opReg, opReg2);
 			break;
 		case OP_DIV:
-			info(opcode, "v%d = v%d / v%d;", saveToReg, opReg, opReg2);
+			code = "v%d = v%d / v%d;";
+			info(opcode, code, saveToReg, opReg, opReg2);
 			break;
 		case OP_ADD:
-			info(opcode, "v%d = v%d + v%d;", saveToReg, opReg, opReg2);
+			code = "v%d = v%d + v%d;";
+			info(opcode, code, saveToReg, opReg, opReg2);
 			break;
 		case OP_REM:
-			info(opcode, "v%d = v%d %% v%d;", saveToReg, opReg, opReg2);
+			code = "v%d = v%d %% v%d;";
+			info(opcode, code, saveToReg, opReg, opReg2);
 			break;
 		}
-		nativeBinop(opcode, saveToReg, opReg, opReg2);
+		nativeBinop(opcode, code, saveToReg, opReg, opReg2);
 	}
 
 	/*
@@ -354,36 +363,30 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		switch (opcode) {
 		case OP_IF_EQZ:
 			code = "if (v%d == 0) { goto %s; }";
-			info(opcode, code, reg,
-					labelToString(label));
+			info(opcode, code, reg, labelToString(label));
 			break;
 		case OP_IF_NEZ:
 			code = "if (v%d != 0) { goto %s; }";
-			info(opcode, code, reg,
-					labelToString(label));
+			info(opcode, code, reg, labelToString(label));
 			break;
 		case OP_IF_LTZ:
 			code = "if (v%d <  0) { goto %s; }";
-			info(opcode, code, reg,
-					labelToString(label));
+			info(opcode, code, reg, labelToString(label));
 			break;
 		case OP_IF_GEZ:
 			code = "if (v%d >= 0) { goto %s; }";
-			info(opcode, code, reg,
-					labelToString(label));
+			info(opcode, code, reg, labelToString(label));
 			break;
 		case OP_IF_GTZ:
 			code = "if (v%d >  0) { goto %s; }";
-			info(opcode, code, reg,
-					labelToString(label));
+			info(opcode, code, reg, labelToString(label));
 			break;
 		case OP_IF_LEZ:
 			code = "if (v%d <= 0) { goto %s; }";
-			info(opcode, code, reg,
-					labelToString(label));
+			info(opcode, code, reg, labelToString(label));
 			break;
 		}
-		
+
 		nativeIf(opcode, code, reg, labelToString(label));
 	}
 
@@ -399,33 +402,27 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		switch (opcode) {
 		case OP_IF_EQ:
 			code = "if (v%d == v%d) {  goto %s; }";
-			info(opcode, code, reg1, reg2,
-					labelToString(label));
+			info(opcode, code, reg1, reg2, labelToString(label));
 			break;
 		case OP_IF_NE:
 			code = "if (v%d != v%d) {  goto %s; }";
-			info(opcode, code, reg1, reg2,
-					labelToString(label));
+			info(opcode, code, reg1, reg2, labelToString(label));
 			break;
 		case OP_IF_LT:
 			code = "if (v%d <  v%d) {  goto %s; }";
-			info(opcode, code, reg1, reg2,
-					labelToString(label));
+			info(opcode, code, reg1, reg2, labelToString(label));
 			break;
 		case OP_IF_GE:
 			code = "if (v%d >= v%d) {  goto %s; }";
-			info(opcode, code, reg1, reg2,
-					labelToString(label));
+			info(opcode, code, reg1, reg2, labelToString(label));
 			break;
 		case OP_IF_GT:
 			code = "if (v%d >  v%d) {  goto %s; }";
-			info(opcode, code, reg1, reg2,
-					labelToString(label));
+			info(opcode, code, reg1, reg2, labelToString(label));
 			break;
 		case OP_IF_LE:
 			code = "if (v%d <= v%d) {  goto %s; }";
-			info(opcode, code, reg1, reg2,
-					labelToString(label));
+			info(opcode, code, reg1, reg2, labelToString(label));
 			break;
 		}
 		nativeIf(opcode, code, reg1, reg2, labelToString(label));
@@ -561,7 +558,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 				info(opcode, register + "=" + lastTemp.value);
 				Register r = new Register(lastTemp.type, register,
 						lastTemp.value);
-				recordRegister(register, r);
+				setRegister(register, r);
 			} else {
 				info(opcode, register + "=" + "kurt");
 			}
@@ -703,7 +700,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 
 	protected abstract void nativeReturnVoidStmt(String reg);
 
-	protected abstract void nativeBinop(int op, int saveToReg, int opReg,
+	protected abstract void nativeBinop(int op, String code, int saveToReg, int opReg,
 			int opReg2);
 
 	protected abstract void nativeSGET(String fromOrToReg, String fieldOwner,
@@ -719,18 +716,19 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			int regFromOrTo, Field field);
 
 	protected abstract void nativeNEW_INSTANCE(int toReg, String type);
-	
 
-	protected abstract void nativeIf(int opcode, String code, int reg, String labelToString);
-	
-	protected abstract void nativeIf(int opcode, String code, int reg1, int reg2, String labelToString);
-	
+	protected abstract void nativeIf(int opcode, String code, int reg,
+			String labelToString);
 
-	protected abstract void nativeGoto(int opcode, String code, String labelToString);
-	
+	protected abstract void nativeIf(int opcode, String code, int reg1,
+			int reg2, String labelToString);
 
-	protected abstract void nativeBinopLitXStmt(int opcode, String code, int saveToReg, int opReg, int value);
-	
+	protected abstract void nativeGoto(int opcode, String code,
+			String labelToString);
+
+	protected abstract void nativeBinopLitXStmt(int opcode, String code,
+			int saveToReg, int opReg, int value);
+
 	// ////////////////////////////////////////////////////////////////////
 
 	public static class Register {
@@ -773,7 +771,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		lastTemp = rt;
 	}
 
-	protected void recordRegister(String register, Register r) {
+	protected void setRegister(String register, Register r) {
 		registerValueMap.put(register, r);
 	}
 

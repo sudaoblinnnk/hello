@@ -547,7 +547,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		out.print(sb);
 
 		// type name=value : java/lang/Class v0=localClass
-		recordRegister(reg, new Register(className, reg, localClass));
+		setRegister(reg, new Register(className, reg, localClass));
 	}
 
 	protected void nativeVoidInvoke(int opcode, String reg, String methodName,
@@ -669,44 +669,6 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		return caller;
 	}
 
-	protected void nativeBinop(int opcode, int saveToReg, int opReg, int opReg2) {
-		String opStr = null;
-		switch (opcode) {
-		case OP_AND:
-			opStr = "&";
-			break;
-		case OP_OR:
-			opStr = "|";
-			break;
-		case OP_XOR:
-			opStr = "^";
-			break;
-		case OP_SUB:
-			opStr = "-";
-			break;
-		case OP_MUL:
-			opStr = "*";
-			break;
-		case OP_DIV:
-			opStr = "/";
-			break;
-		case OP_ADD:
-			opStr = "+";
-			break;
-		case OP_REM:
-			opStr = "%%";
-			break;
-		default:
-			// throw new IllegalArgumentException();
-		}
-
-		out.println(String.format("v%d = v%d %s v%d;", saveToReg, opReg, opStr,
-				opReg2));
-		String register = "v" + saveToReg;
-		String type = getRegister(register).type;
-		recordRegister(register, new Register(type, register, register));
-	}
-
 	@Override
 	protected void nativeIGET(int regFromOrTo, int ownerReg, String fieldName,
 			Field field) {
@@ -809,5 +771,15 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			int opReg, int value) {
 		String s = String.format(code, saveToReg, opReg, value);
 		out.println(s);
+	}
+
+	protected void nativeBinop(int opcode, String code, int saveToReg,
+			int opReg, int opReg2) {
+
+		out.println(String.format(code, saveToReg, opReg, opReg2));
+
+		String register = "v" + saveToReg;
+		String type = getRegister(register).type;
+		setRegister(register, new Register(type, register, register));
 	}
 }
