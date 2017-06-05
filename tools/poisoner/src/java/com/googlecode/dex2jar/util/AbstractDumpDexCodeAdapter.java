@@ -757,29 +757,25 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		String value;
 
 		public Register(String t, String n) {
-			System.out
-					.println("----------------------------------------- " + n);
 			if (argumentRegister.keySet().contains(n)) {
-				throw new RuntimeException("argment could not be set.");
+				//throw new RuntimeException("argment could not be set.");
+				init(t, n, n);//TODO kurt
+				return;
 			}
 
 			if (!registerValueMap.keySet().contains(n)) {
-
 				String v = n + "_0";
 				init(t, n, v);
-				System.out
-						.println("-----------------------------------------kkk--- "
-								+ v);
 			} else {
-				String v = (String) registerValueMap.get(n).name;
+				String v = (String) registerValueMap.get(n).value;
 				int i = v.lastIndexOf("_");
-				// if (i < 0) {
-				// init(t, n, "kurt");
-				// return;
-				// }
+				if (i < 0) {//TODO kurt
+					init(t, n, n);
+					return;
+				}
 				String major = v.substring(0, i);
 				String minor = v.substring(i + 1);
-				String minor_plus_one = "" + Integer.parseInt(minor) + 1;
+				String minor_plus_one = String.valueOf(Integer.parseInt(minor) + 1);
 				String newValue = major + "_" + minor_plus_one;
 				init(t, n, newValue);
 			}

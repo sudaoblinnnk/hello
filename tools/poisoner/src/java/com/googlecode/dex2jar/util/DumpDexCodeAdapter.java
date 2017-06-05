@@ -781,12 +781,13 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		String firstOperator = "v" + opReg;
 
-		String firstOperatorRegisterName = getRegister(firstOperator).name;
+		String firstOperatorRegisterName = getRegister(firstOperator).value;
 
-		String register = "v" + saveToReg;
-		String type = getRegister(register).type;
-		String resultRegisterName = setRegister(register, new Register(type,
-				register)).value;
+		String registerName = "v" + saveToReg;
+		String registerType = getRegister(registerName).type;
+		String registerValue = getRegister(registerName).value;
+		String resultRegisterName = setRegister(registerName, new Register(registerType,
+				registerName, registerValue)).value;
 
 		out.println(String.format(code, resultRegisterName,
 				firstOperatorRegisterName, value + ""));
@@ -797,13 +798,15 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String firstOperator = "v" + opReg;
 		String SecondOperator = "v" + opReg2;
 
-		String firstOperatorRegisterName = getRegister(firstOperator).name;
-		String SecondOperatorRegisterName = getRegister(SecondOperator).name;
+		String firstOperatorRegisterName = getRegister(firstOperator).value;
+		String SecondOperatorRegisterName = getRegister(SecondOperator).value;
 
-		String register = "v" + saveToReg;
-		String type = getRegister(register).type;
-		String resultRegisterName = setRegister(register, new Register(type,
-				register)).value;
+		String registerName = "v" + saveToReg;
+		
+		String type = getRegister(registerName).type;
+		String registerValue = getRegister(registerName).value;
+		String resultRegisterName = setRegister(registerName, new Register(type,
+				registerName, registerValue)).value;
 
 		out.println(String.format(code, resultRegisterName,
 				firstOperatorRegisterName, SecondOperatorRegisterName));
