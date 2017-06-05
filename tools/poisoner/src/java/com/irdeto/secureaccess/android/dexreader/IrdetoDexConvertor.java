@@ -439,6 +439,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 					return super.visitMethod(accesFlags, method);
 				}
 				if (PROCESS_NATIVE == processing) {
+					DumpDexCodeAdapter.setLastNativeCodeLabel(null);
 					out.println();
 					out.printf("//method:%04d  access:0x%04x\n",
 							method_count++, accesFlags);
@@ -479,6 +480,10 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 
 						@Override
 						public void visitEnd() {
+							if (null != DumpDexCodeAdapter
+									.getLastNativeCodeLabel()) {
+								out.println(";\n");
+							}
 							out.println("}\n");
 						}
 					};
