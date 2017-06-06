@@ -758,15 +758,22 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	@Override
 	protected void nativeIf(int opcode, String code, int reg,
 			String labelToString) {
-		String s = String.format(code, reg, labelToString);
-		out.println(s);
+		String firstOperator = "v" + reg;
+		String firstOperatorRegisterName = getRegister(firstOperator).value;
+		out.println(String.format(code, firstOperatorRegisterName,
+				labelToString));
 	}
 
 	@Override
 	protected void nativeIf(int opcode, String code, int reg1, int reg2,
 			String labelToString) {
-		String s = String.format(code, reg1, reg2, labelToString);
-		out.println(s);
+		String firstOperator = "v" + reg1;
+		String secondOperator = "v" + reg2;
+
+		String firstOperatorRegisterName = getRegister(firstOperator).value;
+		String secondOperatorRegisterName = getRegister(secondOperator).value;
+		out.println(String.format(code, firstOperatorRegisterName,
+				secondOperatorRegisterName, labelToString));
 	}
 
 	@Override
@@ -786,8 +793,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String registerName = "v" + saveToReg;
 		String registerType = getRegister(registerName).type;
 		String registerValue = getRegister(registerName).value;
-		String resultRegisterName = setRegister(registerName, new Register(registerType,
-				registerName, registerValue)).value;
+		String resultRegisterName = setRegister(registerName, new Register(
+				registerType, registerName, registerValue)).value;
 
 		out.println(String.format(code, resultRegisterName,
 				firstOperatorRegisterName, value + ""));
@@ -802,11 +809,11 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String SecondOperatorRegisterName = getRegister(SecondOperator).value;
 
 		String registerName = "v" + saveToReg;
-		
+
 		String type = getRegister(registerName).type;
 		String registerValue = getRegister(registerName).value;
-		String resultRegisterName = setRegister(registerName, new Register(type,
-				registerName, registerValue)).value;
+		String resultRegisterName = setRegister(registerName, new Register(
+				type, registerName, registerValue)).value;
 
 		out.println(String.format(code, resultRegisterName,
 				firstOperatorRegisterName, SecondOperatorRegisterName));

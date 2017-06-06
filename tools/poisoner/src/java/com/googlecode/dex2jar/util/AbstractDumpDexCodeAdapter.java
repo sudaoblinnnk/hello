@@ -380,34 +380,41 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	@Override
 	public void visitJumpStmt(int opcode, int reg, DexLabel label) {
 		String code = "";
+		String code1 = "";
 		switch (opcode) {
 		case OP_IF_EQZ:
 			code = "if (v%d == 0) { goto %s; }";
+			code1 = "if (%s == 0) { goto %s; }";
 			info(opcode, code, reg, labelToString(label));
 			break;
 		case OP_IF_NEZ:
 			code = "if (v%d != 0) { goto %s; }";
+			code1 = "if (%s != 0) { goto %s; }";
 			info(opcode, code, reg, labelToString(label));
 			break;
 		case OP_IF_LTZ:
 			code = "if (v%d <  0) { goto %s; }";
+			code1 = "if (%s < 0) { goto %s; }";
 			info(opcode, code, reg, labelToString(label));
 			break;
 		case OP_IF_GEZ:
 			code = "if (v%d >= 0) { goto %s; }";
+			code1 = "if (%s >= 0) { goto %s; }";
 			info(opcode, code, reg, labelToString(label));
 			break;
 		case OP_IF_GTZ:
 			code = "if (v%d >  0) { goto %s; }";
+			code1 = "if (%s > 0) { goto %s; }";
 			info(opcode, code, reg, labelToString(label));
 			break;
 		case OP_IF_LEZ:
 			code = "if (v%d <= 0) { goto %s; }";
+			code1 = "if (%s <= 0) { goto %s; }";
 			info(opcode, code, reg, labelToString(label));
 			break;
 		}
 
-		nativeIf(opcode, code, reg, labelToString(label));
+		nativeIf(opcode, code1, reg, labelToString(label));
 	}
 
 	/*
@@ -419,33 +426,40 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	@Override
 	public void visitJumpStmt(int opcode, int reg1, int reg2, DexLabel label) {
 		String code = "";
+		String code1 = "";
 		switch (opcode) {
 		case OP_IF_EQ:
 			code = "if (v%d == v%d) {  goto %s; }";
+			code1 = "if (%s == %s) {  goto %s; }";
 			info(opcode, code, reg1, reg2, labelToString(label));
 			break;
 		case OP_IF_NE:
 			code = "if (v%d != v%d) {  goto %s; }";
+			code1 = "if (%s != %s) {  goto %s; }";
 			info(opcode, code, reg1, reg2, labelToString(label));
 			break;
 		case OP_IF_LT:
 			code = "if (v%d <  v%d) {  goto %s; }";
+			code1 = "if (%s < %s) {  goto %s; }";
 			info(opcode, code, reg1, reg2, labelToString(label));
 			break;
 		case OP_IF_GE:
 			code = "if (v%d >= v%d) {  goto %s; }";
+			code1 = "if (%s >= %s) {  goto %s; }";
 			info(opcode, code, reg1, reg2, labelToString(label));
 			break;
 		case OP_IF_GT:
 			code = "if (v%d >  v%d) {  goto %s; }";
+			code1 = "if (%s > %s) {  goto %s; }";
 			info(opcode, code, reg1, reg2, labelToString(label));
 			break;
 		case OP_IF_LE:
 			code = "if (v%d <= v%d) {  goto %s; }";
+			code1 = "if (%s <= %s) {  goto %s; }";
 			info(opcode, code, reg1, reg2, labelToString(label));
 			break;
 		}
-		nativeIf(opcode, code, reg1, reg2, labelToString(label));
+		nativeIf(opcode, code1, reg1, reg2, labelToString(label));
 	}
 
 	/*
@@ -758,8 +772,8 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 
 		public Register(String t, String n) {
 			if (argumentRegister.keySet().contains(n)) {
-				//throw new RuntimeException("argment could not be set.");
-				init(t, n, n);//TODO kurt
+				// throw new RuntimeException("argment could not be set.");
+				init(t, n, n);// TODO kurt
 				return;
 			}
 
@@ -769,13 +783,14 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			} else {
 				String v = (String) registerValueMap.get(n).value;
 				int i = v.lastIndexOf("_");
-				if (i < 0) {//TODO kurt
+				if (i < 0) {// TODO kurt
 					init(t, n, n);
 					return;
 				}
 				String major = v.substring(0, i);
 				String minor = v.substring(i + 1);
-				String minor_plus_one = String.valueOf(Integer.parseInt(minor) + 1);
+				String minor_plus_one = String
+						.valueOf(Integer.parseInt(minor) + 1);
 				String newValue = major + "_" + minor_plus_one;
 				init(t, n, newValue);
 			}
