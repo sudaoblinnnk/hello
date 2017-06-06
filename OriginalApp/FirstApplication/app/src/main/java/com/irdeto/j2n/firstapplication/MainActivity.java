@@ -10,6 +10,17 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        int i = 0;
+        int sum = 0;
+        for (;i<3;i++) {
+            sum += i;
+        }
+        int j = 3;
+        while(j > 0) {
+            sum -= --j;
+        }
+
     }
 
     private static class StaticPrivateClass{
