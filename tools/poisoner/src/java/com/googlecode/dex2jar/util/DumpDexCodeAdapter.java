@@ -583,7 +583,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				false));
 		sb.append("\n");
 
-		String caller = getCallerByReg(reg);
+		String caller = getRegister(reg).value;
 
 		boolean isVirtual = isVirtual(reg, className, opcode);
 
@@ -650,7 +650,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			caller = localClass;
 		} else {
 			isStatic = false;
-			caller = getCallerByReg(reg);
+			caller = getRegister(reg).value;
 		}
 
 		sb.append(getCallFunction(
@@ -664,18 +664,10 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		out.print(sb);
 	}
 
-	protected void nativeReturnStmt(int opcode, String reg) {
-		String caller = getCallerByReg(reg);
-		out.println("return " + caller + ";");
-	}
-
-	private String getCallerByReg(String reg) {
-		String caller = reg;
-		if (registerValueMap.containsKey(reg)) {
-			System.out.println(registerValueMap.get(reg).toString());
-			caller = registerValueMap.get(reg).value;
-		}
-		return caller;
+	protected void nativeReturnStmt(int opcode, int reg) {
+		String firstOperator = "v" + reg;
+		String firstOperatorRegisterName = getRegister(firstOperator).value;
+		out.println("return " + firstOperatorRegisterName + ";");
 	}
 
 	@Override
@@ -751,8 +743,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	}
 
 	@Override
-	protected void nativeReturnVoidStmt(String reg) {
-		out.println(reg + ";");
+	protected void nativeReturnVoidStmt(String command) {
+		out.println(command + ";");
 	}
 
 	@Override

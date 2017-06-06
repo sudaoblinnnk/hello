@@ -634,7 +634,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		switch (opcode) {
 		case OP_RETURN:
 			info(opcode, "return v%d", reg);
-			nativeReturnStmt(opcode, "v" + reg);
+			nativeReturnStmt(opcode, reg);
 			break;
 		case OP_THROW:
 			info(opcode, "throw v%d", reg);
@@ -730,7 +730,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	protected abstract void nativeReturnInvoke(int opcode, String temp,
 			String reg, String methodName, String param, String method);
 
-	protected abstract void nativeReturnStmt(int opcode, String reg);
+	protected abstract void nativeReturnStmt(int opcode, int reg);
 
 	protected abstract void nativeReturnVoidStmt(String reg);
 
