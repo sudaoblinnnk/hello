@@ -303,7 +303,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		case 'V':
 			return "void";
 		case '[':
-			return toJavaClass(desc.substring(1)) + "[]";
+			return Dump.toJavaClass(desc.substring(1)) + "[]";
 		}
 		return desc;
 	}
@@ -682,7 +682,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		String obj = getRegister("v" + ownerReg).value;
 
-		String className = toJavaClass(field.getOwner());
+		String className = Dump.toJavaClass(field.getOwner());
 
 		StringBuilder sb = new StringBuilder();
 
@@ -715,7 +715,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String toRegister = getRegister("v" + regFromOrTo).value;
 		String obj = getRegister("v" + ownerReg).value;
 
-		String className = toJavaClass(field.getOwner());
+		String className = Dump.toJavaClass(field.getOwner());
 
 		StringBuilder sb = new StringBuilder();
 
@@ -738,7 +738,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	@Override
 	protected void nativeNEW_INSTANCE(int toReg, String type) {
 		String toRegister = "v" + toReg;
-		String className = toJavaClass(type);
+		String className = Dump.toJavaClass(type);
 
 		StringBuilder sb = new StringBuilder();
 

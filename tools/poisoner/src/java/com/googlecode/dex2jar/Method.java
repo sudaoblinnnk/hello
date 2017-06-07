@@ -17,7 +17,7 @@ package com.googlecode.dex2jar;
 
 import java.util.Arrays;
 
-import com.googlecode.dex2jar.util.AbstractDumpDexCodeAdapter;
+import com.googlecode.dex2jar.util.Dump;
 
 /**
  * represent a method_id_item in dex file format
@@ -75,7 +75,7 @@ public class Method {
 		StringBuilder ps = new StringBuilder("(");
 		if (parameterTypes != null) {
 			for (String t : parameterTypes) {
-				ps.append(AbstractDumpDexCodeAdapter.toJavaClass(t));
+				ps.append(Dump.toJavaClass(t));
 				ps.append(" p");
 				ps.append(paramter++);
 				ps.append(',');

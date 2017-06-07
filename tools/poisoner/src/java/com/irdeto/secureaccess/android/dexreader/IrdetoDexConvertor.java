@@ -17,7 +17,7 @@ import java.util.zip.ZipOutputStream;
 import com.googlecode.dex2jar.DexOpcodes;
 import com.googlecode.dex2jar.Field;
 import com.googlecode.dex2jar.Method;
-import com.googlecode.dex2jar.util.AbstractDumpDexCodeAdapter;
+import com.googlecode.dex2jar.util.Dump;
 import com.googlecode.dex2jar.util.DumpDexCodeAdapter;
 import com.googlecode.dex2jar.visitors.DexClassVisitor;
 import com.googlecode.dex2jar.visitors.DexCodeVisitor;
@@ -243,6 +243,8 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			return "double";
 		case 'D':
 			return "void";
+		case 'Z':
+			return "boolean";
 		case '[':
 			return toJavaClass(desc.substring(1)) + "[]";
 		}
@@ -413,7 +415,8 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 						}
 					} else {
 						out.printf("%s %s %s", getAccDes(accesFlags),
-								toJavaClass(field.getType()), field.getName());
+								Dump.toJavaClass(field.getType()),
+								field.getName());
 						if (value != null) {
 							out.print('=');
 							out.print(value);
@@ -493,8 +496,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 					out.printf(getAccDes(accesFlags));
 					out.printf(" native ");
 
-					out.printf(" %s ", AbstractDumpDexCodeAdapter
-							.toJavaClass(method.getReturnType()));
+					out.printf(" %s ", Dump.toJavaClass(method.getReturnType()));
 					out.printf(" %s",
 							method.getName() + method.getJavaParameter());
 					out.print(";\n");

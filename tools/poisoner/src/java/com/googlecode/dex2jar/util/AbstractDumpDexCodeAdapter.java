@@ -35,10 +35,6 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			"illegal-method-access", "class-change-error",
 			"instantiation-error" };
 
-	public static String toJavaClass(String type) {
-		return Dump.toJavaClass(type);
-	}
-
 	protected abstract void info(int opcode, String format, Object... args);
 
 	protected abstract String labelToString(DexLabel label);
@@ -275,15 +271,15 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	public void visitFieldStmt(int opcode, int fromOrToReg, Field field, int xt) {
 		switch (opcode) {
 		case OP_SPUT:
-			info(opcode, "%s.%s=v%d  //%s", toJavaClass(field.getOwner()),
+			info(opcode, "%s.%s=v%d  //%s", Dump.toJavaClass(field.getOwner()),
 					field.getName(), fromOrToReg, field);
-			nativeSPUT("v" + fromOrToReg, toJavaClass(field.getOwner()),
+			nativeSPUT("v" + fromOrToReg, Dump.toJavaClass(field.getOwner()),
 					field.getName(), field);
 			break;
 		case OP_SGET:
 			info(opcode, "v%d=%s.%s  //%s", fromOrToReg,
-					toJavaClass(field.getOwner()), field.getName(), field);
-			nativeSGET("v" + fromOrToReg, toJavaClass(field.getOwner()),
+					Dump.toJavaClass(field.getOwner()), field.getName(), field);
+			nativeSGET("v" + fromOrToReg, Dump.toJavaClass(field.getOwner()),
 					field.getName(), field);
 			break;
 		}
@@ -520,15 +516,16 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 				sb.deleteCharAt(sb.length() - 1);
 			}
 			if (method.getReturnType().equals("V")) {
-				info(opcode, "%s.%s(%s)  //%s", toJavaClass(method.getOwner()),
-						method.getName(), sb.toString(), method.toString());
+				info(opcode, "%s.%s(%s)  //%s",
+						Dump.toJavaClass(method.getOwner()), method.getName(),
+						sb.toString(), method.toString());
 
 				nativeVoidInvoke(opcode,
 						getRegister(String.format("v%d", regs[0])).value,
 						method.getName(), sb.toString(), method.toString());
 			} else {
 				info(opcode, "TEMP=%s.%s(%s)  //%s",
-						toJavaClass(method.getOwner()), method.getName(),
+						Dump.toJavaClass(method.getOwner()), method.getName(),
 						sb.toString(), method.toString());
 
 				nativeReturnInvoke(opcode,

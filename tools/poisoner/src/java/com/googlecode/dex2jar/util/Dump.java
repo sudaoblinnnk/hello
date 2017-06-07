@@ -172,7 +172,8 @@ public class Dump extends EmptyVisitor {
 			return "short";
 		case 'C':
 			return "char";
-
+		case 'Z':
+			return "boolean";
 		case 'I':
 			return "int";
 		case 'J':
