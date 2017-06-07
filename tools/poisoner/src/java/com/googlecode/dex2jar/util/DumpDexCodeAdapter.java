@@ -588,7 +588,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				false));
 		sb.append("\n");
 
-		String caller = getRegister(reg).value;
+		String caller = "";
 
 		boolean isVirtual = isVirtual(reg, className, opcode);
 
@@ -596,6 +596,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		if (opcode == OP_INVOKE_STATIC) {
 			isStatic = true;
 			caller = localClass;
+		} else {
+			caller = getRegister(reg).value;
 		}
 		sb.append(getCallFunction(
 				getInvokeMethodByMethodSignature(signature, isStatic, isVirtual),

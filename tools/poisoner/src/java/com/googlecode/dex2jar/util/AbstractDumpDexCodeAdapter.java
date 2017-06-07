@@ -520,9 +520,8 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 						Dump.toJavaClass(method.getOwner()), method.getName(),
 						sb.toString(), method.toString());
 
-				nativeVoidInvoke(opcode,
-						getRegister(String.format("v%d", regs[0])).value,
-						method.getName(), sb.toString(), method.toString());
+				nativeVoidInvoke(opcode, null, method.getName(), sb.toString(),
+						method.toString());
 			} else {
 				info(opcode, "TEMP=%s.%s(%s)  //%s",
 						Dump.toJavaClass(method.getOwner()), method.getName(),
