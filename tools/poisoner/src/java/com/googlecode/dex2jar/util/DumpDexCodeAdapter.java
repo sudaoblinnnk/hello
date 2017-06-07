@@ -89,7 +89,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		sb.append("\n");
 
 		sb.append(String.format(("env->SetStaticObjectField(%s, %s, %s);"),
-				localClass, fieldId, fromOrToReg));
+				localClass, fieldId, getRegister(fromOrToReg).value));
 
 		sb.append("\n");
 		out.println(sb);
@@ -115,8 +115,10 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		sb.append(String.format(("%s "), type));
 
-		sb.append(getStaticObjectField(localClass, fromOrToReg, fieldId));
-		sb.append("\n");
+		sb.append(getStaticObjectField(
+				localClass,
+				setRegister(fromOrToReg, new Register(type, fromOrToReg)).value,
+				fieldId));
 		out.println(sb);
 	}
 
@@ -674,7 +676,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	protected void nativeIGET(int regFromOrTo, int ownerReg, String fieldName,
 			Field field) {
 		String fromRegister = getRegister("v" + regFromOrTo).value;
-		String obj = getRegister("v" + ownerReg).value;
+		String obj = "v" + ownerReg;
 
 		String className = toJavaClass(field.getOwner());
 
@@ -695,7 +697,9 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		sb.append(String.format(("%s "), type));
 
-		sb.append(getObjectField(obj, fromRegister, fieldId, fieldType));
+		String newRegisterValue = setRegister(obj, new Register(type, obj)).value;
+		sb.append(getObjectField(newRegisterValue, fromRegister, fieldId,
+				fieldType));
 		sb.append("\n");
 		out.println(sb);
 	}

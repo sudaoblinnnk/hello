@@ -7,6 +7,7 @@ import android.util.Log;
 
 public class MainActivity extends Activity {
     boolean isPrint = false;
+    static boolean sIsPrint = false;
 
     private static final String TAG = "kurt";
     @Override
@@ -15,8 +16,12 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         isPrint = true;
+        sIsPrint = true;
         if (isPrint) {
-            Log.d(TAG, "kkkkkkkkkkkkkkkkkkkkkkkk");
+            Log.d(TAG, "non static print");
+        }
+        if (sIsPrint) {
+            Log.d(TAG, "static print");
         }
     }
 
