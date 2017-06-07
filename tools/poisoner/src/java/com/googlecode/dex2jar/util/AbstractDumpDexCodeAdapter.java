@@ -513,7 +513,8 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			int i = 0;
 			StringBuilder sb = new StringBuilder();
 			for (int j = 0; j < method.getParameterTypes().length; j++) {
-				sb.append('v').append(regs[i++]).append(',');
+				String regName = "v" + regs[i++];
+				sb.append(getRegister(regName).value).append(',');
 			}
 			if (sb.length() > 0) {
 				sb.deleteCharAt(sb.length() - 1);
@@ -522,7 +523,8 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 				info(opcode, "%s.%s(%s)  //%s", toJavaClass(method.getOwner()),
 						method.getName(), sb.toString(), method.toString());
 
-				nativeVoidInvoke(opcode, String.format("v%d", regs[0]),
+				nativeVoidInvoke(opcode,
+						getRegister(String.format("v%d", regs[0])).value,
 						method.getName(), sb.toString(), method.toString());
 			} else {
 				info(opcode, "TEMP=%s.%s(%s)  //%s",
@@ -542,23 +544,25 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			int i = 1;
 			StringBuilder sb = new StringBuilder();
 			for (int j = 0; j < method.getParameterTypes().length; j++) {
-				sb.append(',').append('v').append(regs[i++]);
+				String regName = "v" + regs[i++];
+				sb.append(getRegister(regName).value).append(',');
 			}
 			if (sb.length() > 0) {
-				sb.deleteCharAt(0);
+				sb.deleteCharAt(sb.length() - 1);
 			}
 			if (method.getReturnType().equals("V")) {
 				info(opcode, "v%d.%s(%s)  //%s", regs[0], method.getName(),
 						sb.toString(), method.toString());
-				nativeVoidInvoke(opcode, String.format("v%d", regs[0]),
+				nativeVoidInvoke(opcode,
+						getRegister(String.format("v%d", regs[0])).value,
 						method.getName(), sb.toString(), method.toString());
 			} else {
 				info(opcode, "TEMP=v%d.%s(%s)  //%s", regs[0],
 						method.getName(), sb.toString(), method.toString());
 				nativeReturnInvoke(opcode,
 						String.format("TEMP%d", tempCounter++),
-						String.format("v%d", regs[0]), method.getName(),
-						sb.toString(), method.toString());
+						getRegister(String.format("v%d", regs[0])).value,
+						method.getName(), sb.toString(), method.toString());
 			}
 		}
 			break;
