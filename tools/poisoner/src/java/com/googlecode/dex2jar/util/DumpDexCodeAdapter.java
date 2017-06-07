@@ -534,8 +534,11 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	}
 
 	protected void nativeCONST_STRING(int opcode, String reg, String value) {
+		String resultRegisterName = setRegister(reg, new Register("jstring",
+				reg)).value;
+
 		StringBuilder sb = new StringBuilder();
-		sb.append(reg);
+		sb.append(resultRegisterName);
 		sb.append(" = ");
 		sb.append("env->NewStringUTF(");
 		sb.append(value);
@@ -675,8 +678,9 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	@Override
 	protected void nativeIGET(int regFromOrTo, int ownerReg, String fieldName,
 			Field field) {
-		String fromRegister = getRegister("v" + regFromOrTo).value;
-		String obj = "v" + ownerReg;
+		String r = "v" + regFromOrTo;
+
+		String obj = getRegister("v" + ownerReg).value;
 
 		String className = toJavaClass(field.getOwner());
 
@@ -697,9 +701,9 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		sb.append(String.format(("%s "), type));
 
-		String newRegisterValue = setRegister(obj, new Register(type, obj)).value;
-		sb.append(getObjectField(newRegisterValue, fromRegister, fieldId,
-				fieldType));
+		String fromRegister = setRegister(r, new Register(type, r)).value;
+
+		sb.append(getObjectField(obj, fromRegister, fieldId, fieldType));
 		sb.append("\n");
 		out.println(sb);
 	}
