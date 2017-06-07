@@ -673,8 +673,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	@Override
 	protected void nativeIGET(int regFromOrTo, int ownerReg, String fieldName,
 			Field field) {
-		String fromRegister = "v" + regFromOrTo;
-		String obj = "v" + ownerReg;
+		String fromRegister = getRegister("v" + regFromOrTo).value;
+		String obj = getRegister("v" + ownerReg).value;
 
 		String className = toJavaClass(field.getOwner());
 
@@ -704,8 +704,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	protected void nativeIPUT(int ownerReg, String fieldName, int regFromOrTo,
 			Field field) {
 
-		String toRegister = "v" + regFromOrTo;
-		String obj = "v" + ownerReg;
+		String toRegister = getRegister("v" + regFromOrTo).value;
+		String obj = getRegister("v" + ownerReg).value;
 
 		String className = toJavaClass(field.getOwner());
 
