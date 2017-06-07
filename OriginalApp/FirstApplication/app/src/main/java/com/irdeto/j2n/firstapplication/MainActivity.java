@@ -52,4 +52,10 @@ public class MainActivity extends Activity {
         }
     }
 
+    private int test2_move_stmt() {
+        Class clazz = MainActivity.class;
+        String s = clazz.getSimpleName();
+        return s.hashCode();
+    }
+
 }
