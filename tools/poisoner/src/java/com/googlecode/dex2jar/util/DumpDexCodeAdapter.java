@@ -722,8 +722,6 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		sb.append(getField(localClass, fieldId, fieldName, typeSignature, false));
 		sb.append("\n");
 
-		sb.append(String.format(("%s "), type));
-
 		sb.append(setObjectField(obj, fieldId, toRegister));
 		sb.append("\n");
 		out.println(sb);
