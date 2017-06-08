@@ -183,10 +183,10 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 					Dump.toJavaClass(type));
 			break;
 		case OP_NEW_ARRAY:
-			info(opcode, "v%d=new %s[v%d]", toReg, Dump.toJavaClass(type),
-					fromReg);
+			String javaClass = Dump.toJavaClass(type);
+			info(opcode, "v%d=new %s[v%d]", toReg, javaClass, fromReg);
+			nativeNewArray(toReg, type, fromReg);
 			break;
-
 		}
 	}
 
@@ -762,6 +762,9 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 
 	protected abstract void nativeBinopLitXStmt(int opcode, String code,
 			int saveToReg, int opReg, int value);
+
+	protected abstract void nativeNewArray(int toReg, String javaClass,
+			int fromReg);
 
 	// ////////////////////////////////////////////////////////////////////
 

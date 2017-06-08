@@ -305,7 +305,28 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		case 'V':
 			return "void";
 		case '[':
-			return Dump.toJavaClass(desc.substring(1)) + "[]";
+			switch (desc.substring(1).charAt(0)) {
+			case 'B':
+				return "jbyteArray";
+			case 'S':
+				return "jshortArray";
+			case 'C':
+				return "jcharArray";
+			case 'Z':
+				return "jbooleanArray";
+			case 'I':
+				return "jintArray";
+			case 'J':
+				return "jlongArray";
+			case 'F':
+				return "jfloatArray";
+			case 'D':
+				return "jdoubleArray";
+			case 'L':
+				return "jobjectArray";
+
+			}
+			throw new RuntimeException("illegal Array jni type.");
 		}
 		return desc;
 	}
@@ -819,5 +840,38 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		out.println(String.format(code, resultRegisterName,
 				firstOperatorRegisterName, SecondOperatorRegisterName));
+	}
+
+	private static boolean isObjectType(char signature) {
+		return signature == 'L';
+	}
+
+	@Override
+	protected void nativeNewArray(int toReg, String type, int fromReg) {
+		String javaClass = toJniType(type);
+		char arrayType = type.substring(1).charAt(0);
+
+		String registerName = "v" + toReg;
+		String registerValue = setRegister(registerName, new Register(
+				javaClass, registerName)).value;
+
+		String resultType = javaClass;
+		String XXX = getInvokeMethodType(arrayType + "");
+		String newXXXArray = String.format("New%sArray", XXX);
+		String size = getRegister("v" + fromReg).value;
+
+		String param = "";
+		if (isObjectType(arrayType)) {// object array
+			String clazz = String.format("env->FindClass(\"%s\")",
+					getClassNameFromclassNameSignature(type));
+			String object = "0";
+			param = String.format("%s, %s, %s", size, clazz, object);
+		} else {
+			param = size;
+		}
+
+		String code = "%s %s = env->%s(%s);";
+		out.println(String.format(code, resultType, registerValue, newXXXArray,
+				param));
 	}
 }
