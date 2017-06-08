@@ -10,6 +10,8 @@ public class MainActivity extends Activity {
     static boolean sIsPrint = false;
 
     private static final String TAG = "kurt";
+
+    private static final String days[] = {"mon", "sun"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,5 +59,24 @@ public class MainActivity extends Activity {
         String s = clazz.getSimpleName();
         return s.hashCode();
     }
+
+    private int test3_int_array() {
+        int num[] = {1, 2, 3};
+        int all = 0;
+        for (int i = 0; i < num.length; i++) {
+            all += num[i];
+        }
+        return all;
+    }
+
+    private String test3_str_array() {
+        String num[] = {"1", "2", "3"};
+        String all = "";
+        for (int i = 0; i < num.length; i++) {
+            all += num[i];
+        }
+        return all;
+    }
+
 
 }
