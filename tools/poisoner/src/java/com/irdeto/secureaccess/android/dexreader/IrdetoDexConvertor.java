@@ -414,12 +414,16 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 							isStaticSubClass = false;
 						}
 					} else {
+						String javaClass = Dump.toJavaClass(field.getType());
 						out.printf("%s %s %s", getAccDes(accesFlags),
-								Dump.toJavaClass(field.getType()),
-								field.getName());
+								javaClass, field.getName());
 						if (value != null) {
 							out.print('=');
-							out.print(value);
+							if (javaClass.equals("java.lang.String")) {
+								out.print(String.format("\"%s\"", value));
+							} else {
+								out.print(value);
+							}
 						}
 						out.println(';');
 					}
