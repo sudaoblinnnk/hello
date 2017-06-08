@@ -292,6 +292,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			return "jshort";
 		case 'C':
 			return "jchar";
+		case 'Z':
+			return "jboolean";
 		case 'I':
 			return "jint";
 		case 'J':
