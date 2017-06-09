@@ -88,9 +88,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		sb.append(getField(localClass, fieldId, fieldName, typeSignature, true));
 		sb.append("\n");
 
-		sb.append(String.format(("env->SetStaticObjectField(%s, %s, %s);"),
-				localClass, fieldId, getRegister(fromOrToReg).value));
-
+		sb.append(setStaticXXXField(typeSignature, localClass, fieldId,
+				getRegister(fromOrToReg).value));
 		sb.append("\n");
 		out.println(sb);
 	}
@@ -135,9 +134,11 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				"GetStaticObjectField", localClass, fieldName);
 	}
 
-	private static String setStaticObjectField(String localClass,
-			String fieldName, String value) {
-		return String.format(("env->%s(%s, %s, %s);"), "SetStaticObjectField",
+	private static String setStaticXXXField(String typeSignature,
+			String localClass, String fieldName, String value) {
+		String setStaticXXXField = String.format("SetStatic%sField",
+				getInvokeMethodType(typeSignature));
+		return String.format(("env->%s(%s, %s, %s);"), setStaticXXXField,
 				localClass, fieldName, value);
 	}
 
@@ -148,9 +149,11 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				GetXXXField, obj, fieldName);
 	}
 
-	private static String setObjectField(String obj, String fieldName,
-			String value) {
-		return String.format(("env->%s(%s, %s, %s);"), "SetObjectField", obj,
+	private static String setXXXField(String typeSignature, String obj,
+			String fieldName, String value) {
+		String setXXXField = String.format("Set%sField",
+				getInvokeMethodType(typeSignature));
+		return String.format(("env->%s(%s, %s, %s);"), setXXXField, obj,
 				fieldName, value);
 	}
 
@@ -756,7 +759,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		sb.append(getField(localClass, fieldId, fieldName, typeSignature, false));
 		sb.append("\n");
 
-		sb.append(setObjectField(obj, fieldId, toRegister));
+		sb.append(setXXXField(typeSignature, obj, fieldId, toRegister));
 		sb.append("\n");
 		out.println(sb);
 	}
