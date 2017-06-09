@@ -561,6 +561,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				reg)).value;
 
 		StringBuilder sb = new StringBuilder();
+		sb.append("jstring ");
 		sb.append(resultRegisterName);
 		sb.append(" = ");
 		sb.append("env->NewStringUTF(");
@@ -873,5 +874,65 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String code = "%s %s = env->%s(%s);";
 		out.println(String.format(code, resultType, registerValue, newXXXArray,
 				param));
+	}
+
+	@Override
+	protected void nativeFillArrayStmt(int reg, int initLength, Object[] values) {
+		StringBuilder sb = new StringBuilder();
+		for (Object value : values) {
+			sb.append(',').append(value);
+		}
+		if (sb.length() > 0) {
+			sb.deleteCharAt(0);
+		}
+
+		String registerValue = getRegister("v" + reg).value;
+		String type = null;
+		String jniType = null;
+		if (values != null) {
+			Object v = values[0];
+			if (v instanceof Boolean) {
+				type = "Boolean";
+				jniType = "jboolean";
+			} else if (v instanceof Byte) {
+				type = "Byte";
+				jniType = "jbyte";
+			} else if (v instanceof Character) {
+				type = "Char";
+				jniType = "jchar";
+			} else if (v instanceof Short) {
+				type = "Short";
+				jniType = "jshort";
+			} else if (v instanceof Long) {
+				type = "Long";
+				jniType = "jlong";
+			} else if (v instanceof Float) {
+				type = "Float";
+				jniType = "jfloat";
+			} else if (v instanceof Double) {
+				type = "Double";
+				jniType = "jdouble";
+			} else if (v instanceof Integer) {
+				type = "Int";
+				jniType = "jint";
+			} else {
+				type = "Object";
+				jniType = "Object ";
+
+				String buffer = "___values_" + registerValue;
+				out.println(jniType + " " + buffer + "[] = {" + sb + "};");
+				out.println(String.format("for (int i = 0; i < %d; i++) {",
+						initLength));
+				out.println(String.format(
+						" env->Set%sArrayElement(%s , i, %s);", type,
+						registerValue, String.format("%s[i]", buffer)));
+				out.println("}");
+				return;
+			}
+			String buffer = "___values_" + registerValue;
+			out.println(jniType + " " + buffer + "[] = {" + sb + "};");
+			out.println(String.format("env->Set%sArrayRegion(%s , 0, %d, %s);",
+					type, registerValue, initLength, buffer));
+		}
 	}
 }

@@ -337,6 +337,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		}
 
 		info(opcode, "v%d[0..%d]=[%s]", reg, initLength - 1, sb.toString());
+		nativeFillArrayStmt(reg, initLength, values);
 	}
 
 	/*
@@ -765,6 +766,9 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 
 	protected abstract void nativeNewArray(int toReg, String javaClass,
 			int fromReg);
+
+	protected abstract void nativeFillArrayStmt(int reg, int initLength,
+			Object[] values);
 
 	// ////////////////////////////////////////////////////////////////////
 
