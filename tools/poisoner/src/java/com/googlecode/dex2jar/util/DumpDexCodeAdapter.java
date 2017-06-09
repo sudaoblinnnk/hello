@@ -950,4 +950,24 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 					type, registerValue, initLength, buffer));
 		}
 	}
+
+	@Override
+	protected void nativeAGET(String code, int value, int array, int index) {
+		String arrayName = "v" + array;
+		String indexName = "v" + index;
+		String valueName = "v" + value;
+
+		Register valueRegister = setRegister(valueName, new Register(
+				getRegister(arrayName).type, valueName));
+		out.print(getRegister(arrayName).type + " ");
+		out.println(String.format(code, valueRegister.value,
+				getRegister(arrayName).value, getRegister(indexName).value));
+	}
+
+	@Override
+	protected void nativeAPUT(String code, int array, int index, int value) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

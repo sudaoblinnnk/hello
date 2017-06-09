@@ -42,12 +42,20 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	@Override
 	public void visitArrayStmt(int opcode, int value, int array, int index,
 			int xt) {
+		String code = "";
+		String code1 = "";
 		switch (opcode) {
 		case OP_APUT:
-			info(opcode, "v%d[v%d]=v%d;", array, index, value);
+			code = "v%d[v%d]=v%d;";
+			code1 = "%s[%s]=%s;";
+			info(opcode, code, array, index, value);
+			nativeAPUT(code1, array, index, value);
 			break;
 		case OP_AGET:
-			info(opcode, "v%d=v%d[v%d];", value, array, index);
+			code = "v%d=v%d[v%d];";
+			code1 = "%s=%s[%s];";
+			info(opcode, code, value, array, index);
+			nativeAGET(code1, value, array, index);
 			break;
 		}
 	}
@@ -769,6 +777,12 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 
 	protected abstract void nativeFillArrayStmt(int reg, int initLength,
 			Object[] values);
+
+	protected abstract void nativeAGET(String code, int value, int array,
+			int index);
+
+	protected abstract void nativeAPUT(String code, int array, int index,
+			int value);
 
 	// ////////////////////////////////////////////////////////////////////
 
