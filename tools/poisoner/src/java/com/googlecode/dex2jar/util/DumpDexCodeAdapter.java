@@ -85,7 +85,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		sb.append("\n");
 
 		String fieldId = String.format("fieldId%d", localFieldCounter++);
-		sb.append(getField(localClass, fieldId, fieldName, typeSignature, true));
+		sb.append(getFieldID(localClass, fieldId, fieldName, typeSignature,
+				true));
 		sb.append("\n");
 
 		sb.append(setStaticXXXField(typeSignature, localClass, fieldId,
@@ -109,29 +110,34 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		sb.append("\n");
 
 		String fieldId = String.format("fieldId%d", localFieldCounter++);
-		sb.append(getField(localClass, fieldId, fieldName, typeSignature, true));
+		sb.append(getFieldID(localClass, fieldId, fieldName, typeSignature,
+				true));
 		sb.append("\n");
 
 		sb.append(String.format(("%s "), type));
 
-		sb.append(getStaticObjectField(
+		sb.append(getStaticXXXField(
+				typeSignature,
 				localClass,
 				setRegister(fromOrToReg, new Register(type, fromOrToReg)).value,
 				fieldId));
 		out.println(sb);
 	}
 
-	private static String getField(String localClass, String fieldId,
+	private static String getFieldID(String localClass, String fieldId,
 			String fieldName, String typeSignature, boolean isStatic) {
 		return String.format(("jfieldID %s = env->%s(%s, \"%s\", \"%s\");"),
 				fieldId, isStatic ? "GetStaticFieldID" : "GetFieldID",
 				localClass, fieldName, typeSignature);
 	}
 
-	private static String getStaticObjectField(String localClass,
-			String fieldObject, String fieldName) {
+	private static String getStaticXXXField(String typeSignature,
+			String localClass, String fieldObject, String fieldName) {
+		String getStaticXXXField = String.format("GetStatic%sField",
+				getInvokeMethodType(typeSignature));
+
 		return String.format(("%s = env->%s(%s, %s);"), fieldObject,
-				"GetStaticObjectField", localClass, fieldName);
+				getStaticXXXField, localClass, fieldName);
 	}
 
 	private static String setStaticXXXField(String typeSignature,
@@ -142,7 +148,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				localClass, fieldName, value);
 	}
 
-	private static String getObjectField(String obj, String fieldObject,
+	private static String getXXXField(String obj, String fieldObject,
 			String fieldName, String fieldType) {
 		String GetXXXField = String.format("Get%sField", fieldType);
 		return String.format(("%s = env->%s(%s, %s);"), fieldObject,
@@ -725,14 +731,15 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		sb.append("\n");
 
 		String fieldId = String.format("fieldId%d", localFieldCounter++);
-		sb.append(getField(localClass, fieldId, fieldName, typeSignature, false));
+		sb.append(getFieldID(localClass, fieldId, fieldName, typeSignature,
+				false));
 		sb.append("\n");
 
 		sb.append(String.format(("%s "), type));
 
 		String fromRegister = setRegister(r, new Register(type, r)).value;
 
-		sb.append(getObjectField(obj, fromRegister, fieldId, fieldType));
+		sb.append(getXXXField(obj, fromRegister, fieldId, fieldType));
 		sb.append("\n");
 		out.println(sb);
 	}
@@ -756,7 +763,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		sb.append("\n");
 
 		String fieldId = String.format("fieldId%d", localFieldCounter++);
-		sb.append(getField(localClass, fieldId, fieldName, typeSignature, false));
+		sb.append(getFieldID(localClass, fieldId, fieldName, typeSignature,
+				false));
 		sb.append("\n");
 
 		sb.append(setXXXField(typeSignature, obj, fieldId, toRegister));
