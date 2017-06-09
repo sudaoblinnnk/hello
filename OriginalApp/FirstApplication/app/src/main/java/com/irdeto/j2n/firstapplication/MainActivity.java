@@ -87,4 +87,13 @@ public class MainActivity extends Activity {
         return all;
     }
 
+    private int test4_NEG(int b) {
+        return ~b;
+    }
+
+    private boolean test4_NOT(boolean a) {
+        boolean b = true;
+        return !(a && b);
+    }
+
 }
