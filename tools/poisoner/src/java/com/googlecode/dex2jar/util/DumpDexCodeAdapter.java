@@ -762,14 +762,18 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	}
 
 	@Override
-	protected void nativeNEW_INSTANCE(int toReg, String type) {
-		String toRegister = "v" + toReg;
-		String className = Dump.toJavaClass(type);
+	protected void nativeNEW_INSTANCE(int toReg, String signature) {
+		String registerName = "v" + toReg;
+		String registerValue = setRegister(registerName, new Register(
+				"jobject", registerName)).value;
 
+		String className = getClassNameFromclassNameSignature(signature);
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(String.format("jobject %s = AllocObject(%s)", toRegister,
-				className));
+		String jclazz = String.format(("env->FindClass(\"%s\")"), className);
+
+		sb.append(String.format("jobject %s = env->AllocObject(%s);",
+				registerValue, jclazz));
 		sb.append("\n");
 		out.println(sb);
 	}
