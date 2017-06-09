@@ -11,7 +11,7 @@ public class MainActivity extends Activity {
 
     private static final String TAG = "kurt";
 
-    private static final String days[] = {"mon", "sun"};
+    //private static final String days[] = {"mon", "sun"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,5 +78,13 @@ public class MainActivity extends Activity {
         return all;
     }
 
+    private String test3_str_array2() {
+        String num[] = {"1", "2", "3"};
+        String all = "";
+        for (String n : num) {
+            all += n;
+        }
+        return all;
+    }
 
 }
