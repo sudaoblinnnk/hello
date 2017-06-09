@@ -970,4 +970,14 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 	}
 
+	@Override
+	protected void nativeUnopStmt(int opcode, String code, int saveToReg,
+			int opReg) {
+		String r1 = "v" + saveToReg;
+		String r2 = "v" + opReg;
+
+		out.println(String.format(code, getRegister(r1).value,
+				getRegister(r2).value));
+	}
+
 }

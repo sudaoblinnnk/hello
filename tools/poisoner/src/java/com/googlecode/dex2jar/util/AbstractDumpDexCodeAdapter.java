@@ -677,17 +677,26 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 
 	@Override
 	public void visitUnopStmt(int opcode, int saveToReg, int opReg, int xt) {
+		String code = "";
+		String code1 = "";
 		switch (opcode) {
 		case OP_NEG:
-			info(opcode, "v%d = ~v%d", saveToReg, opReg);
+			code = "v%d = ~v%d";
+			code1 = "$s = ~%s";
+			info(opcode, code, saveToReg, opReg);
 			break;
 		case OP_NOT:
-			info(opcode, "v%d = !v%d", saveToReg, opReg);
+			code = "v%d = !v%d";
+			code1 = "%s = !%s";
+			info(opcode, code, saveToReg, opReg);
 			break;
 		case OP_ARRAY_LENGTH:
-			info(opcode, "v%d = v%d.length", saveToReg, opReg);
+			code = "v%d = v%d.length";
+			code1 = "%s = %s.length";
+			info(opcode, code, saveToReg, opReg);
 			break;
 		}
+		nativeUnopStmt(opcode, code1, saveToReg, opReg)
 	}
 
 	@Override
@@ -783,6 +792,9 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 
 	protected abstract void nativeAPUT(String code, int array, int index,
 			int value);
+
+	protected abstract void nativeUnopStmt(int opcode, String code1,
+			int saveToReg, int opReg);
 
 	// ////////////////////////////////////////////////////////////////////
 
