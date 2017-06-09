@@ -696,7 +696,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			info(opcode, code, saveToReg, opReg);
 			break;
 		}
-		nativeUnopStmt(opcode, code1, saveToReg, opReg)
+		nativeUnopStmt(opcode, code1, saveToReg, opReg);
 	}
 
 	@Override
