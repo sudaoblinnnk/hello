@@ -56,13 +56,13 @@ popd
 pushd .
 cd FirstApp/FirstApplication/app
 
-#copy all machine generated cpp files
+#copy all machine generated c files
 
 cd src/main/cpp/
 touch code.txt
 
-find $NATIVE_CODE_DIR/native/com/irdeto/j2n/firstapplication/ -name 'MainActivity*.cpp' | sort -r | xargs cat >> code.txt
-mv code.txt native-lib.cpp
+find $NATIVE_CODE_DIR/native/com/irdeto/j2n/firstapplication/ -name 'MainActivity*.c' | sort -r | xargs cat >> code.txt
+mv code.txt native-lib.c
 cd ../../../
 
 #copy all machine generated java files

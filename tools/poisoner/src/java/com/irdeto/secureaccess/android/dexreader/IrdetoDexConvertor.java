@@ -76,7 +76,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 
 	public static void doData(DexFileScanner dexFileReader, File destJar)
 			throws IOException {
-		final String fileType = ((PROCESS_NATIVE == processing) ? ".cpp"
+		final String fileType = ((PROCESS_NATIVE == processing) ? ".c"
 				: ".java");
 
 		final ZipOutputStream zos = new ZipOutputStream(
