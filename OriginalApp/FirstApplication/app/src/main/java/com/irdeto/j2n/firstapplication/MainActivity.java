@@ -96,4 +96,19 @@ public class MainActivity extends Activity {
         return !(a && b);
     }
 
+    private int test4_switch(int a) {
+        int b = 0;
+        switch (a) {
+            case 1:
+                b = 1;
+                break;
+            case 2:
+                b = 2;
+                break;
+            default:
+                b = 3;
+                break;
+        }
+        return b;
+    }
 }
