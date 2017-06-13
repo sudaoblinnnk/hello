@@ -460,7 +460,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(labelToString(label));
-		sb.append(":\n");
+		sb.append(": ;\n");
 		out.print(sb);
 
 		if (!find) {
