@@ -515,9 +515,9 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 	}
 
 	private static final String NATIVE_FUNCTION_REGIST_FUNCTION = "static int registerNativeSymbols%s(JNIEnv * env) { int returnVal = JNI_TRUE; JNINativeMethod symbolListApi[] = { %s }; "
-			+ "jclass clazz = env->FindClass(\"%s\");"
+			+ "jclass clazz = (*env)->FindClass(\"%s\");"
 			+ "if (clazz == NULL) { returnVal = JNI_FALSE; }"
-			+ "if (env->RegisterNatives(clazz, symbolListApi, sizeof(symbolListApi) / sizeof(symbolListApi[0])) < 0) {"
+			+ "if ((*env)->RegisterNatives(clazz, symbolListApi, sizeof(symbolListApi) / sizeof(symbolListApi[0])) < 0) {"
 			+ "returnVal = JNI_FALSE; }" + "return returnVal;}";
 
 	private static int registerNativeFuncCount;
@@ -553,7 +553,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		return getPackageNameByClassName(currentJavaClass)[0].hashCode() + LINE;
 	}
 
-	private static final String JNI_ONLOAD_FUNC = "JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) { JNIEnv *env; jint registerResult = JNI_FALSE; if (vm->GetEnv((void **) &env, JNI_VERSION_1_4) != JNI_OK) { return -1; } registerResult = %s return JNI_VERSION_1_4; }";
+	private static final String JNI_ONLOAD_FUNC = "JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) { JNIEnv *env; jint registerResult = JNI_FALSE; if ((*vm)->GetEnv(vm, (void **) &env, JNI_VERSION_1_4) != JNI_OK) { return -1; } registerResult = %s return JNI_VERSION_1_4; }";
 
 	private void jniOnLoadFunc() {
 		out.println();

@@ -124,7 +124,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 	private static String getFieldID(String localClass, String fieldId,
 			String fieldName, String typeSignature, boolean isStatic) {
-		return String.format(("jfieldID %s = env->%s(%s, \"%s\", \"%s\");"),
+		return String.format(
+				("jfieldID %s = (*env)->%s(env, %s, \"%s\", \"%s\");"),
 				fieldId, isStatic ? "GetStaticFieldID" : "GetFieldID",
 				localClass, fieldName, typeSignature);
 	}
@@ -134,7 +135,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String getStaticXXXField = String.format("GetStatic%sField",
 				getInvokeMethodType(typeSignature));
 
-		return String.format(("%s = env->%s(%s, %s);"), fieldObject,
+		return String.format(("%s = (*env)->%s(env, %s, %s);"), fieldObject,
 				getStaticXXXField, localClass, fieldName);
 	}
 
@@ -142,14 +143,14 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			String localClass, String fieldName, String value) {
 		String setStaticXXXField = String.format("SetStatic%sField",
 				getInvokeMethodType(typeSignature));
-		return String.format(("env->%s(%s, %s, %s);"), setStaticXXXField,
-				localClass, fieldName, value);
+		return String.format(("(*env)->%s(env, %s, %s, %s);"),
+				setStaticXXXField, localClass, fieldName, value);
 	}
 
 	private static String getXXXField(String obj, String fieldObject,
 			String fieldName, String fieldType) {
 		String GetXXXField = String.format("Get%sField", fieldType);
-		return String.format(("%s = env->%s(%s, %s);"), fieldObject,
+		return String.format(("%s = (*env)->%s(env, %s, %s);"), fieldObject,
 				GetXXXField, obj, fieldName);
 	}
 
@@ -157,12 +158,12 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			String fieldName, String value) {
 		String setXXXField = String.format("Set%sField",
 				getInvokeMethodType(typeSignature));
-		return String.format(("env->%s(%s, %s, %s);"), setXXXField, obj,
-				fieldName, value);
+		return String.format(("(*env)->%s(env, %s, %s, %s);"), setXXXField,
+				obj, fieldName, value);
 	}
 
 	private static String getFindClass(String localClass, String className) {
-		return String.format(("jclass %s = env->FindClass(\"%s\");"),
+		return String.format(("jclass %s = (*env)->FindClass(env, \"%s\");"),
 				localClass, className);
 	}
 
@@ -280,7 +281,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 	private static String getMethodStr(String methodId, String className,
 			String methodName, String signature, boolean isStatic) {
-		return String.format("jmethodID %s = env->%s(%s, \"%s\", \"%s\");",
+		return String.format(
+				"jmethodID %s = (*env)->%s(env, %s, \"%s\", \"%s\");",
 				methodId, isStatic ? "GetStaticMethodID" : "GetMethodID",
 				className, methodName, signature);
 	}
@@ -368,11 +370,12 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				+ superClass + ", ");
 
 		if (param == null || param.equals(""))
-			return String.format("env->%s(" + nonVirtualCaller + "%s);",
+			return String.format(
+					"(*env)->%s(env, " + nonVirtualCaller + "%s);",
 					callFunction, caller, methodId);
 		else
-			return String.format("env->%s(" + nonVirtualCaller + "%s, %s);",
-					callFunction, caller, methodId, param);
+			return String.format("(*env)->%s(env, " + nonVirtualCaller
+					+ "%s, %s);", callFunction, caller, methodId, param);
 	}
 
 	@Override
@@ -561,7 +564,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		sb.append("jstring ");
 		sb.append(resultRegisterName);
 		sb.append(" = ");
-		sb.append("env->NewStringUTF(");
+		sb.append("(*env)->NewStringUTF(env, ");
 		sb.append(value);
 		sb.append(");");
 		sb.append("\n");
@@ -769,9 +772,10 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String className = getClassNameFromclassNameSignature(signature);
 		StringBuilder sb = new StringBuilder();
 
-		String jclazz = String.format(("env->FindClass(\"%s\")"), className);
+		String jclazz = String.format(("(*env)->FindClass(env, \"%s\")"),
+				className);
 
-		sb.append(String.format("jobject %s = env->AllocObject(%s);",
+		sb.append(String.format("jobject %s = (*env)->AllocObject(env, %s);",
 				registerValue, jclazz));
 		sb.append("\n");
 		out.println(sb);
@@ -863,7 +867,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		String param = "";
 		if (isObjectType(arrayType)) {// object array
-			String clazz = String.format("env->FindClass(\"%s\")",
+			String clazz = String.format("(*env)->FindClass(env, \"%s\")",
 					getClassNameFromclassNameSignature(type));
 			String object = "0";
 			param = String.format("%s, %s, %s", size, clazz, object);
@@ -871,7 +875,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			param = size;
 		}
 
-		String code = "%s %s = env->%s(%s);";
+		String code = "%s %s = (*env)->%s(env, %s);";
 		out.println(String.format(code, resultType, registerValue, newXXXArray,
 				param));
 	}
@@ -924,15 +928,16 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				out.println(String.format("for (int i = 0; i < %d; i++) {",
 						initLength));
 				out.println(String.format(
-						" env->Set%sArrayElement(%s , i, %s);", type,
+						" (*env)->Set%sArrayElement(env, %s , i, %s);", type,
 						registerValue, String.format("%s[i]", buffer)));
 				out.println("}");
 				return;
 			}
 			String buffer = "___values_" + registerValue;
 			out.println(jniType + " " + buffer + "[] = {" + sb + "};");
-			out.println(String.format("env->Set%sArrayRegion(%s , 0, %d, %s);",
-					type, registerValue, initLength, buffer));
+			out.println(String.format(
+					"(*env)->Set%sArrayRegion(env, %s , 0, %d, %s);", type,
+					registerValue, initLength, buffer));
 		}
 	}
 
@@ -962,7 +967,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String r2 = "v" + opReg;
 
 		if (OP_ARRAY_LENGTH == opcode) {
-			code = String.format("%s = env->GetArrayLength(%s);",
+			code = String.format("%s = (*env)->GetArrayLength(env, %s);",
 					getRegister(r1).value, getRegister(r2).value);
 			out.println(code);
 		} else {
