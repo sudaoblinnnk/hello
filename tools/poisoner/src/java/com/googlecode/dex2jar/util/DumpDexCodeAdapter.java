@@ -45,8 +45,6 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	private int localMethodCounter = 0;
 	private int localClassCounter = 0;
 
-	private static String lastNativeCodeLabel;
-
 	/**
 	 * @param dcv
 	 */
@@ -387,7 +385,6 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			String opStr = DexOpcodeDump.dump(opcode);
 			out.printf("//%-20s|%5s|%s\n", opStr, "", s);
 		}
-		lastNativeCodeLabel = null;
 	}
 
 	@Override
@@ -462,8 +459,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		}
 
 		StringBuilder sb = new StringBuilder();
-		lastNativeCodeLabel = labelToString(label);
-		sb.append(lastNativeCodeLabel);
+		sb.append(labelToString(label));
 		sb.append(":\n");
 		out.print(sb);
 
@@ -481,14 +477,6 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				}
 			}
 		}
-	}
-
-	public static String getLastNativeCodeLabel() {
-		return lastNativeCodeLabel;
-	}
-
-	public static void setLastNativeCodeLabel(String value) {
-		lastNativeCodeLabel = value;
 	}
 
 	/*
