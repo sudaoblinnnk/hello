@@ -830,11 +830,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String firstOperatorRegisterName = getRegister(firstOperator).value;
 
 		String registerName = "v" + saveToReg;
-		String registerType = getRegister(registerName).type;
-		String registerValue = getRegister(registerName).value;
-		String resultRegisterName = setRegister(registerName, new Register(
-				registerType, registerName)).value;
-		out.print(getRegister(firstOperator).type + " ");
+		String resultRegisterName = getRegister(registerName).value;
+
 		out.println(String.format(code, resultRegisterName,
 				firstOperatorRegisterName, value + ""));
 	}
@@ -977,7 +974,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String r2 = "v" + opReg;
 
 		if (OP_ARRAY_LENGTH == opcode) {
-			code = String.format("%s = env->GetArrayLength(%s);", getRegister(r1).value, getRegister(r2).value);
+			code = String.format("%s = env->GetArrayLength(%s);",
+					getRegister(r1).value, getRegister(r2).value);
 			out.println(code);
 		} else {
 			out.print(getRegister(r2).type + " ");
