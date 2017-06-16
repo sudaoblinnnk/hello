@@ -100,7 +100,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		StringBuilder sb = new StringBuilder();
 
-		String type = getType(field.getType());
+		String type = toJniType(field.getType());
 		String typeSignature = getTypeSignature(field.getType());
 
 		String localClass = String.format("localClass%d", localClassCounter++);
@@ -112,13 +112,13 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				true));
 		sb.append("\n");
 
-		sb.append(String.format(("%s "), type));
+		boolean isNew = setRegister(typeSignature, fromOrToReg, null);
+		if (isNew) {
+			sb.append(String.format(("%s "), type));
+		}
 
-		sb.append(getStaticXXXField(
-				typeSignature,
-				localClass,
-				setRegister(fromOrToReg, new Register(type, fromOrToReg)).value,
-				fieldId));
+		sb.append(getStaticXXXField(typeSignature, localClass,
+				getRegister(fromOrToReg).value, fieldId));
 		out.println(sb);
 	}
 
@@ -250,7 +250,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		if (s.startsWith(TYPE_OBJECT))
 			return "Object";
 		if (s.startsWith(TYPE_ARRAY))
-			return "jarray";
+			return "Array";
 		throw new IllegalArgumentException();
 	}
 
@@ -410,26 +410,28 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			String type = Dump.toJavaClass(method.getOwner());
 			String regName = "v" + reg;
 			out.printf(" " + regName);
-			addArgumentRegisters(regName, new Register(type, regName, regName));
+			addArgumentRegisters(regName, new Register(method.getOwner(),
+					regName, regName));
 
 			System.out.printf("//%20s:v%d   //%s\n", "this", reg, type);
 		}
-		for (String type : method.getParameterTypes()) {
+		for (String typeSignature : method.getParameterTypes()) {
 			int reg = args[i++];
-			type = toJniType(type);
+			String type = toJniType(typeSignature);
 
 			out.print(", ");
 			out.print(type);
 			String regName = "v" + reg;
 			out.print(" " + regName);
-			addArgumentRegisters(regName, new Register(type, regName, regName));
+			addArgumentRegisters(regName, new Register(typeSignature, regName,
+					regName));
 		}
 
 		i = 0;
 		for (String type : method.getParameterTypes()) {
 
 			int reg = args[i++];
-			type = toJniType(type);
+			// type = toJniType(type);
 
 			System.out.printf("//%20s:v%d   //%s\n", "", reg, type);
 		}
@@ -543,12 +545,14 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 	protected void nativeCONST(int opcode, String reg, String value) {
 		StringBuilder sb = new StringBuilder();
-		String type = "int";
+		String typeSignature = "I";
 
-		String resultRegisterName = setRegister(reg, new Register(type, reg)).value;
+		boolean isNew = setRegister(typeSignature, reg, null);
+		if (isNew) {
+			sb.append(String.format(("%s "), toJniType(typeSignature)));
+		}
+		String resultRegisterName = getRegister(reg).value;
 
-		sb.append(type);
-		sb.append(" ");
 		sb.append(resultRegisterName);
 		sb.append(" = ");
 		sb.append(value);
@@ -557,11 +561,13 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	}
 
 	protected void nativeCONST_STRING(int opcode, String reg, String value) {
-		String resultRegisterName = setRegister(reg, new Register("jstring",
-				reg)).value;
-
+		String typeSignature = "Ljava/lang/String;";
+		boolean isNew = setRegister(typeSignature, reg, null);
+		String resultRegisterName = getRegister(reg).value;
 		StringBuilder sb = new StringBuilder();
-		sb.append("jstring ");
+		if (isNew) {
+			sb.append("jstring ");
+		}
 		sb.append(resultRegisterName);
 		sb.append(" = ");
 		sb.append("(*env)->NewStringUTF(env, ");
@@ -585,7 +591,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		out.print(sb);
 
 		// type name=value : java/lang/Class v0=localClass
-		setRegister(reg, new Register(className, reg, localClass));
+		setRegister(signature, reg, localClass);
 	}
 
 	protected void nativeVoidInvoke(int opcode, String reg, String methodName,
@@ -712,7 +718,6 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		StringBuilder sb = new StringBuilder();
 
-		String type = getType(field.getType());
 		String typeSignature = getTypeSignature(field.getType());
 
 		String fieldType = getReturnTypeByMethodSignature(typeSignature);
@@ -726,9 +731,11 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				false));
 		sb.append("\n");
 
-		sb.append(String.format(("%s "), type));
-
-		String fromRegister = setRegister(r, new Register(type, r)).value;
+		boolean isNew = setRegister(typeSignature, r, null);
+		if (isNew) {
+			sb.append(String.format(("%s "), toJniType(typeSignature)));
+		}
+		String fromRegister = getRegister(r).value;
 
 		sb.append(getXXXField(obj, fromRegister, fieldId, fieldType));
 		sb.append("\n");
@@ -766,16 +773,20 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	@Override
 	protected void nativeNEW_INSTANCE(int toReg, String signature) {
 		String registerName = "v" + toReg;
-		String registerValue = setRegister(registerName, new Register(
-				"jobject", registerName)).value;
+
+		boolean isNew = setRegister(signature, registerName, null);
+
+		String registerValue = getRegister(registerName).value;
 
 		String className = getClassNameFromclassNameSignature(signature);
 		StringBuilder sb = new StringBuilder();
 
 		String jclazz = String.format(("(*env)->FindClass(env, \"%s\")"),
 				className);
-
-		sb.append(String.format("jobject %s = (*env)->AllocObject(env, %s);",
+		if (isNew) {
+			sb.append(String.format("%s ", toJniType(signature)));
+		}
+		sb.append(String.format("%s = (*env)->AllocObject(env, %s);",
 				registerValue, jclazz));
 		sb.append("\n");
 		out.println(sb);
@@ -838,11 +849,12 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		String registerName = "v" + saveToReg;
 
-		String type = getRegister(registerName).type;
-		String registerValue = getRegister(registerName).value;
-		String resultRegisterName = setRegister(registerName, new Register(
-				type, registerName, registerValue)).value;
+		// String type = getRegister(registerName).type;
+		// String registerValue = getRegister(registerName).value;
+		// String resultRegisterName = setRegister(registerName, new Register(
+		// type, registerName, registerValue)).value;
 
+		String resultRegisterName = getRegister(registerName).value;
 		out.println(String.format(code, resultRegisterName,
 				firstOperatorRegisterName, SecondOperatorRegisterName));
 	}
@@ -857,8 +869,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		char arrayType = type.substring(1).charAt(0);
 
 		String registerName = "v" + toReg;
-		String registerValue = setRegister(registerName, new Register(
-				javaClass, registerName)).value;
+		String registerValue = getRegister(registerName).value;
 
 		String resultType = javaClass;
 		String XXX = getInvokeMethodType(arrayType + "");
@@ -943,15 +954,34 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 	@Override
 	protected void nativeAGET(String code, int value, int array, int index) {
+		StringBuilder sb = new StringBuilder();
+
 		String arrayName = "v" + array;
 		String indexName = "v" + index;
+
 		String valueName = "v" + value;
 
-		Register valueRegister = setRegister(valueName, new Register(
-				getRegister(arrayName).type, valueName));
-		out.print(getRegister(arrayName).type + " ");
-		out.println(String.format(code, valueRegister.value,
+		String arrayTypeSignature = getRegister(arrayName).type;
+		String typeSignature = arrayTypeSignature.substring(1);
+
+		// ////////// value
+		boolean isNew = setRegister(typeSignature, valueName, null);
+		// if (isNew) {
+		sb.append(String.format(("%s "),
+				this.getInvokeMethodType(typeSignature)));
+		// }
+
+		String valueRegisterName = getRegister(valueName).value;
+
+		sb.append(String.format(code, valueRegisterName,
 				getRegister(arrayName).value, getRegister(indexName).value));
+
+		String cmd = String.format(
+				"(*env)->Get%sArrayRegion(env, %s, %s, 1, &%s);",
+				(typeSignature), getRegister(arrayName).value,
+				getRegister(indexName).value, getRegister(valueName).value);
+		sb.append(cmd);
+		out.println(sb);
 	}
 
 	@Override

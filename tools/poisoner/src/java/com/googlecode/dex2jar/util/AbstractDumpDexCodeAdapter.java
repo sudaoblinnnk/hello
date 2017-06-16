@@ -599,9 +599,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			String register = String.format("v%d", reg);
 			if (lastTemp != null) {
 				info(opcode, register + "=" + lastTemp.value);
-				Register r = new Register(lastTemp.type, register,
-						lastTemp.value);
-				setRegister(register, r);
+				setRegister(lastTemp.type, register, lastTemp.value);
 			} else {
 				info(opcode, register + "=" + "kurt");
 			}
@@ -866,9 +864,22 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		lastTemp = rt;
 	}
 
-	protected Register setRegister(String register, Register r) {
-		registerValueMap.put(register, r);
-		return getRegister(register);
+	protected boolean setRegister(String type, String register,
+			String externalValue) {
+		if (!registerValueMap.keySet().contains(register)) {
+			registerValueMap.put(register, new Register(type, register));
+			return true;
+		}
+		boolean isNew = false;
+		if (!getRegister(register).type.equals(type)) {
+			registerValueMap.put(register, new Register(type, register));
+			isNew = true;
+		}
+		if (externalValue != null) {
+			registerValueMap.put(register, new Register(type, register,
+					externalValue));
+		}
+		return isNew;
 	}
 
 	protected Register getRegister(String register) {
