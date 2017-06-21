@@ -735,7 +735,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		if (isNew) {
 			sb.append(String.format(("%s "), toJniType(typeSignature)));
 		}
-		String fromRegister = getRegister(r).value;
+		String fromRegister = getRegister(r).value + "_kurt3_"
+				+ getRegister(r).name;
 
 		sb.append(getXXXField(obj, fromRegister, fieldId, fieldType));
 		sb.append("\n");
@@ -833,10 +834,18 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String firstOperatorRegisterName = getRegister(firstOperator).value;
 
 		String registerName = "v" + saveToReg;
+		StringBuilder sb = new StringBuilder();
+		String type = getRegister(firstOperator).type;
+		boolean isNew = setRegister(type, registerName, null);
+		if (isNew) {
+			sb.append(String.format(("%s "), toJniType(type)));
+		}
+
 		String resultRegisterName = getRegister(registerName).value;
 
-		out.println(String.format(code, resultRegisterName,
+		sb.append(String.format(code, resultRegisterName,
 				firstOperatorRegisterName, value + ""));
+		out.println(sb);
 	}
 
 	protected void nativeBinop(int opcode, String code, int saveToReg,
@@ -849,14 +858,16 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		String registerName = "v" + saveToReg;
 
-		// String type = getRegister(registerName).type;
-		// String registerValue = getRegister(registerName).value;
-		// String resultRegisterName = setRegister(registerName, new Register(
-		// type, registerName, registerValue)).value;
+		StringBuilder sb = new StringBuilder();
+		String type = getRegister(firstOperator).type;
+		boolean isNew = setRegister(type, registerName, null);
+		if (isNew) {
+			sb.append(String.format(("%s "), toJniType(type)));
+		}
 
-		String resultRegisterName = getRegister(registerName).value;
-		out.println(String.format(code, resultRegisterName,
+		sb.append(String.format(code, getRegister(registerName).value,
 				firstOperatorRegisterName, SecondOperatorRegisterName));
+		out.println(sb);
 	}
 
 	private static boolean isObjectType(char signature) {
@@ -869,7 +880,6 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		char arrayType = type.substring(1).charAt(0);
 
 		String registerName = "v" + toReg;
-		String registerValue = getRegister(registerName).value;
 
 		String resultType = javaClass;
 		String XXX = getInvokeMethodType(arrayType + "");
@@ -885,10 +895,15 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		} else {
 			param = size;
 		}
-
-		String code = "%s %s = (*env)->%s(env, %s);";
-		out.println(String.format(code, resultType, registerValue, newXXXArray,
-				param));
+		StringBuilder sb = new StringBuilder();
+		boolean isNew = setRegister(type, registerName, null);
+		if (isNew) {
+			sb.append(String.format(("%s "), toJniType(type)));
+		}
+		String code = "%s = (*env)->%s(env, %s);";
+		sb.append(String.format(code, getRegister(registerName).value,
+				newXXXArray, param));
+		out.println(sb);
 	}
 
 	@Override
@@ -962,13 +977,13 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String valueName = "v" + value;
 
 		String arrayTypeSignature = getRegister(arrayName).type;
-		String typeSignature = arrayTypeSignature.substring(1);
+		String typeSignature = arrayTypeSignature.substring(0);
 
 		// ////////// value
 		boolean isNew = setRegister(typeSignature, valueName, null);
 		// if (isNew) {
-		sb.append(String.format(("%s "),
-				this.getInvokeMethodType(typeSignature)));
+		sb.append(String.format(("%s  rrrrrrrrr "), (typeSignature)));
+		// this.getInvokeMethodType(typeSignature)));
 		// }
 
 		String valueRegisterName = getRegister(valueName).value;

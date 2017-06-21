@@ -559,14 +559,14 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 				info(opcode, "v%d.%s(%s)  //%s", regs[0], method.getName(),
 						sb.toString(), method.toString());
 				nativeVoidInvoke(opcode,
-						getRegister(String.format("v%d", regs[0])).value,
+						getRegister(String.format("v%d", regs[0])).name,
 						method.getName(), sb.toString(), method.toString());
 			} else {
 				info(opcode, "TEMP=v%d.%s(%s)  //%s", regs[0],
 						method.getName(), sb.toString(), method.toString());
 				nativeReturnInvoke(opcode,
 						String.format("TEMP%d", tempCounter++),
-						getRegister(String.format("v%d", regs[0])).value,
+						getRegister(String.format("v%d", regs[0])).name,
 						method.getName(), sb.toString(), method.toString());
 			}
 		}
@@ -888,7 +888,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		}
 		Register r = registerValueMap.get(register);
 		if (r == null) {
-			r = new Register("kurt", register, register);
+			r = new Register("kurt1", register, "kurt2_" + register);
 		}
 		return r;
 	}
