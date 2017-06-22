@@ -167,6 +167,10 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				localClass, className);
 	}
 
+	private static String getFindClass(String className) {
+		return String.format(("(*env)->FindClass(env, \"%s\")"), className);
+	}
+
 	private static String getClassNameFromclassNameSignature(
 			String classNameSignature) {
 		int start = classNameSignature.indexOf('L');
@@ -1046,4 +1050,24 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		out.println(sb);
 	}
 
+	@Override
+	protected void nativeIntanceof(int opcode, int toReg, int fromReg,
+			String targetTypeSignature) {
+		String toRegisterName = "v" + toReg;
+		String fromRegisterName = "v" + fromReg;
+
+		StringBuilder sb = new StringBuilder();
+		String booleanType = "Z";
+
+		boolean isNew = setRegister(booleanType, toRegisterName, null);
+		if (isNew) {
+			sb.append(String.format(("%s "), toJniType(booleanType)));
+		}
+		String targetJClass = getFindClass(getClassNameFromclassNameSignature(targetTypeSignature));
+
+		String code = "%s = (*env)->IsInstanceOf(env, %s, %s);";
+		sb.append(String.format(code, getRegister(toRegisterName).value,
+				getRegister(fromRegisterName).value, targetJClass));
+		out.println(sb);
+	}
 }

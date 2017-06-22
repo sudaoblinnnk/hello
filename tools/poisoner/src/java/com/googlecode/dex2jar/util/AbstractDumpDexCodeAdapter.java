@@ -189,6 +189,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		case OP_INSTANCE_OF:
 			info(opcode, "v%d=v%d instanceof %s", toReg, fromReg,
 					Dump.toJavaClass(type));
+			nativeIntanceof(opcode, toReg, fromReg, type);
 			break;
 		case OP_NEW_ARRAY:
 			String javaClass = Dump.toJavaClass(type);
@@ -796,6 +797,9 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			int saveToReg, int opReg);
 
 	protected abstract void nativeMoveStmt(int opcode, int toReg, int fromReg);
+
+	protected abstract void nativeIntanceof(int opcode, int toReg, int fromReg,
+			String type);
 
 	// ////////////////////////////////////////////////////////////////////
 
