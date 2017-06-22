@@ -178,48 +178,48 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		return classNameSignature.substring(start + 1, end);
 	}
 
-	public static final String TYPE_BOOLEAN = "Z";
-	public static final String TYPE_BYTE = "B";
-	public static final String TYPE_CHAR = "C";
-	public static final String TYPE_DOUBLE = "D";
-	public static final String TYPE_FLOAT = "F";
-	public static final String TYPE_INT = "I";
-	public static final String TYPE_LONG = "J";
-	public static final String TYPE_OBJECT = "L";
-	public static final String TYPE_SHORT = "S";
-	public static final String TYPE_VOID = "V";
-	public static final String TYPE_ARRAY = "[";
+	public static final String JNI_TYPE_BOOLEAN = "Z";
+	public static final String JNI_TYPE_BYTE = "B";
+	public static final String JNI_TYPE_CHAR = "C";
+	public static final String JNI_TYPE_DOUBLE = "D";
+	public static final String JNI_TYPE_FLOAT = "F";
+	public static final String JNI_TYPE_INT = "I";
+	public static final String JNI_TYPE_LONG = "J";
+	public static final String JNI_TYPE_OBJECT = "L";
+	public static final String JNI_TYPE_SHORT = "S";
+	public static final String JNI_TYPE_VOID = "V";
+	public static final String JNI_TYPE_ARRAY = "[";
 
 	private static final Map<String, String> TYPE_MAP = new HashMap<String, String>();
 	private static final Map<String, String> METHOD_TYPE_MAP = new HashMap<String, String>();
 	private static final Map<String, String> CALL_TYPE = new HashMap<String, String>();
 
 	static {
-		TYPE_MAP.put(TYPE_BOOLEAN, "jboolean");
-		TYPE_MAP.put(TYPE_BYTE, "jbyte");
-		TYPE_MAP.put(TYPE_CHAR, "jchar");
-		TYPE_MAP.put(TYPE_DOUBLE, "jdouble");
-		TYPE_MAP.put(TYPE_FLOAT, "jfloat");
-		TYPE_MAP.put(TYPE_INT, "jint");
-		TYPE_MAP.put(TYPE_LONG, "jlong");
-		TYPE_MAP.put(TYPE_OBJECT, "jobject");
-		TYPE_MAP.put(TYPE_SHORT, "jshort");
-		TYPE_MAP.put(TYPE_VOID, "void");
-		TYPE_MAP.put(TYPE_ARRAY, "jarray");
+		TYPE_MAP.put(JNI_TYPE_BOOLEAN, "jboolean");
+		TYPE_MAP.put(JNI_TYPE_BYTE, "jbyte");
+		TYPE_MAP.put(JNI_TYPE_CHAR, "jchar");
+		TYPE_MAP.put(JNI_TYPE_DOUBLE, "jdouble");
+		TYPE_MAP.put(JNI_TYPE_FLOAT, "jfloat");
+		TYPE_MAP.put(JNI_TYPE_INT, "jint");
+		TYPE_MAP.put(JNI_TYPE_LONG, "jlong");
+		TYPE_MAP.put(JNI_TYPE_OBJECT, "jobject");
+		TYPE_MAP.put(JNI_TYPE_SHORT, "jshort");
+		TYPE_MAP.put(JNI_TYPE_VOID, "void");
+		TYPE_MAP.put(JNI_TYPE_ARRAY, "jarray");
 	}
 
 	static {
-		METHOD_TYPE_MAP.put(TYPE_BOOLEAN, "Boolean");
-		METHOD_TYPE_MAP.put(TYPE_BYTE, "Byte");
-		METHOD_TYPE_MAP.put(TYPE_CHAR, "Char");
-		METHOD_TYPE_MAP.put(TYPE_DOUBLE, "Double");
-		METHOD_TYPE_MAP.put(TYPE_FLOAT, "Float");
-		METHOD_TYPE_MAP.put(TYPE_INT, "Int");
-		METHOD_TYPE_MAP.put(TYPE_LONG, "Long");
-		METHOD_TYPE_MAP.put(TYPE_OBJECT, "Object");
-		METHOD_TYPE_MAP.put(TYPE_SHORT, "Short");
-		METHOD_TYPE_MAP.put(TYPE_VOID, "Void");
-		METHOD_TYPE_MAP.put(TYPE_ARRAY, "jarray");
+		METHOD_TYPE_MAP.put(JNI_TYPE_BOOLEAN, "Boolean");
+		METHOD_TYPE_MAP.put(JNI_TYPE_BYTE, "Byte");
+		METHOD_TYPE_MAP.put(JNI_TYPE_CHAR, "Char");
+		METHOD_TYPE_MAP.put(JNI_TYPE_DOUBLE, "Double");
+		METHOD_TYPE_MAP.put(JNI_TYPE_FLOAT, "Float");
+		METHOD_TYPE_MAP.put(JNI_TYPE_INT, "Int");
+		METHOD_TYPE_MAP.put(JNI_TYPE_LONG, "Long");
+		METHOD_TYPE_MAP.put(JNI_TYPE_OBJECT, "Object");
+		METHOD_TYPE_MAP.put(JNI_TYPE_SHORT, "Short");
+		METHOD_TYPE_MAP.put(JNI_TYPE_VOID, "Void");
+		METHOD_TYPE_MAP.put(JNI_TYPE_ARRAY, "jarray");
 	}
 
 	static {
@@ -241,9 +241,9 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	private static String getType(String s) {
 		if (TYPE_MAP.keySet().contains(s))
 			return TYPE_MAP.get(s);
-		if (s.startsWith(TYPE_OBJECT))
+		if (s.startsWith(JNI_TYPE_OBJECT))
 			return "jobject";
-		if (s.startsWith(TYPE_ARRAY))
+		if (s.startsWith(JNI_TYPE_ARRAY))
 			return "jarray";
 		return s;
 	}
@@ -251,9 +251,9 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	private static String getInvokeMethodType(String s) {
 		if (METHOD_TYPE_MAP.keySet().contains(s))
 			return METHOD_TYPE_MAP.get(s);
-		if (s.startsWith(TYPE_OBJECT))
+		if (s.startsWith(JNI_TYPE_OBJECT))
 			return "Object";
-		if (s.startsWith(TYPE_ARRAY))
+		if (s.startsWith(JNI_TYPE_ARRAY))
 			return "Array";
 		throw new IllegalArgumentException();
 	}
@@ -1068,6 +1068,55 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String code = "%s = (*env)->IsInstanceOf(env, %s, %s);";
 		sb.append(String.format(code, getRegister(toRegisterName).value,
 				getRegister(fromRegisterName).value, targetJClass));
+		out.println(sb);
+	}
+
+	private static String castFromOpcode2JniSignature(int opcode) {
+		String jniType = null;
+		switch (opcode) {
+		case TYPE_BOOLEAN:
+			jniType = JNI_TYPE_BOOLEAN;
+			break;
+		case TYPE_BYTE:
+			jniType = JNI_TYPE_BYTE;
+		case TYPE_CHAR:
+			jniType = JNI_TYPE_CHAR;
+			break;
+		case TYPE_DOUBLE:
+			jniType = JNI_TYPE_DOUBLE;
+			break;
+		case TYPE_FLOAT:
+			jniType = JNI_TYPE_FLOAT;
+			break;
+		case TYPE_INT:
+			jniType = JNI_TYPE_INT;
+			break;
+		case TYPE_LONG:
+			jniType = JNI_TYPE_LONG;
+			break;
+		case TYPE_SHORT:
+			jniType = JNI_TYPE_SHORT;
+			break;
+		}
+		return jniType;
+	}
+
+	@Override
+	protected void nativeCast(int opcode, String code, int saveToReg, int opReg) {
+		String jniType = castFromOpcode2JniSignature(opcode);
+
+		String toRegisterName = "v" + saveToReg;
+		String fromRegisterName = "v" + opReg;
+
+		StringBuilder sb = new StringBuilder();
+
+		boolean isNew = setRegister(jniType, toRegisterName, null);
+		if (isNew) {
+			sb.append(String.format(("%s "), toJniType(jniType)));
+		}
+
+		sb.append(String.format(code, getRegister(toRegisterName).value,
+				getRegister(fromRegisterName).value));
 		out.println(sb);
 	}
 }

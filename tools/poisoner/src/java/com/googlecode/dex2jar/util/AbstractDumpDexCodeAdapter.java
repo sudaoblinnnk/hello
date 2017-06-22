@@ -702,36 +702,56 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	@Override
 	public void visitUnopStmt(int opcode, int saveToReg, int opReg, int xta,
 			int xtb) {
+		String code = "";
+		String code1 = "";
+
 		switch (opcode) {
 		case OP_X_TO_Y:
 			switch (xtb) {
 			case TYPE_BOOLEAN:
-				info(opcode, "v%d = (boolean)v%d", saveToReg, opReg);
+				code = "v%d = (boolean)v%d";
+				code1 = "%s = (boolean) %s;";
+				info(opcode, code, saveToReg, opReg);
 				break;
 			case TYPE_BYTE:
-				info(opcode, "v%d = (byte)v%d", saveToReg, opReg);
+				code = "v%d = (byte)v%d";
+				code1 = "%s = (byte) %s;";
+				info(opcode, code, saveToReg, opReg);
 				break;
 			case TYPE_CHAR:
-				info(opcode, "v%d = (char)v%d", saveToReg, opReg);
+				code = "v%d = (char)v%d";
+				code1 = "%s = (char) %s";
+				info(opcode, code, saveToReg, opReg);
 				break;
 			case TYPE_DOUBLE:
-				info(opcode, "v%d = (double)v%d", saveToReg, opReg);
+				code = "v%d = (double)v%d";
+				code1 = "%s = (double) %s;";
+				info(opcode, code, saveToReg, opReg);
 				break;
 			case TYPE_FLOAT:
-				info(opcode, "v%d = (float)v%d", saveToReg, opReg);
+				code = "v%d = (float)v%d";
+				code1 = "%s = (float) %s;";
+				info(opcode, code, saveToReg, opReg);
 				break;
 			case TYPE_INT:
-				info(opcode, "v%d = (int)v%d", saveToReg, opReg);
+				code = "v%d = (int)v%d";
+				code1 = "%s = (int) %s;";
+				info(opcode, code, saveToReg, opReg);
 				break;
 			case TYPE_LONG:
-				info(opcode, "v%d = (long)v%d", saveToReg, opReg);
+				code = "v%d = (long)v%d";
+				code1 = "%s = (long) %s;";
+				info(opcode, code, saveToReg, opReg);
 				break;
 			case TYPE_SHORT:
-				info(opcode, "v%d = (short)v%d", saveToReg, opReg);
+				code = "v%d = (short)v%d";
+				code1 = "%s = (short) %s;";
+				info(opcode, code, saveToReg, opReg);
 				break;
 			}
 			break;
 		}
+		nativeCast(xtb, code1, saveToReg, opReg);
 	}
 
 	protected abstract void nativeCONST(int opcode, String reg, String value);
@@ -800,6 +820,9 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 
 	protected abstract void nativeIntanceof(int opcode, int toReg, int fromReg,
 			String type);
+
+	protected abstract void nativeCast(int opcode, String code1, int saveToReg,
+			int opReg);
 
 	// ////////////////////////////////////////////////////////////////////
 
