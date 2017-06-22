@@ -1022,4 +1022,21 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		}
 	}
 
+	@Override
+	protected void nativeMoveStmt(int opcode, int toReg, int fromReg) {
+		String toRegisterName = "v" + toReg;
+		String fromRegisterName = "v" + fromReg;
+
+		StringBuilder sb = new StringBuilder();
+		String type = getRegister(fromRegisterName).type;
+		boolean isNew = setRegister(type, toRegisterName, null);
+		if (isNew) {
+			sb.append(String.format(("%s "), toJniType(type)));
+		}
+		String code = "%s = %s;";
+		sb.append(String.format(code, getRegister(toRegisterName).value,
+				getRegister(fromRegisterName).value));
+		out.println(sb);
+	}
+
 }

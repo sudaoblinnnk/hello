@@ -622,6 +622,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		switch (opcode) {
 		case OP_MOVE:
 			info(opcode, "v%d = v%d", toReg, fromReg);
+			nativeMoveStmt(opcode, toReg, fromReg);
 			break;
 		}
 	}
@@ -793,6 +794,8 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 
 	protected abstract void nativeUnopStmt(int opcode, String code1,
 			int saveToReg, int opReg);
+
+	protected abstract void nativeMoveStmt(int opcode, int toReg, int fromReg);
 
 	// ////////////////////////////////////////////////////////////////////
 
