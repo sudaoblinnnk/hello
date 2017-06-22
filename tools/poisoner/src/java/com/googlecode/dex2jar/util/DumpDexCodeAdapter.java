@@ -589,18 +589,19 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 	protected void nativeCONST_CLASS(int opcode, String reg, String signature,
 			String cls) {
-
 		String className = getClassNameFromclassNameSignature(signature);
 		StringBuilder sb = new StringBuilder();
 
-		String localClass = String.format("localClass%d", localClassCounter++);
-		sb.append(getFindClass(localClass, className));
-		sb.append("\n");
-
-		out.print(sb);
-
 		// type name=value : java/lang/Class v0=localClass
-		setRegister(signature, reg, localClass);
+		boolean isNew = setRegister(signature, reg, null);
+		if (isNew) {
+			sb.append(String.format(("%s "), "jclass"));
+		}
+		sb.append(getRegister(reg).value);
+		sb.append(" = ");
+		sb.append(getFindClass(className));
+		sb.append(";");
+		out.println(sb);
 	}
 
 	protected void nativeVoidInvoke(int opcode, String reg, String methodName,
