@@ -391,8 +391,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	protected void info(int opcode, String format, Object... args) {
 		String s = String.format(format, args);
 		if (opcode < 0) {
-			out.printf("%-20s|%5s|%s\n", "", "", s);
-			out.printf("info opcode < 0 =============================================================\n");
+			out.printf("//%-20s|%5s|%s\n", "", "", s);
+			out.printf("//info opcode < 0 =============================================================\n");
 		} else {
 			String opStr = DexOpcodeDump.dump(opcode);
 			out.printf("//%-20s|%5s|%s\n", opStr, "", s);
