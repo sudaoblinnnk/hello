@@ -173,7 +173,11 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 	private static String getClassNameFromclassNameSignature(
 			String classNameSignature) {
+
 		int start = classNameSignature.indexOf('L');
+		if (start == -1) {
+			return classNameSignature;
+		}
 		int end = classNameSignature.indexOf(';');
 		return classNameSignature.substring(start + 1, end);
 	}
@@ -337,7 +341,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				return "jdoubleArray";
 			case 'L':
 				return "jobjectArray";
-
+			case '[':
+				return toJniType(desc.substring(1));
 			}
 			throw new RuntimeException("illegal Array jni type.");
 		}
@@ -599,13 +604,11 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	}
 
 	protected void nativeVoidInvoke(int opcode, String reg, String methodName,
-			String param, String method) {
-
-		List<String> clazzFieldList = getClazzFieldName(method);
-		String classNameSignature = clazzFieldList.get(0);
+			String param, Method method) {
+		String classNameSignature = method.getOwner();
 		String className = getClassNameFromclassNameSignature(classNameSignature);
 
-		String methodSignature = clazzFieldList.get(1);
+		String methodSignature = method.signature();
 		String[] ms = getFunctionNameAndSignature(methodSignature);
 		// String methodName = ms[0];
 		String signature = ms[1];
@@ -654,13 +657,14 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	}
 
 	protected void nativeReturnInvoke(int opcode, String temp, String reg,
-			String methodName, String param, String method) {
+			String methodName, String param, Method method) {
 
-		List<String> clazzFieldList = getClazzFieldName(method);
-		String classNameSignature = clazzFieldList.get(0);
+		String classNameSignature = method.getOwner();
+		System.out.println("8888888888888888888888 : " + method);
+
 		String className = getClassNameFromclassNameSignature(classNameSignature);
 
-		String methodSignature = clazzFieldList.get(1);
+		String methodSignature = method.signature();
 		String[] ms = getFunctionNameAndSignature(methodSignature);
 		// String methodName = ms[0];
 		String signature = ms[1];
@@ -677,7 +681,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				false));
 		sb.append("\n");
 
-		String returnType = toJniType(getReturnSignatureByMethodSignature(method));
+		String returnType = toJniType(method.getReturnType());
 		String castJObjectJString = (returnType.equals("jstring")) ? " (jstring) "
 				: "";
 		sb.append(String.format("%s %s = %s", returnType, temp,
@@ -699,8 +703,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				caller, methodId, param, isVirtual ? null : localClass));
 		sb.append("\n");
 
-		updateTEMP(new RegisterTemp(getReturnTypeByMethodSignature(method),
-				temp, temp));
+		updateTEMP(new RegisterTemp(method.getReturnType(), temp, temp));
 
 		out.print(sb);
 	}

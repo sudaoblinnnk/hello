@@ -220,7 +220,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		extract = "unzip " + output.getAbsolutePath() + " -d java";
 		Command.exeCmd(extract);
 
-		mergeSubClass();
+		// mergeSubClass();
 	}
 
 	public static String toJavaClass(String desc) {

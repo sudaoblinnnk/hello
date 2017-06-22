@@ -173,4 +173,8 @@ public class Method {
 	public String toString() {
 		return this.getOwner() + "." + this.getName() + this.getDesc();
 	}
+
+	public String signature() {
+		return this.getName() + this.getDesc();
+	}
 }

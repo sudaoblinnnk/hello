@@ -531,7 +531,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 						sb.toString(), method.toString());
 
 				nativeVoidInvoke(opcode, null, method.getName(), sb.toString(),
-						method.toString());
+						method);
 			} else {
 				info(opcode, "TEMP=%s.%s(%s)  //%s",
 						Dump.toJavaClass(method.getOwner()), method.getName(),
@@ -539,7 +539,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 
 				nativeReturnInvoke(opcode,
 						String.format("TEMP%d", tempCounter++), null,
-						method.getName(), sb.toString(), method.toString());
+						method.getName(), sb.toString(), method);
 			}
 		}
 			break;
@@ -558,17 +558,17 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			}
 			if (method.getReturnType().equals("V")) {
 				info(opcode, "v%d.%s(%s)  //%s", regs[0], method.getName(),
-						sb.toString(), method.toString());
+						sb.toString(), method);
 				nativeVoidInvoke(opcode,
 						getRegister(String.format("v%d", regs[0])).name,
-						method.getName(), sb.toString(), method.toString());
+						method.getName(), sb.toString(), method);
 			} else {
 				info(opcode, "TEMP=v%d.%s(%s)  //%s", regs[0],
-						method.getName(), sb.toString(), method.toString());
+						method.getName(), sb.toString(), method);
 				nativeReturnInvoke(opcode,
 						String.format("TEMP%d", tempCounter++),
 						getRegister(String.format("v%d", regs[0])).name,
-						method.getName(), sb.toString(), method.toString());
+						method.getName(), sb.toString(), method);
 			}
 		}
 			break;
@@ -763,10 +763,10 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			String value, String cls);
 
 	protected abstract void nativeVoidInvoke(int opcode, String reg,
-			String methodName, String param, String method);
+			String methodName, String param, Method method);
 
 	protected abstract void nativeReturnInvoke(int opcode, String temp,
-			String reg, String methodName, String param, String method);
+			String reg, String methodName, String param, Method method);
 
 	protected abstract void nativeReturnStmt(int opcode, int reg);
 
