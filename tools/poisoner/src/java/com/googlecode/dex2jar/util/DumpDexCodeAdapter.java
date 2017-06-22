@@ -1122,4 +1122,37 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				getRegister(fromRegisterName).value));
 		out.println(sb);
 	}
+
+	@Override
+	protected void nativeCmpStmt(int opcode, int distReg, int bB, int cC) {
+		// reference: http://www.2cto.com/kf/201608/532598.html
+		String code = "";
+		switch (opcode) {
+		case OP_CMPL:
+			code = "%s = ((%s == %s) ? 0 : (%s < %s ? -1 : 1));";
+			break;
+		case OP_CMPG:
+		case OP_CMP:
+			code = "%s = ((%s == %s) ? 0 : (%s > %s ? -1 : 1));";
+			break;
+		}
+
+		String toRegisterName = "v" + distReg;
+
+		String r1 = "v" + bB;
+		String r2 = "v" + cC;
+
+		StringBuilder sb = new StringBuilder();
+		String distRegType = "I";
+		boolean isNew = setRegister(distRegType, toRegisterName, null);
+		if (isNew) {
+			sb.append(String.format(("%s "), toJniType(distRegType)));
+		}
+
+		sb.append(String.format(code, getRegister(toRegisterName).value,
+				getRegister(r1).value, getRegister(r2).value,
+				getRegister(r1).value, getRegister(r2).value));
+		out.println(sb);
+
+	}
 }

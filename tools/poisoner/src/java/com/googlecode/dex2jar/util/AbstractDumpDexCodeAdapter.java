@@ -231,6 +231,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			info(opcode, "v%d = v%d cmp v%d", distReg, bB, cC);
 			break;
 		}
+		nativeCmpStmt(opcode, distReg, bB, cC);
 	}
 
 	/*
@@ -823,6 +824,9 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 
 	protected abstract void nativeCast(int opcode, String code1, int saveToReg,
 			int opReg);
+
+	protected abstract void nativeCmpStmt(int opcode, int distReg, int bB,
+			int cC);
 
 	// ////////////////////////////////////////////////////////////////////
 
