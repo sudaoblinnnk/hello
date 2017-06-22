@@ -1012,9 +1012,16 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String r2 = "v" + opReg;
 
 		if (OP_ARRAY_LENGTH == opcode) {
+			StringBuilder sb = new StringBuilder();
+			String type = "I";
+			boolean isNew = setRegister(type, r1, null);
+			if (isNew) {
+				sb.append(String.format(("%s "), toJniType(type)));
+			}
 			code = String.format("%s = (*env)->GetArrayLength(env, %s);",
 					getRegister(r1).value, getRegister(r2).value);
-			out.println(code);
+			sb.append(code);
+			out.println(sb);
 		} else {
 			out.print(getRegister(r2).type + " ");
 			out.println(String.format(code, getRegister(r1).value,
