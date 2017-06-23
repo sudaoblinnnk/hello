@@ -1172,4 +1172,21 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				temp.value));
 		out.println(sb);
 	}
+
+	@Override
+	protected void nativeMoveResult(int reg) {
+		String code = "%s = %s;";
+		String toRegisterName = "v" + reg;
+		String type = "Ljava/lang/Exception;";
+		StringBuilder sb = new StringBuilder();
+
+		boolean isNew = setRegister(type, toRegisterName, null);
+		if (isNew) {
+			sb.append(String.format(("%s "), toJniType(type)));
+		}
+
+		sb.append(String
+				.format(code, getRegister(toRegisterName).value, "NULL"));
+		out.println(sb);
+	}
 }

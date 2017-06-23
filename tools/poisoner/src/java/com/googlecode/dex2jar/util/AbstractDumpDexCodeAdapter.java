@@ -609,6 +609,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			break;
 		case OP_MOVE_EXCEPTION:
 			info(opcode, "v%d=@Exception", reg);
+			nativeMoveResult(reg);
 			break;
 		}
 	}
@@ -829,6 +830,8 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			int cC);
 
 	protected abstract void nativeMoveResult(int reg, Register temp);
+
+	protected abstract void nativeMoveResult(int reg);
 
 	// ////////////////////////////////////////////////////////////////////
 
