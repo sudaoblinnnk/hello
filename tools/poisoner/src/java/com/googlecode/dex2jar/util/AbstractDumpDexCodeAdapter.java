@@ -601,7 +601,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 			String register = String.format("v%d", reg);
 			if (lastTemp != null) {
 				info(opcode, register + "=" + lastTemp.value);
-				setRegister(lastTemp.type, register, lastTemp.value);
+				nativeMoveResult(reg, lastTemp);
 			} else {
 				info(opcode, register + "=" + "kurt");
 			}
@@ -827,6 +827,8 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 
 	protected abstract void nativeCmpStmt(int opcode, int distReg, int bB,
 			int cC);
+
+	protected abstract void nativeMoveResult(int reg, Register temp);
 
 	// ////////////////////////////////////////////////////////////////////
 
