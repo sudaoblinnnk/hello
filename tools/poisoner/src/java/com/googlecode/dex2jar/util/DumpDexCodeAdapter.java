@@ -743,8 +743,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		if (isNew) {
 			sb.append(String.format(("%s "), toJniType(typeSignature)));
 		}
-		String fromRegister = getRegister(r).value + "_kurt3_"
-				+ getRegister(r).name;
+		String fromRegister = getRegister(r).value;
 
 		sb.append(getXXXField(obj, fromRegister, fieldId, fieldType));
 		sb.append("\n");
