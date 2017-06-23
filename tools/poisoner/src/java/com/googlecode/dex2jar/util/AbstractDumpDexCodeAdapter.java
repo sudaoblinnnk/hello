@@ -684,17 +684,17 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		switch (opcode) {
 		case OP_NEG:
 			code = "v%d = ~v%d";
-			code1 = "$s = ~%s";
+			code1 = "%s = ~%s;";
 			info(opcode, code, saveToReg, opReg);
 			break;
 		case OP_NOT:
 			code = "v%d = !v%d";
-			code1 = "%s = !%s";
+			code1 = "%s = !%s;";
 			info(opcode, code, saveToReg, opReg);
 			break;
 		case OP_ARRAY_LENGTH:
 			code = "v%d = v%d.length";
-			code1 = "%s = %s.length";
+			code1 = "%s = %s.length;";
 			info(opcode, code, saveToReg, opReg);
 			break;
 		}
