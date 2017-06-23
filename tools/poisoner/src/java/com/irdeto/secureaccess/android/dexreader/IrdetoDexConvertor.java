@@ -515,7 +515,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 	}
 
 	private static final String NATIVE_FUNCTION_REGIST_FUNCTION = "static int registerNativeSymbols%s(JNIEnv * env) { int returnVal = JNI_TRUE; JNINativeMethod symbolListApi[] = { %s }; "
-			+ "jclass clazz = (*env)->FindClass(\"%s\");"
+			+ "jclass clazz = (*env)->FindClass(env, \"%s\");"
 			+ "if (clazz == NULL) { returnVal = JNI_FALSE; }"
 			+ "if ((*env)->RegisterNatives(clazz, symbolListApi, sizeof(symbolListApi) / sizeof(symbolListApi[0])) < 0) {"
 			+ "returnVal = JNI_FALSE; }" + "return returnVal;}";
