@@ -40,6 +40,9 @@ public class MainActivity extends Activity {
                 Log.d(TAG, " " + i + " " +j + " ");
             }
         }
+
+        ClassA.SubClassA subA = new ClassA().new SubClassA();
+        subA.print();
     }
 
     private native void testTryCatch(String hello);
