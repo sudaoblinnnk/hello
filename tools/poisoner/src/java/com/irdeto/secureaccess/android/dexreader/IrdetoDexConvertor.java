@@ -490,16 +490,34 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 					return ev;
 				} else if (PROCESS_JAVA == processing) {
 					out.println();
-					out.printf(getAccDes(accesFlags));
+					if ((accesFlags & DexOpcodes.ACC_VARARGS) == DexOpcodes.ACC_VARARGS) {
+						out.printf(getAccDes(accesFlags
+								& ~DexOpcodes.ACC_VARARGS));
+						if ((currentJavaClassAccessFlags & DexOpcodes.ACC_INTERFACE) != DexOpcodes.ACC_INTERFACE) {
+							out.printf(" native ");
+						}
+						out.printf(" %s ",
+								Dump.toJavaClass(method.getReturnType()));
+						out.printf(
+								" %s",
+								method.getName()
+										+ method.getJavaParameterLastIsVarParameter());
+						out.print(";\n");
 
-					if ((currentJavaClassAccessFlags & DexOpcodes.ACC_INTERFACE) != DexOpcodes.ACC_INTERFACE) {
-						out.printf(" native ");
+					} else {
+						out.printf(getAccDes(accesFlags));
+
+						if ((currentJavaClassAccessFlags & DexOpcodes.ACC_INTERFACE) != DexOpcodes.ACC_INTERFACE) {
+							out.printf(" native ");
+						}
+
+						out.printf(" %s ",
+								Dump.toJavaClass(method.getReturnType()));
+						out.printf(" %s",
+								method.getName() + method.getJavaParameter());
+						out.print(";\n");
 					}
 
-					out.printf(" %s ", Dump.toJavaClass(method.getReturnType()));
-					out.printf(" %s",
-							method.getName() + method.getJavaParameter());
-					out.print(";\n");
 					EmptyVisitor ev = new EmptyVisitor();
 					return ev;
 				}

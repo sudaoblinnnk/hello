@@ -70,6 +70,33 @@ public class Method {
 		return desc;
 	}
 
+	// parameter list(int n, int[] a)
+	public String getJavaParameterLastIsVarParameter() {
+		int paramter = 0;
+		StringBuilder ps = new StringBuilder("(");
+		if (parameterTypes != null) {
+			int i = 0;
+			for (i = 0; i < parameterTypes.length - 1; i++) {
+				String t = parameterTypes[i];
+				ps.append(Dump.toJavaClass(t));
+				ps.append(" p");
+				ps.append(paramter++);
+				ps.append(',');
+			}
+			String t = parameterTypes[i];
+			ps.append(Dump.toJavaClass(t));
+			// delete []
+			ps.deleteCharAt(ps.length() - 1);
+			ps.deleteCharAt(ps.length() - 1);
+			ps.append("...");
+
+			ps.append(" p");
+			ps.append(paramter++);
+		}
+		ps.append(")");
+		return ps.toString();
+	}
+
 	public String getJavaParameter() {
 		int paramter = 0;
 		StringBuilder ps = new StringBuilder("(");
