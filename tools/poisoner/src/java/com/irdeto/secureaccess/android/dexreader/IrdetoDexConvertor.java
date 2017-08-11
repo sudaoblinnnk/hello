@@ -449,45 +449,51 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 							method_count++, accesFlags);
 					out.printf("//%s\n", method);
 
-					String methodArgs;
-					if ((accesFlags & DexOpcodes.ACC_STATIC) != 0) {
-						methodArgs = NATIVE_PARAMETER_STATIC;
+					if ((currentJavaClassAccessFlags & DexOpcodes.ACC_INTERFACE) == DexOpcodes.ACC_INTERFACE) {
+						return new EmptyVisitor();
 					} else {
-						methodArgs = NATIVE_PARAMETER_OBJECT;
+
+						String methodArgs;
+						if ((accesFlags & DexOpcodes.ACC_STATIC) != 0) {
+							methodArgs = NATIVE_PARAMETER_STATIC;
+						} else {
+							methodArgs = NATIVE_PARAMETER_OBJECT;
+						}
+
+						String funcReturn = String.format(
+								JNI_FUNCTION_DELCLEAR_FORMAT,
+								DumpDexCodeAdapter.toJniType(method
+										.getReturnType()));
+
+						String funcName = String.format(
+								"%s%s",
+								NATIVE_METHOD_PREFIX
+										+ currentJavaClass.replace('.', '_')
+										+ "_", method.getName());
+
+						String nativeFuncRegistrationInfo[] = new String[] {
+								method.getName(), method.getDesc(), funcName };
+
+						nativeFunctions.add(nativeFuncRegistrationInfo);
+
+						out.printf("%s %s(", funcReturn, funcName);
+						out.printf(String.format("%s", methodArgs));
+
+						EmptyVisitor ev = new EmptyVisitor() {
+							@Override
+							public DexCodeVisitor visitCode() {
+								return new DumpDexCodeAdapter(
+										(accesFlags & DexOpcodes.ACC_STATIC) != 0,
+										method, out);
+							}
+
+							@Override
+							public void visitEnd() {
+								out.println("}\n");
+							}
+						};
+						return ev;
 					}
-
-					String funcReturn = String.format(
-							JNI_FUNCTION_DELCLEAR_FORMAT, DumpDexCodeAdapter
-									.toJniType(method.getReturnType()));
-
-					String funcName = String.format(
-							"%s%s",
-							NATIVE_METHOD_PREFIX
-									+ currentJavaClass.replace('.', '_') + "_",
-							method.getName());
-
-					String nativeFuncRegistrationInfo[] = new String[] {
-							method.getName(), method.getDesc(), funcName };
-
-					nativeFunctions.add(nativeFuncRegistrationInfo);
-
-					out.printf("%s %s(", funcReturn, funcName);
-					out.printf(String.format("%s", methodArgs));
-
-					EmptyVisitor ev = new EmptyVisitor() {
-						@Override
-						public DexCodeVisitor visitCode() {
-							return new DumpDexCodeAdapter(
-									(accesFlags & DexOpcodes.ACC_STATIC) != 0,
-									method, out);
-						}
-
-						@Override
-						public void visitEnd() {
-							out.println("}\n");
-						}
-					};
-					return ev;
 				} else if (PROCESS_JAVA == processing) {
 					out.println();
 					if ((accesFlags & DexOpcodes.ACC_VARARGS) == DexOpcodes.ACC_VARARGS) {
