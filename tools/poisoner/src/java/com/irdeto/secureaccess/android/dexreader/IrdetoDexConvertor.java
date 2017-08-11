@@ -498,11 +498,14 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 						return ev;
 					}
 				} else if (PROCESS_JAVA == processing) {
+
 					out.println();
 					if ((accesFlags & DexOpcodes.ACC_VARARGS) == DexOpcodes.ACC_VARARGS) {
 						out.printf(getAccDes(accesFlags
 								& ~DexOpcodes.ACC_VARARGS));
-						if ((currentJavaClassAccessFlags & DexOpcodes.ACC_INTERFACE) != DexOpcodes.ACC_INTERFACE) {
+						if ((currentJavaClassAccessFlags & DexOpcodes.ACC_INTERFACE) != DexOpcodes.ACC_INTERFACE
+								&& (accesFlags & DexOpcodes.ACC_ABSTRACT) != DexOpcodes.ACC_ABSTRACT
+								&& (accesFlags & DexOpcodes.ACC_NATIVE) != DexOpcodes.ACC_NATIVE) {
 							out.printf(" native ");
 						}
 						out.printf(" %s ",
@@ -516,7 +519,9 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 					} else {
 						out.printf(getAccDes(accesFlags));
 
-						if ((currentJavaClassAccessFlags & DexOpcodes.ACC_INTERFACE) != DexOpcodes.ACC_INTERFACE) {
+						if ((currentJavaClassAccessFlags & DexOpcodes.ACC_INTERFACE) != DexOpcodes.ACC_INTERFACE
+								&& (accesFlags & DexOpcodes.ACC_ABSTRACT) != DexOpcodes.ACC_ABSTRACT
+								&& (accesFlags & DexOpcodes.ACC_NATIVE) != DexOpcodes.ACC_NATIVE) {
 							out.printf(" native ");
 						}
 
