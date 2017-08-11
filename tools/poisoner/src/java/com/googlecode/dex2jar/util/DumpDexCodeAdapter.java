@@ -71,7 +71,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	@Override
 	protected void nativeSPUT(String fromOrToReg, String fieldOwner,
 			String fieldName, Field field) {
-		String className = fieldOwner;
+		String className = getClassNameFromclassNameSignature(field.getOwner());
 
 		StringBuilder sb = new StringBuilder();
 
@@ -96,8 +96,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	@Override
 	protected void nativeSGET(String fromOrToReg, String fieldOwner,
 			String fieldName, Field field) {
-		String className = fieldOwner;
-
+		String className = getClassNameFromclassNameSignature(field.getOwner());
 		StringBuilder sb = new StringBuilder();
 
 		String type = toJniType(field.getType());
