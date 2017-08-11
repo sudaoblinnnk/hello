@@ -8,8 +8,13 @@ import android.util.Log;
 public class MainActivity extends Activity {
     boolean isPrint = false;
     static boolean sIsPrint = false;
+    private byte[][] dimen22 = new byte[2][2];
 
     private static final String TAG = "kurt";
+
+    static {
+        System.loadLibrary("native-lib");
+    }
 
     //private static final String days[] = {"mon", "sun"};
     @Override
@@ -25,7 +30,21 @@ public class MainActivity extends Activity {
         if (sIsPrint) {
             Log.d(TAG, "static print");
         }
+        //testTryCatch("hello");
+        byte v = 0;
+        testDim22();
+        testVarags(3, "one", "two", "three");
+        for (int i = 0;i < 2;i++) {
+            for (int j = 0; j < 2; j++) {
+                dimen22[i][j] = v++;
+                Log.d(TAG, " " + i + " " +j + " ");
+            }
+        }
     }
+
+    private native void testTryCatch(String hello);
+    private native void testDim22();
+    private native void testVarags(int n, String ... names);
 
     private static class StaticPrivateClass{
         int add() {
