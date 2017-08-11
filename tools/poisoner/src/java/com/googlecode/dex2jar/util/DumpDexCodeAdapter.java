@@ -722,7 +722,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		String obj = getRegister("v" + ownerReg).value;
 
-		String className = Dump.toJavaClass(field.getOwner());
+		String className = getClassNameFromclassNameSignature(field.getOwner());
 
 		StringBuilder sb = new StringBuilder();
 
@@ -757,7 +757,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String toRegister = getRegister("v" + regFromOrTo).value;
 		String obj = getRegister("v" + ownerReg).value;
 
-		String className = Dump.toJavaClass(field.getOwner());
+		String className = getClassNameFromclassNameSignature(field.getOwner());
 
 		StringBuilder sb = new StringBuilder();
 
