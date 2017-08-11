@@ -146,7 +146,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			sb.append("final ");
 		}
 		if ((acc & DexOpcodes.ACC_INTERFACE) != 0) {
-			sb.append("interace ");
+			sb.append("interface ");
 		}
 		if ((acc & DexOpcodes.ACC_NATIVE) != 0) {
 			sb.append("native ");
@@ -289,6 +289,8 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		String javaClassName = toJavaClass(className);
 		out = writerManager.get(javaClassName);
 
+		updateCurrentJavaClassName(javaClassName, access_flags);
+
 		if (PROCESS_JAVA == processing) {
 
 			String[] header = getPackageNameByClassName(javaClassName);
@@ -314,8 +316,6 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			} else {
 				out.print(clsName);
 			}
-
-			updateCurrentJavaClassName(javaClassName);
 
 			if (superClass != null) {
 				if (!"Ljava/lang/Object;".equals(superClass)) {
@@ -352,8 +352,6 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 				out.print("class ");
 			}
 			out.print(javaClassName);
-
-			updateCurrentJavaClassName(javaClassName);
 
 			if (superClass != null) {
 				if (!"Ljava/lang/Object;".equals(superClass)) {
@@ -493,7 +491,10 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 				} else if (PROCESS_JAVA == processing) {
 					out.println();
 					out.printf(getAccDes(accesFlags));
-					out.printf(" native ");
+
+					if ((currentJavaClassAccessFlags & DexOpcodes.ACC_INTERFACE) != DexOpcodes.ACC_INTERFACE) {
+						out.printf(" native ");
+					}
 
 					out.printf(" %s ", Dump.toJavaClass(method.getReturnType()));
 					out.printf(" %s",
@@ -509,9 +510,12 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 	}
 
 	private String currentJavaClass;
+	private int currentJavaClassAccessFlags;
 
-	private void updateCurrentJavaClassName(String javaClassName) {
+	private void updateCurrentJavaClassName(String javaClassName,
+			int access_flags) {
 		currentJavaClass = javaClassName;
+		currentJavaClassAccessFlags = access_flags;
 	}
 
 	private static final String NATIVE_FUNCTION_REGIST_FUNCTION = "static int registerNativeSymbols%s(JNIEnv * env) { int returnVal = JNI_TRUE; JNINativeMethod symbolListApi[] = { %s }; "
