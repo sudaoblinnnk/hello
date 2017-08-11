@@ -452,7 +452,10 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 					if ((currentJavaClassAccessFlags & DexOpcodes.ACC_INTERFACE) == DexOpcodes.ACC_INTERFACE) {
 						return new EmptyVisitor();
 					} else {
-
+						if ((accesFlags & DexOpcodes.ACC_ABSTRACT) == DexOpcodes.ACC_ABSTRACT
+								|| (accesFlags & DexOpcodes.ACC_NATIVE) == DexOpcodes.ACC_NATIVE) {
+							return new EmptyVisitor();
+						}
 						String methodArgs;
 						if ((accesFlags & DexOpcodes.ACC_STATIC) != 0) {
 							methodArgs = NATIVE_PARAMETER_STATIC;
