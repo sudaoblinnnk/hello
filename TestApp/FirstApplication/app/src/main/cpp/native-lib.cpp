@@ -10,6 +10,11 @@
 
 static const char * IAC_AGENT_TAG = "kurt";
 
+static void printNative(JNIEnv *env, jobject instance) {
+
+    LOGD("this is SubClassA printNative");
+}
+
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_irdeto_j2n_firstapplication_MainActivity_testVarags(JNIEnv *env, jobject instance, jint n,
@@ -216,8 +221,57 @@ extern "C" JNIEXPORT void JNICALL Java_j2n_irdeto_com_demo_MainActivity_init(JNI
 //LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lj2n/irdeto/com/demo/MainActivity;
     LL0:
 //INVOKE_DIRECT       |     |v0.<init>()  //Landroid/app/Activity;.<init>()V
-    jclass localClass0 = env->FindClass("android/app/Activity");
+    jclass localClass0 = env->FindClass("com/irdeto/j2n/firstapplication");
     jmethodID methodId0 = env->GetMethodID(localClass0, "<init>", "()V");
     env->CallVoidMethod(v0, methodId0);
+    LOGD("init called");
 //RETURN_VOID         |     |return
+}
+
+static const char * MAIN_CLASS = "com/irdeto/j2n/firstapplication/";
+static const char * SUB_CLASS = "com/irdeto/j2n/firstapplication/ClassA$SubClassA";
+
+static int registerNativeSymbols(JNIEnv * env)
+{
+    int returnVal = JNI_TRUE;
+
+    JNINativeMethod symbolListApi[] =
+            {
+                    { "printNative",              "()V",  (void *)printNative},
+            };
+
+    jclass clazz = NULL;
+
+    clazz = env->FindClass(SUB_CLASS);
+    if (clazz == NULL)
+    {
+        returnVal = JNI_FALSE;
+    }
+
+    if (env->RegisterNatives(clazz, symbolListApi, sizeof(symbolListApi) / sizeof(symbolListApi[0])) < 0) {
+        returnVal = JNI_FALSE;
+    }
+    return returnVal;
+}
+
+JNIEXPORT jint JNICALL
+JNI_OnLoad(JavaVM* vm, void* reserved)
+{
+    JNIEnv *env;
+    jint result = JNI_VERSION_1_4;
+    jint registerResult = JNI_FALSE;
+
+    if (vm->GetEnv((void**) &env, JNI_VERSION_1_4) != JNI_OK) {
+        LOGD("JNI_OnLoad get env failed.");
+        result = -1;
+    }
+    if (JNI_VERSION_1_4 == result) {
+        registerResult = registerNativeSymbols(env);
+        if (registerResult == JNI_FALSE)
+        {
+            LOGE("registerResult == JNI_FALSE");
+            result = -1;
+        }
+    }
+    return result;
 }

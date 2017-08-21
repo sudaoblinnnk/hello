@@ -35,18 +35,20 @@ public class MainActivity extends Activity {
             Log.d(TAG, "static print");
         }
         //testTryCatch("hello");
-        byte v = 0;
-        testDim22();
-        testVarags(3, "one", "two", "three");
-        for (int i = 0;i < 2;i++) {
-            for (int j = 0; j < 2; j++) {
-                dimen22[i][j] = v++;
-                Log.d(TAG, " " + i + " " +j + " ");
-            }
-        }
+
+//        byte v = 0;
+//        testDim22();
+//        testVarags(3, "one", "two", "three");
+//        for (int i = 0;i < 2;i++) {
+//            for (int j = 0; j < 2; j++) {
+//                dimen22[i][j] = v++;
+//                Log.d(TAG, " " + i + " " +j + " ");
+//            }
+//        }
 
         ClassA.SubClassA subA = new ClassA().new SubClassA();
-        subA.print();
+        //subA.print();
+        subA.printNative();
     }
 
     private native void testTryCatch(String hello);

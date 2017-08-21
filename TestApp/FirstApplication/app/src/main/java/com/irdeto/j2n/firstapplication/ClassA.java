@@ -16,5 +16,6 @@ public class ClassA {
         void print() {
             Log.d(TAG, "this is SubClassA");
         }
+        native void printNative();
     }
 }
