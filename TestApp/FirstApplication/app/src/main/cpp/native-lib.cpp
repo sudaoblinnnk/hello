@@ -10,10 +10,6 @@
 
 static const char * IAC_AGENT_TAG = "kurt";
 
-static void printNative(JNIEnv *env, jobject instance) {
-
-    LOGD("this is SubClassA printNative");
-}
 
 extern "C"
 JNIEXPORT void JNICALL
@@ -221,15 +217,29 @@ extern "C" JNIEXPORT void JNICALL Java_j2n_irdeto_com_demo_MainActivity_init(JNI
 //LOCAL_VARIABLE LL0 ~ LL1 v0 -> this // Lj2n/irdeto/com/demo/MainActivity;
     LL0:
 //INVOKE_DIRECT       |     |v0.<init>()  //Landroid/app/Activity;.<init>()V
-    jclass localClass0 = env->FindClass("com/irdeto/j2n/firstapplication");
+    jclass localClass0 = env->FindClass("com/irdeto/j2n/firstapplication/ClassA");
     jmethodID methodId0 = env->GetMethodID(localClass0, "<init>", "()V");
     env->CallVoidMethod(v0, methodId0);
+
     LOGD("init called");
 //RETURN_VOID         |     |return
 }
 
-static const char * MAIN_CLASS = "com/irdeto/j2n/firstapplication/";
+static const char * MAIN_CLASS = "com/irdeto/j2n/firstapplication/ClassA";
 static const char * SUB_CLASS = "com/irdeto/j2n/firstapplication/ClassA$SubClassA";
+
+
+static void printNative(JNIEnv *env, jobject instance) {
+    LOGD("this is SubClassA printNative");
+
+    jclass cls = env->FindClass(MAIN_CLASS);
+    jmethodID constructor = env->GetMethodID(cls, "<init>", "()V");
+    jobject objClassA = env->NewObject(cls, constructor);
+
+    jclass subCls = env->FindClass(SUB_CLASS);
+    jmethodID constructorSub = env->GetMethodID(subCls, "<init>", "(Lcom/irdeto/j2n/firstapplication/ClassA;)V");
+    jobject objSubClassA = env->NewObject(subCls, constructorSub, objClassA);
+}
 
 static int registerNativeSymbols(JNIEnv * env)
 {

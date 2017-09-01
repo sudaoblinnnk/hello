@@ -12,7 +12,10 @@ public class ClassA {
         Log.d(TAG, "this is ClassA");
     }
 
-    public class SubClassA{
+    public class SubClassA {
+        public SubClassA() {
+            Log.d(TAG, "this is SubClassA constructor");
+        }
         void print() {
             Log.d(TAG, "this is SubClassA");
         }
