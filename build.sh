@@ -3,7 +3,7 @@ export NATIVE_CODE_DIR=/home/kurt/company/workspace.eclipse/J2NConverter
 #export NATIVE_CODE_DIR=/home/kurt/innovation/hello/tools/poisoner/samples
 
 if [ "$1" == "app" ]; then
-    echo "finish build OriginalApp"
+    echo "build OriginalApp"
 
 #compile apk need to protect
 pushd .
