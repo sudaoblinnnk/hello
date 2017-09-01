@@ -8,11 +8,15 @@ import android.util.Log;
 
 public class ClassA {
     String TAG = "ClassA";
+
+    public ClassA() {
+
+    }
     void print() {
         Log.d(TAG, "this is ClassA");
     }
 
-    public class SubClassA{
+    public class SubClassA {
         void print() {
             Log.d(TAG, "this is SubClassA");
         }

@@ -12,10 +12,6 @@ public class MainActivity extends Activity {
 
     private static final String TAG = "kurt";
 
-    static {
-        System.loadLibrary("native-lib");
-    }
-
     //private static final String days[] = {"mon", "sun"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +28,8 @@ public class MainActivity extends Activity {
         }
         //testTryCatch("hello");
         byte v = 0;
-        testDim22();
-        testVarags(3, "one", "two", "three");
+        //testDim22();
+        //testVarags(3, "one", "two", "three");
         for (int i = 0;i < 2;i++) {
             for (int j = 0; j < 2; j++) {
                 dimen22[i][j] = v++;
@@ -45,9 +41,9 @@ public class MainActivity extends Activity {
         subA.print();
     }
 
-    private native void testTryCatch(String hello);
-    private native void testDim22();
-    private native void testVarags(int n, String ... names);
+    //private native void testTryCatch(String hello);
+    //private native void testDim22();
+    //private native void testVarags(int n, String ... names);
 
     private static class StaticPrivateClass{
         int add() {
