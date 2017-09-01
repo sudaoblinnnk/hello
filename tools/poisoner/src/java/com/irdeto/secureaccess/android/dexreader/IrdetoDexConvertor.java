@@ -55,6 +55,9 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 	private static boolean isSubClass = false;
 	private static boolean isStaticSubClass = true;
 
+	private static final String LOCAL_CTOR = "<init>";
+	private static final String LOCAL_NATIVE_INIT = "__initNative";
+
 	public interface WriterManager {
 		PrintWriter get(String name);
 	}
@@ -280,13 +283,13 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 				s.substring(0, s.length() - className.length() - 1), className };
 	}
 
-	public DexClassVisitor visit(int access_flags, String className,
+	public DexClassVisitor visit(int access_flags, final String className,
 			String superClass, String[] interfaceNames) {
 
 		isSubClass = false;
 		isStaticSubClass = true;
 
-		String javaClassName = toJavaClass(className);
+		final String javaClassName = toJavaClass(className);
 		out = writerManager.get(javaClassName);
 
 		updateCurrentJavaClassName(javaClassName, access_flags);
@@ -435,11 +438,25 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			private static final String NATIVE_PARAMETER_STATIC = "JNIEnv *env, jclass type";
 			private static final String JNI_FUNCTION_DELCLEAR_FORMAT = "%s ";// "extern \"C\" JNIEXPORT %s JNICALL";
 
+			private String handleInitMethod(final Method method) {
+				String methodName = currentJavaClass;
+				if (PROCESS_NATIVE == processing) {
+
+					return methodName;
+				} else if (PROCESS_JAVA == processing) {
+					if (method.getName().equals(LOCAL_CTOR)) {
+						methodName = LOCAL_NATIVE_INIT;
+					}
+					return methodName;
+				}
+				return methodName;
+			}
+
 			@Override
 			public DexMethodVisitor visitMethod(final int accesFlags,
 					final Method method) {
-				if (method.getName().contains("<init>")
-						|| method.getName().contains("<clinit>")
+
+				if (method.getName().contains("<clinit>")
 						|| (accesFlags & DexOpcodes.ACC_NATIVE) != 0) {
 					return super.visitMethod(accesFlags, method);
 				}
@@ -505,31 +522,68 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 								& ~DexOpcodes.ACC_VARARGS));
 						if ((currentJavaClassAccessFlags & DexOpcodes.ACC_INTERFACE) != DexOpcodes.ACC_INTERFACE
 								&& (accesFlags & DexOpcodes.ACC_ABSTRACT) != DexOpcodes.ACC_ABSTRACT
-								&& (accesFlags & DexOpcodes.ACC_NATIVE) != DexOpcodes.ACC_NATIVE) {
+								&& (accesFlags & DexOpcodes.ACC_NATIVE) != DexOpcodes.ACC_NATIVE
+								&& !method.getName().equals(LOCAL_CTOR)) {
 							out.printf(" native ");
 						}
-						out.printf(" %s ",
-								Dump.toJavaClass(method.getReturnType()));
+						if (!method.getName().equals(LOCAL_CTOR)) {
+							out.printf(" %s ",
+									Dump.toJavaClass(method.getReturnType()));
+						}
+
+						String methodName = method.getName();
+						if (method.getName().equals(LOCAL_CTOR)) {
+							methodName = getPackageNameByClassName(javaClassName)[1];
+						}
 						out.printf(
 								" %s",
-								method.getName()
+								methodName
 										+ method.getJavaParameterLastIsVarParameter());
-						out.print(";\n");
+						out.print(";");
+						out.println();
 
 					} else {
 						out.printf(getAccDes(accesFlags));
 
 						if ((currentJavaClassAccessFlags & DexOpcodes.ACC_INTERFACE) != DexOpcodes.ACC_INTERFACE
 								&& (accesFlags & DexOpcodes.ACC_ABSTRACT) != DexOpcodes.ACC_ABSTRACT
-								&& (accesFlags & DexOpcodes.ACC_NATIVE) != DexOpcodes.ACC_NATIVE) {
+								&& (accesFlags & DexOpcodes.ACC_NATIVE) != DexOpcodes.ACC_NATIVE
+								&& !method.getName().equals(LOCAL_CTOR)) {
 							out.printf(" native ");
 						}
 
-						out.printf(" %s ",
-								Dump.toJavaClass(method.getReturnType()));
+						String methodName;
+						String returnType = "";
+						if (!method.getName().equals(LOCAL_CTOR)) {
+							returnType = Dump.toJavaClass(method
+									.getReturnType());
+							methodName = method.getName();
+						} else {
+							returnType = "void native ";
+							methodName = LOCAL_NATIVE_INIT;
+						}
+						out.printf(" %s ", returnType);
+
 						out.printf(" %s",
-								method.getName() + method.getJavaParameter());
-						out.print(";\n");
+								methodName + method.getJavaParameter());
+						out.print(";");
+						out.println();
+
+						// /////////////////////////////////////////////////////////////////
+						out.printf(getAccDes(accesFlags));
+						if (method.getName().equals(LOCAL_CTOR)) {
+							methodName = getPackageNameByClassName(javaClassName)[1];
+							out.printf(" %s",
+									methodName + method.getJavaParameter());
+							out.println();
+							out.print("{" + "\n" + LOCAL_NATIVE_INIT
+									+ method.getJavaParameterList() + ";"
+									+ "\n" + "}");
+							out.print(";");
+						} else {
+
+						}
+						out.println();
 					}
 
 					EmptyVisitor ev = new EmptyVisitor();
@@ -550,11 +604,29 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		currentJavaClassAccessFlags = access_flags;
 	}
 
-	private static final String NATIVE_FUNCTION_REGIST_FUNCTION = "static int registerNativeSymbols%s(JNIEnv * env) { int returnVal = JNI_TRUE; JNINativeMethod symbolListApi[] = { %s }; "
+	private static final String NATIVE_FUNCTION_REGIST_FUNCTION = "static int registerNativeSymbols%s(JNIEnv * env) { "
+			+ "\n"
+			+ "int returnVal = JNI_TRUE; JNINativeMethod symbolListApi[] = { "
+			+ "\n"
+			+ "%s "
+			+ "\n"
+			+ "}; "
+			+ "\n"
 			+ "jclass clazz = (*env)->FindClass(env, \"%s\");"
-			+ "if (clazz == NULL) { returnVal = JNI_FALSE; }"
+			+ "\n"
+			+ "if (clazz == NULL) { "
+			+ "\n"
+			+ " returnVal = JNI_FALSE; "
+			+ "\n"
+			+ "}"
+			+ "\n"
 			+ "if ((*env)->RegisterNatives(clazz, symbolListApi, sizeof(symbolListApi) / sizeof(symbolListApi[0])) < 0) {"
-			+ "returnVal = JNI_FALSE; }" + "return returnVal;}";
+			+ "\n"
+			+ "returnVal = JNI_FALSE; "
+			+ "\n"
+			+ "}"
+			+ "\n"
+			+ "return returnVal;" + "\n" + "}";
 
 	private static int registerNativeFuncCount;
 
@@ -569,6 +641,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			nativeFuncList.append(String.format(nativeFuncListItem, item[0],
 					item[1], item[2]));
 			nativeFuncList.append(",");
+			nativeFuncList.append("\n");
 		}
 		if (nativeFuncList.length() > 0) {
 			nativeFuncList.deleteCharAt(nativeFuncList.length() - 1);

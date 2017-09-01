@@ -97,12 +97,53 @@ public class Method {
 		return ps.toString();
 	}
 
+	public String getJavaParameterLastIsVarParameterList() {
+		int paramter = 0;
+		StringBuilder ps = new StringBuilder("(");
+		if (parameterTypes != null) {
+			int i = 0;
+			for (i = 0; i < parameterTypes.length - 1; i++) {
+				String t = parameterTypes[i];
+				ps.append(" p");
+				ps.append(paramter++);
+				ps.append(',');
+			}
+			String t = parameterTypes[i];
+			// delete []
+			ps.deleteCharAt(ps.length() - 1);
+			ps.deleteCharAt(ps.length() - 1);
+			ps.append("...");
+
+			ps.append(" p");
+			ps.append(paramter++);
+		}
+		ps.append(")");
+		return ps.toString();
+	}
+
 	public String getJavaParameter() {
 		int paramter = 0;
 		StringBuilder ps = new StringBuilder("(");
 		if (parameterTypes != null) {
 			for (String t : parameterTypes) {
 				ps.append(Dump.toJavaClass(t));
+				ps.append(" p");
+				ps.append(paramter++);
+				ps.append(',');
+			}
+			if (paramter > 0) {
+				ps.deleteCharAt(ps.length() - 1);
+			}
+		}
+		ps.append(")");
+		return ps.toString();
+	}
+
+	public String getJavaParameterList() {
+		int paramter = 0;
+		StringBuilder ps = new StringBuilder("(");
+		if (parameterTypes != null) {
+			for (String t : parameterTypes) {
 				ps.append(" p");
 				ps.append(paramter++);
 				ps.append(',');
