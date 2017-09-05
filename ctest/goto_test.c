@@ -2,7 +2,7 @@
 
 typedef int jint;
 
-int gotofunc() {
+int for_func() {
 
 L3: ;
 //CONST               |     |v0=0x00000000  // int:0   float:0.000000
@@ -38,9 +38,58 @@ L1: ;
 
 }
 
+int switch_func(int v2)
+{
+
+L2: ;
+//CONST               |     |v0=0x00000000  // int:0   float:0.000000
+jint v0_0 = 0x00000000;
+//LABEL               |  LL0: line 127
+L0: ;
+//PACKED_SWITCH       |     |switch(v2)
+//PACKED_SWITCH       |     |case 1: goto L3
+//PACKED_SWITCH       |     |case 2: goto L4
+//PACKED_SWITCH       |     |default: goto L5
+
+switch(v2) {
+case 1: goto L3;
+case 2: goto L4;
+default: goto L5;
+}
+
+//LABEL               |  LL5: line 135
+L5: ;
+//CONST               |     |v0=0x00000003  // int:3   float:0.000000
+v0_0 = 0x00000003;
+//LABEL               |  LL6: line 138
+L6: ;
+//RETURN              |     |return v0
+return v0_0;
+//LABEL               |  LL3: line 257
+L3: ;
+//CONST               |     |v0=0x00000001  // int:1   float:0.000000
+v0_0 = 0x00000001;
+//LABEL               |  LL7: line 258
+L7: ;
+//GOTO                |     |goto L6;
+goto L6;
+//LABEL               |  LL4: line 260
+L4: ;
+//CONST               |     |v0=0x00000002  // int:2   float:0.000000
+v0_0 = 0x00000002;
+L8: ;
+//GOTO                |     |goto L6;
+goto L6;
+//LABEL               |  LL9: line 383
+L9: ;
+//LABEL               |  LL1:
+L1: ;
+}
+
 int
 main (void)
 {
-  printf ("Hello, world! %d \n", gotofunc());
+  printf ("for_func %d \n", for_func());
+  printf ("switch_func %d \n", switch_func(3));
   return 0;
 }
