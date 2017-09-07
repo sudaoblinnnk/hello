@@ -1,259 +1,119 @@
-/*
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.google.android.exoplayer2.demo;
+//class:0649  access:0x0001
+public class PlayerActivity extends android.app.Activity
+{
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.text.TextUtils;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+    static {System.loadLibrary("native-lib");}
 
-import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.drm.DrmSessionManager;
-import com.google.android.exoplayer2.drm.FrameworkMediaCrypto;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.TrackGroupArray;
-import com.google.android.exoplayer2.source.dash.DashMediaSource;
-import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource;
-import com.google.android.exoplayer2.source.hls.HlsMediaSource;
-import com.google.android.exoplayer2.source.smoothstreaming.DefaultSsChunkSource;
-import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
-import com.google.android.exoplayer2.ui.DebugTextViewHelper;
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
-import com.google.android.exoplayer2.util.Util;
+    //field:0000  access:0x0019
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.ACTION_VIEW Ljava/lang/String;
+    public static final  java.lang.String ACTION_VIEW="com.google.android.exoplayer.demo.action.VIEW";
+    //field:0001  access:0x0019
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.ACTION_VIEW_LIST Ljava/lang/String;
+    public static final  java.lang.String ACTION_VIEW_LIST="com.google.android.exoplayer.demo.action.VIEW_LIST";
+    //field:0002  access:0x0019
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.AD_TAG_URI_EXTRA Ljava/lang/String;
+    public static final  java.lang.String AD_TAG_URI_EXTRA="ad_tag_uri";
+    //field:0003  access:0x000a
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.BANDWIDTH_METER Lcom/google/android/exoplayer2/upstream/DefaultBandwidthMeter;
+    private static  com.google.android.exoplayer2.upstream.DefaultBandwidthMeter BANDWIDTH_METER;
+    //field:0004  access:0x000a
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.DEFAULT_COOKIE_MANAGER Ljava/net/CookieManager;
+    private static  java.net.CookieManager DEFAULT_COOKIE_MANAGER;
+    //field:0005  access:0x0019
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.DRM_KEY_REQUEST_PROPERTIES Ljava/lang/String;
+    public static final  java.lang.String DRM_KEY_REQUEST_PROPERTIES="drm_key_request_properties";
+    //field:0006  access:0x0019
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.DRM_LICENSE_URL Ljava/lang/String;
+    public static final  java.lang.String DRM_LICENSE_URL="drm_license_url";
+    //field:0007  access:0x0019
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.DRM_SCHEME_UUID_EXTRA Ljava/lang/String;
+    public static final  java.lang.String DRM_SCHEME_UUID_EXTRA="drm_scheme_uuid";
+    //field:0008  access:0x0019
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.EXTENSION_EXTRA Ljava/lang/String;
+    public static final  java.lang.String EXTENSION_EXTRA="extension";
+    //field:0009  access:0x0019
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.EXTENSION_LIST_EXTRA Ljava/lang/String;
+    public static final  java.lang.String EXTENSION_LIST_EXTRA="extension_list";
+    //field:0010  access:0x0019
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.PREFER_EXTENSION_DECODERS Ljava/lang/String;
+    public static final  java.lang.String PREFER_EXTENSION_DECODERS="prefer_extension_decoders";
+    //field:0011  access:0x0019
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.URI_LIST_EXTRA Ljava/lang/String;
+    public static final  java.lang.String URI_LIST_EXTRA="uri_list";
+    //field:0012  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.debugRootView Landroid/widget/LinearLayout;
+    private  android.widget.LinearLayout debugRootView;
+    //field:0013  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.debugTextView Landroid/widget/TextView;
+    private  android.widget.TextView debugTextView;
+    //field:0014  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.debugViewHelper Lcom/google/android/exoplayer2/ui/DebugTextViewHelper;
+    private  com.google.android.exoplayer2.ui.DebugTextViewHelper debugViewHelper;
+    //field:0015  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.eventLogger Lcom/google/android/exoplayer2/demo/EventLogger;
+    private  com.google.android.exoplayer2.demo.EventLogger eventLogger;
+    //field:0016  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.inErrorState Z
+    private  boolean inErrorState;
+    //field:0017  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.lastSeenTrackGroupArray Lcom/google/android/exoplayer2/source/TrackGroupArray;
+    private  com.google.android.exoplayer2.source.TrackGroupArray lastSeenTrackGroupArray;
+    //field:0018  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.mainHandler Landroid/os/Handler;
+    private  android.os.Handler mainHandler;
+    //field:0019  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.mediaDataSourceFactory Lcom/google/android/exoplayer2/upstream/DataSource$Factory;
+    private  com.google.android.exoplayer2.upstream.DataSource.Factory mediaDataSourceFactory;
+    //field:0020  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.player Lcom/google/android/exoplayer2/SimpleExoPlayer;
+    private  com.google.android.exoplayer2.SimpleExoPlayer player;
+    //field:0021  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.resumePosition J
+    private  long resumePosition;
+    //field:0022  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.resumeWindow I
+    private  int resumeWindow;
+    //field:0023  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.retryButton Landroid/widget/Button;
+    private  android.widget.Button retryButton;
+    //field:0024  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.shouldAutoPlay Z
+    private  boolean shouldAutoPlay;
+    //field:0025  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.simpleExoPlayerView Lcom/google/android/exoplayer2/ui/SimpleExoPlayerView;
+    private  com.google.android.exoplayer2.ui.SimpleExoPlayerView simpleExoPlayerView;
+    //field:0026  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.trackSelectionHelper Lcom/google/android/exoplayer2/demo/TrackSelectionHelper;
+    private  com.google.android.exoplayer2.demo.TrackSelectionHelper trackSelectionHelper;
+    //field:0027  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.trackSelector Lcom/google/android/exoplayer2/trackselection/DefaultTrackSelector;
+    private  com.google.android.exoplayer2.trackselection.DefaultTrackSelector trackSelector;
 
-import java.net.CookieHandler;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
-import java.util.UUID;
+//    public  void native   __initNative();
+//    public  PlayerActivity()
+//    {
+//        __initNative();
+//    };
 
-public class PlayerActivity extends Activity {
+    private  native  com.google.android.exoplayer2.upstream.DataSource.Factory  buildDataSourceFactory(boolean p0);
 
-    public static final String DRM_SCHEME_UUID_EXTRA = "drm_scheme_uuid";
-    public static final String DRM_LICENSE_URL = "drm_license_url";
-    public static final String DRM_KEY_REQUEST_PROPERTIES = "drm_key_request_properties";
-    public static final String PREFER_EXTENSION_DECODERS = "prefer_extension_decoders";
 
-    public static final String ACTION_VIEW = "com.google.android.exoplayer.demo.action.VIEW";
-    public static final String EXTENSION_EXTRA = "extension";
+    private  native  com.google.android.exoplayer2.source.MediaSource  buildMediaSource(android.net.Uri p0,java.lang.String p1);
 
-    public static final String ACTION_VIEW_LIST =
-            "com.google.android.exoplayer.demo.action.VIEW_LIST";
-    public static final String URI_LIST_EXTRA = "uri_list";
-    public static final String EXTENSION_LIST_EXTRA = "extension_list";
-    public static final String AD_TAG_URI_EXTRA = "ad_tag_uri";
 
-    private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
-    private static CookieManager DEFAULT_COOKIE_MANAGER;
+    private  native  void  initializePlayer();
 
-    private Handler mainHandler;
-    private EventLogger eventLogger;
-    private SimpleExoPlayerView simpleExoPlayerView;
-    private LinearLayout debugRootView;
-    private TextView debugTextView;
-    private Button retryButton;
 
-    private DataSource.Factory mediaDataSourceFactory;
-    private SimpleExoPlayer player;
-    private DefaultTrackSelector trackSelector;
-    private TrackSelectionHelper trackSelectionHelper;
-    private DebugTextViewHelper debugViewHelper;
-    private boolean inErrorState;
-    private TrackGroupArray lastSeenTrackGroupArray;
+    private  native  void  showToast(int p0);
 
-    private boolean shouldAutoPlay;
-    private int resumeWindow;
-    private long resumePosition;
 
-    // Activity lifecycle
+    //private  native  void  showToast(java.lang.String p0);
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        DEFAULT_COOKIE_MANAGER = new CookieManager();
-        DEFAULT_COOKIE_MANAGER.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER);
+    public  native  void  onCreate(android.os.Bundle p0);
 
-        shouldAutoPlay = true;
-        //clearResumePosition();
-        mediaDataSourceFactory = buildDataSourceFactory(true);
-        mainHandler = new Handler();
-        if (CookieHandler.getDefault() != DEFAULT_COOKIE_MANAGER) {
-            CookieHandler.setDefault(DEFAULT_COOKIE_MANAGER);
-        }
 
-        setContentView(R.layout.player_activity);
+    public  native  void  onResume();
 
-        debugRootView = (LinearLayout) findViewById(R.id.controls_root);
-        debugTextView = (TextView) findViewById(R.id.debug_text_view);
-        retryButton = (Button) findViewById(R.id.retry_button);
-
-        simpleExoPlayerView = (SimpleExoPlayerView) findViewById(R.id.player_view);
-        simpleExoPlayerView.requestFocus();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if ((Util.SDK_INT <= 23 || player == null)) {
-            initializePlayer();
-        }
-    }
-
-    private void initializePlayer() {
-        Intent intent = getIntent();
-        boolean needNewPlayer = player == null;
-        if (needNewPlayer) {
-            TrackSelection.Factory adaptiveTrackSelectionFactory =
-                    new AdaptiveTrackSelection.Factory(BANDWIDTH_METER);
-            trackSelector = new DefaultTrackSelector(adaptiveTrackSelectionFactory);
-            trackSelectionHelper = new TrackSelectionHelper(trackSelector, adaptiveTrackSelectionFactory);
-            lastSeenTrackGroupArray = null;
-            eventLogger = new EventLogger(trackSelector);
-
-            UUID drmSchemeUuid = intent.hasExtra(DRM_SCHEME_UUID_EXTRA)
-                    ? UUID.fromString(intent.getStringExtra(DRM_SCHEME_UUID_EXTRA)) : null;
-            DrmSessionManager<FrameworkMediaCrypto> drmSessionManager = null;
-            if (drmSchemeUuid != null) {
-                String drmLicenseUrl = intent.getStringExtra(DRM_LICENSE_URL);
-                String[] keyRequestPropertiesArray = intent.getStringArrayExtra(DRM_KEY_REQUEST_PROPERTIES);
-                int errorStringId = R.string.error_drm_unknown;
-                if (Util.SDK_INT < 18) {
-                    errorStringId = R.string.error_drm_not_supported;
-                } else {
-//          try {
-//            drmSessionManager = buildDrmSessionManagerV18(drmSchemeUuid, drmLicenseUrl,
-//                keyRequestPropertiesArray);
-//          } catch (UnsupportedDrmException e) {
-//            errorStringId = e.reason == UnsupportedDrmException.REASON_UNSUPPORTED_SCHEME
-//                ? R.string.error_drm_unsupported_scheme : R.string.error_drm_unknown;
-//          }
-                }
-                if (drmSessionManager == null) {
-                    showToast(errorStringId);
-                    return;
-                }
-            }
-
-            boolean preferExtensionDecoders = intent.getBooleanExtra(PREFER_EXTENSION_DECODERS, false);
-            @DefaultRenderersFactory.ExtensionRendererMode int extensionRendererMode =
-                    ((DemoApplication) getApplication()).useExtensionRenderers()
-                            ? (preferExtensionDecoders ? DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER
-                            : DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
-                            : DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF;
-            DefaultRenderersFactory renderersFactory = new DefaultRenderersFactory(this,
-                    drmSessionManager, extensionRendererMode);
-
-            player = ExoPlayerFactory.newSimpleInstance(renderersFactory, trackSelector);
-            player.addListener(eventLogger);
-            player.setAudioDebugListener(eventLogger);
-            player.setVideoDebugListener(eventLogger);
-            player.setMetadataOutput(eventLogger);
-
-            simpleExoPlayerView.setPlayer(player);
-            player.setPlayWhenReady(shouldAutoPlay);
-            debugViewHelper = new DebugTextViewHelper(player, debugTextView);
-            debugViewHelper.start();
-        }
-        String action = intent.getAction();
-        Uri[] uris;
-        String[] extensions;
-        if (ACTION_VIEW.equals(action)) {
-            uris = new Uri[]{intent.getData()};
-            extensions = new String[]{intent.getStringExtra(EXTENSION_EXTRA)};
-        } else if (ACTION_VIEW_LIST.equals(action)) {
-            String[] uriStrings = intent.getStringArrayExtra(URI_LIST_EXTRA);
-            uris = new Uri[uriStrings.length];
-            for (int i = 0; i < uriStrings.length; i++) {
-                uris[i] = Uri.parse(uriStrings[i]);
-            }
-            extensions = intent.getStringArrayExtra(EXTENSION_LIST_EXTRA);
-            if (extensions == null) {
-                extensions = new String[uriStrings.length];
-            }
-        } else {
-            showToast(getString(R.string.unexpected_intent_action, action));
-            return;
-        }
-        if (Util.maybeRequestReadExternalStoragePermission(this, uris)) {
-            // The player will be reinitialized if the permission is granted.
-            return;
-        }
-        MediaSource[] mediaSources = new MediaSource[uris.length];
-        for (int i = 0; i < uris.length; i++) {
-            mediaSources[i] = buildMediaSource(uris[i], extensions[i]);
-        }
-        MediaSource mediaSource = mediaSources.length == 1 ? mediaSources[0]
-                : new ConcatenatingMediaSource(mediaSources);
-
-        boolean haveResumePosition = resumeWindow != C.INDEX_UNSET;
-        if (haveResumePosition) {
-            player.seekTo(resumeWindow, resumePosition);
-        }
-        player.prepare(mediaSource, !haveResumePosition, false);
-        inErrorState = false;
-    }
-
-    private MediaSource buildMediaSource(Uri uri, String overrideExtension) {
-        int type = TextUtils.isEmpty(overrideExtension) ? Util.inferContentType(uri)
-                : Util.inferContentType("." + overrideExtension);
-        switch (type) {
-            case C.TYPE_SS:
-                return new SsMediaSource(uri, buildDataSourceFactory(false),
-                        new DefaultSsChunkSource.Factory(mediaDataSourceFactory), mainHandler, eventLogger);
-            case C.TYPE_DASH:
-                return new DashMediaSource(uri, buildDataSourceFactory(false),
-                        new DefaultDashChunkSource.Factory(mediaDataSourceFactory), mainHandler, eventLogger);
-            case C.TYPE_HLS:
-                return new HlsMediaSource(uri, mediaDataSourceFactory, mainHandler, eventLogger);
-            case C.TYPE_OTHER:
-                return new ExtractorMediaSource(uri, mediaDataSourceFactory, new DefaultExtractorsFactory(),
-                        mainHandler, eventLogger);
-            default: {
-                throw new IllegalStateException("Unsupported type: " + type);
-            }
-        }
-    }
-
-    private DataSource.Factory buildDataSourceFactory(boolean useBandwidthMeter) {
-        return ((DemoApplication) getApplication())
-                .buildDataSourceFactory(useBandwidthMeter ? BANDWIDTH_METER : null);
-    }
-
-    private void showToast(int messageId) {
-        showToast(getString(messageId));
-    }
-
-    private void showToast(String message) {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-    }
 }

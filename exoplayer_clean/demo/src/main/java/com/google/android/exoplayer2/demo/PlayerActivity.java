@@ -72,7 +72,7 @@ public class PlayerActivity extends Activity {
     public static final String EXTENSION_LIST_EXTRA = "extension_list";
     public static final String AD_TAG_URI_EXTRA = "ad_tag_uri";
 
-    private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
+    private static DefaultBandwidthMeter BANDWIDTH_METER;
     private static CookieManager DEFAULT_COOKIE_MANAGER;
 
     private Handler mainHandler;
@@ -99,6 +99,8 @@ public class PlayerActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        BANDWIDTH_METER = new DefaultBandwidthMeter();
 
         DEFAULT_COOKIE_MANAGER = new CookieManager();
         DEFAULT_COOKIE_MANAGER.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER);
