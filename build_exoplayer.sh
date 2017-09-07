@@ -33,6 +33,8 @@ else
 #unzip java.jar -d   java
 #popd
 
+
+pushd .
 cd repackage
 rm -rf app-repackage.apk
 rm -rf app-release
@@ -46,7 +48,7 @@ popd
 #remove auto generated files
 pushd .
 cd exoplayer
-#./gradlew assembleNoExtensionsDebug
+./gradlew assembleNoExtensionsDebug
 cp demo/buildout/outputs/apk/demo-noExtensions-debug.apk ../repackage/app-native.apk
 popd
 
