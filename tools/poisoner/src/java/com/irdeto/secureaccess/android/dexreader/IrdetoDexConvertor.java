@@ -620,7 +620,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			+ "\n"
 			+ "}"
 			+ "\n"
-			+ "if ((*env)->RegisterNatives(clazz, symbolListApi, sizeof(symbolListApi) / sizeof(symbolListApi[0])) < 0) {"
+			+ "if ((*env)->RegisterNatives(env, clazz, symbolListApi, sizeof(symbolListApi) / sizeof(symbolListApi[0])) < 0) {"
 			+ "\n"
 			+ "returnVal = JNI_FALSE; "
 			+ "\n"
