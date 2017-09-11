@@ -621,17 +621,22 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		String methodId = String.format("methodId%d", localMethodCounter++);
 
+		boolean isStatic = false;
+		if (opcode == OP_INVOKE_STATIC) {
+			isStatic = true;
+		} else {
+			isStatic = false;
+		}
+
 		sb.append(getMethodStr(methodId, localClass, methodName, signature,
-				false));
+				isStatic));
 		sb.append("\n");
 
 		String caller = "";
 
 		boolean isVirtual = isVirtual(reg, className, opcode);
 
-		boolean isStatic = false;
 		if (opcode == OP_INVOKE_STATIC) {
-			isStatic = true;
 			caller = localClass;
 		} else {
 			caller = getRegister(reg).value;
@@ -677,8 +682,15 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		String methodId = String.format("methodId%d", localMethodCounter++);
 
+		boolean isStatic = false;
+		if (opcode == OP_INVOKE_STATIC) {
+			isStatic = true;
+		} else {
+			isStatic = false;
+		}
+
 		sb.append(getMethodStr(methodId, localClass, methodName, signature,
-				false));
+				isStatic));
 		sb.append("\n");
 
 		String returnType = toJniType(method.getReturnType());
@@ -689,12 +701,10 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		String caller;
 		boolean isVirtual = isVirtual(reg, className, opcode);
-		boolean isStatic = false;
+
 		if (opcode == OP_INVOKE_STATIC) {
-			isStatic = true;
 			caller = localClass;
 		} else {
-			isStatic = false;
 			caller = getRegister(reg).value;
 		}
 
