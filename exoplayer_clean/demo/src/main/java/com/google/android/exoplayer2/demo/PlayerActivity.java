@@ -101,7 +101,6 @@ public class PlayerActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         BANDWIDTH_METER = new DefaultBandwidthMeter();
-
         DEFAULT_COOKIE_MANAGER = new CookieManager();
         DEFAULT_COOKIE_MANAGER.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER);
 
@@ -142,29 +141,7 @@ public class PlayerActivity extends Activity {
             lastSeenTrackGroupArray = null;
             eventLogger = new EventLogger(trackSelector);
 
-            UUID drmSchemeUuid = intent.hasExtra(DRM_SCHEME_UUID_EXTRA)
-                    ? UUID.fromString(intent.getStringExtra(DRM_SCHEME_UUID_EXTRA)) : null;
             DrmSessionManager<FrameworkMediaCrypto> drmSessionManager = null;
-            if (drmSchemeUuid != null) {
-                String drmLicenseUrl = intent.getStringExtra(DRM_LICENSE_URL);
-                String[] keyRequestPropertiesArray = intent.getStringArrayExtra(DRM_KEY_REQUEST_PROPERTIES);
-                int errorStringId = R.string.error_drm_unknown;
-                if (Util.SDK_INT < 18) {
-                    errorStringId = R.string.error_drm_not_supported;
-                } else {
-//          try {
-//            drmSessionManager = buildDrmSessionManagerV18(drmSchemeUuid, drmLicenseUrl,
-//                keyRequestPropertiesArray);
-//          } catch (UnsupportedDrmException e) {
-//            errorStringId = e.reason == UnsupportedDrmException.REASON_UNSUPPORTED_SCHEME
-//                ? R.string.error_drm_unsupported_scheme : R.string.error_drm_unknown;
-//          }
-                }
-                if (drmSessionManager == null) {
-                    showToast(errorStringId);
-                    return;
-                }
-            }
 
             boolean preferExtensionDecoders = intent.getBooleanExtra(PREFER_EXTENSION_DECODERS, false);
             @DefaultRenderersFactory.ExtensionRendererMode int extensionRendererMode =
@@ -206,10 +183,7 @@ public class PlayerActivity extends Activity {
             showToast(getString(R.string.unexpected_intent_action, action));
             return;
         }
-        if (Util.maybeRequestReadExternalStoragePermission(this, uris)) {
-            // The player will be reinitialized if the permission is granted.
-            return;
-        }
+
         MediaSource[] mediaSources = new MediaSource[uris.length];
         for (int i = 0; i < uris.length; i++) {
             mediaSources[i] = buildMediaSource(uris[i], extensions[i]);
