@@ -560,9 +560,6 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		boolean isObjectRegisterAndSetNull = false;
 		String orginalType = getRegister(reg).type;
 
-		System.out.println("99999999999999999 orginalType : " + orginalType
-				+ "value is : " + valueObject);
-
 		if (isObjectType(orginalType.charAt(0))) {
 			long v = Long.parseLong(valueObject + "");
 			if (v == 0x0) {
