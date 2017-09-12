@@ -163,33 +163,12 @@ public class PlayerActivity extends Activity {
             debugViewHelper = new DebugTextViewHelper(player, debugTextView);
             debugViewHelper.start();
         }
-        String action = intent.getAction();
-        Uri[] uris;
-        String[] extensions;
-        if (ACTION_VIEW.equals(action)) {
-            uris = new Uri[]{intent.getData()};
-            extensions = new String[]{intent.getStringExtra(EXTENSION_EXTRA)};
-        } else if (ACTION_VIEW_LIST.equals(action)) {
-            String[] uriStrings = intent.getStringArrayExtra(URI_LIST_EXTRA);
-            uris = new Uri[uriStrings.length];
-            for (int i = 0; i < uriStrings.length; i++) {
-                uris[i] = Uri.parse(uriStrings[i]);
-            }
-            extensions = intent.getStringArrayExtra(EXTENSION_LIST_EXTRA);
-            if (extensions == null) {
-                extensions = new String[uriStrings.length];
-            }
-        } else {
-            showToast(getString(R.string.unexpected_intent_action, action));
-            return;
-        }
 
-        MediaSource[] mediaSources = new MediaSource[uris.length];
-        for (int i = 0; i < uris.length; i++) {
-            mediaSources[i] = buildMediaSource(uris[i], extensions[i]);
-        }
-        MediaSource mediaSource = mediaSources.length == 1 ? mediaSources[0]
-                : new ConcatenatingMediaSource(mediaSources);
+        Uri uris = Uri.parse("http://www.youtube.com/api/manifest/dash/id/3aa39fa2cc27967f/source/youtube?as=fmp4_audio_clear,fmp4_sd_hd_clear&sparams=ip,ipbits,expire,source,id,as&ip=0.0.0.0&ipbits=0&expire=19000000000&signature=A2716F75795F5D2AF0E88962FFCD10DB79384F29.84308FF04844498CE6FBCE4731507882B8307798&key=ik0");
+
+        MediaSource mediaSources = buildMediaSource(uris, null);
+
+        MediaSource mediaSource = mediaSources;
 
         boolean haveResumePosition = resumeWindow != C.INDEX_UNSET;
         if (haveResumePosition) {
@@ -200,24 +179,8 @@ public class PlayerActivity extends Activity {
     }
 
     private MediaSource buildMediaSource(Uri uri, String overrideExtension) {
-        int type = TextUtils.isEmpty(overrideExtension) ? Util.inferContentType(uri)
-                : Util.inferContentType("." + overrideExtension);
-        switch (type) {
-            case C.TYPE_SS:
-                return new SsMediaSource(uri, buildDataSourceFactory(false),
-                        new DefaultSsChunkSource.Factory(mediaDataSourceFactory), mainHandler, eventLogger);
-            case C.TYPE_DASH:
-                return new DashMediaSource(uri, buildDataSourceFactory(false),
-                        new DefaultDashChunkSource.Factory(mediaDataSourceFactory), mainHandler, eventLogger);
-            case C.TYPE_HLS:
-                return new HlsMediaSource(uri, mediaDataSourceFactory, mainHandler, eventLogger);
-            case C.TYPE_OTHER:
-                return new ExtractorMediaSource(uri, mediaDataSourceFactory, new DefaultExtractorsFactory(),
-                        mainHandler, eventLogger);
-            default: {
-                throw new IllegalStateException("Unsupported type: " + type);
-            }
-        }
+        return new DashMediaSource(uri, buildDataSourceFactory(false),
+                new DefaultDashChunkSource.Factory(mediaDataSourceFactory), mainHandler, eventLogger);
     }
 
     private DataSource.Factory buildDataSourceFactory(boolean useBandwidthMeter) {
