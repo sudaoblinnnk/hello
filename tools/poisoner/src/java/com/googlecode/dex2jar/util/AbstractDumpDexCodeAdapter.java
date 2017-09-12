@@ -249,13 +249,13 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 						value, Float.intBitsToFloat((Integer) value));
 
 				nativeCONST(opcode, String.format("v%d", reg),
-						String.format("0x%08x", value));
+						String.format("0x%08x", value), value);
 			} else {
 				info(opcode, "v%d=0x%016x  // long:%d   double:%f", reg, value,
 						value, Double.longBitsToDouble((Long) value));
 
 				nativeCONST(opcode, String.format("v%d", reg),
-						String.format("0x%016x", value));
+						String.format("0x%016x", value), value);
 			}
 
 			break;
@@ -272,7 +272,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		default:
 			info(opcode, "v%d=%s  //", reg, value);
 			nativeCONST(opcode, String.format("v%d", reg),
-					String.format("%s", value));
+					String.format("%s", value), value);
 			break;
 		}
 	}
@@ -756,7 +756,8 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		nativeCast(xtb, code1, saveToReg, opReg);
 	}
 
-	protected abstract void nativeCONST(int opcode, String reg, String value);
+	protected abstract void nativeCONST(int opcode, String reg, String value,
+			Object valueObject);
 
 	protected abstract void nativeCONST_STRING(int opcode, String reg,
 			String value);
