@@ -556,6 +556,31 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 						}
 
 						String methodName;
+
+						// generate code as below
+						// ////////////////////////////////////////////////////////////////
+						// public PlayerActivity()
+						// {
+						// __initNative();
+						// };
+						if (method.getName().equals(LOCAL_CTOR)) {
+							methodName = getPackageNameByClassName(javaClassName)[1];
+							out.printf(" %s",
+									methodName + method.getJavaParameter());
+							out.println();
+							out.print("{" + "\n" + LOCAL_NATIVE_INIT
+									+ method.getJavaParameterList() + ";"
+									+ "\n" + "}");
+							out.print(";");
+						}
+
+						// generate code as below
+						// ////////////////////////////////////////////////////////////////
+						// void native __initNative(); //this is constructor
+						// or
+						// private native void initializePlayer(); // this is
+						// normal function
+
 						String returnType = "";
 						if (!method.getName().equals(LOCAL_CTOR)) {
 							returnType = Dump.toJavaClass(method
@@ -570,22 +595,6 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 						out.printf(" %s",
 								methodName + method.getJavaParameter());
 						out.print(";");
-						out.println();
-
-						// /////////////////////////////////////////////////////////////////
-						out.printf(getAccDes(accesFlags));
-						if (method.getName().equals(LOCAL_CTOR)) {
-							methodName = getPackageNameByClassName(javaClassName)[1];
-							out.printf(" %s",
-									methodName + method.getJavaParameter());
-							out.println();
-							out.print("{" + "\n" + LOCAL_NATIVE_INIT
-									+ method.getJavaParameterList() + ";"
-									+ "\n" + "}");
-							out.print(";");
-						} else {
-
-						}
 						out.println();
 					}
 
