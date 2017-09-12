@@ -1,4 +1,7 @@
 package com.google.android.exoplayer2.demo;
+
+import android.widget.Toast;
+
 //class:0649  access:0x0001
 public class PlayerActivity extends android.app.Activity
 {
@@ -108,8 +111,7 @@ public class PlayerActivity extends android.app.Activity
     private  native  void  showToast(int p0);
 
 
-    //private  native  void  showToast(java.lang.String p0);
-
+    private  native  void  showToast(java.lang.String p0);
 
     public  native  void  onCreate(android.os.Bundle p0);
 
