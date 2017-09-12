@@ -485,11 +485,14 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 								DumpDexCodeAdapter.toJniType(method
 										.getReturnType()));
 
-						String funcName = String.format(
-								"%s%s",
-								NATIVE_METHOD_PREFIX
-										+ currentJavaClass.replace('.', '_')
-										+ "_", method.getName());
+						String funcName = String
+								.format("%s%s",
+										NATIVE_METHOD_PREFIX
+												+ currentJavaClass.replace('.',
+														'_') + "_",
+										method.getName()
+												+ Math.abs(method.getDesc()
+														.hashCode()));
 
 						String nativeFuncRegistrationInfo[] = new String[] {
 								method.getName(), method.getDesc(), funcName };
@@ -604,7 +607,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		currentJavaClassAccessFlags = access_flags;
 	}
 
-	private static final String NATIVE_FUNCTION_REGIST_FUNCTION = "static int registerNativeSymbols%s(JNIEnv * env) { "
+	private static final String NATIVE_FUNCTION_REGIST_FUNCTION = "int registerNativeSymbols%s(JNIEnv * env) { "
 			+ "\n"
 			+ "int returnVal = JNI_TRUE; JNINativeMethod symbolListApi[] = { "
 			+ "\n"
