@@ -68,6 +68,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	public static final String INVOKE_DIRECT_OP = "INVOKE_DIRECT";
 	public static final String INVOKE_STATIC_OP = "INVOKE_STATIC";
 
+	public static final String INVALID_REGISTER_NAME = "@invalid_register";
+
 	@Override
 	protected void nativeSPUT(String fromOrToReg, String fieldOwner,
 			String fieldName, Field field) {
@@ -551,15 +553,35 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		// out.print(sb);
 	}
 
-	protected void nativeCONST(int opcode, String reg, String value) {
+	protected void nativeCONST(int opcode, String reg, String value,
+			Object valueObject) {
 		StringBuilder sb = new StringBuilder();
+
+		boolean isObjectRegisterAndSetNull = false;
+		String orginalType = getRegister(reg).type;
+
+		System.out.println("99999999999999999 orginalType : " + orginalType
+				+ "value is : " + valueObject);
+
+		if (isObjectType(orginalType.charAt(0))) {
+			long v = Long.parseLong(valueObject + "");
+			if (v == 0x0) {
+				isObjectRegisterAndSetNull = true;
+			}
+		}
+
+		String resultRegisterName = INVALID_REGISTER_NAME;
 		String typeSignature = "I";
 
-		boolean isNew = setRegister(typeSignature, reg, null);
-		if (isNew) {
-			sb.append(String.format(("%s "), toJniType(typeSignature)));
+		if (!isObjectRegisterAndSetNull) {
+			boolean isNew = setRegister(typeSignature, reg, null);
+			if (isNew) {
+				sb.append(String.format(("%s "), toJniType(typeSignature)));
+			}
+			resultRegisterName = getRegister(reg).value;
+		} else {
+			resultRegisterName = getRegister(reg).value;
 		}
-		String resultRegisterName = getRegister(reg).value;
 
 		sb.append(resultRegisterName);
 		sb.append(" = ");

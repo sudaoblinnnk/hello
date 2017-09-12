@@ -60,6 +60,14 @@ public class MainActivity extends Activity {
     public class PublicClass{
     }
 
+    private void test0() {
+        int i = 0;
+        int sum = 0;
+        for (;i<100;i++) {
+            sum += i;
+        }
+    }
+
     private void test1() {
         int i = 0;
         int sum = 0;
