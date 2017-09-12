@@ -58,6 +58,10 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 	private static final String LOCAL_CTOR = "<init>";
 	private static final String LOCAL_NATIVE_INIT = "__initNative";
 
+	protected static final String INVALID_METHOD_NAME = "@@@";
+
+	protected static final String INVALID_METHOD_TYPE = "@@@";
+
 	public interface WriterManager {
 		PrintWriter get(String name);
 	}
@@ -480,22 +484,32 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 							methodArgs = NATIVE_PARAMETER_OBJECT;
 						}
 
-						String funcReturn = String.format(
-								JNI_FUNCTION_DELCLEAR_FORMAT,
-								DumpDexCodeAdapter.toJniType(method
-										.getReturnType()));
+						String funcReturn = INVALID_METHOD_TYPE;
+						String methodName = INVALID_METHOD_NAME;
+
+						if (method.getName().equals(LOCAL_CTOR)) {
+							funcReturn = "void ";
+							methodName = LOCAL_NATIVE_INIT;
+						} else {
+							funcReturn = String.format(
+									JNI_FUNCTION_DELCLEAR_FORMAT,
+									DumpDexCodeAdapter.toJniType(method
+											.getReturnType()));
+							methodName = method.getName();
+						}
 
 						String funcName = String
 								.format("%s%s",
 										NATIVE_METHOD_PREFIX
 												+ currentJavaClass.replace('.',
-														'_') + "_",
-										method.getName()
+														'_') + LINE,
+										methodName
+												+ LINE
 												+ Math.abs(method.getDesc()
 														.hashCode()));
 
 						String nativeFuncRegistrationInfo[] = new String[] {
-								method.getName(), method.getDesc(), funcName };
+								methodName, method.getDesc(), funcName };
 
 						nativeFunctions.add(nativeFuncRegistrationInfo);
 
@@ -587,7 +601,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 									.getReturnType());
 							methodName = method.getName();
 						} else {
-							returnType = "void native ";
+							returnType = " native void ";
 							methodName = LOCAL_NATIVE_INIT;
 						}
 						out.printf(" %s ", returnType);
