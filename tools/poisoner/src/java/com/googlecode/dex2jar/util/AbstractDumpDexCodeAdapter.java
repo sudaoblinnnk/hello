@@ -983,7 +983,16 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 					ret = returnBlockRegister.value + " = "
 							+ currentGotoRegister.value + ";";
 				} else {
-					ret = "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh";
+					if (argumentRegister.containsKey(returnBlock.register.name)) {
+						// return argument. this code is ok.
+						// example:
+						// com/google/android/exoplayer2/text/webvtt/WebvttCue\$Builder.c
+						// derivePositionAnchorFromAlignment function will come
+						// here.
+					} else {
+						//
+						ret = "error register hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh";
+					}
 				}
 			}
 		}
