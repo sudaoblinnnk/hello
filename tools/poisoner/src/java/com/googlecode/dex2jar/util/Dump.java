@@ -163,9 +163,12 @@ public class Dump extends EmptyVisitor {
 	}
 
 	public static String toJavaClass(String desc) {
+		String temp = null;
 		switch (desc.charAt(0)) {
 		case 'L':
-			return desc.substring(1, desc.length() - 1).replace('/', '.');
+			temp = desc.substring(1, desc.length() - 1).replace('/', '.');
+			temp = temp.replace('$', '.');
+			return temp;
 		case 'B':
 			return "byte";
 		case 'S':
