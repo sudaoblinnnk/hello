@@ -1235,4 +1235,11 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				.format(code, getRegister(toRegisterName).value, "NULL"));
 		out.println(sb);
 	}
+
+	@Override
+	protected void nativeSwitchStmt(int opcode, String code, String reg,
+			DexLabel label, int first_case, int last_case, DexLabel[] labels) {
+
+		out.println(String.format(code, getRegister(reg).value));
+	}
 }

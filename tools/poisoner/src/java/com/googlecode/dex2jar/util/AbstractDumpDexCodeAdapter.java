@@ -669,12 +669,25 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	@Override
 	public void visitTableSwitchStmt(int opcode, int reg, DexLabel label,
 			int first_case, int last_case, DexLabel[] labels) {
+		String code = "switch(%s)";
+		code += "\n{";
+
 		info(opcode, "switch(v%d)", reg);
 		for (int i = 0; i < labels.length; i++) {
-			info(opcode, "case %d: goto %s", first_case + i,
-					labelToString(labels[i]));
+			String caseStmt = String.format("case %d: goto %s;",
+					first_case + i, labelToString(labels[i]));
+			code += "\n";
+			code += caseStmt;
+			info(opcode, caseStmt);
 		}
-		info(opcode, "default: goto %s", labelToString(label));
+		String defaultStmt = String.format("default: goto %s;",
+				labelToString(label));
+		info(opcode, defaultStmt);
+		code += "\n";
+		code += defaultStmt;
+		code += "\n}";
+		nativeSwitchStmt(opcode, code, "v" + reg, label, first_case, last_case,
+				labels);
 	}
 
 	@Override
@@ -833,6 +846,10 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 	protected abstract void nativeMoveResult(int reg, Register temp);
 
 	protected abstract void nativeMoveResult(int reg);
+
+	protected abstract void nativeSwitchStmt(int opcode, String code,
+			String string, DexLabel label, int first_case, int last_case,
+			DexLabel[] labels);
 
 	// ////////////////////////////////////////////////////////////////////
 
