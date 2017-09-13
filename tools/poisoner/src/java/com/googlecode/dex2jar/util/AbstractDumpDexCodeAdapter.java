@@ -942,4 +942,57 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 		argumentRegister.put(r, reg);
 	}
 
+	// ////////////////////////////////////////////////////////////////////
+	private static String currentLabel;
+
+	public static void updateCurrentLabel(String label) {
+		currentLabel = label;
+	}
+
+	public static class ReturnBlock {
+		public String label;
+		public Register register;
+
+		public ReturnBlock(String l, Register r) {
+			label = l;
+			register = r;
+		}
+	}
+
+	private static ReturnBlock returnBlock;
+
+	protected static void saveReturnBlock(Register register) {
+		if (currentLabel == null) {
+			throw new NullPointerException("currentLabel is null");
+		}
+		if (returnBlock != null) {
+			throw new RuntimeException("returnBlock already set.");
+		}
+		returnBlock = new ReturnBlock(currentLabel, register);
+	}
+
+	protected static String checkUnconditionGoto(String label) {
+		String ret = null;
+		if (returnBlock != null) {
+			if (label.equals(returnBlock.label)) {
+				Register returnBlockRegister = returnBlock.register;
+				Register currentGotoRegister = registerValueMap
+						.get(returnBlock.register.name);
+
+				if (currentGotoRegister != null) {
+					ret = returnBlockRegister.value + " = "
+							+ currentGotoRegister.value + ";";
+				} else {
+					ret = "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh";
+				}
+			}
+		}
+		return ret;
+	}
+
+	protected static void clearReturnBlockWhenNewMethodStart() {
+		currentLabel = null;
+		returnBlock = null;
+	}
+
 }

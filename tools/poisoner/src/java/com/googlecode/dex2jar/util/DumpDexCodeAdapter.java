@@ -413,6 +413,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	@Override
 	public void visitArguments(int total, int[] args) {
 		clearRegisterValueMap();// TODO clear register map when function begin
+		clearReturnBlockWhenNewMethodStart();
 
 		int i = 0;
 		if (!isStatic) {
@@ -473,8 +474,12 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			out.printf("//%-20s|%5s:\n", "LABEL", "L" + labelToString(label));
 		}
 
+		String outputLabel = labelToString(label);
+
+		updateCurrentLabel(outputLabel);
+
 		StringBuilder sb = new StringBuilder();
-		sb.append(labelToString(label));
+		sb.append(outputLabel);
 		sb.append(": ;\n");
 		out.print(sb);
 
@@ -739,7 +744,9 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 	protected void nativeReturnStmt(int opcode, int reg) {
 		String firstOperator = "v" + reg;
-		String firstOperatorRegisterName = getRegister(firstOperator).value;
+		Register r = getRegister(firstOperator);
+		String firstOperatorRegisterName = r.value;
+		saveReturnBlock(r);
 		out.println("return " + firstOperatorRegisterName + ";");
 	}
 
@@ -856,6 +863,11 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 	@Override
 	protected void nativeGoto(int opcode, String code, String labelToString) {
+		String changeCurrentRegisterToReturnRegister = checkUnconditionGoto(labelToString);
+		if (changeCurrentRegisterToReturnRegister != null) {
+			out.println(changeCurrentRegisterToReturnRegister);
+			out.println();
+		}
 		String s = String.format(code, labelToString);
 		out.println(s);
 	}
