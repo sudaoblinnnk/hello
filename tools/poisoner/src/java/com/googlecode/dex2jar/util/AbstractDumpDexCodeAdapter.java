@@ -1008,7 +1008,7 @@ public abstract class AbstractDumpDexCodeAdapter extends EmptyVisitor {
 						// here.
 					} else {
 						//
-						ret = "error register hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh";
+						ret = "error register .";
 					}
 				}
 			}
