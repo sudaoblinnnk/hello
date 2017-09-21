@@ -114,12 +114,24 @@ public class PlayerActivity extends Activity {
 
         setContentView(R.layout.player_activity);
 
+        Button b = (Button) findViewById(R.id.show_number);
+        b.setText(sumNumber(100) + "");
+
         debugRootView = (LinearLayout) findViewById(R.id.controls_root);
         debugTextView = (TextView) findViewById(R.id.debug_text_view);
         retryButton = (Button) findViewById(R.id.retry_button);
 
         simpleExoPlayerView = (SimpleExoPlayerView) findViewById(R.id.player_view);
         simpleExoPlayerView.requestFocus();
+    }
+
+    private int sumNumber(int count) {
+        int sum  = 0;
+        int i;
+        for (i = 0; i <= count; i++) {
+            sum += i;
+        }
+        return sum;
     }
 
     @Override
@@ -178,10 +190,26 @@ public class PlayerActivity extends Activity {
         inErrorState = false;
     }
 
-    private MediaSource buildMediaSource(Uri uri, String overrideExtension) {
+  private MediaSource buildMediaSource(Uri uri, String overrideExtension) {
+    int type = TextUtils.isEmpty(overrideExtension) ? Util.inferContentType(uri)
+        : Util.inferContentType("." + overrideExtension);
+    switch (C.TYPE_DASH) {
+      case C.TYPE_SS:
+        return new SsMediaSource(uri, buildDataSourceFactory(false),
+            new DefaultSsChunkSource.Factory(mediaDataSourceFactory), mainHandler, eventLogger);
+      case C.TYPE_DASH:
         return new DashMediaSource(uri, buildDataSourceFactory(false),
-                new DefaultDashChunkSource.Factory(mediaDataSourceFactory), mainHandler, eventLogger);
+            new DefaultDashChunkSource.Factory(mediaDataSourceFactory), mainHandler, eventLogger);
+      case C.TYPE_HLS:
+        return new HlsMediaSource(uri, mediaDataSourceFactory, mainHandler, eventLogger);
+      case C.TYPE_OTHER:
+        return new ExtractorMediaSource(uri, mediaDataSourceFactory, new DefaultExtractorsFactory(),
+            mainHandler, eventLogger);
+      default: {
+        return null;
+      }
     }
+  }
 
     private DataSource.Factory buildDataSourceFactory(boolean useBandwidthMeter) {
         return ((DemoApplication) getApplication())
