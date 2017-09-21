@@ -48,6 +48,8 @@ popd
 #remove auto generated files
 pushd .
 cd exoplayer
+cp $NATIVE_CODE_DIR/java/com/google/android/exoplayer2/demo/PlayerActivity.java demo/src/main/java/com/google/android/exoplayer2/demo/PlayerActivity.java
+cp $NATIVE_CODE_DIR/native/com/google/android/exoplayer2/demo/PlayerActivity.c  demo/src/main/cpp/PlayerActivity.c
 ./gradlew assembleNoExtensionsDebug
 cp demo/buildout/outputs/apk/demo-noExtensions-debug.apk ../repackage/app-native.apk
 popd
