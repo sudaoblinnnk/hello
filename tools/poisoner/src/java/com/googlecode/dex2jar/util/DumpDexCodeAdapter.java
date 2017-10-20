@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 import com.googlecode.dex2jar.DexLabel;
 import com.googlecode.dex2jar.Field;
 import com.googlecode.dex2jar.Method;
+import com.irdeto.secureaccess.android.dexreader.IrdetoDexConvertor;
 
 public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	private static class TryCatch {
@@ -636,6 +637,13 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String[] ms = getFunctionNameAndSignature(methodSignature);
 		// String methodName = ms[0];
 		String signature = ms[1];
+
+		// do not need to java.lang.Object init method.
+		if (methodName.equals(IrdetoDexConvertor.LOCAL_CTOR)
+				&& method.toString().startsWith(
+						"L" + IrdetoDexConvertor.JAVA_LANG_OBJECT)) {
+			return;
+		}
 		StringBuilder sb = new StringBuilder();
 
 		String localClass = String.format("localClass%d", localClassCounter++);
@@ -689,9 +697,9 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			String methodName, String param, Method method) {
 
 		String classNameSignature = method.getOwner();
-		System.out.println("8888888888888888888888 : " + method);
 
 		String className = getClassNameFromclassNameSignature(classNameSignature);
+		System.out.println("8888888888 : " + method + " class :" + className);
 
 		String methodSignature = method.signature();
 		String[] ms = getFunctionNameAndSignature(methodSignature);

@@ -55,8 +55,9 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 	private static boolean isSubClass = false;
 	private static boolean isStaticSubClass = true;
 
-	private static final String LOCAL_CTOR = "<init>";
-	private static final String LOCAL_NATIVE_INIT = "__initNative";
+	public static final String LOCAL_CTOR = "<init>";
+	public static final String LOCAL_NATIVE_INIT = "__initNative";
+	public static final String JAVA_LANG_OBJECT = "java/lang/Object";
 
 	protected static final String INVALID_METHOD_NAME = "@@@";
 
