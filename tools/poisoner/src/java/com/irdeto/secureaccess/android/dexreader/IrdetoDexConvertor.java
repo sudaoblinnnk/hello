@@ -58,7 +58,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 	public static final String LOCAL_CTOR = "<init>";
 	public static final String LOCAL_NATIVE_INIT = "__initNative";
 	public static final String JAVA_LANG_OBJECT = "java/lang/Object";
-
+	private static final String INVOKE_FROM_NATIVE = "invokeFromNative__";
 	protected static final String INVALID_METHOD_NAME = "@@@";
 
 	protected static final String INVALID_METHOD_TYPE = "@@@";
@@ -605,12 +605,8 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 							returnType = " native void ";
 							methodName = LOCAL_NATIVE_INIT;
 						}
-						out.printf(" %s ", returnType);
-
-						out.printf(" %s",
-								methodName + method.getJavaParameter());
-						out.print(";");
-						out.println();
+						generateJavaMethod(returnType, methodName, method);
+						generateInvokeJavaMethod(returnType, methodName, method);
 					}
 
 					EmptyVisitor ev = new EmptyVisitor();
@@ -619,6 +615,48 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 				return super.visitMethod(accesFlags, method);
 			}
 
+			private void generateJavaMethod(String returnType,
+					String methodName, Method method) {
+				out.printf(" %s ", returnType);
+				out.printf(" %s", methodName + method.getJavaParameter());
+				out.print(";");
+				out.println();
+			}
+
+			private void generateInvokeJavaMethod(String returnType,
+					String methodName, Method method) {
+				if (methodName.equals(LOCAL_NATIVE_INIT)) {
+					return;
+				}
+
+				StringBuilder body = new StringBuilder();
+				String obj = "obj";
+				StringBuilder caller = new StringBuilder(currentJavaClass + " "
+						+ obj);
+				if (method.hasParameter()) {
+					caller.append(", ");
+				}
+
+				body.append("\nprivate ");
+				body.append(returnType);
+				body.append(" ");
+				body.append(INVOKE_FROM_NATIVE);
+				body.append(methodName);
+				body.append("(");
+				body.append(caller);
+				body.append(method.getJavaParameter().substring(1));
+				body.append(" {");
+				body.append("\n");
+				body.append("  ");
+				body.append(obj);
+				body.append(".");
+				body.append(methodName);
+				body.append(method.getJavaParameterList());
+				body.append(";\n");
+				body.append(" }");
+				body.append("\n");
+				out.println(body);
+			}
 		};
 	}
 

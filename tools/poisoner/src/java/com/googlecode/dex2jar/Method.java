@@ -121,6 +121,10 @@ public class Method {
 		return ps.toString();
 	}
 
+	public boolean hasParameter() {
+		return (parameterTypes != null) && parameterTypes.length > 0;
+	}
+
 	public String getJavaParameter() {
 		int paramter = 0;
 		StringBuilder ps = new StringBuilder("(");
