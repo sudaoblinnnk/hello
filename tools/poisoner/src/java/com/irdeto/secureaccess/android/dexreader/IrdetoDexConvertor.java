@@ -58,7 +58,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 	public static final String LOCAL_CTOR = "<init>";
 	public static final String LOCAL_NATIVE_INIT = "__initNative";
 	public static final String JAVA_LANG_OBJECT = "java/lang/Object";
-	private static final String INVOKE_FROM_NATIVE = "invokeFromNative__";
+	public static final String INVOKE_FROM_NATIVE = "invokeFromNative__";
 	protected static final String INVALID_METHOD_NAME = "@@@";
 
 	protected static final String INVALID_METHOD_TYPE = "@@@";
@@ -343,7 +343,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			StringBuilder sb = new StringBuilder();
 			out.println("\n{\n");
 			if (!clsName.contains("$")) { // skip inner class
-				sb.append(" static {System.loadLibrary(\"native-lib\");} ");
+				// sb.append(" static {System.loadLibrary(\"native-lib\");} ");
 			} else {
 				isSubClass = true;
 			}

@@ -659,7 +659,9 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		} else {
 			isStatic = false;
 		}
-
+		if (opcode == OP_INVOKE_VIRTUAL) {
+			methodName = IrdetoDexConvertor.INVOKE_FROM_NATIVE + methodName;
+		}
 		sb.append(getMethodStr(methodId, localClass, methodName, signature,
 				isStatic));
 		sb.append("\n");
@@ -672,6 +674,16 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			caller = localClass;
 		} else {
 			caller = getRegister(reg).value;
+		}
+		// call invokeFromNative__ method with first argument is caller itself.
+		if (opcode == OP_INVOKE_VIRTUAL) {
+			methodName = IrdetoDexConvertor.INVOKE_FROM_NATIVE + methodName;
+			StringBuilder buffer = new StringBuilder(caller);
+			if (method.hasParameter()) {
+				buffer.append(", ");
+			}
+			buffer.append(param);
+			param = buffer.toString();
 		}
 		sb.append(getCallFunction(
 				getInvokeMethodByMethodSignature(signature, isStatic, isVirtual),
@@ -720,7 +732,9 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		} else {
 			isStatic = false;
 		}
-
+		if (opcode == OP_INVOKE_VIRTUAL) {
+			methodName = IrdetoDexConvertor.INVOKE_FROM_NATIVE + methodName;
+		}
 		sb.append(getMethodStr(methodId, localClass, methodName, signature,
 				isStatic));
 		sb.append("\n");
@@ -739,7 +753,16 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		} else {
 			caller = getRegister(reg).value;
 		}
-
+		// call invokeFromNative__ method with first argument is caller itself.
+		if (opcode == OP_INVOKE_VIRTUAL) {
+			methodName = IrdetoDexConvertor.INVOKE_FROM_NATIVE + methodName;
+			StringBuilder buffer = new StringBuilder(caller);
+			if (method.hasParameter()) {
+				buffer.append(", ");
+			}
+			buffer.append(param);
+			param = buffer.toString();
+		}
 		sb.append(getCallFunction(
 				getInvokeMethodByMethodSignature(signature, isStatic, isVirtual),
 				caller, methodId, param, isVirtual ? null : localClass));
