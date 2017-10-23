@@ -80,7 +80,7 @@ jobject  Java_com_google_android_exoplayer2_demo_PlayerActivity_buildDataSourceF
 {
 //LOCAL_VARIABLE LL0 ~ LL1 v2 -> this // Lcom/google/android/exoplayer2/demo/PlayerActivity; 
 //LOCAL_VARIABLE LL0 ~ LL1 v3 -> useBandwidthMeter // Z 
-//LABEL               |  LL0: line 260
+//LABEL               |  LL0: line 288
 L0: ;
 //INVOKE_VIRTUAL      |     |TEMP=v2.getApplication()  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.getApplication()Landroid/app/Application;
 jclass localClass0 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
@@ -95,7 +95,7 @@ if (v3 == 0) { goto L2; }
 jclass localClass1 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
 jfieldID fieldId0 = (*env)->GetStaticFieldID(env, localClass1, "BANDWIDTH_METER", "Lcom/google/android/exoplayer2/upstream/DefaultBandwidthMeter;");
 jobject v1_0 = (*env)->GetStaticObjectField(env, localClass1, fieldId0);
-//LABEL               |  LL3: line 261
+//LABEL               |  LL3: line 289
 L3: ;
 //INVOKE_VIRTUAL      |     |TEMP=v0.buildDataSourceFactory(v1_0)  //Lcom/google/android/exoplayer2/demo/DemoApplication;.buildDataSourceFactory(Lcom/google/android/exoplayer2/upstream/DefaultBandwidthMeter;)Lcom/google/android/exoplayer2/upstream/DataSource$Factory;
 jclass localClass2 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/DemoApplication");
@@ -103,7 +103,7 @@ jmethodID methodId1 = (*env)->GetMethodID(env, localClass2, "buildDataSourceFact
 jobject TEMP1 = (*env)->CallObjectMethod(env, v0_0, methodId1, v1_0);
 //MOVE_RESULT         |     |v0=TEMP1
 jobject v0_1 = TEMP1;
-//LABEL               |  LL4: line 260
+//LABEL               |  LL4: line 288
 L4: ;
 //RETURN              |     |return v0
 return v0_1;
@@ -127,11 +127,11 @@ jobject  Java_com_google_android_exoplayer2_demo_PlayerActivity_buildMediaSource
 //LOCAL_VARIABLE LL4 ~ LL3 v7 -> this // Lcom/google/android/exoplayer2/demo/PlayerActivity; 
 //LOCAL_VARIABLE LL4 ~ LL3 v8 -> uri // Landroid/net/Uri; 
 //LOCAL_VARIABLE LL4 ~ LL3 v9 -> overrideExtension // Ljava/lang/String; 
-//LABEL               |  LL4: line 239
+//LABEL               |  LL4: line 267
 L4: ;
 //CONST               |     |v2=0x00000000  // int:0   float:0.000000
 jint v2_0 = 0x00000000;
-//LABEL               |  LL5: line 239
+//LABEL               |  LL5: line 267
 L5: ;
 //INVOKE_STATIC       |     |TEMP=android.text.TextUtils.isEmpty(v9)  //Landroid/text/TextUtils;.isEmpty(Ljava/lang/CharSequence;)Z
 jclass localClass0 = (*env)->FindClass(env, "android/text/TextUtils");
@@ -147,7 +147,7 @@ jmethodID methodId1 = (*env)->GetStaticMethodID(env, localClass1, "inferContentT
 jint TEMP1 = (*env)->CallStaticIntMethod(env, localClass1, methodId1, v8);
 //MOVE_RESULT         |     |v6=TEMP1
 jint v6_0 = TEMP1;
-//LABEL               |  LL0: line 241
+//LABEL               |  LL0: line 269
 L0: ;
 //PACKED_SWITCH       |     |switch(v2)
 //PACKED_SWITCH       |     |case 0: goto L6;
@@ -163,7 +163,7 @@ case 2: goto L7;
 case 3: goto L8;
 default: goto L9;
 }
-//LABEL               |  LL9: line 254
+//LABEL               |  LL9: line 282
 L9: ;
 //CONST               |     |v0=0x00000000  // int:0   float:0.000000
 jint v0_1 = 0x00000000;
@@ -171,7 +171,7 @@ jint v0_1 = 0x00000000;
 L10: ;
 //RETURN              |     |return v0
 return v0_1;
-//LABEL               |  LL1: line 367
+//LABEL               |  LL1: line 395
 L1: ;
 //NEW_INSTANCE        |     |v0=NEW Ljava/lang/StringBuilder;
 jobject v0_2 = (*env)->AllocObject(env, (*env)->FindClass(env, "java/lang/StringBuilder"));
@@ -208,7 +208,7 @@ jint TEMP5 = (*env)->CallStaticIntMethod(env, localClass6, methodId6, v0_3);
 v6_0 = TEMP5;
 //GOTO                |     |goto L0;
 goto L0;
-//LABEL               |  LL2: line 371
+//LABEL               |  LL2: line 399
 L2: ;
 //NEW_INSTANCE        |     |v0=NEW Lcom/google/android/exoplayer2/source/smoothstreaming/SsMediaSource;
 jobject v0_4 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/android/exoplayer2/source/smoothstreaming/SsMediaSource"));
@@ -322,7 +322,7 @@ jmethodID methodId13 = (*env)->GetMethodID(env, localClass22, "<init>", "(Landro
 v0_1 = v0_6;
 
 goto L10;
-//LABEL               |  LL8: line 379
+//LABEL               |  LL8: line 407
 L8: ;
 //NEW_INSTANCE        |     |v0=NEW Lcom/google/android/exoplayer2/source/ExtractorMediaSource;
 jobject v0_7 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/android/exoplayer2/source/ExtractorMediaSource"));
@@ -388,7 +388,7 @@ void  Java_com_google_android_exoplayer2_demo_PlayerActivity_initializePlayer_39
 //LOCAL_VARIABLE LL12 ~ LL15 v9 -> needNewPlayer // Z 
 //LOCAL_VARIABLE LL13 ~ LL15 v12 -> uris // Landroid/net/Uri; 
 //LOCAL_VARIABLE LL17 ~ LL15 v18 -> this // Lcom/google/android/exoplayer2/demo/PlayerActivity; 
-//LABEL               | LL17: line 191
+//LABEL               | LL17: line 219
 L17: ;
 //INVOKE_VIRTUAL      |     |TEMP=v18.getIntent()  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.getIntent()Landroid/content/Intent;
 jclass localClass0 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
@@ -396,7 +396,7 @@ jmethodID methodId0 = (*env)->GetMethodID(env, localClass0, "getIntent", "()Land
 jobject TEMP0 = (*env)->CallObjectMethod(env, v18, methodId0);
 //MOVE_RESULT         |     |v6=TEMP0
 jobject v6_0 = TEMP0;
-//LABEL               | LL16: line 192
+//LABEL               | LL16: line 220
 L16: ;
 //MOVE                |     |v0 = v18
 jobject v0_0 = v18;
@@ -409,11 +409,11 @@ jobject v13_0 = (*env)->GetObjectField(env, v0_0, fieldId0);
 if (v13_0 != 0) { goto L7; }
 //CONST               |     |v9=0x00000001  // int:1   float:0.000000
 jint v9_0 = 0x00000001;
-//LABEL               | LL10: line 193
+//LABEL               | LL10: line 221
 L10: ;
 //IF_EQZ              |     |if (v9 == 0) { goto L1; }
 if (v9_0 == 0) { goto L1; }
-//LABEL               | LL18: line 194
+//LABEL               | LL18: line 222
 L18: ;
 //NEW_INSTANCE        |     |v2=NEW Lcom/google/android/exoplayer2/trackselection/AdaptiveTrackSelection$Factory;
 jobject v2_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/android/exoplayer2/trackselection/AdaptiveTrackSelection$Factory"));
@@ -426,7 +426,7 @@ jobject v13_1 = (*env)->GetStaticObjectField(env, localClass2, fieldId1);
 jclass localClass3 = (*env)->FindClass(env, "com/google/android/exoplayer2/trackselection/AdaptiveTrackSelection$Factory");
 jmethodID methodId1 = (*env)->GetMethodID(env, localClass3, "<init>", "(Lcom/google/android/exoplayer2/upstream/BandwidthMeter;)V");
 (*env)->CallVoidMethod(env, v2_0, methodId1, v13_1);
-//LABEL               |  LL0: line 196
+//LABEL               |  LL0: line 224
 L0: ;
 //NEW_INSTANCE        |     |v13=NEW Lcom/google/android/exoplayer2/trackselection/DefaultTrackSelector;
 jobject v13_2 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/android/exoplayer2/trackselection/DefaultTrackSelector"));
@@ -442,7 +442,7 @@ jclass localClass5 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/
 jfieldID fieldId2 = (*env)->GetFieldID(env, localClass5, "trackSelector", "Lcom/google/android/exoplayer2/trackselection/DefaultTrackSelector;");
 (*env)->SetObjectField(env, v0_0, fieldId2, v13_2);
 
-//LABEL               | LL19: line 197
+//LABEL               | LL19: line 225
 L19: ;
 //NEW_INSTANCE        |     |v13=NEW Lcom/google/android/exoplayer2/demo/TrackSelectionHelper;
 jobject v13_3 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/android/exoplayer2/demo/TrackSelectionHelper"));
@@ -465,7 +465,7 @@ jclass localClass8 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/
 jfieldID fieldId4 = (*env)->GetFieldID(env, localClass8, "trackSelectionHelper", "Lcom/google/android/exoplayer2/demo/TrackSelectionHelper;");
 (*env)->SetObjectField(env, v0_0, fieldId4, v13_3);
 
-//LABEL               | LL20: line 198
+//LABEL               | LL20: line 226
 L20: ;
 //CONST               |     |v13=0x00000000  // int:0   float:0.000000
 v13_3 = 0x00000000;
@@ -476,7 +476,7 @@ jclass localClass9 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/
 jfieldID fieldId5 = (*env)->GetFieldID(env, localClass9, "lastSeenTrackGroupArray", "Lcom/google/android/exoplayer2/source/TrackGroupArray;");
 (*env)->SetObjectField(env, v0_0, fieldId5, v13_3);
 
-//LABEL               | LL21: line 199
+//LABEL               | LL21: line 227
 L21: ;
 //NEW_INSTANCE        |     |v13=NEW Lcom/google/android/exoplayer2/demo/EventLogger;
 jobject v13_4 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/android/exoplayer2/demo/EventLogger"));
@@ -499,11 +499,11 @@ jclass localClass12 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo
 jfieldID fieldId7 = (*env)->GetFieldID(env, localClass12, "eventLogger", "Lcom/google/android/exoplayer2/demo/EventLogger;");
 (*env)->SetObjectField(env, v0_0, fieldId7, v13_4);
 
-//LABEL               | LL22: line 201
+//LABEL               | LL22: line 229
 L22: ;
 //CONST               |     |v3=0x00000000  // int:0   float:0.000000
 jint v3_0 = 0x00000000;
-//LABEL               |  LL2: line 203
+//LABEL               |  LL2: line 231
 L2: ;
 //CONST_STRING        |     |v13="prefer_extension_decoders"
 jstring v13_5 = (*env)->NewStringUTF(env, "prefer_extension_decoders");
@@ -515,7 +515,7 @@ jmethodID methodId5 = (*env)->GetMethodID(env, localClass13, "getBooleanExtra", 
 jboolean TEMP1 = (*env)->CallBooleanMethod(env, v6_0, methodId5, v13_5,v14_0);
 //MOVE_RESULT         |     |v10=TEMP1
 jboolean v10_0 = TEMP1;
-//LABEL               |  LL4: line 205
+//LABEL               |  LL4: line 233
 L4: ;
 //INVOKE_VIRTUAL      |     |TEMP=v18.getApplication()  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.getApplication()Landroid/app/Application;
 jclass localClass14 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
@@ -536,7 +536,7 @@ if (v13_7 == 0) { goto L23; }
 if (v10_0 == 0) { goto L12; }
 //CONST               |     |v4=0x00000002  // int:2   float:0.000000
 jint v4_0 = 0x00000002;
-//LABEL               |  LL3: line 209
+//LABEL               |  LL3: line 237
 L3: ;
 //NEW_INSTANCE        |     |v11=NEW Lcom/google/android/exoplayer2/DefaultRenderersFactory;
 jobject v11_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/android/exoplayer2/DefaultRenderersFactory"));
@@ -547,7 +547,7 @@ v0_0 = v18;
 jclass localClass16 = (*env)->FindClass(env, "com/google/android/exoplayer2/DefaultRenderersFactory");
 jmethodID methodId8 = (*env)->GetMethodID(env, localClass16, "<init>", "(Landroid/content/Context;Lcom/google/android/exoplayer2/drm/DrmSessionManager;I)V");
 (*env)->CallVoidMethod(env, v11_0, methodId8, v0_0,v3_0,v4_0);
-//LABEL               |  LL5: line 212
+//LABEL               |  LL5: line 240
 L5: ;
 //MOVE                |     |v0 = v18
 v0_0 = v18;
@@ -569,7 +569,7 @@ jclass localClass19 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo
 jfieldID fieldId9 = (*env)->GetFieldID(env, localClass19, "player", "Lcom/google/android/exoplayer2/SimpleExoPlayer;");
 (*env)->SetObjectField(env, v0_0, fieldId9, v13_9);
 
-//LABEL               | LL24: line 213
+//LABEL               | LL24: line 241
 L24: ;
 //MOVE                |     |v0 = v18
 v0_0 = v18;
@@ -589,7 +589,7 @@ jobject v14_1 = (*env)->GetObjectField(env, v0_0, fieldId11);
 jclass localClass22 = (*env)->FindClass(env, "com/google/android/exoplayer2/SimpleExoPlayer");
 jmethodID methodId10 = (*env)->GetMethodID(env, localClass22, "addListener", "(Lcom/google/android/exoplayer2/Player$EventListener;)V");
 (*env)->CallVoidMethod(env, v13_9, methodId10, v14_1);
-//LABEL               | LL25: line 214
+//LABEL               | LL25: line 242
 L25: ;
 //MOVE                |     |v0 = v18
 v0_0 = v18;
@@ -609,7 +609,7 @@ v14_1 = (*env)->GetObjectField(env, v0_0, fieldId13);
 jclass localClass25 = (*env)->FindClass(env, "com/google/android/exoplayer2/SimpleExoPlayer");
 jmethodID methodId11 = (*env)->GetMethodID(env, localClass25, "setAudioDebugListener", "(Lcom/google/android/exoplayer2/audio/AudioRendererEventListener;)V");
 (*env)->CallVoidMethod(env, v13_9, methodId11, v14_1);
-//LABEL               | LL26: line 215
+//LABEL               | LL26: line 243
 L26: ;
 //MOVE                |     |v0 = v18
 v0_0 = v18;
@@ -629,7 +629,7 @@ v14_1 = (*env)->GetObjectField(env, v0_0, fieldId15);
 jclass localClass28 = (*env)->FindClass(env, "com/google/android/exoplayer2/SimpleExoPlayer");
 jmethodID methodId12 = (*env)->GetMethodID(env, localClass28, "setVideoDebugListener", "(Lcom/google/android/exoplayer2/video/VideoRendererEventListener;)V");
 (*env)->CallVoidMethod(env, v13_9, methodId12, v14_1);
-//LABEL               | LL27: line 216
+//LABEL               | LL27: line 244
 L27: ;
 //MOVE                |     |v0 = v18
 v0_0 = v18;
@@ -649,7 +649,7 @@ v14_1 = (*env)->GetObjectField(env, v0_0, fieldId17);
 jclass localClass31 = (*env)->FindClass(env, "com/google/android/exoplayer2/SimpleExoPlayer");
 jmethodID methodId13 = (*env)->GetMethodID(env, localClass31, "setMetadataOutput", "(Lcom/google/android/exoplayer2/metadata/MetadataRenderer$Output;)V");
 (*env)->CallVoidMethod(env, v13_9, methodId13, v14_1);
-//LABEL               | LL28: line 218
+//LABEL               | LL28: line 246
 L28: ;
 //MOVE                |     |v0 = v18
 v0_0 = v18;
@@ -669,7 +669,7 @@ jobject v14_2 = (*env)->GetObjectField(env, v0_0, fieldId19);
 jclass localClass34 = (*env)->FindClass(env, "com/google/android/exoplayer2/ui/SimpleExoPlayerView");
 jmethodID methodId14 = (*env)->GetMethodID(env, localClass34, "setPlayer", "(Lcom/google/android/exoplayer2/SimpleExoPlayer;)V");
 (*env)->CallVoidMethod(env, v13_10, methodId14, v14_2);
-//LABEL               | LL29: line 219
+//LABEL               | LL29: line 247
 L29: ;
 //MOVE                |     |v0 = v18
 v0_0 = v18;
@@ -689,7 +689,7 @@ jboolean v14_3 = (*env)->GetBooleanField(env, v0_0, fieldId21);
 jclass localClass37 = (*env)->FindClass(env, "com/google/android/exoplayer2/SimpleExoPlayer");
 jmethodID methodId15 = (*env)->GetMethodID(env, localClass37, "setPlayWhenReady", "(Z)V");
 (*env)->CallVoidMethod(env, v13_11, methodId15, v14_3);
-//LABEL               | LL30: line 220
+//LABEL               | LL30: line 248
 L30: ;
 //NEW_INSTANCE        |     |v13=NEW Lcom/google/android/exoplayer2/ui/DebugTextViewHelper;
 jobject v13_12 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/android/exoplayer2/ui/DebugTextViewHelper"));
@@ -730,7 +730,7 @@ v13_12 = (*env)->GetObjectField(env, v0_0, fieldId25);
 jclass localClass43 = (*env)->FindClass(env, "com/google/android/exoplayer2/ui/DebugTextViewHelper");
 jmethodID methodId17 = (*env)->GetMethodID(env, localClass43, "start", "()V");
 (*env)->CallVoidMethod(env, v13_12, methodId17);
-//LABEL               |  LL1: line 224
+//LABEL               |  LL1: line 252
 L1: ;
 //CONST_STRING        |     |v13="http://www.youtube.com/api/manifest/dash/id/3aa39fa2cc27967f/source/youtube?as=fmp4_audio_clear,fmp4_sd_hd_clear&sparams=ip,ipbits,expire,source,id,as&ip=0.0.0.0&ipbits=0&expire=19000000000&signature=A2716F75795F5D2AF0E88962FFCD10DB79384F29.84308FF04844498CE6FBCE4731507882B8307798&key=ik0"
 jstring v13_13 = (*env)->NewStringUTF(env, "http://www.youtube.com/api/manifest/dash/id/3aa39fa2cc27967f/source/youtube?as=fmp4_audio_clear,fmp4_sd_hd_clear&sparams=ip,ipbits,expire,source,id,as&ip=0.0.0.0&ipbits=0&expire=19000000000&signature=A2716F75795F5D2AF0E88962FFCD10DB79384F29.84308FF04844498CE6FBCE4731507882B8307798&key=ik0");
@@ -740,7 +740,7 @@ jmethodID methodId18 = (*env)->GetStaticMethodID(env, localClass44, "parse", "(L
 jobject TEMP5 = (*env)->CallStaticObjectMethod(env, localClass44, methodId18, v13_13);
 //MOVE_RESULT         |     |v12=TEMP5
 jobject v12_0 = TEMP5;
-//LABEL               | LL11: line 226
+//LABEL               | LL11: line 254
 L11: ;
 //CONST               |     |v13=0x00000000  // int:0   float:0.000000
 v13_13 = 0x00000000;
@@ -752,11 +752,11 @@ jmethodID methodId19 = (*env)->GetMethodID(env, localClass45, "buildMediaSource"
 jobject TEMP6 = (*env)->CallObjectMethod(env, v0_0, methodId19, v12_0,v13_13);
 //MOVE_RESULT         |     |v8=TEMP6
 jobject v8_0 = TEMP6;
-//LABEL               |  LL9: line 228
+//LABEL               |  LL9: line 256
 L9: ;
 //MOVE                |     |v7 = v8
 jobject v7_0 = v8_0;
-//LABEL               |  LL8: line 230
+//LABEL               |  LL8: line 258
 L8: ;
 //MOVE                |     |v0 = v18
 v0_0 = v18;
@@ -771,11 +771,11 @@ jint v14_5 = 0xffffffff;
 if (v13_14 == v14_5) {  goto L13; }
 //CONST               |     |v5=0x00000001  // int:1   float:0.000000
 jint v5_0 = 0x00000001;
-//LABEL               |  LL6: line 231
+//LABEL               |  LL6: line 259
 L6: ;
 //IF_EQZ              |     |if (v5 == 0) { goto L31; }
 if (v5_0 == 0) { goto L31; }
-//LABEL               | LL32: line 232
+//LABEL               | LL32: line 260
 L32: ;
 //MOVE                |     |v0 = v18
 v0_0 = v18;
@@ -827,7 +827,7 @@ v15_0 = 0x00000000;
 jclass localClass52 = (*env)->FindClass(env, "com/google/android/exoplayer2/SimpleExoPlayer");
 jmethodID methodId21 = (*env)->GetMethodID(env, localClass52, "prepare", "(Lcom/google/android/exoplayer2/source/MediaSource;ZZ)V");
 (*env)->CallVoidMethod(env, v14_6, methodId21, v7_0,v13_16,v15_0);
-//LABEL               | LL34: line 235
+//LABEL               | LL34: line 263
 L34: ;
 //CONST               |     |v13=0x00000000  // int:0   float:0.000000
 v13_16 = 0x00000000;
@@ -838,17 +838,17 @@ jclass localClass53 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo
 jfieldID fieldId31 = (*env)->GetFieldID(env, localClass53, "inErrorState", "Z");
 (*env)->SetBooleanField(env, v0_2, fieldId31, v13_16);
 
-//LABEL               | LL35: line 236
+//LABEL               | LL35: line 264
 L35: ;
 //RETURN_VOID         |     |return
 return;
-//LABEL               |  LL7: line 320
+//LABEL               |  LL7: line 348
 L7: ;
 //CONST               |     |v9=0x00000000  // int:0   float:0.000000
 v9_0 = 0x00000000;
 //GOTO                |     |goto L10;
 goto L10;
-//LABEL               | LL12: line 333
+//LABEL               | LL12: line 361
 L12: ;
 //CONST               |     |v4=0x00000001  // int:1   float:0.000000
 v4_0 = 0x00000001;
@@ -860,13 +860,13 @@ L23: ;
 v4_0 = 0x00000000;
 //GOTO                |     |goto L3;
 goto L3;
-//LABEL               | LL13: line 358
+//LABEL               | LL13: line 386
 L13: ;
 //CONST               |     |v5=0x00000000  // int:0   float:0.000000
 v5_0 = 0x00000000;
 //GOTO                |     |goto L6;
 goto L6;
-//LABEL               | LL14: line 362
+//LABEL               | LL14: line 390
 L14: ;
 //CONST               |     |v13=0x00000000  // int:0   float:0.000000
 v13_16 = 0x00000000;
@@ -883,7 +883,7 @@ void  Java_com_google_android_exoplayer2_demo_PlayerActivity_showToast_1263150(J
 {
 //LOCAL_VARIABLE LL0 ~ LL1 v1 -> this // Lcom/google/android/exoplayer2/demo/PlayerActivity; 
 //LOCAL_VARIABLE LL0 ~ LL1 v2 -> messageId // I 
-//LABEL               |  LL0: line 265
+//LABEL               |  LL0: line 293
 L0: ;
 //INVOKE_VIRTUAL      |     |TEMP=v1.getString(v2)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.getString(I)Ljava/lang/String;
 jclass localClass0 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
@@ -895,7 +895,7 @@ jstring v0_0 = TEMP0;
 jclass localClass1 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
 jmethodID methodId1 = (*env)->GetMethodID(env, localClass1, "showToast", "(Ljava/lang/String;)V");
 (*env)->CallVoidMethod(env, v1, methodId1, v0_0);
-//LABEL               |  LL2: line 266
+//LABEL               |  LL2: line 294
 L2: ;
 //RETURN_VOID         |     |return
 return;
@@ -910,7 +910,7 @@ void  Java_com_google_android_exoplayer2_demo_PlayerActivity_showToast_142896691
 {
 //LOCAL_VARIABLE LL0 ~ LL1 v2 -> this // Lcom/google/android/exoplayer2/demo/PlayerActivity; 
 //LOCAL_VARIABLE LL0 ~ LL1 v3 -> message // Ljava/lang/String; 
-//LABEL               |  LL0: line 269
+//LABEL               |  LL0: line 297
 L0: ;
 //INVOKE_VIRTUAL      |     |TEMP=v2.getApplicationContext()  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.getApplicationContext()Landroid/content/Context;
 jclass localClass0 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
@@ -930,7 +930,7 @@ jobject v0_1 = TEMP1;
 jclass localClass2 = (*env)->FindClass(env, "android/widget/Toast");
 jmethodID methodId2 = (*env)->GetMethodID(env, localClass2, "show", "()V");
 (*env)->CallVoidMethod(env, v0_1, methodId2);
-//LABEL               |  LL2: line 270
+//LABEL               |  LL2: line 298
 L2: ;
 //RETURN_VOID         |     |return
 return;
@@ -940,6 +940,186 @@ L1: ;
 
 
 //method:0006  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.sumIntArray(I)I
+jint  Java_com_google_android_exoplayer2_demo_PlayerActivity_sumIntArray_1263137(JNIEnv * env, jobject  v6, jint v7)
+{
+//LOCAL_VARIABLE LL0 ~ LL1 v0 -> all // I 
+//LOCAL_VARIABLE LL2 ~ LL1 v1 -> i // I 
+//LOCAL_VARIABLE LL3 ~ LL1 v2 -> num // [I 
+//LOCAL_VARIABLE LL4 ~ LL1 v6 -> this // Lcom/google/android/exoplayer2/demo/PlayerActivity; 
+//LOCAL_VARIABLE LL4 ~ LL1 v7 -> count // I 
+//LABEL               |  LL4: line 181
+L4: ;
+//CONST               |     |v3=0x00000003  // int:3   float:0.000000
+jint v3_0 = 0x00000003;
+//NEW_ARRAY           |     |v2=new int[][v3]
+jintArray v2_0 = (*env)->NewIntArray(env, v3_0);
+//FILL_ARRAY_DATA     |     |v2[0..2]=[1,2,3]
+jint ___values_v2_0[] = {1,2,3};
+(*env)->SetIntArrayRegion(env, v2_0 , 0, 3, ___values_v2_0);
+//LABEL               |  LL3: line 182
+L3: ;
+//CONST               |     |v0=0x00000000  // int:0   float:0.000000
+jint v0_0 = 0x00000000;
+//LABEL               |  LL0: line 183
+L0: ;
+//CONST               |     |v1=0x00000000  // int:0   float:0.000000
+jint v1_0 = 0x00000000;
+//LABEL               |  LL2:
+L2: ;
+//ARRAY_LENGTH        |     |v3 = v2.length
+v3_0 = (*env)->GetArrayLength(env, v2_0);
+//IF_GE               |     |if (v1 >= v3) {  goto L5; }
+if (v1_0 >= v3_0) {  goto L5; }
+//LABEL               |  LL6: line 184
+L6: ;
+//AGET                |     |v3=v2[v1];
+//input sig: I register sig: I
+(*env)->GetIntArrayRegion(env, v2_0, v1_0, 1, &v3_0);
+//ADD                 |     |v0 = v0 + v3;
+v0_0 = v0_0 + v3_0;
+//LABEL               |  LL7: line 183
+L7: ;
+//ADD_INT_LIT_X       |     |v1 = v1 + 1;
+v1_0 = v1_0 + 1;
+//GOTO                |     |goto L2;
+goto L2;
+//LABEL               |  LL5: line 186
+L5: ;
+//CONST_STRING        |     |v3="MediaCodecInfo"
+jstring v3_1 = (*env)->NewStringUTF(env, "MediaCodecInfo");
+//NEW_INSTANCE        |     |v4=NEW Ljava/lang/StringBuilder;
+jobject v4_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "java/lang/StringBuilder"));
+
+//INVOKE_DIRECT       |     |v4.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+jclass localClass0 = (*env)->FindClass(env, "java/lang/StringBuilder");
+jmethodID methodId0 = (*env)->GetMethodID(env, localClass0, "<init>", "()V");
+(*env)->CallVoidMethod(env, v4_0, methodId0);
+//CONST_STRING        |     |v5="sumArray : "
+jstring v5_0 = (*env)->NewStringUTF(env, "sumArray : ");
+//INVOKE_VIRTUAL      |     |TEMP=v4.append(v5_0)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+jclass localClass1 = (*env)->FindClass(env, "java/lang/StringBuilder");
+jmethodID methodId1 = (*env)->GetMethodID(env, localClass1, "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;");
+jobject TEMP0 = (*env)->CallObjectMethod(env, v4_0, methodId1, v5_0);
+//MOVE_RESULT         |     |v4=TEMP0
+v4_0 = TEMP0;
+//INVOKE_VIRTUAL      |     |TEMP=v4.append(v0_0)  //Ljava/lang/StringBuilder;.append(I)Ljava/lang/StringBuilder;
+jclass localClass2 = (*env)->FindClass(env, "java/lang/StringBuilder");
+jmethodID methodId2 = (*env)->GetMethodID(env, localClass2, "append", "(I)Ljava/lang/StringBuilder;");
+jobject TEMP1 = (*env)->CallObjectMethod(env, v4_0, methodId2, v0_0);
+//MOVE_RESULT         |     |v4=TEMP1
+v4_0 = TEMP1;
+//INVOKE_VIRTUAL      |     |TEMP=v4.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+jclass localClass3 = (*env)->FindClass(env, "java/lang/StringBuilder");
+jmethodID methodId3 = (*env)->GetMethodID(env, localClass3, "toString", "()Ljava/lang/String;");
+jstring TEMP2 =  (jstring) (*env)->CallObjectMethod(env, v4_0, methodId3);
+//MOVE_RESULT         |     |v4=TEMP2
+jstring v4_1 = TEMP2;
+//INVOKE_STATIC       |     |TEMP=android.util.Log.e(v3_1,v4_1)  //Landroid/util/Log;.e(Ljava/lang/String;Ljava/lang/String;)I
+jclass localClass4 = (*env)->FindClass(env, "android/util/Log");
+jmethodID methodId4 = (*env)->GetStaticMethodID(env, localClass4, "e", "(Ljava/lang/String;Ljava/lang/String;)I");
+jint TEMP3 = (*env)->CallStaticIntMethod(env, localClass4, methodId4, v3_1,v4_1);
+//RETURN              |     |return v0
+return v0_0;
+//LABEL               |  LL8: line 309
+L8: ;
+//LABEL               |  LL1:
+L1: ;
+}
+
+
+//method:0007  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.sumLongArray(I)J
+jlong  Java_com_google_android_exoplayer2_demo_PlayerActivity_sumLongArray_1263138(JNIEnv * env, jobject  v7, jint v8)
+{
+//LOCAL_VARIABLE LL0 ~ LL1 v0 -> all // J 
+//LOCAL_VARIABLE LL2 ~ LL1 v2 -> i // I 
+//LOCAL_VARIABLE LL3 ~ LL1 v3 -> num // [I 
+//LOCAL_VARIABLE LL4 ~ LL1 v7 -> this // Lcom/google/android/exoplayer2/demo/PlayerActivity; 
+//LOCAL_VARIABLE LL4 ~ LL1 v8 -> count // I 
+//LABEL               |  LL4: line 191
+L4: ;
+//CONST               |     |v4=0x00000004  // int:4   float:0.000000
+jint v4_0 = 0x00000004;
+//NEW_ARRAY           |     |v3=new int[][v4]
+jintArray v3_0 = (*env)->NewIntArray(env, v4_0);
+//FILL_ARRAY_DATA     |     |v3[0..3]=[1,2,3,4]
+jint ___values_v3_0[] = {1,2,3,4};
+(*env)->SetIntArrayRegion(env, v3_0 , 0, 4, ___values_v3_0);
+//LABEL               |  LL3: line 192
+L3: ;
+//CONST               |     |v0=0x0000000000000000  // long:0   double:0.000000
+jint v0_0 = 0x0000;
+//LABEL               |  LL0: line 193
+L0: ;
+//CONST               |     |v2=0x00000000  // int:0   float:0.000000
+jint v2_0 = 0x00000000;
+//LABEL               |  LL2:
+L2: ;
+//ARRAY_LENGTH        |     |v4 = v3.length
+v4_0 = (*env)->GetArrayLength(env, v3_0);
+//IF_GE               |     |if (v2 >= v4) {  goto L5; }
+if (v2_0 >= v4_0) {  goto L5; }
+//LABEL               |  LL6: line 194
+L6: ;
+//AGET                |     |v4=v3[v2];
+//input sig: I register sig: I
+(*env)->GetIntArrayRegion(env, v3_0, v2_0, 1, &v4_0);
+//X_TO_Y              |     |v4 = (long)v4
+jlong v4_1 = (long) v4_0;
+//ADD                 |     |v0 = v0 + v4;
+v0_0 = v0_0 + v4_1;
+//LABEL               |  LL7: line 193
+L7: ;
+//ADD_INT_LIT_X       |     |v2 = v2 + 1;
+v2_0 = v2_0 + 1;
+//GOTO                |     |goto L2;
+goto L2;
+//LABEL               |  LL5: line 196
+L5: ;
+//CONST_STRING        |     |v4="MediaCodecInfo"
+jstring v4_2 = (*env)->NewStringUTF(env, "MediaCodecInfo");
+//NEW_INSTANCE        |     |v5=NEW Ljava/lang/StringBuilder;
+jobject v5_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "java/lang/StringBuilder"));
+
+//INVOKE_DIRECT       |     |v5.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+jclass localClass0 = (*env)->FindClass(env, "java/lang/StringBuilder");
+jmethodID methodId0 = (*env)->GetMethodID(env, localClass0, "<init>", "()V");
+(*env)->CallVoidMethod(env, v5_0, methodId0);
+//CONST_STRING        |     |v6="sumArray : "
+jstring v6_0 = (*env)->NewStringUTF(env, "sumArray : ");
+//INVOKE_VIRTUAL      |     |TEMP=v5.append(v6_0)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+jclass localClass1 = (*env)->FindClass(env, "java/lang/StringBuilder");
+jmethodID methodId1 = (*env)->GetMethodID(env, localClass1, "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;");
+jobject TEMP0 = (*env)->CallObjectMethod(env, v5_0, methodId1, v6_0);
+//MOVE_RESULT         |     |v5=TEMP0
+v5_0 = TEMP0;
+//INVOKE_VIRTUAL      |     |TEMP=v5.append(v0_0)  //Ljava/lang/StringBuilder;.append(J)Ljava/lang/StringBuilder;
+jclass localClass2 = (*env)->FindClass(env, "java/lang/StringBuilder");
+jmethodID methodId2 = (*env)->GetMethodID(env, localClass2, "append", "(J)Ljava/lang/StringBuilder;");
+jobject TEMP1 = (*env)->CallObjectMethod(env, v5_0, methodId2, v0_0);
+//MOVE_RESULT         |     |v5=TEMP1
+v5_0 = TEMP1;
+//INVOKE_VIRTUAL      |     |TEMP=v5.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+jclass localClass3 = (*env)->FindClass(env, "java/lang/StringBuilder");
+jmethodID methodId3 = (*env)->GetMethodID(env, localClass3, "toString", "()Ljava/lang/String;");
+jstring TEMP2 =  (jstring) (*env)->CallObjectMethod(env, v5_0, methodId3);
+//MOVE_RESULT         |     |v5=TEMP2
+jstring v5_1 = TEMP2;
+//INVOKE_STATIC       |     |TEMP=android.util.Log.e(v4_2,v5_1)  //Landroid/util/Log;.e(Ljava/lang/String;Ljava/lang/String;)I
+jclass localClass4 = (*env)->FindClass(env, "android/util/Log");
+jmethodID methodId4 = (*env)->GetStaticMethodID(env, localClass4, "e", "(Ljava/lang/String;Ljava/lang/String;)I");
+jint TEMP3 = (*env)->CallStaticIntMethod(env, localClass4, methodId4, v4_2,v5_1);
+//RETURN              |     |return v0
+return v0_0;
+//LABEL               |  LL8: line 319
+L8: ;
+//LABEL               |  LL1:
+L1: ;
+}
+
+
+//method:0008  access:0x0002
 //Lcom/google/android/exoplayer2/demo/PlayerActivity;.sumNumber(I)I
 jint  Java_com_google_android_exoplayer2_demo_PlayerActivity_sumNumber_1263137(JNIEnv * env, jobject  v2, jint v3)
 {
@@ -947,11 +1127,11 @@ jint  Java_com_google_android_exoplayer2_demo_PlayerActivity_sumNumber_1263137(J
 //LOCAL_VARIABLE LL2 ~ LL1 v1 -> sum // I 
 //LOCAL_VARIABLE LL3 ~ LL1 v2 -> this // Lcom/google/android/exoplayer2/demo/PlayerActivity; 
 //LOCAL_VARIABLE LL3 ~ LL1 v3 -> count // I 
-//LABEL               |  LL3: line 168
+//LABEL               |  LL3: line 172
 L3: ;
 //CONST               |     |v1=0x00000000  // int:0   float:0.000000
 jint v1_0 = 0x00000000;
-//LABEL               |  LL2: line 170
+//LABEL               |  LL2: line 174
 L2: ;
 //CONST               |     |v0=0x00000000  // int:0   float:0.000000
 jint v0_0 = 0x00000000;
@@ -959,17 +1139,17 @@ jint v0_0 = 0x00000000;
 L0: ;
 //IF_GT               |     |if (v0 >  v3) {  goto L4; }
 if (v0_0 > v3) {  goto L4; }
-//LABEL               |  LL5: line 171
+//LABEL               |  LL5: line 175
 L5: ;
 //ADD                 |     |v1 = v1 + v0;
 v1_0 = v1_0 + v0_0;
-//LABEL               |  LL6: line 170
+//LABEL               |  LL6: line 174
 L6: ;
 //ADD_INT_LIT_X       |     |v0 = v0 + 1;
 v0_0 = v0_0 + 1;
 //GOTO                |     |goto L0;
 goto L0;
-//LABEL               |  LL4: line 173
+//LABEL               |  LL4: line 177
 L4: ;
 //RETURN              |     |return v1
 return v1_0;
@@ -978,7 +1158,128 @@ L1: ;
 }
 
 
-//method:0007  access:0x0002
+//method:0009  access:0x0002
+//Lcom/google/android/exoplayer2/demo/PlayerActivity;.sumStringArray(I)Ljava/lang/String;
+jstring  Java_com_google_android_exoplayer2_demo_PlayerActivity_sumStringArray_1200754738(JNIEnv * env, jobject  v6, jint v7)
+{
+//LOCAL_VARIABLE LL0 ~ LL1 v0 -> all // Ljava/lang/String; 
+//LOCAL_VARIABLE LL2 ~ LL1 v1 -> i // I 
+//LOCAL_VARIABLE LL3 ~ LL1 v2 -> num // [Ljava/lang/String; 
+//LOCAL_VARIABLE LL4 ~ LL1 v6 -> this // Lcom/google/android/exoplayer2/demo/PlayerActivity; 
+//LOCAL_VARIABLE LL4 ~ LL1 v7 -> count // I 
+//LABEL               |  LL4: line 201
+L4: ;
+//CONST               |     |v3=0x00000003  // int:3   float:0.000000
+jint v3_0 = 0x00000003;
+//NEW_ARRAY           |     |v2=new java.lang.String[][v3]
+jobjectArray v2_0 = (*env)->NewObjectArray(env, v3_0, (*env)->FindClass(env, "java/lang/String"), 0);
+//CONST               |     |v3=0x00000000  // int:0   float:0.000000
+v3_0 = 0x00000000;
+//CONST_STRING        |     |v4="a"
+jstring v4_0 = (*env)->NewStringUTF(env, "a");
+//APUT                |     |v2[v3]=v4;
+//CONST               |     |v3=0x00000001  // int:1   float:0.000000
+v3_0 = 0x00000001;
+//CONST_STRING        |     |v4="b"
+v4_0 = (*env)->NewStringUTF(env, "b");
+//APUT                |     |v2[v3]=v4;
+//CONST               |     |v3=0x00000002  // int:2   float:0.000000
+v3_0 = 0x00000002;
+//CONST_STRING        |     |v4="c"
+v4_0 = (*env)->NewStringUTF(env, "c");
+//APUT                |     |v2[v3]=v4;
+//LABEL               |  LL3:
+L3: ;
+//CONST_STRING        |     |v0="hello "
+jstring v0_0 = (*env)->NewStringUTF(env, "hello ");
+//LABEL               |  LL0: line 203
+L0: ;
+//CONST               |     |v1=0x00000000  // int:0   float:0.000000
+jint v1_0 = 0x00000000;
+//LABEL               |  LL2:
+L2: ;
+//ARRAY_LENGTH        |     |v3 = v2.length
+v3_0 = (*env)->GetArrayLength(env, v2_0);
+//IF_GE               |     |if (v1 >= v3) {  goto L5; }
+if (v1_0 >= v3_0) {  goto L5; }
+//LABEL               |  LL6: line 204
+L6: ;
+//NEW_INSTANCE        |     |v3=NEW Ljava/lang/StringBuilder;
+jobject v3_1 = (*env)->AllocObject(env, (*env)->FindClass(env, "java/lang/StringBuilder"));
+
+//INVOKE_DIRECT       |     |v3.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+jclass localClass0 = (*env)->FindClass(env, "java/lang/StringBuilder");
+jmethodID methodId0 = (*env)->GetMethodID(env, localClass0, "<init>", "()V");
+(*env)->CallVoidMethod(env, v3_1, methodId0);
+//INVOKE_VIRTUAL      |     |TEMP=v3.append(v0_0)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+jclass localClass1 = (*env)->FindClass(env, "java/lang/StringBuilder");
+jmethodID methodId1 = (*env)->GetMethodID(env, localClass1, "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;");
+jobject TEMP0 = (*env)->CallObjectMethod(env, v3_1, methodId1, v0_0);
+//MOVE_RESULT         |     |v3=TEMP0
+v3_1 = TEMP0;
+//AGET                |     |v4=v2[v1];
+//input sig: Ljava/lang/String; register sig: Ljava/lang/String;
+//input sig: Ljava/lang/String; changed register sig: Ljava/lang/Object
+jobject v4_1 = (*env)->GetObjectArrayElement(env, v2_0, v1_0);
+//INVOKE_VIRTUAL      |     |TEMP=v3.append(v4_1)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+jclass localClass2 = (*env)->FindClass(env, "java/lang/StringBuilder");
+jmethodID methodId2 = (*env)->GetMethodID(env, localClass2, "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;");
+jobject TEMP1 = (*env)->CallObjectMethod(env, v3_1, methodId2, v4_1);
+//MOVE_RESULT         |     |v3=TEMP1
+v3_1 = TEMP1;
+//INVOKE_VIRTUAL      |     |TEMP=v3.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+jclass localClass3 = (*env)->FindClass(env, "java/lang/StringBuilder");
+jmethodID methodId3 = (*env)->GetMethodID(env, localClass3, "toString", "()Ljava/lang/String;");
+jstring TEMP2 =  (jstring) (*env)->CallObjectMethod(env, v3_1, methodId3);
+//MOVE_RESULT         |     |v0=TEMP2
+v0_0 = TEMP2;
+//ADD_INT_LIT_X       |     |v1 = v1 + 1;
+v1_0 = v1_0 + 1;
+//GOTO                |     |goto L2;
+goto L2;
+//LABEL               |  LL5: line 206
+L5: ;
+//CONST_STRING        |     |v3="MediaCodecInfo"
+jstring v3_2 = (*env)->NewStringUTF(env, "MediaCodecInfo");
+//NEW_INSTANCE        |     |v4=NEW Ljava/lang/StringBuilder;
+jobject v4_2 = (*env)->AllocObject(env, (*env)->FindClass(env, "java/lang/StringBuilder"));
+
+//INVOKE_DIRECT       |     |v4.<init>()  //Ljava/lang/StringBuilder;.<init>()V
+jclass localClass4 = (*env)->FindClass(env, "java/lang/StringBuilder");
+jmethodID methodId4 = (*env)->GetMethodID(env, localClass4, "<init>", "()V");
+(*env)->CallVoidMethod(env, v4_2, methodId4);
+//CONST_STRING        |     |v5="sumArray : "
+jstring v5_0 = (*env)->NewStringUTF(env, "sumArray : ");
+//INVOKE_VIRTUAL      |     |TEMP=v4.append(v5_0)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+jclass localClass5 = (*env)->FindClass(env, "java/lang/StringBuilder");
+jmethodID methodId5 = (*env)->GetMethodID(env, localClass5, "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;");
+jobject TEMP3 = (*env)->CallObjectMethod(env, v4_2, methodId5, v5_0);
+//MOVE_RESULT         |     |v4=TEMP3
+v4_2 = TEMP3;
+//INVOKE_VIRTUAL      |     |TEMP=v4.append(v0_0)  //Ljava/lang/StringBuilder;.append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+jclass localClass6 = (*env)->FindClass(env, "java/lang/StringBuilder");
+jmethodID methodId6 = (*env)->GetMethodID(env, localClass6, "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;");
+jobject TEMP4 = (*env)->CallObjectMethod(env, v4_2, methodId6, v0_0);
+//MOVE_RESULT         |     |v4=TEMP4
+v4_2 = TEMP4;
+//INVOKE_VIRTUAL      |     |TEMP=v4.toString()  //Ljava/lang/StringBuilder;.toString()Ljava/lang/String;
+jclass localClass7 = (*env)->FindClass(env, "java/lang/StringBuilder");
+jmethodID methodId7 = (*env)->GetMethodID(env, localClass7, "toString", "()Ljava/lang/String;");
+jstring TEMP5 =  (jstring) (*env)->CallObjectMethod(env, v4_2, methodId7);
+//MOVE_RESULT         |     |v4=TEMP5
+jstring v4_3 = TEMP5;
+//INVOKE_STATIC       |     |TEMP=android.util.Log.e(v3_2,v4_3)  //Landroid/util/Log;.e(Ljava/lang/String;Ljava/lang/String;)I
+jclass localClass8 = (*env)->FindClass(env, "android/util/Log");
+jmethodID methodId8 = (*env)->GetStaticMethodID(env, localClass8, "e", "(Ljava/lang/String;Ljava/lang/String;)I");
+jint TEMP6 = (*env)->CallStaticIntMethod(env, localClass8, methodId8, v3_2,v4_3);
+//RETURN              |     |return v0
+return v0_0;
+//LABEL               |  LL1:
+L1: ;
+}
+
+
+//method:0010  access:0x0002
 //Lcom/google/android/exoplayer2/demo/PlayerActivity;.testABCD()V
 void  Java_com_google_android_exoplayer2_demo_PlayerActivity_testABCD_39797(JNIEnv * env, jobject  v8)
 {
@@ -988,7 +1289,7 @@ void  Java_com_google_android_exoplayer2_demo_PlayerActivity_testABCD_39797(JNIE
 //LOCAL_VARIABLE LL4 ~ LL1 v3 -> c // Lcom/google/android/exoplayer2/demo/CC; 
 //LOCAL_VARIABLE LL5 ~ LL1 v4 -> d // Lcom/google/android/exoplayer2/demo/D; 
 //LOCAL_VARIABLE LL6 ~ LL1 v8 -> this // Lcom/google/android/exoplayer2/demo/PlayerActivity; 
-//LABEL               |  LL6: line 150
+//LABEL               |  LL6: line 154
 L6: ;
 //NEW_INSTANCE        |     |v0=NEW Lcom/google/android/exoplayer2/demo/A;
 jobject v0_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/android/exoplayer2/demo/A"));
@@ -997,7 +1298,7 @@ jobject v0_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/andro
 jclass localClass0 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/A");
 jmethodID methodId0 = (*env)->GetMethodID(env, localClass0, "<init>", "()V");
 (*env)->CallVoidMethod(env, v0_0, methodId0);
-//LABEL               |  LL0: line 151
+//LABEL               |  LL0: line 155
 L0: ;
 //NEW_INSTANCE        |     |v1=NEW Lcom/google/android/exoplayer2/demo/B;
 jobject v1_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/android/exoplayer2/demo/B"));
@@ -1006,7 +1307,7 @@ jobject v1_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/andro
 jclass localClass1 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/B");
 jmethodID methodId1 = (*env)->GetMethodID(env, localClass1, "<init>", "()V");
 (*env)->CallVoidMethod(env, v1_0, methodId1);
-//LABEL               |  LL2: line 152
+//LABEL               |  LL2: line 156
 L2: ;
 //NEW_INSTANCE        |     |v2=NEW Lcom/google/android/exoplayer2/demo/B;
 jobject v2_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/android/exoplayer2/demo/B"));
@@ -1015,7 +1316,7 @@ jobject v2_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/andro
 jclass localClass2 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/B");
 jmethodID methodId2 = (*env)->GetMethodID(env, localClass2, "<init>", "()V");
 (*env)->CallVoidMethod(env, v2_0, methodId2);
-//LABEL               |  LL3: line 153
+//LABEL               |  LL3: line 157
 L3: ;
 //NEW_INSTANCE        |     |v3=NEW Lcom/google/android/exoplayer2/demo/CC;
 jobject v3_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/android/exoplayer2/demo/CC"));
@@ -1024,7 +1325,7 @@ jobject v3_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/andro
 jclass localClass3 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/CC");
 jmethodID methodId3 = (*env)->GetMethodID(env, localClass3, "<init>", "()V");
 (*env)->CallVoidMethod(env, v3_0, methodId3);
-//LABEL               |  LL4: line 154
+//LABEL               |  LL4: line 158
 L4: ;
 //NEW_INSTANCE        |     |v4=NEW Lcom/google/android/exoplayer2/demo/D;
 jobject v4_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/android/exoplayer2/demo/D"));
@@ -1033,7 +1334,7 @@ jobject v4_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/andro
 jclass localClass4 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/D");
 jmethodID methodId4 = (*env)->GetMethodID(env, localClass4, "<init>", "()V");
 (*env)->CallVoidMethod(env, v4_0, methodId4);
-//LABEL               |  LL5: line 156
+//LABEL               |  LL5: line 160
 L5: ;
 //CONST_STRING        |     |v5="MediaCodecInfo"
 jstring v5_0 = (*env)->NewStringUTF(env, "MediaCodecInfo");
@@ -1393,7 +1694,7 @@ L1: ;
 }
 
 
-//method:0008  access:0x0002
+//method:0011  access:0x0002
 //Lcom/google/android/exoplayer2/demo/PlayerActivity;.testWine()V
 void  Java_com_google_android_exoplayer2_demo_PlayerActivity_testWine_39797(JNIEnv * env, jobject  v7)
 {
@@ -1402,7 +1703,7 @@ void  Java_com_google_android_exoplayer2_demo_PlayerActivity_testWine_39797(JNIE
 //LOCAL_VARIABLE LL3 ~ LL1 v2 -> jgj // Lcom/google/android/exoplayer2/demo/JGJ; 
 //LOCAL_VARIABLE LL4 ~ LL1 v3 -> jnc // Lcom/google/android/exoplayer2/demo/JNC; 
 //LOCAL_VARIABLE LL5 ~ LL1 v7 -> this // Lcom/google/android/exoplayer2/demo/PlayerActivity; 
-//LABEL               |  LL5: line 134
+//LABEL               |  LL5: line 138
 L5: ;
 //NEW_INSTANCE        |     |v0=NEW Lcom/google/android/exoplayer2/demo/JNC;
 jobject v0_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/android/exoplayer2/demo/JNC"));
@@ -1411,7 +1712,7 @@ jobject v0_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/andro
 jclass localClass0 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/JNC");
 jmethodID methodId0 = (*env)->GetMethodID(env, localClass0, "<init>", "()V");
 (*env)->CallVoidMethod(env, v0_0, methodId0);
-//LABEL               |  LL0: line 135
+//LABEL               |  LL0: line 139
 L0: ;
 //NEW_INSTANCE        |     |v1=NEW Lcom/google/android/exoplayer2/demo/JNC;
 jobject v1_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/android/exoplayer2/demo/JNC"));
@@ -1420,7 +1721,7 @@ jobject v1_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/andro
 jclass localClass1 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/JNC");
 jmethodID methodId1 = (*env)->GetMethodID(env, localClass1, "<init>", "()V");
 (*env)->CallVoidMethod(env, v1_0, methodId1);
-//LABEL               |  LL2: line 137
+//LABEL               |  LL2: line 141
 L2: ;
 //NEW_INSTANCE        |     |v3=NEW Lcom/google/android/exoplayer2/demo/JNC;
 jobject v3_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/android/exoplayer2/demo/JNC"));
@@ -1429,7 +1730,7 @@ jobject v3_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/andro
 jclass localClass2 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/JNC");
 jmethodID methodId2 = (*env)->GetMethodID(env, localClass2, "<init>", "()V");
 (*env)->CallVoidMethod(env, v3_0, methodId2);
-//LABEL               |  LL4: line 138
+//LABEL               |  LL4: line 142
 L4: ;
 //NEW_INSTANCE        |     |v2=NEW Lcom/google/android/exoplayer2/demo/JGJ;
 jobject v2_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/android/exoplayer2/demo/JGJ"));
@@ -1438,15 +1739,15 @@ jobject v2_0 = (*env)->AllocObject(env, (*env)->FindClass(env, "com/google/andro
 jclass localClass3 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/JGJ");
 jmethodID methodId3 = (*env)->GetMethodID(env, localClass3, "<init>", "()V");
 (*env)->CallVoidMethod(env, v2_0, methodId3);
-//LABEL               |  LL3: line 141
+//LABEL               |  LL3: line 145
 L3: ;
 //MOVE                |     |v0 = v3
 v0_0 = v3_0;
-//LABEL               |  LL6: line 142
+//LABEL               |  LL6: line 146
 L6: ;
 //MOVE                |     |v1 = v2
 jobject v1_1 = v2_0;
-//LABEL               |  LL7: line 144
+//LABEL               |  LL7: line 148
 L7: ;
 //CONST_STRING        |     |v4="MediaCodecInfo"
 jstring v4_0 = (*env)->NewStringUTF(env, "MediaCodecInfo");
@@ -1558,7 +1859,7 @@ v5_3 = (*env)->NewStringUTF(env, "-------------------------------");
 jclass localClass20 = (*env)->FindClass(env, "android/util/Log");
 jmethodID methodId20 = (*env)->GetStaticMethodID(env, localClass20, "d", "(Ljava/lang/String;Ljava/lang/String;)I");
 jint TEMP14 = (*env)->CallStaticIntMethod(env, localClass20, methodId20, v4_0,v5_3);
-//LABEL               |  LL8: line 147
+//LABEL               |  LL8: line 151
 L8: ;
 //RETURN_VOID         |     |return
 return;
@@ -1567,23 +1868,25 @@ L1: ;
 }
 
 
-//method:0009  access:0x0001
+//method:0012  access:0x0001
 //Lcom/google/android/exoplayer2/demo/PlayerActivity;.onCreate(Landroid/os/Bundle;)V
-void  Java_com_google_android_exoplayer2_demo_PlayerActivity_onCreate_2045109055(JNIEnv * env, jobject  v4, jobject v5)
+void  Java_com_google_android_exoplayer2_demo_PlayerActivity_onCreate_2045109055(JNIEnv * env, jobject  v5, jobject v6)
 {
 //LOCAL_VARIABLE LL0 ~ LL1 v0 -> b // Landroid/widget/Button; 
-//LOCAL_VARIABLE LL2 ~ LL1 v4 -> this // Lcom/google/android/exoplayer2/demo/PlayerActivity; 
-//LOCAL_VARIABLE LL2 ~ LL1 v5 -> savedInstanceState // Landroid/os/Bundle; 
+//LOCAL_VARIABLE LL2 ~ LL1 v5 -> this // Lcom/google/android/exoplayer2/demo/PlayerActivity; 
+//LOCAL_VARIABLE LL2 ~ LL1 v6 -> savedInstanceState // Landroid/os/Bundle; 
 //LABEL               |  LL2: line 104
 L2: ;
-//CONST               |     |v3=0x00000001  // int:1   float:0.000000
-jint v3_0 = 0x00000001;
+//CONST               |     |v4=0x00000001  // int:1   float:0.000000
+jint v4_0 = 0x00000001;
+//CONST               |     |v3=0x00000064  // int:100   float:0.000000
+jint v3_0 = 0x00000064;
 //LABEL               |  LL3: line 104
 L3: ;
-//INVOKE_SUPER        |     |v4.onCreate(v5)  //Landroid/app/Activity;.onCreate(Landroid/os/Bundle;)V
+//INVOKE_SUPER        |     |v5.onCreate(v6)  //Landroid/app/Activity;.onCreate(Landroid/os/Bundle;)V
 jclass localClass0 = (*env)->FindClass(env, "android/app/Activity");
 jmethodID methodId0 = (*env)->GetMethodID(env, localClass0, "onCreate", "(Landroid/os/Bundle;)V");
-(*env)->CallNonvirtualVoidMethod(env, v4, localClass0, methodId0, v5);
+(*env)->CallNonvirtualVoidMethod(env, v5, localClass0, methodId0, v6);
 //LABEL               |  LL4: line 106
 L4: ;
 //NEW_INSTANCE        |     |v1=NEW Lcom/google/android/exoplayer2/upstream/DefaultBandwidthMeter;
@@ -1628,23 +1931,23 @@ jmethodID methodId3 = (*env)->GetMethodID(env, localClass7, "setCookiePolicy", "
 (*env)->CallVoidMethod(env, v1_1, methodId3, v2_0);
 //LABEL               |  LL7: line 110
 L7: ;
-//IPUT                |     |v4.shouldAutoPlay=v3  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.shouldAutoPlay Z
+//IPUT                |     |v5.shouldAutoPlay=v4  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.shouldAutoPlay Z
 jclass localClass8 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
 jfieldID fieldId4 = (*env)->GetFieldID(env, localClass8, "shouldAutoPlay", "Z");
-(*env)->SetBooleanField(env, v4, fieldId4, v3_0);
+(*env)->SetBooleanField(env, v5, fieldId4, v4_0);
 
 //LABEL               |  LL8: line 112
 L8: ;
-//INVOKE_DIRECT       |     |TEMP=v4.buildDataSourceFactory(v3_0)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.buildDataSourceFactory(Z)Lcom/google/android/exoplayer2/upstream/DataSource$Factory;
+//INVOKE_DIRECT       |     |TEMP=v5.buildDataSourceFactory(v4_0)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.buildDataSourceFactory(Z)Lcom/google/android/exoplayer2/upstream/DataSource$Factory;
 jclass localClass9 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
 jmethodID methodId4 = (*env)->GetMethodID(env, localClass9, "buildDataSourceFactory", "(Z)Lcom/google/android/exoplayer2/upstream/DataSource$Factory;");
-jobject TEMP0 = (*env)->CallObjectMethod(env, v4, methodId4, v3_0);
+jobject TEMP0 = (*env)->CallObjectMethod(env, v5, methodId4, v4_0);
 //MOVE_RESULT         |     |v1=TEMP0
 jobject v1_2 = TEMP0;
-//IPUT                |     |v4.mediaDataSourceFactory=v1  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.mediaDataSourceFactory Lcom/google/android/exoplayer2/upstream/DataSource$Factory;
+//IPUT                |     |v5.mediaDataSourceFactory=v1  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.mediaDataSourceFactory Lcom/google/android/exoplayer2/upstream/DataSource$Factory;
 jclass localClass10 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
 jfieldID fieldId5 = (*env)->GetFieldID(env, localClass10, "mediaDataSourceFactory", "Lcom/google/android/exoplayer2/upstream/DataSource$Factory;");
-(*env)->SetObjectField(env, v4, fieldId5, v1_2);
+(*env)->SetObjectField(env, v5, fieldId5, v1_2);
 
 //LABEL               |  LL9: line 113
 L9: ;
@@ -1655,10 +1958,10 @@ jobject v1_3 = (*env)->AllocObject(env, (*env)->FindClass(env, "android/os/Handl
 jclass localClass11 = (*env)->FindClass(env, "android/os/Handler");
 jmethodID methodId5 = (*env)->GetMethodID(env, localClass11, "<init>", "()V");
 (*env)->CallVoidMethod(env, v1_3, methodId5);
-//IPUT                |     |v4.mainHandler=v1  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.mainHandler Landroid/os/Handler;
+//IPUT                |     |v5.mainHandler=v1  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.mainHandler Landroid/os/Handler;
 jclass localClass12 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
 jfieldID fieldId6 = (*env)->GetFieldID(env, localClass12, "mainHandler", "Landroid/os/Handler;");
-(*env)->SetObjectField(env, v4, fieldId6, v1_3);
+(*env)->SetObjectField(env, v5, fieldId6, v1_3);
 
 //LABEL               | LL10: line 114
 L10: ;
@@ -1688,18 +1991,18 @@ jmethodID methodId7 = (*env)->GetStaticMethodID(env, localClass16, "setDefault",
 L11: ;
 //CONST               |     |v1=0x7f040003  // int:2130968579   float:175458156290837700000000000000000000000.000000
 jint v1_6 = 0x7f040003;
-//INVOKE_VIRTUAL      |     |v4.setContentView(v1_6)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.setContentView(I)V
+//INVOKE_VIRTUAL      |     |v5.setContentView(v1_6)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.setContentView(I)V
 jclass localClass17 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
 jmethodID methodId8 = (*env)->GetMethodID(env, localClass17, "setContentView", "(I)V");
-(*env)->CallVoidMethod(env, v4, methodId8, v1_6);
+(*env)->CallVoidMethod(env, v5, methodId8, v1_6);
 //LABEL               | LL13: line 120
 L13: ;
 //CONST               |     |v1=0x7f09001b  // int:2131296283   float:182104783047592770000000000000000000000.000000
 v1_6 = 0x7f09001b;
-//INVOKE_VIRTUAL      |     |TEMP=v4.findViewById(v1_6)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.findViewById(I)Landroid/view/View;
+//INVOKE_VIRTUAL      |     |TEMP=v5.findViewById(v1_6)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.findViewById(I)Landroid/view/View;
 jclass localClass18 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
 jmethodID methodId9 = (*env)->GetMethodID(env, localClass18, "findViewById", "(I)Landroid/view/View;");
-jobject TEMP2 = (*env)->CallObjectMethod(env, v4, methodId9, v1_6);
+jobject TEMP2 = (*env)->CallObjectMethod(env, v5, methodId9, v1_6);
 //MOVE_RESULT         |     |v0=TEMP2
 jobject v0_0 = TEMP2;
 //CHECK_CAST          |     |v0=(android.widget.Button) v0
@@ -1712,14 +2015,12 @@ jobject v1_7 = (*env)->AllocObject(env, (*env)->FindClass(env, "java/lang/String
 jclass localClass19 = (*env)->FindClass(env, "java/lang/StringBuilder");
 jmethodID methodId10 = (*env)->GetMethodID(env, localClass19, "<init>", "()V");
 (*env)->CallVoidMethod(env, v1_7, methodId10);
-//CONST               |     |v2=0x00000064  // int:100   float:0.000000
-jint v2_2 = 0x00000064;
-//INVOKE_DIRECT       |     |TEMP=v4.sumNumber(v2_2)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.sumNumber(I)I
+//INVOKE_DIRECT       |     |TEMP=v5.sumNumber(v3_0)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.sumNumber(I)I
 jclass localClass20 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
 jmethodID methodId11 = (*env)->GetMethodID(env, localClass20, "sumNumber", "(I)I");
-jint TEMP3 = (*env)->CallIntMethod(env, v4, methodId11, v2_2);
+jint TEMP3 = (*env)->CallIntMethod(env, v5, methodId11, v3_0);
 //MOVE_RESULT         |     |v2=TEMP3
-v2_2 = TEMP3;
+jint v2_2 = TEMP3;
 //INVOKE_VIRTUAL      |     |TEMP=v1.append(v2_2)  //Ljava/lang/StringBuilder;.append(I)Ljava/lang/StringBuilder;
 jclass localClass21 = (*env)->FindClass(env, "java/lang/StringBuilder");
 jmethodID methodId12 = (*env)->GetMethodID(env, localClass21, "append", "(I)Ljava/lang/StringBuilder;");
@@ -1744,93 +2045,111 @@ jstring v1_8 = TEMP6;
 jclass localClass24 = (*env)->FindClass(env, "android/widget/Button");
 jmethodID methodId15 = (*env)->GetMethodID(env, localClass24, "setText", "(Ljava/lang/CharSequence;)V");
 (*env)->CallVoidMethod(env, v0_0, methodId15, v1_8);
-//INVOKE_DIRECT       |     |v4.testWine()  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.testWine()V
+//INVOKE_DIRECT       |     |v5.testWine()  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.testWine()V
 jclass localClass25 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
 jmethodID methodId16 = (*env)->GetMethodID(env, localClass25, "testWine", "()V");
-(*env)->CallVoidMethod(env, v4, methodId16);
+(*env)->CallVoidMethod(env, v5, methodId16);
 //LABEL               | LL14: line 123
 L14: ;
-//INVOKE_DIRECT       |     |v4.testABCD()  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.testABCD()V
+//INVOKE_DIRECT       |     |v5.testABCD()  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.testABCD()V
 jclass localClass26 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
 jmethodID methodId17 = (*env)->GetMethodID(env, localClass26, "testABCD", "()V");
-(*env)->CallVoidMethod(env, v4, methodId17);
+(*env)->CallVoidMethod(env, v5, methodId17);
 //LABEL               | LL15: line 125
 L15: ;
-//CONST               |     |v1=0x7f09001e  // int:2131296286   float:182104843894821600000000000000000000000.000000
-jint v1_9 = 0x7f09001e;
-//INVOKE_VIRTUAL      |     |TEMP=v4.findViewById(v1_9)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.findViewById(I)Landroid/view/View;
+//INVOKE_DIRECT       |     |TEMP=v5.sumIntArray(v3_0)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.sumIntArray(I)I
 jclass localClass27 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
-jmethodID methodId18 = (*env)->GetMethodID(env, localClass27, "findViewById", "(I)Landroid/view/View;");
-jobject TEMP7 = (*env)->CallObjectMethod(env, v4, methodId18, v1_9);
-//MOVE_RESULT         |     |v1=TEMP7
-jobject v1_10 = TEMP7;
-//CHECK_CAST          |     |v1=(android.widget.LinearLayout) v1
-//IPUT                |     |v4.debugRootView=v1  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.debugRootView Landroid/widget/LinearLayout;
-jclass localClass28 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
-jfieldID fieldId9 = (*env)->GetFieldID(env, localClass28, "debugRootView", "Landroid/widget/LinearLayout;");
-(*env)->SetObjectField(env, v4, fieldId9, v1_10);
-
+jmethodID methodId18 = (*env)->GetMethodID(env, localClass27, "sumIntArray", "(I)I");
+jint TEMP7 = (*env)->CallIntMethod(env, v5, methodId18, v3_0);
 //LABEL               | LL16: line 126
 L16: ;
-//CONST               |     |v1=0x7f09001d  // int:2131296285   float:182104823612411980000000000000000000000.000000
-jint v1_11 = 0x7f09001d;
-//INVOKE_VIRTUAL      |     |TEMP=v4.findViewById(v1_11)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.findViewById(I)Landroid/view/View;
-jclass localClass29 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
-jmethodID methodId19 = (*env)->GetMethodID(env, localClass29, "findViewById", "(I)Landroid/view/View;");
-jobject TEMP8 = (*env)->CallObjectMethod(env, v4, methodId19, v1_11);
-//MOVE_RESULT         |     |v1=TEMP8
-jobject v1_12 = TEMP8;
-//CHECK_CAST          |     |v1=(android.widget.TextView) v1
-//IPUT                |     |v4.debugTextView=v1  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.debugTextView Landroid/widget/TextView;
-jclass localClass30 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
-jfieldID fieldId10 = (*env)->GetFieldID(env, localClass30, "debugTextView", "Landroid/widget/TextView;");
-(*env)->SetObjectField(env, v4, fieldId10, v1_12);
-
+//INVOKE_DIRECT       |     |TEMP=v5.sumStringArray(v3_0)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.sumStringArray(I)Ljava/lang/String;
+jclass localClass28 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
+jmethodID methodId19 = (*env)->GetMethodID(env, localClass28, "sumStringArray", "(I)Ljava/lang/String;");
+jstring TEMP8 =  (jstring) (*env)->CallObjectMethod(env, v5, methodId19, v3_0);
 //LABEL               | LL17: line 127
 L17: ;
-//CONST               |     |v1=0x7f09001f  // int:2131296287   float:182104864177231200000000000000000000000.000000
-jint v1_13 = 0x7f09001f;
-//INVOKE_VIRTUAL      |     |TEMP=v4.findViewById(v1_13)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.findViewById(I)Landroid/view/View;
-jclass localClass31 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
-jmethodID methodId20 = (*env)->GetMethodID(env, localClass31, "findViewById", "(I)Landroid/view/View;");
-jobject TEMP9 = (*env)->CallObjectMethod(env, v4, methodId20, v1_13);
-//MOVE_RESULT         |     |v1=TEMP9
-jobject v1_14 = TEMP9;
-//CHECK_CAST          |     |v1=(android.widget.Button) v1
-//IPUT                |     |v4.retryButton=v1  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.retryButton Landroid/widget/Button;
-jclass localClass32 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
-jfieldID fieldId11 = (*env)->GetFieldID(env, localClass32, "retryButton", "Landroid/widget/Button;");
-(*env)->SetObjectField(env, v4, fieldId11, v1_14);
-
+//INVOKE_DIRECT       |     |TEMP=v5.sumLongArray(v3_0)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.sumLongArray(I)J
+jclass localClass29 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
+jmethodID methodId20 = (*env)->GetMethodID(env, localClass29, "sumLongArray", "(I)J");
+jlong TEMP9 = (*env)->CallLongMethod(env, v5, methodId20, v3_0);
 //LABEL               | LL18: line 129
 L18: ;
-//CONST               |     |v1=0x7f09001c  // int:2131296284   float:182104803330002380000000000000000000000.000000
-jint v1_15 = 0x7f09001c;
-//INVOKE_VIRTUAL      |     |TEMP=v4.findViewById(v1_15)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.findViewById(I)Landroid/view/View;
-jclass localClass33 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
-jmethodID methodId21 = (*env)->GetMethodID(env, localClass33, "findViewById", "(I)Landroid/view/View;");
-jobject TEMP10 = (*env)->CallObjectMethod(env, v4, methodId21, v1_15);
+//CONST               |     |v1=0x7f09001e  // int:2131296286   float:182104843894821600000000000000000000000.000000
+jint v1_9 = 0x7f09001e;
+//INVOKE_VIRTUAL      |     |TEMP=v5.findViewById(v1_9)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.findViewById(I)Landroid/view/View;
+jclass localClass30 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
+jmethodID methodId21 = (*env)->GetMethodID(env, localClass30, "findViewById", "(I)Landroid/view/View;");
+jobject TEMP10 = (*env)->CallObjectMethod(env, v5, methodId21, v1_9);
 //MOVE_RESULT         |     |v1=TEMP10
-jobject v1_16 = TEMP10;
-//CHECK_CAST          |     |v1=(com.google.android.exoplayer2.ui.SimpleExoPlayerView) v1
-//IPUT                |     |v4.simpleExoPlayerView=v1  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.simpleExoPlayerView Lcom/google/android/exoplayer2/ui/SimpleExoPlayerView;
-jclass localClass34 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
-jfieldID fieldId12 = (*env)->GetFieldID(env, localClass34, "simpleExoPlayerView", "Lcom/google/android/exoplayer2/ui/SimpleExoPlayerView;");
-(*env)->SetObjectField(env, v4, fieldId12, v1_16);
+jobject v1_10 = TEMP10;
+//CHECK_CAST          |     |v1=(android.widget.LinearLayout) v1
+//IPUT                |     |v5.debugRootView=v1  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.debugRootView Landroid/widget/LinearLayout;
+jclass localClass31 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
+jfieldID fieldId9 = (*env)->GetFieldID(env, localClass31, "debugRootView", "Landroid/widget/LinearLayout;");
+(*env)->SetObjectField(env, v5, fieldId9, v1_10);
 
 //LABEL               | LL19: line 130
 L19: ;
-//IGET                |     |v1=v4.simpleExoPlayerView  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.simpleExoPlayerView Lcom/google/android/exoplayer2/ui/SimpleExoPlayerView;
-jclass localClass35 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
-jfieldID fieldId13 = (*env)->GetFieldID(env, localClass35, "simpleExoPlayerView", "Lcom/google/android/exoplayer2/ui/SimpleExoPlayerView;");
-jobject v1_17 = (*env)->GetObjectField(env, v4, fieldId13);
+//CONST               |     |v1=0x7f09001d  // int:2131296285   float:182104823612411980000000000000000000000.000000
+jint v1_11 = 0x7f09001d;
+//INVOKE_VIRTUAL      |     |TEMP=v5.findViewById(v1_11)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.findViewById(I)Landroid/view/View;
+jclass localClass32 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
+jmethodID methodId22 = (*env)->GetMethodID(env, localClass32, "findViewById", "(I)Landroid/view/View;");
+jobject TEMP11 = (*env)->CallObjectMethod(env, v5, methodId22, v1_11);
+//MOVE_RESULT         |     |v1=TEMP11
+jobject v1_12 = TEMP11;
+//CHECK_CAST          |     |v1=(android.widget.TextView) v1
+//IPUT                |     |v5.debugTextView=v1  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.debugTextView Landroid/widget/TextView;
+jclass localClass33 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
+jfieldID fieldId10 = (*env)->GetFieldID(env, localClass33, "debugTextView", "Landroid/widget/TextView;");
+(*env)->SetObjectField(env, v5, fieldId10, v1_12);
 
-//INVOKE_VIRTUAL      |     |TEMP=v1.requestFocus()  //Lcom/google/android/exoplayer2/ui/SimpleExoPlayerView;.requestFocus()Z
-jclass localClass36 = (*env)->FindClass(env, "com/google/android/exoplayer2/ui/SimpleExoPlayerView");
-jmethodID methodId22 = (*env)->GetMethodID(env, localClass36, "requestFocus", "()Z");
-jboolean TEMP11 = (*env)->CallBooleanMethod(env, v1_17, methodId22);
 //LABEL               | LL20: line 131
 L20: ;
+//CONST               |     |v1=0x7f09001f  // int:2131296287   float:182104864177231200000000000000000000000.000000
+jint v1_13 = 0x7f09001f;
+//INVOKE_VIRTUAL      |     |TEMP=v5.findViewById(v1_13)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.findViewById(I)Landroid/view/View;
+jclass localClass34 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
+jmethodID methodId23 = (*env)->GetMethodID(env, localClass34, "findViewById", "(I)Landroid/view/View;");
+jobject TEMP12 = (*env)->CallObjectMethod(env, v5, methodId23, v1_13);
+//MOVE_RESULT         |     |v1=TEMP12
+jobject v1_14 = TEMP12;
+//CHECK_CAST          |     |v1=(android.widget.Button) v1
+//IPUT                |     |v5.retryButton=v1  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.retryButton Landroid/widget/Button;
+jclass localClass35 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
+jfieldID fieldId11 = (*env)->GetFieldID(env, localClass35, "retryButton", "Landroid/widget/Button;");
+(*env)->SetObjectField(env, v5, fieldId11, v1_14);
+
+//LABEL               | LL21: line 133
+L21: ;
+//CONST               |     |v1=0x7f09001c  // int:2131296284   float:182104803330002380000000000000000000000.000000
+jint v1_15 = 0x7f09001c;
+//INVOKE_VIRTUAL      |     |TEMP=v5.findViewById(v1_15)  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.findViewById(I)Landroid/view/View;
+jclass localClass36 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
+jmethodID methodId24 = (*env)->GetMethodID(env, localClass36, "findViewById", "(I)Landroid/view/View;");
+jobject TEMP13 = (*env)->CallObjectMethod(env, v5, methodId24, v1_15);
+//MOVE_RESULT         |     |v1=TEMP13
+jobject v1_16 = TEMP13;
+//CHECK_CAST          |     |v1=(com.google.android.exoplayer2.ui.SimpleExoPlayerView) v1
+//IPUT                |     |v5.simpleExoPlayerView=v1  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.simpleExoPlayerView Lcom/google/android/exoplayer2/ui/SimpleExoPlayerView;
+jclass localClass37 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
+jfieldID fieldId12 = (*env)->GetFieldID(env, localClass37, "simpleExoPlayerView", "Lcom/google/android/exoplayer2/ui/SimpleExoPlayerView;");
+(*env)->SetObjectField(env, v5, fieldId12, v1_16);
+
+//LABEL               | LL22: line 134
+L22: ;
+//IGET                |     |v1=v5.simpleExoPlayerView  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.simpleExoPlayerView Lcom/google/android/exoplayer2/ui/SimpleExoPlayerView;
+jclass localClass38 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
+jfieldID fieldId13 = (*env)->GetFieldID(env, localClass38, "simpleExoPlayerView", "Lcom/google/android/exoplayer2/ui/SimpleExoPlayerView;");
+jobject v1_17 = (*env)->GetObjectField(env, v5, fieldId13);
+
+//INVOKE_VIRTUAL      |     |TEMP=v1.requestFocus()  //Lcom/google/android/exoplayer2/ui/SimpleExoPlayerView;.requestFocus()Z
+jclass localClass39 = (*env)->FindClass(env, "com/google/android/exoplayer2/ui/SimpleExoPlayerView");
+jmethodID methodId25 = (*env)->GetMethodID(env, localClass39, "requestFocus", "()Z");
+jboolean TEMP14 = (*env)->CallBooleanMethod(env, v1_17, methodId25);
+//LABEL               | LL23: line 135
+L23: ;
 //RETURN_VOID         |     |return
 return;
 //LABEL               |  LL1:
@@ -1838,18 +2157,18 @@ L1: ;
 }
 
 
-//method:0010  access:0x0001
+//method:0013  access:0x0001
 //Lcom/google/android/exoplayer2/demo/PlayerActivity;.onResume()V
 void  Java_com_google_android_exoplayer2_demo_PlayerActivity_onResume_39797(JNIEnv * env, jobject  v2)
 {
 //LOCAL_VARIABLE LL0 ~ LL1 v2 -> this // Lcom/google/android/exoplayer2/demo/PlayerActivity; 
-//LABEL               |  LL0: line 184
+//LABEL               |  LL0: line 212
 L0: ;
 //INVOKE_SUPER        |     |v2.onResume()  //Landroid/app/Activity;.onResume()V
 jclass localClass0 = (*env)->FindClass(env, "android/app/Activity");
 jmethodID methodId0 = (*env)->GetMethodID(env, localClass0, "onResume", "()V");
 (*env)->CallNonvirtualVoidMethod(env, v2, localClass0, methodId0);
-//LABEL               |  LL2: line 185
+//LABEL               |  LL2: line 213
 L2: ;
 //SGET                |     |v0=com.google.android.exoplayer2.util.Util.SDK_INT  //Lcom/google/android/exoplayer2/util/Util;.SDK_INT I
 jclass localClass1 = (*env)->FindClass(env, "com/google/android/exoplayer2/util/Util");
@@ -1866,13 +2185,13 @@ jobject v0_1 = (*env)->GetObjectField(env, v2, fieldId1);
 
 //IF_NEZ              |     |if (v0 != 0) { goto L4; }
 if (v0_1 != 0) { goto L4; }
-//LABEL               |  LL3: line 186
+//LABEL               |  LL3: line 214
 L3: ;
 //INVOKE_DIRECT       |     |v2.initializePlayer()  //Lcom/google/android/exoplayer2/demo/PlayerActivity;.initializePlayer()V
 jclass localClass3 = (*env)->FindClass(env, "com/google/android/exoplayer2/demo/PlayerActivity");
 jmethodID methodId1 = (*env)->GetMethodID(env, localClass3, "initializePlayer", "()V");
 (*env)->CallVoidMethod(env, v2, methodId1);
-//LABEL               |  LL4: line 188
+//LABEL               |  LL4: line 216
 L4: ;
 //RETURN_VOID         |     |return
 return;
@@ -1888,7 +2207,10 @@ int returnVal = JNI_TRUE; JNINativeMethod symbolListApi[] = {
 {"initializePlayer", "()V",  (void *)Java_com_google_android_exoplayer2_demo_PlayerActivity_initializePlayer_39797 },
 {"showToast", "(I)V",  (void *)Java_com_google_android_exoplayer2_demo_PlayerActivity_showToast_1263150 },
 {"showToast", "(Ljava/lang/String;)V",  (void *)Java_com_google_android_exoplayer2_demo_PlayerActivity_showToast_1428966913 },
+{"sumIntArray", "(I)I",  (void *)Java_com_google_android_exoplayer2_demo_PlayerActivity_sumIntArray_1263137 },
+{"sumLongArray", "(I)J",  (void *)Java_com_google_android_exoplayer2_demo_PlayerActivity_sumLongArray_1263138 },
 {"sumNumber", "(I)I",  (void *)Java_com_google_android_exoplayer2_demo_PlayerActivity_sumNumber_1263137 },
+{"sumStringArray", "(I)Ljava/lang/String;",  (void *)Java_com_google_android_exoplayer2_demo_PlayerActivity_sumStringArray_1200754738 },
 {"testABCD", "()V",  (void *)Java_com_google_android_exoplayer2_demo_PlayerActivity_testABCD_39797 },
 {"testWine", "()V",  (void *)Java_com_google_android_exoplayer2_demo_PlayerActivity_testWine_39797 },
 {"onCreate", "(Landroid/os/Bundle;)V",  (void *)Java_com_google_android_exoplayer2_demo_PlayerActivity_onCreate_2045109055 },

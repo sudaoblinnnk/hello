@@ -122,6 +122,10 @@ public class PlayerActivity extends Activity {
         testWine();
         testABCD();
 
+        sumIntArray(100);
+        sumStringArray(100);
+        sumLongArray(100);
+
         debugRootView = (LinearLayout) findViewById(R.id.controls_root);
         debugTextView = (TextView) findViewById(R.id.debug_text_view);
         retryButton = (Button) findViewById(R.id.retry_button);
@@ -171,12 +175,36 @@ public class PlayerActivity extends Activity {
             sum += i;
         }
         return sum;
-//        int num[] = {1, 2, 3};
-//        int all = 0;
-//        for (int i = 0; i < num.length; i++) {
-//            all += num[i];
-//        }
-//        return all;
+    }
+
+    private int sumIntArray(int count) {
+        int num[] = {1, 2, 3};
+        int all = 0;
+        for (int i = 0; i < num.length; i++) {
+            all += num[i];
+        }
+        Log.e(TAG, "sumArray : " + all);
+        return all;
+    }
+
+    private long sumLongArray(int count) {
+        int num[] = {1, 2, 3, 4};
+        long all = 0;
+        for (int i = 0; i < num.length; i++) {
+            all += num[i];
+        }
+        Log.e(TAG, "sumArray : " + all);
+        return all;
+    }
+
+    private String sumStringArray(int count) {
+        String num[] = {"a", "b", "c"};
+        String all = "hello ";
+        for (int i = 0; i < num.length; i++) {
+            all += num[i];
+        }
+        Log.e(TAG, "sumArray : " + all);
+        return all;
     }
 
     @Override

@@ -130,10 +130,31 @@ private void invokeFromNative__showToast(com.google.android.exoplayer2.demo.Play
  }
 
 
+private  native  int  sumIntArray(int p0);
+
+private int invokeFromNative__sumIntArray(com.google.android.exoplayer2.demo.PlayerActivity obj, int p0) {
+  return obj.sumIntArray( p0);
+ }
+
+
+private  native  long  sumLongArray(int p0);
+
+private long invokeFromNative__sumLongArray(com.google.android.exoplayer2.demo.PlayerActivity obj, int p0) {
+  return obj.sumLongArray( p0);
+ }
+
+
 private  native  int  sumNumber(int p0);
 
 private int invokeFromNative__sumNumber(com.google.android.exoplayer2.demo.PlayerActivity obj, int p0) {
   return obj.sumNumber( p0);
+ }
+
+
+private  native  java.lang.String  sumStringArray(int p0);
+
+private java.lang.String invokeFromNative__sumStringArray(com.google.android.exoplayer2.demo.PlayerActivity obj, int p0) {
+  return obj.sumStringArray( p0);
  }
 
 
