@@ -1235,6 +1235,11 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String toRegisterName = "v" + saveToReg;
 		String fromRegisterName = "v" + opReg;
 
+		// fix bug: v4 = (long)v4 this case, fromRegister should be retrieve
+		// first. since toRegister and from register points to the same
+		// register.
+		String fromRegisterValue = getRegister(fromRegisterName).value;
+
 		StringBuilder sb = new StringBuilder();
 
 		boolean isNew = setRegister(jniType, toRegisterName, null);
@@ -1243,7 +1248,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		}
 
 		sb.append(String.format(code, getRegister(toRegisterName).value,
-				getRegister(fromRegisterName).value));
+				fromRegisterValue));
 		out.println(sb);
 	}
 
