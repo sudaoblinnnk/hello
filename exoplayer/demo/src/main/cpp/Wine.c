@@ -1,6 +1,6 @@
 #include <jni.h>
 #include <stdio.h>
-//class:0668  access:0x0001
+//class:0669  access:0x0001
 //public class com.google.android.exoplayer2.demo.Wine
 //field:0000  access:0x0002
 //Lcom/google/android/exoplayer2/demo/Wine;.name Ljava/lang/String;
@@ -125,7 +125,7 @@ return v0_0;
 L1: ;
 }
 
-int registerNativeSymbols420217909_461(JNIEnv * env) { 
+int registerNativeSymbols420217909_462(JNIEnv * env) { 
 int returnVal = JNI_TRUE; JNINativeMethod symbolListApi[] = { 
 {"__initNative", "()V",  (void *)Java_com_google_android_exoplayer2_demo_Wine___initNative_39797 },
 {"drink", "()Ljava/lang/String;",  (void *)Java_com_google_android_exoplayer2_demo_Wine_drink_1942950347 },

@@ -60,6 +60,20 @@ cp $NATIVE_CODE_DIR/native/com/google/android/exoplayer2/demo/JNC.c  demo/src/ma
 cp $NATIVE_CODE_DIR/java/com/google/android/exoplayer2/demo/JGJ.java demo/src/main/java/com/google/android/exoplayer2/demo/JGJ.java
 cp $NATIVE_CODE_DIR/native/com/google/android/exoplayer2/demo/JGJ.c  demo/src/main/cpp/JGJ.c
 
+############################################################
+cp $NATIVE_CODE_DIR/java/com/google/android/exoplayer2/demo/A.java demo/src/main/java/com/google/android/exoplayer2/demo/A.java
+cp $NATIVE_CODE_DIR/native/com/google/android/exoplayer2/demo/A.c  demo/src/main/cpp/A.c
+
+cp $NATIVE_CODE_DIR/java/com/google/android/exoplayer2/demo/B.java demo/src/main/java/com/google/android/exoplayer2/demo/B.java
+cp $NATIVE_CODE_DIR/native/com/google/android/exoplayer2/demo/B.c  demo/src/main/cpp/B.c
+
+cp $NATIVE_CODE_DIR/java/com/google/android/exoplayer2/demo/CC.java demo/src/main/java/com/google/android/exoplayer2/demo/CC.java
+cp $NATIVE_CODE_DIR/native/com/google/android/exoplayer2/demo/CC.c  demo/src/main/cpp/CC.c
+
+cp $NATIVE_CODE_DIR/java/com/google/android/exoplayer2/demo/D.java demo/src/main/java/com/google/android/exoplayer2/demo/D.java
+cp $NATIVE_CODE_DIR/native/com/google/android/exoplayer2/demo/D.c  demo/src/main/cpp/D.c
+############################################################
+
 ./gradlew assembleNoExtensionsDebug
 cp demo/buildout/outputs/apk/demo-noExtensions-debug.apk ../repackage/app-native.apk
 popd

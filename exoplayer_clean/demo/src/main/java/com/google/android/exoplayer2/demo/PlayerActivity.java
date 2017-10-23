@@ -120,6 +120,7 @@ public class PlayerActivity extends Activity {
         Button b = (Button) findViewById(R.id.show_number);
         b.setText(sumNumber(100) + "");
         testWine();
+        testABCD();
 
         debugRootView = (LinearLayout) findViewById(R.id.controls_root);
         debugTextView = (TextView) findViewById(R.id.debug_text_view);
@@ -143,6 +144,24 @@ public class PlayerActivity extends Activity {
         Log.d(TAG, a.toString() + "--" + a.drink());
         Log.d(TAG, b.toString() + "--" + b.drink());
         Log.d(TAG, "-------------------------------");
+    }
+
+    private void testABCD() {
+        A a1 = new A();
+        A a2 = new B();
+        B b = new B();
+        CC c = new CC();
+        D d = new D();
+
+        Log.d(TAG, "1--" + a1.show(b));
+        Log.d(TAG, "2--" + a1.show(c));
+        Log.d(TAG, "3--" + a1.show(d));
+        Log.d(TAG, "4--" + a2.show(b));
+        Log.d(TAG, "5--" + a2.show(c));
+        Log.d(TAG, "6--" + a2.show(d));
+        Log.d(TAG, "7--" + b.show(b));
+        Log.d(TAG, "8--" + b.show(c));
+        Log.d(TAG, "9--" + b.show(d));
     }
 
     private int sumNumber(int count) {

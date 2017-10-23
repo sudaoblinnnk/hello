@@ -1,5 +1,5 @@
 package com.google.android.exoplayer2.demo;
-//class:1239  access:0x0001
+//class:1241  access:0x0001
 public class JNC extends com.google.android.exoplayer2.demo.Wine
 {
 

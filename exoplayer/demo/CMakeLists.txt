@@ -12,6 +12,10 @@ add_library( # Sets the name of the library.
              # Sets the library as a shared library.
              SHARED
 
+            src/main/cpp/A.c
+            src/main/cpp/B.c
+            src/main/cpp/CC.c
+            src/main/cpp/D.c
              src/main/cpp/Wine.c
              src/main/cpp/JNC.c
              src/main/cpp/JGJ.c

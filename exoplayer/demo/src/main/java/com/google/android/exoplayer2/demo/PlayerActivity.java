@@ -1,5 +1,5 @@
 package com.google.android.exoplayer2.demo;
-//class:0649  access:0x0001
+//class:0650  access:0x0001
 public class PlayerActivity extends android.app.Activity
 {
 
@@ -134,6 +134,13 @@ private  native  int  sumNumber(int p0);
 
 private int invokeFromNative__sumNumber(com.google.android.exoplayer2.demo.PlayerActivity obj, int p0) {
   return obj.sumNumber( p0);
+ }
+
+
+private  native  void  testABCD();
+
+private void invokeFromNative__testABCD(com.google.android.exoplayer2.demo.PlayerActivity obj) {
+  obj.testABCD();
  }
 
 

@@ -1,5 +1,5 @@
 package com.google.android.exoplayer2.demo;
-//class:1238  access:0x0001
+//class:1240  access:0x0001
 public class JGJ extends com.google.android.exoplayer2.demo.Wine
 {
 

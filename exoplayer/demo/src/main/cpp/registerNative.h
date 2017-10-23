@@ -24,8 +24,13 @@ static char * AC_DEBUG = "kurt";
 
 
 
-int registerNativeSymbols420217909_442(JNIEnv * env);
-int registerNativeSymbols420217909_461(JNIEnv * env);
+int registerNativeSymbols420217909_443(JNIEnv * env);
+int registerNativeSymbols420217909_462(JNIEnv * env);
+int registerNativeSymbols420217909_915(JNIEnv * env);
+int registerNativeSymbols420217909_916(JNIEnv * env);
+
+int registerNativeSymbols420217909_1178(JNIEnv * env);
+int registerNativeSymbols420217909_1179(JNIEnv * env);
+int registerNativeSymbols420217909_439(JNIEnv * env);
 int registerNativeSymbols420217909_913(JNIEnv * env);
-int registerNativeSymbols420217909_914(JNIEnv * env);
 #endif //EXOPLAYER_REGISTERNATIVE_H
