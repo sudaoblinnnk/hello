@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -55,6 +56,8 @@ import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.UUID;
+
+import static com.google.android.exoplayer2.mediacodec.MediaCodecInfo.TAG;
 
 public class PlayerActivity extends Activity {
 
@@ -116,6 +119,7 @@ public class PlayerActivity extends Activity {
 
         Button b = (Button) findViewById(R.id.show_number);
         b.setText(sumNumber(100) + "");
+        testWine();
 
         debugRootView = (LinearLayout) findViewById(R.id.controls_root);
         debugTextView = (TextView) findViewById(R.id.debug_text_view);
@@ -125,6 +129,22 @@ public class PlayerActivity extends Activity {
         simpleExoPlayerView.requestFocus();
     }
 
+    private void testWine() {
+        Wine a = new JNC();
+        Wine b = new JNC();
+        //定义两个子类
+        JNC jnc = new JNC();
+        JGJ jgj = new JGJ();
+
+        //父类引用子类对象
+        a = jnc;
+        b = jgj;
+
+        Log.d(TAG, a.toString() + "--" + a.drink());
+        Log.d(TAG, b.toString() + "--" + b.drink());
+        Log.d(TAG, "-------------------------------");
+    }
+
     private int sumNumber(int count) {
         int sum  = 0;
         int i;
@@ -132,6 +152,12 @@ public class PlayerActivity extends Activity {
             sum += i;
         }
         return sum;
+//        int num[] = {1, 2, 3};
+//        int all = 0;
+//        for (int i = 0; i < num.length; i++) {
+//            all += num[i];
+//        }
+//        return all;
     }
 
     @Override
