@@ -628,6 +628,12 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		out.println(sb);
 	}
 
+	private static boolean isInvokeVirtualAndCustomerMethod(int opcode,
+			Method method) {
+		return (opcode == OP_INVOKE_VIRTUAL && method.toString().startsWith(
+				"com/google/android/exoplayer2"));
+	}
+
 	protected void nativeVoidInvoke(int opcode, String reg, String methodName,
 			String param, Method method) {
 		String classNameSignature = method.getOwner();
@@ -640,8 +646,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		// do not need to java.lang.Object init method.
 		if (methodName.equals(IrdetoDexConvertor.LOCAL_CTOR)
-				&& method.toString().startsWith(
-						"L" + IrdetoDexConvertor.JAVA_LANG_OBJECT)) {
+				&& (method.toString().startsWith(
+						"L" + IrdetoDexConvertor.JAVA_LANG_OBJECT) || IrdetoDexConvertor.isCurrentMethodConstructor)) {
 			return;
 		}
 		StringBuilder sb = new StringBuilder();
@@ -659,7 +665,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		} else {
 			isStatic = false;
 		}
-		if (opcode == OP_INVOKE_VIRTUAL) {
+		if (isInvokeVirtualAndCustomerMethod(opcode, method)) {
 			methodName = IrdetoDexConvertor.INVOKE_FROM_NATIVE + methodName;
 		}
 		sb.append(getMethodStr(methodId, localClass, methodName, signature,
@@ -676,7 +682,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			caller = getRegister(reg).value;
 		}
 		// call invokeFromNative__ method with first argument is caller itself.
-		if (opcode == OP_INVOKE_VIRTUAL) {
+		if (isInvokeVirtualAndCustomerMethod(opcode, method)) {
 			methodName = IrdetoDexConvertor.INVOKE_FROM_NATIVE + methodName;
 			StringBuilder buffer = new StringBuilder(caller);
 			if (method.hasParameter()) {
@@ -732,7 +738,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		} else {
 			isStatic = false;
 		}
-		if (opcode == OP_INVOKE_VIRTUAL) {
+		if (isInvokeVirtualAndCustomerMethod(opcode, method)) {
 			methodName = IrdetoDexConvertor.INVOKE_FROM_NATIVE + methodName;
 		}
 		sb.append(getMethodStr(methodId, localClass, methodName, signature,
@@ -754,7 +760,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			caller = getRegister(reg).value;
 		}
 		// call invokeFromNative__ method with first argument is caller itself.
-		if (opcode == OP_INVOKE_VIRTUAL) {
+		if (isInvokeVirtualAndCustomerMethod(opcode, method)) {
 			methodName = IrdetoDexConvertor.INVOKE_FROM_NATIVE + methodName;
 			StringBuilder buffer = new StringBuilder(caller);
 			if (method.hasParameter()) {

@@ -460,7 +460,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			@Override
 			public DexMethodVisitor visitMethod(final int accesFlags,
 					final Method method) {
-
+				isCurrentMethodConstructor = false;
 				if (method.getName().contains("<clinit>")
 						|| (accesFlags & DexOpcodes.ACC_NATIVE) != 0) {
 					return super.visitMethod(accesFlags, method);
@@ -491,6 +491,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 						if (method.getName().equals(LOCAL_CTOR)) {
 							funcReturn = "void ";
 							methodName = LOCAL_NATIVE_INIT;
+							isCurrentMethodConstructor = true;
 						} else {
 							funcReturn = String.format(
 									JNI_FUNCTION_DELCLEAR_FORMAT,
@@ -648,6 +649,9 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 				body.append(" {");
 				body.append("\n");
 				body.append("  ");
+				if (!returnType.equals("void")) {
+					body.append("return ");
+				}
 				body.append(obj);
 				body.append(".");
 				body.append(methodName);
@@ -661,6 +665,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 	}
 
 	private String currentJavaClass;
+	public static boolean isCurrentMethodConstructor;
 	private int currentJavaClassAccessFlags;
 
 	private void updateCurrentJavaClassName(String javaClassName,
