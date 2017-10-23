@@ -30,6 +30,10 @@ public class DemoApplication extends Application {
 
   protected String userAgent;
 
+  static {
+    System.loadLibrary("native-lib");
+  }
+
   @Override
   public void onCreate() {
     super.onCreate();

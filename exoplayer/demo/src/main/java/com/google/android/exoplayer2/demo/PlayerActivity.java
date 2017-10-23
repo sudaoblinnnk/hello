@@ -3,7 +3,7 @@ package com.google.android.exoplayer2.demo;
 public class PlayerActivity extends android.app.Activity
 {
 
- static {System.loadLibrary("native-lib");} 
+
 
 //field:0000  access:0x0019
 //Lcom/google/android/exoplayer2/demo/PlayerActivity;.ACTION_VIEW Ljava/lang/String;
@@ -97,17 +97,64 @@ __initNative();
 
 private  native  com.google.android.exoplayer2.upstream.DataSource.Factory  buildDataSourceFactory(boolean p0);
 
+private com.google.android.exoplayer2.upstream.DataSource.Factory invokeFromNative__buildDataSourceFactory(com.google.android.exoplayer2.demo.PlayerActivity obj, boolean p0) {
+  return obj.buildDataSourceFactory( p0);
+ }
+
+
 private  native  com.google.android.exoplayer2.source.MediaSource  buildMediaSource(android.net.Uri p0,java.lang.String p1);
+
+private com.google.android.exoplayer2.source.MediaSource invokeFromNative__buildMediaSource(com.google.android.exoplayer2.demo.PlayerActivity obj, android.net.Uri p0,java.lang.String p1) {
+  return obj.buildMediaSource( p0, p1);
+ }
+
 
 private  native  void  initializePlayer();
 
+private void invokeFromNative__initializePlayer(com.google.android.exoplayer2.demo.PlayerActivity obj) {
+  obj.initializePlayer();
+ }
+
+
 private  native  void  showToast(int p0);
+
+private void invokeFromNative__showToast(com.google.android.exoplayer2.demo.PlayerActivity obj, int p0) {
+  obj.showToast( p0);
+ }
+
 
 private  native  void  showToast(java.lang.String p0);
 
+private void invokeFromNative__showToast(com.google.android.exoplayer2.demo.PlayerActivity obj, java.lang.String p0) {
+  obj.showToast( p0);
+ }
+
+
 private  native  int  sumNumber(int p0);
+
+private int invokeFromNative__sumNumber(com.google.android.exoplayer2.demo.PlayerActivity obj, int p0) {
+  return obj.sumNumber( p0);
+ }
+
+
+private  native  void  testWine();
+
+private void invokeFromNative__testWine(com.google.android.exoplayer2.demo.PlayerActivity obj) {
+  obj.testWine();
+ }
+
 
 public  native  void  onCreate(android.os.Bundle p0);
 
+private void invokeFromNative__onCreate(com.google.android.exoplayer2.demo.PlayerActivity obj, android.os.Bundle p0) {
+  obj.onCreate( p0);
+ }
+
+
 public  native  void  onResume();
+
+private void invokeFromNative__onResume(com.google.android.exoplayer2.demo.PlayerActivity obj) {
+  obj.onResume();
+ }
+
 }

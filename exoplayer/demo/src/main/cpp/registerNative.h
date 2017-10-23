@@ -7,15 +7,14 @@
 
 #ifdef  XC_ISO98
 #include <xc/xc_extensions.h>
-#include <jni.h>
-#include <stdio.h>
-#include <android/log.h>
 #else
-#include <jni.h>
-#include <android/log.h>
 #define _xc_preserve_interface
 #endif //XC_ISO98
 
+#include <jni.h>
+#include <stdio.h>
+#include <signal.h>
+#include <android/log.h>
 
 static char * AC_DEBUG = "kurt";
 
@@ -26,5 +25,7 @@ static char * AC_DEBUG = "kurt";
 
 
 int registerNativeSymbols420217909_442(JNIEnv * env);
-
+int registerNativeSymbols420217909_461(JNIEnv * env);
+int registerNativeSymbols420217909_913(JNIEnv * env);
+int registerNativeSymbols420217909_914(JNIEnv * env);
 #endif //EXOPLAYER_REGISTERNATIVE_H

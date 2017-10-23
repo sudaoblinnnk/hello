@@ -9,6 +9,14 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved)
     if (registerNativeSymbols420217909_442(env) == JNI_FALSE) {
         return -1;
     }
-
+    if (registerNativeSymbols420217909_461(env) == JNI_FALSE) {
+        return -1;
+    }
+    if (registerNativeSymbols420217909_913(env) == JNI_FALSE) {
+        return -1;
+    }
+    if (registerNativeSymbols420217909_914(env) == JNI_FALSE) {
+        return -1;
+    }
     return JNI_VERSION_1_4;
 }
