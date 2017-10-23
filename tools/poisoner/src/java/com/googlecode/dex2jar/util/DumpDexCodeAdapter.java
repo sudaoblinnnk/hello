@@ -1126,8 +1126,62 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 	@Override
 	protected void nativeAPUT(String code, int array, int index, int value) {
-		// TODO Auto-generated method stub
 
+		// APUT | |v2[v3]=v4;
+		StringBuilder sb = new StringBuilder();
+
+		String arrayName = "v" + array;
+		String indexName = "v" + index;
+
+		String valueName = "v" + value;
+
+		String arrayElementSignature = getRegister(arrayName).type;
+		String signature = arrayElementSignature.substring(1);// delete [
+
+		System.out
+				.println("777 arrayElementSignature " + arrayElementSignature);
+		System.out.println("777 signature " + signature);
+
+		sb.append("//input sig: " + signature + " register sig: "
+				+ getRegister(valueName).type + "\n");
+
+		if (isPrimitiveSignature(signature)) {
+			String jniType = toJniType(signature);
+			System.out.println("777 jniType " + jniType);
+			String methodType = getInvokeMethodType(signature);
+
+			// boolean isNew = setRegister(signature, valueName, null);
+			// String valueRegisterName = getRegister(valueName).value;
+
+			// if (isNew) {
+			// sb.append(jniType);
+			// sb.append(" ");
+			// sb.append(valueRegisterName);
+			// sb.append(";");
+			// sb.append("\n");
+			// }
+
+			String cmd = String.format(
+					"(*env)->Set%sArrayRegion(env, %s, %s, 1, &%s);",
+					(methodType), getRegister(arrayName).value,
+					getRegister(indexName).value, getRegister(valueName).value);
+			sb.append(cmd);
+		} else {
+			// APUT | |v2[v3]=v4;
+			// boolean isNew = setRegister("Ljava/lang/Object", valueName,
+			// null);
+			String valueRegisterName = getRegister(valueName).value;
+			sb.append("//input sig: " + signature + " changed register sig: "
+					+ getRegister(valueName).type + "\n");
+
+			String cmd = String.format(
+					"(*env)->SetObjectArrayElement(env, %s, %s, %s);",
+					getRegister(arrayName).value, getRegister(indexName).value,
+					valueRegisterName);
+			sb.append(cmd);
+		}
+
+		out.println(sb);
 	}
 
 	@Override
