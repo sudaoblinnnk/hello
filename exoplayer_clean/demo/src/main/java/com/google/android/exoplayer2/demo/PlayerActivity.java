@@ -179,6 +179,7 @@ public class PlayerActivity extends Activity {
 
     private int sumIntArray(int count) {
         int num[] = {1, 2, 3};
+        num[0] = -5;
         int all = 0;
         for (int i = 0; i < num.length; i++) {
             all += num[i];
