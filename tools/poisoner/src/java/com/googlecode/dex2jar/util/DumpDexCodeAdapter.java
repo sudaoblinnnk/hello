@@ -1068,19 +1068,22 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		String valueName = "v" + value;
 
 		String arrayElementSignature = getRegister(arrayName).type;
-
-		String valueRegisterName = getRegister(valueName).value;
 		String signature = arrayElementSignature.substring(1);// delete [
 
 		System.out
 				.println("777 arrayElementSignature " + arrayElementSignature);
 		System.out.println("777 signature " + signature);
-		boolean isNew = setRegister(signature, valueName, null);
+
+		sb.append("//input sig: " + signature + " register sig: "
+				+ getRegister(valueName).type + "\n");
 
 		if (isPrimitiveSignature(signature)) {
 			String jniType = toJniType(signature);
 			System.out.println("777 jniType " + jniType);
 			String methodType = getInvokeMethodType(signature);
+
+			boolean isNew = setRegister(signature, valueName, null);
+			String valueRegisterName = getRegister(valueName).value;
 
 			if (isNew) {
 				sb.append(jniType);
@@ -1096,10 +1099,22 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 					getRegister(indexName).value, getRegister(valueName).value);
 			sb.append(cmd);
 		} else {
-			sb.append(String
-					.format(("%s  rrrrrrrrr "), (arrayElementSignature)));
-			sb.append(String.format(code, valueRegisterName,
-					getRegister(arrayName).value, getRegister(indexName).value));
+			// AGET | |v4=v2[v1];
+			boolean isNew = setRegister("Ljava/lang/Object", valueName, null);
+			String valueRegisterName = getRegister(valueName).value;
+			sb.append("//input sig: " + signature + " changed register sig: "
+					+ getRegister(valueName).type + "\n");
+
+			if (isNew) {
+				sb.append("jobject");
+				sb.append(" ");
+			}
+			sb.append(valueRegisterName);
+			sb.append(" = ");
+			String cmd = String.format(
+					"(*env)->GetObjectArrayElement(env, %s, %s);",
+					getRegister(arrayName).value, getRegister(indexName).value);
+			sb.append(cmd);
 		}
 
 		out.println(sb);
