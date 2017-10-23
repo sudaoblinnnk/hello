@@ -126,6 +126,8 @@ public class PlayerActivity extends Activity {
         sumStringArray(100);
         sumLongArray(100);
 
+        sum2DIntArray(100);
+
         debugRootView = (LinearLayout) findViewById(R.id.controls_root);
         debugTextView = (TextView) findViewById(R.id.debug_text_view);
         retryButton = (Button) findViewById(R.id.retry_button);
@@ -185,6 +187,19 @@ public class PlayerActivity extends Activity {
             all += num[i];
         }
         Log.e(TAG, "sumArray : " + all);
+        return all;
+    }
+
+    private int sum2DIntArray(int count) {
+        int num[][] = new int[][] {{1, 2}, {3, 4}};
+        num[0][0] = -9;
+        int all = 0;
+        for (int i = 0; i < num.length; i++) {
+            for (int j = 0; j < num[0].length; j++) {
+                all += num[i][j];
+            }
+        }
+        Log.e(TAG, "sum2DIntArray : " + all);
         return all;
     }
 
