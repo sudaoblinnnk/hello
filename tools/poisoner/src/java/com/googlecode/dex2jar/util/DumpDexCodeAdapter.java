@@ -2,6 +2,7 @@ package com.googlecode.dex2jar.util;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -199,6 +200,10 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	private static final Map<String, String> TYPE_MAP = new HashMap<String, String>();
 	private static final Map<String, String> METHOD_TYPE_MAP = new HashMap<String, String>();
 	private static final Map<String, String> CALL_TYPE = new HashMap<String, String>();
+	private static final List<String> PRIMATIVE_TYPE = Arrays
+			.asList(new String[] { JNI_TYPE_BOOLEAN, JNI_TYPE_BYTE,
+					JNI_TYPE_CHAR, JNI_TYPE_DOUBLE, JNI_TYPE_FLOAT,
+					JNI_TYPE_INT, JNI_TYPE_LONG, JNI_TYPE_SHORT });
 
 	static {
 		TYPE_MAP.put(JNI_TYPE_BOOLEAN, "jboolean");
@@ -261,7 +266,9 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			return "Object";
 		if (s.startsWith(JNI_TYPE_ARRAY))
 			return "Array";
-		throw new IllegalArgumentException();
+		if (s.equals("jstring"))
+			return "String";
+		throw new IllegalArgumentException("getInvokeMethodType " + s);
 	}
 
 	private List<String> getClazzFieldName(String s) {
@@ -1060,27 +1067,46 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		String valueName = "v" + value;
 
-		String arrayTypeSignature = getRegister(arrayName).type;
-		String typeSignature = arrayTypeSignature.substring(0);
-
-		// ////////// value
-		boolean isNew = setRegister(typeSignature, valueName, null);
-		// if (isNew) {
-		sb.append(String.format(("%s  rrrrrrrrr "), (typeSignature)));
-		// this.getInvokeMethodType(typeSignature)));
-		// }
+		String arrayElementSignature = getRegister(arrayName).type;
 
 		String valueRegisterName = getRegister(valueName).value;
+		String signature = arrayElementSignature.substring(1);// delete [
 
-		sb.append(String.format(code, valueRegisterName,
-				getRegister(arrayName).value, getRegister(indexName).value));
+		System.out
+				.println("777 arrayElementSignature " + arrayElementSignature);
+		System.out.println("777 signature " + signature);
+		boolean isNew = setRegister(signature, valueName, null);
 
-		String cmd = String.format(
-				"(*env)->Get%sArrayRegion(env, %s, %s, 1, &%s);",
-				(typeSignature), getRegister(arrayName).value,
-				getRegister(indexName).value, getRegister(valueName).value);
-		sb.append(cmd);
+		if (isPrimitiveSignature(signature)) {
+			String jniType = toJniType(signature);
+			System.out.println("777 jniType " + jniType);
+			String methodType = getInvokeMethodType(signature);
+
+			if (isNew) {
+				sb.append(jniType);
+				sb.append(" ");
+				sb.append(valueRegisterName);
+				sb.append(";");
+				sb.append("\n");
+			}
+
+			String cmd = String.format(
+					"(*env)->Get%sArrayRegion(env, %s, %s, 1, &%s);",
+					(methodType), getRegister(arrayName).value,
+					getRegister(indexName).value, getRegister(valueName).value);
+			sb.append(cmd);
+		} else {
+			sb.append(String
+					.format(("%s  rrrrrrrrr "), (arrayElementSignature)));
+			sb.append(String.format(code, valueRegisterName,
+					getRegister(arrayName).value, getRegister(indexName).value));
+		}
+
 		out.println(sb);
+	}
+
+	private boolean isPrimitiveSignature(String signature) {
+		return PRIMATIVE_TYPE.contains(signature);
 	}
 
 	@Override
