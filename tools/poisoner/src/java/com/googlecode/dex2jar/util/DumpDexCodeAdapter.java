@@ -230,7 +230,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 		METHOD_TYPE_MAP.put(JNI_TYPE_OBJECT, "Object");
 		METHOD_TYPE_MAP.put(JNI_TYPE_SHORT, "Short");
 		METHOD_TYPE_MAP.put(JNI_TYPE_VOID, "Void");
-		METHOD_TYPE_MAP.put(JNI_TYPE_ARRAY, "jarray");
+		METHOD_TYPE_MAP.put(JNI_TYPE_ARRAY, "Object");// treat array as object
 	}
 
 	static {
@@ -974,6 +974,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		String resultType = javaClass;
 		String XXX = getInvokeMethodType(arrayType + "");
+		out.println("//type :" + type + " XXX: " + XXX + " " + " arrayType : "
+				+ arrayType);
 		String newXXXArray = String.format("New%sArray", XXX);
 		String size = getRegister("v" + fromReg).value;
 
@@ -1189,6 +1191,9 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			int opReg) {
 		String r1 = "v" + saveToReg;
 		String r2 = "v" + opReg;
+
+		String r2RegisterName = getRegister(r2).value;
+
 		String code1 = "";
 		StringBuilder sb = new StringBuilder();
 		if (OP_ARRAY_LENGTH == opcode) {
@@ -1199,7 +1204,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				sb.append(String.format(("%s "), toJniType(type)));
 			}
 			code1 = String.format("%s = (*env)->GetArrayLength(env, %s);",
-					getRegister(r1).value, getRegister(r2).value);
+					getRegister(r1).value, r2RegisterName);
 		} else {
 			String type = getRegister(r2).type;
 			boolean isNew = setRegister(type, r1, null);
@@ -1207,8 +1212,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 				sb.append(String.format(("%s "), toJniType(type)));
 			}
 			code1 = String.format(String.format(code, getRegister(r1).value,
-					getRegister(r2).value));
-
+					r2RegisterName));
 		}
 		sb.append(code1);
 		out.println(sb);
