@@ -1082,6 +1082,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 		sb.append("//input sig: " + signature + " register sig: "
 				+ getRegister(valueName).type + "\n");
+		String arrayRegister = getRegister(arrayName).value;
 
 		if (isPrimitiveSignature(signature)) {
 			String jniType = toJniType(signature);
@@ -1101,8 +1102,8 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 
 			String cmd = String.format(
 					"(*env)->Get%sArrayRegion(env, %s, %s, 1, &%s);",
-					(methodType), getRegister(arrayName).value,
-					getRegister(indexName).value, getRegister(valueName).value);
+					(methodType), arrayRegister, getRegister(indexName).value,
+					getRegister(valueName).value);
 			sb.append(cmd);
 		} else {
 			// AGET | |v4=v2[v1];
@@ -1119,7 +1120,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			sb.append(" = ");
 			String cmd = String.format(
 					"(*env)->GetObjectArrayElement(env, %s, %s);",
-					getRegister(arrayName).value, getRegister(indexName).value);
+					arrayRegister, getRegister(indexName).value);
 			sb.append(cmd);
 		}
 
