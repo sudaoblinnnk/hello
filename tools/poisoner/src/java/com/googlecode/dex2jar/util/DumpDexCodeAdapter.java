@@ -962,28 +962,32 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 	}
 
 	private static boolean isObjectType(char signature) {
-		return signature == 'L';
+		return signature == 'L' || signature == '[';
 	}
 
 	@Override
 	protected void nativeNewArray(int toReg, String type, int fromReg) {
+		// NEW_ARRAY | |v3=new int[][][v5]
+		//
 		String javaClass = toJniType(type);
-		char arrayType = type.substring(1).charAt(0);
+		char arrayElementJniType = type.substring(1).charAt(0);
+		String arrayElementJniSignature = type.substring(1);
 
 		String registerName = "v" + toReg;
 
 		String resultType = javaClass;
-		String XXX = getInvokeMethodType(arrayType + "");
+		String XXX = getInvokeMethodType(arrayElementJniType + "");
 		out.println("//type :" + type + " XXX: " + XXX + " " + " arrayType : "
-				+ arrayType);
+				+ arrayElementJniType);
 		String newXXXArray = String.format("New%sArray", XXX);
 		String size = getRegister("v" + fromReg).value;
 
 		String param = "";
-		if (isObjectType(arrayType)) {// object array
-			String clazz = String.format("(*env)->FindClass(env, \"%s\")",
-					getClassNameFromclassNameSignature(type));
-			String object = "0";
+		if (isObjectType(arrayElementJniType)) {// object array
+			String clazz = String
+					.format("(*env)->FindClass(env, \"%s\")",
+							getClassNameFromclassNameSignature(arrayElementJniSignature));
+			String object = "NULL";
 			param = String.format("%s, %s, %s", size, clazz, object);
 		} else {
 			param = size;
