@@ -1106,7 +1106,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			sb.append(cmd);
 		} else {
 			// AGET | |v4=v2[v1];
-			boolean isNew = setRegister("Ljava/lang/Object", valueName, null);
+			boolean isNew = setRegister(signature, valueName, null);
 			String valueRegisterName = getRegister(valueName).value;
 			sb.append("//input sig: " + signature + " changed register sig: "
 					+ getRegister(valueName).type + "\n");
