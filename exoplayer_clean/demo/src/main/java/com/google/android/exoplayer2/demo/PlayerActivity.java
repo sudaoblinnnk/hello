@@ -125,7 +125,7 @@ public class PlayerActivity extends Activity {
         sumIntArray(100);
         sumStringArray(100);
         sumLongArray(100);
-
+        sumDoubleArray(100);
         sum2DIntArray(100);
 
         debugRootView = (LinearLayout) findViewById(R.id.controls_root);
@@ -212,6 +212,17 @@ public class PlayerActivity extends Activity {
         Log.e(TAG, "sumArray : " + all);
         return all;
     }
+
+    private double sumDoubleArray(int count) {
+        double num[] = {1, 2, 3, 4};
+        double all = 0;
+        for (int i = 0; i < num.length; i++) {
+            all += num[i];
+        }
+        Log.e(TAG, "sumDoubleArray : " + all);
+        return all;
+    }
+
 
     private String sumStringArray(int count) {
         String num[] = {"a", "b", "c"};
