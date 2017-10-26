@@ -689,6 +689,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			caller = getRegister(reg).value;
 		}
 		// call invokeFromNative__ method with first argument is caller itself.
+		/*
 		if (isInvokeVirtualAndCustomerMethod(opcode, method)) {
 			methodName = IrdetoDexConvertor.INVOKE_FROM_NATIVE + methodName;
 			StringBuilder buffer = new StringBuilder(caller);
@@ -698,6 +699,7 @@ public class DumpDexCodeAdapter extends AbstractDumpDexCodeAdapter {
 			buffer.append(param);
 			param = buffer.toString();
 		}
+		*/
 		sb.append(getCallFunction(
 				getInvokeMethodByMethodSignature(signature, isStatic, isVirtual),
 				caller, methodId, param, isVirtual ? null : localClass));

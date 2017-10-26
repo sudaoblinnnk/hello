@@ -3,6 +3,7 @@ package com.irdeto.secureaccess.android.dexreader;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -81,36 +82,94 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		super();
 		this.writerManager = writerManager;
 	}
+	
+	private static class JavaCodeWriterManager implements WriterManager {
+		private ZipOutputStream zos;
+		private String fileType;
+		
+		public JavaCodeWriterManager(ZipOutputStream zs, String type)
+		{
+			fileType = type;
+			zos = zs;
+		}
+		
+		@Override
+		public PrintWriter get(String name) {
+			try {
+				String s = name.replace('.', '/') + fileType;
+				ZipEntry zipEntry = new ZipEntry(s);
+				zos.putNextEntry(zipEntry);
+				return new PrintWriter(zos) {
+					@Override
+					public void close() {
+						try {
+							zos.closeEntry();
+						} catch (IOException e) {
+							throw new RuntimeException(e);
+						}
+					}
+				};
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+	}
+	
+	private static class NativeCodeWriterManager implements WriterManager {
+		private ZipOutputStream zos;
+		private String fileType;
+		
+		public NativeCodeWriterManager(ZipOutputStream zs, String type)
+		{
+			fileType = type;
+			zos = zs;
+		}
+		
+		@Override
+		public PrintWriter get(String name) {
+			try {
+				String s = name.replace('.', '/') + fileType;
+				ZipEntry zipEntry = new ZipEntry(s);
+				zos.putNextEntry(zipEntry);
+				return new PrintWriter(zos) {
+					@Override
+					public void println(String x) {
+						super.println(x);
+					}
+					@Override
+					public void print(String x) {
+						super.print(x);
+					}
+					@Override
+					public void close() {
+						try {
+							zos.closeEntry();
+						} catch (IOException e) {
+							throw new RuntimeException(e);
+						}
+					}
+				};
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+	}
 
 	public static void doData(DexFileScanner dexFileReader, File destJar)
 			throws IOException {
 		final String fileType = ((PROCESS_NATIVE == processing) ? ".c"
 				: ".java");
-
 		final ZipOutputStream zos = new ZipOutputStream(
 				new BufferedOutputStream(new FileOutputStream(destJar)));
-		dexFileReader.accept(new IrdetoDexConvertor(new WriterManager() {
+		
+		WriterManager wm = null;
+		if (PROCESS_NATIVE == processing) {
+			wm = new NativeCodeWriterManager(zos, fileType);
+		} else {
+			wm = new JavaCodeWriterManager(zos, fileType);
+		}
 
-			public PrintWriter get(String name) {
-				try {
-					String s = name.replace('.', '/') + fileType;
-					ZipEntry zipEntry = new ZipEntry(s);
-					zos.putNextEntry(zipEntry);
-					return new PrintWriter(zos) {
-						@Override
-						public void close() {
-							try {
-								zos.closeEntry();
-							} catch (IOException e) {
-								throw new RuntimeException(e);
-							}
-						}
-					};
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-			}
-		}));
+		dexFileReader.accept(new IrdetoDexConvertor(wm));
 		zos.finish();
 		zos.close();
 	}
