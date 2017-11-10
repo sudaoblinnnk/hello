@@ -3,7 +3,6 @@ package com.irdeto.secureaccess.android.dexreader;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -66,6 +65,14 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 
 	public interface WriterManager {
 		PrintWriter get(String name);
+
+		void flush();
+	}
+
+	public static abstract class AbstractWriterManager implements WriterManager {
+		public void flush() {
+
+		}
 	}
 
 	private int class_count = 0;
@@ -82,17 +89,16 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		super();
 		this.writerManager = writerManager;
 	}
-	
-	private static class JavaCodeWriterManager implements WriterManager {
+
+	private static class JavaCodeWriterManager extends AbstractWriterManager {
 		private ZipOutputStream zos;
 		private String fileType;
-		
-		public JavaCodeWriterManager(ZipOutputStream zs, String type)
-		{
+
+		public JavaCodeWriterManager(ZipOutputStream zs, String type) {
 			fileType = type;
 			zos = zs;
 		}
-		
+
 		@Override
 		public PrintWriter get(String name) {
 			try {
@@ -114,17 +120,18 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			}
 		}
 	}
-	
+
+	private static List<String> CodeList = new LinkedList<String>();
+
 	private static class NativeCodeWriterManager implements WriterManager {
 		private ZipOutputStream zos;
 		private String fileType;
-		
-		public NativeCodeWriterManager(ZipOutputStream zs, String type)
-		{
+
+		public NativeCodeWriterManager(ZipOutputStream zs, String type) {
 			fileType = type;
 			zos = zs;
 		}
-		
+
 		@Override
 		public PrintWriter get(String name) {
 			try {
@@ -134,12 +141,16 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 				return new PrintWriter(zos) {
 					@Override
 					public void println(String x) {
-						super.println(x);
+						// super.println(x);
+						CodeList.add(x);
 					}
+
 					@Override
 					public void print(String x) {
-						super.print(x);
+						// super.print(x);
+						CodeList.add(x);
 					}
+
 					@Override
 					public void close() {
 						try {
@@ -161,7 +172,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 				: ".java");
 		final ZipOutputStream zos = new ZipOutputStream(
 				new BufferedOutputStream(new FileOutputStream(destJar)));
-		
+
 		WriterManager wm = null;
 		if (PROCESS_NATIVE == processing) {
 			wm = new NativeCodeWriterManager(zos, fileType);
@@ -255,7 +266,24 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		MergeSubClass.addRightCurveBrace();
 	}
 
+	public static class Comp {
+		private String c;
+
+		public Comp(String c) {
+			this.c = c;
+		}
+
+		public void print() {
+			System.out.println("this is " + c);
+		}
+	}
+
 	public static void main(String... args) throws Exception {
+		Comp[] com = { new Comp("a"), new Comp("B") };
+		com[0].print();
+		com[1].print();
+		if (true)
+			return;
 		if (args.length < 1) {
 			System.out.println("Specify input file in DEX or APK");
 			return;

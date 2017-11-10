@@ -137,6 +137,13 @@ private int invokeFromNative__sum2DIntArray(com.google.android.exoplayer2.demo.P
  }
 
 
+private  native  double  sumDoubleArray(int p0);
+
+private double invokeFromNative__sumDoubleArray(com.google.android.exoplayer2.demo.PlayerActivity obj, int p0) {
+  return obj.sumDoubleArray( p0);
+ }
+
+
 private  native  int  sumIntArray(int p0);
 
 private int invokeFromNative__sumIntArray(com.google.android.exoplayer2.demo.PlayerActivity obj, int p0) {
