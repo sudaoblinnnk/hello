@@ -70,8 +70,14 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 	}
 
 	public static abstract class AbstractWriterManager implements WriterManager {
+		@Override
 		public void flush() {
 
+		}
+		
+		@Override
+		public PrintWriter get(String name) {
+			return null;
 		}
 	}
 
@@ -123,7 +129,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 
 	private static List<String> CodeList = new LinkedList<String>();
 
-	private static class NativeCodeWriterManager implements WriterManager {
+	private static class NativeCodeWriterManager extends AbstractWriterManager {
 		private ZipOutputStream zos;
 		private String fileType;
 
@@ -131,7 +137,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 			fileType = type;
 			zos = zs;
 		}
-
+		
 		@Override
 		public PrintWriter get(String name) {
 			try {
@@ -266,24 +272,7 @@ public class IrdetoDexConvertor extends EmptyVisitor {
 		MergeSubClass.addRightCurveBrace();
 	}
 
-	public static class Comp {
-		private String c;
-
-		public Comp(String c) {
-			this.c = c;
-		}
-
-		public void print() {
-			System.out.println("this is " + c);
-		}
-	}
-
 	public static void main(String... args) throws Exception {
-		Comp[] com = { new Comp("a"), new Comp("B") };
-		com[0].print();
-		com[1].print();
-		if (true)
-			return;
 		if (args.length < 1) {
 			System.out.println("Specify input file in DEX or APK");
 			return;
